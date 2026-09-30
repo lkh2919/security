@@ -9,6 +9,7 @@ export * from "./stages/match";
 export * from "./stages/check";
 export * from "./stages/audit";
 export * from "./stages/loop";
+export * from "./stages/orchestrate";
 export * from "./eval";
 export * from "./stages/draft";
 export * from "./stages/interview";
