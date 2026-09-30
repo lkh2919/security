@@ -45,11 +45,11 @@ independent audit before rendering MD/HTML/DOCX plus a Reviewer Sheet for the In
 | 4b | Terms rule packs T01–T15; unfair-clause lexicon | done |
 | 4c | Intake sheet, delegation flag, HR retention, Act 21445 | done |
 | 5 | Zod contracts, model registry, run store, stage cache | done |
-| 5b | Integrate `src/index.ts` exports; rule-pack/house-style/clause/manifest schemas; `applyAnswers`; KB integrity test; fix root scripts | **interrupted — redo** |
+| 5b | Integrate `src/index.ts` exports; rule-pack/house-style/clause/manifest schemas; `applyAnswers`; KB integrity test; fix root scripts | done (`stages/interview/apply-answers.ts`, `test/kb-integrity.test.ts`) |
 | 6a | Lotte corpus capture (47 index entries) | done |
 | 6b | Clause library normalization, house-style candidates, manifest | **interrupted — check partial output in `kb/jurisdictions/kr/clauses/{privacy,terms}` and finish** |
 | 7 | Intake (STT adapter, segmenter, form parser, masker) | done, but a masking rework was interrupted |
-| 7-off | Add `masking: "off" \| "basic"` (default off); make the client `assertNoPii` gate optional (`piiGate`, default false); smoke script accepts an input path | **interrupted — `src/stages/intake/sanitize.ts` is mid-edit and breaks tsc; fix first** |
+| 7-off | Add `masking: "off" \| "basic"` (default off); make the client `assertNoPii` gate optional (`piiGate`, default false); smoke script accepts an input path | done (PR #1) |
 | 8 | Golden cases G1–G3, W1–W3, seeded defects, rubric v1 | **interrupted — check `golden/` and `kb/jurisdictions/kr/rubric/`** |
 | 9a | Anthropic client, R2 extract, C1 coverage, R3 gap | done |
 | 10 | Renderer MD/HTML/DOCX + Reviewer Sheet | done |
@@ -60,8 +60,8 @@ independent audit before rendering MD/HTML/DOCX plus a Reviewer Sheet for the In
 | 14 | Router skill, README, operator guide, PPTX outline | next |
 | 15 | Final QA, security scan | next |
 
-Known snapshot state: root tsc fails in `packages/core/src/stages/intake/sanitize.ts` (partial edit), and 4 tests fail.
-First action in a new session: repair or revert that file, then finish Row 7-off.
+Known state: root tsc and `bun test` are green. Open KB gap (pinned in `test/kb-integrity.test.ts`, `KNOWN_UNBOUND`): 11 clause variables have no interview slot
+(document metadata such as announceDate/versionNumber/tableOfContents, and collectionMethods, siteUrl, pointPolicy, customerCenter). The privacy-domain-expert decides new slots vs renderer-filled metadata.
 
 ## What only works on the original PC
 
