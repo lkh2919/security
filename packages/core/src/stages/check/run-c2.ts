@@ -1,0 +1,231 @@
+/**
+ * C2 Deterministic Checker (design R6.2, layer 1): pre-output validation, code only, zero tokens.
+ *
+ * Checks (ids are stable, used by the auditor and Reviewer Sheet):
+ *   structure : `structure.schema`, `structure.unresolved_syntax`, `structure.empty_sections`,
+ *               `structure.mandatory_present`, `structure.conditional_handled`
+ *   evidence  : `evidence.slot_refs`, `evidence.transcript_quotes`, `evidence.citations`
+ *   style     : `style.house_style` (APPROVED regex rules only; candidates are never enforced)
+ *   safety    : `safety.unfair_clauses` (terms), `safety.vague_recipients` (S07/S08/S09), `safety.disclaimer`
+ *   cross_doc : `cross_doc.values_equal`
+ *
+ * The rule packs' `check.expr` pseudo-DSL targets a typed section model (`section.S05.rows`) that the block-based
+ * SectionAST does not have, so the checks here are the generic, AST-native ones. LLM-only and structure-specific
+ * rules stay with R7. Findings carry AST paths so drafters can fix only the flagged sections.
+ */
+import { DocASTSchema, type Block, type DocAST, type Inline } from "../../contracts/ast";
+import type { Finding } from "../../contracts/audit-report";
+import { CheckResultsSchema, type CheckResults } from "../../contracts/check-results";
+import type { ApplicabilityMap } from "../../contracts/applicability";
+import type { FactLedger } from "../../contracts/fact-ledger";
+import { verifyTranscriptEvidence } from "../../contracts/fact-ledger";
+import type { HouseStyleFile } from "../../contracts/house-style";
+import type { MaskedTranscript } from "../../contracts/masked-transcript";
+import type { Citation } from "../../contracts/statutes";
+import type { RulePackItem } from "../coverage/load-kb";
+
+export interface LexiconEntry {
+  readonly id: string;
+  readonly pattern: string;
+  readonly severity: "blocker" | "major" | "minor" | "info";
+  readonly sections?: readonly string[];
+  readonly check?: string;
+  readonly statuteRef?: readonly string[];
+  readonly explanation_ko?: string;
+}
+
+export interface C2Input {
+  readonly runId: string;
+  readonly docType: "privacy" | "terms";
+  readonly ast: unknown;
+  readonly ledger: FactLedger;
+  readonly applicability: ApplicabilityMap;
+  readonly rulePackItems: readonly RulePackItem[];
+  readonly transcript: MaskedTranscript;
+  /** Resolvable citations (legal-ref keys). Omitted -> `evidence.citations` fails every cite (nothing can be verified). */
+  readonly citations?: readonly Citation[];
+  readonly houseStyle?: HouseStyleFile;
+  readonly lexicon?: readonly LexiconEntry[];
+  /** Cross-document values of this document and of the sibling (`org`, `minAge`, ...). Omitted -> check skipped. */
+  readonly crossFacts?: { readonly own: Readonly<Record<string, string>>; readonly other: Readonly<Record<string, string>> };
+}
+
+interface Located {
+  readonly path: string;
+  readonly sectionIndex: number;
+  readonly sectionId: string;
+  readonly inline: Inline;
+}
+
+const VARIABLE_SYNTAX = /\{\{\s*[a-z][A-Za-z0-9_]*\s*\}\}|\{%[^%]*%\}/;
+
+function* locate(ast: DocAST): Generator<Located> {
+  for (let s = 0; s < ast.sections.length; s++) {
+    const sec = ast.sections[s]!;
+    for (let b = 0; b < sec.blocks.length; b++) {
+      const block: Block = sec.blocks[b]!;
+      const base = `sections[${s}].blocks[${b}]`;
+      const at = (path: string, runs: readonly Inline[]): Located[] => runs.map((inline, k) => ({ path: `${path}[${k}]`, sectionIndex: s, sectionId: sec.id, inline }));
+      if (block.t === "para" || block.t === "note") yield* at(`${base}.runs`, block.runs);
+      else if (block.t === "list") for (let i = 0; i < block.items.length; i++) yield* at(`${base}.items[${i}]`, block.items[i]!);
+      else for (let r = 0; r < block.rows.length; r++) for (let c = 0; c < block.rows[r]!.length; c++) yield* at(`${base}.rows[${r}][${c}]`, block.rows[r]![c]!);
+    }
+  }
+}
+
+const inlineText = (i: Inline): string => (i.t === "text" || i.t === "link" ? i.text : "");
+const quote = (s: string): string => s.replace(/\s+/g, " ").trim().slice(0, 200);
+
+let counter = 0;
+function finding(f: Omit<Finding, "id" | "layer" | "evidence"> & { astPath: string; quote: string }): Finding {
+  counter += 1;
+  const { astPath, quote: q, ...rest } = f;
+  return { id: `C2-${String(counter).padStart(4, "0")}`, layer: "deterministic", evidence: { astPath, quote: quote(q) }, ...rest };
+}
+
+/** Sentences/cells as checked units: one per paragraph, list item and table cell. */
+function* units(ast: DocAST): Generator<{ path: string; sectionId: string; text: string; cellIndex?: number }> {
+  for (let s = 0; s < ast.sections.length; s++) {
+    const sec = ast.sections[s]!;
+    for (let b = 0; b < sec.blocks.length; b++) {
+      const block = sec.blocks[b]!;
+      const base = `sections[${s}].blocks[${b}]`;
+      const join = (runs: readonly Inline[]): string => runs.map(inlineText).join("");
+      if (block.t === "para" || block.t === "note") yield { path: `${base}.runs`, sectionId: sec.id, text: join(block.runs) };
+      else if (block.t === "list") for (let i = 0; i < block.items.length; i++) yield { path: `${base}.items[${i}]`, sectionId: sec.id, text: join(block.items[i]!) };
+      else for (let r = 0; r < block.rows.length; r++) for (let c = 0; c < block.rows[r]!.length; c++) yield { path: `${base}.rows[${r}][${c}]`, sectionId: sec.id, text: join(block.rows[r]![c]!), cellIndex: c };
+    }
+  }
+}
+
+export function runC2(input: C2Input): CheckResults {
+  const { docType } = input;
+  const outcomes: CheckResults["checks"] = [];
+  const add = (checkId: string, category: CheckResults["checks"][number]["category"], findings: Finding[]): void => {
+    outcomes.push({ checkId, category, passed: findings.length === 0, findings });
+  };
+
+  const parsed = DocASTSchema.safeParse(input.ast);
+  if (!parsed.success || parsed.data.docType !== docType) {
+    const msg = parsed.success ? `document is ${parsed.data.docType}, expected ${docType}` : parsed.error.issues.slice(0, 3).map((i) => `${i.path.join(".")}: ${i.message}`).join("; ");
+    add("structure.schema", "structure", [finding({ ruleId: "C2-SCHEMA", docType, sectionId: "-", severity: "blocker", message: `AST is invalid: ${msg}`, fixHint: "Produce a schema-valid SectionAST.", astPath: "$", quote: "" })]);
+    return CheckResultsSchema.parse({ runId: input.runId, docType, passed: false, checks: outcomes });
+  }
+  const ast: DocAST = parsed.data;
+  add("structure.schema", "structure", []);
+
+  // --- structure ---------------------------------------------------------------------------------
+  const syntax: Finding[] = [];
+  for (const l of locate(ast)) {
+    const text = inlineText(l.inline);
+    if (VARIABLE_SYNTAX.test(text)) syntax.push(finding({ ruleId: "C2-SYNTAX", docType, sectionId: l.sectionId, severity: "major", message: "Unresolved clause syntax ({{var}} or {%...%}) remains in the output.", fixHint: "Render the clause with the ledger or redraft the section.", astPath: l.path, quote: text }));
+  }
+  add("structure.unresolved_syntax", "structure", syntax);
+
+  const empty: Finding[] = [];
+  ast.sections.forEach((sec, i) => {
+    if ((sec.status === "drafted" || sec.status === "not_processed_statement" || sec.status === "manual_review") && sec.blocks.length === 0) {
+      empty.push(finding({ ruleId: "C2-EMPTY", docType, sectionId: sec.id, severity: "major", message: `Section ${sec.id} has status ${sec.status} but no content.`, fixHint: "Draft the section or set an honest status.", astPath: `sections[${i}]`, quote: sec.title }));
+    }
+  });
+  add("structure.empty_sections", "structure", empty);
+
+  const present = new Map(ast.sections.map((s, i) => [s.id, { section: s, index: i }]));
+  const mandatory: Finding[] = [];
+  const conditional: Finding[] = [];
+  const prefix = docType === "privacy" ? /^(S\d{2}|A1|X1)$/ : /^T\d{2}$/;
+  if (input.applicability.documents[docType].applicable) {
+    for (const item of input.rulePackItems.filter((i) => prefix.test(i.id))) {
+      const state = input.applicability.items[item.id]?.state;
+      const hit = present.get(item.id);
+      const usable = hit && hit.section.status !== "not_applicable" && hit.section.status !== "omitted_recommended";
+      if (item.classification === "mandatory" && state === "yes" && !usable) {
+        mandatory.push(finding({ ruleId: `C2-M-${item.id}`, docType, sectionId: item.id, severity: "blocker", message: `Mandatory item ${item.id} (${item.title}) is missing or marked not applicable.`, fixHint: "Draft the mandatory section.", astPath: "sections", quote: item.title }));
+      }
+      if (item.classification === "conditional") {
+        if (state === "yes" && !usable) conditional.push(finding({ ruleId: `C2-C-${item.id}`, docType, sectionId: item.id, severity: "major", message: `Conditional item ${item.id} applies but is not drafted.`, fixHint: "Draft the section.", astPath: "sections", quote: item.title }));
+        if (state === "unknown" && hit?.section.status === "drafted") conditional.push(finding({ ruleId: `C2-C-${item.id}`, docType, sectionId: item.id, severity: "major", message: `Conditional item ${item.id} has an unknown gate; it must be manual_review, not drafted as fact.`, fixHint: "Set status manual_review with a manual-review note.", astPath: `sections[${hit.index}]`, quote: hit.section.title }));
+      }
+    }
+  }
+  add("structure.mandatory_present", "structure", mandatory);
+  add("structure.conditional_handled", "structure", conditional);
+
+  // --- evidence ----------------------------------------------------------------------------------
+  const refs: Finding[] = [];
+  for (const l of locate(ast)) {
+    if (l.inline.t !== "text" || !l.inline.slotRef) continue;
+    const e = input.ledger.slots[l.inline.slotRef];
+    if (!e || (e.status !== "filled" && e.status !== "not_applicable")) {
+      refs.push(finding({ ruleId: "C2-SLOTREF", docType, sectionId: l.sectionId, severity: "major", message: `slotRef ${l.inline.slotRef} is not a filled slot in the fact ledger.`, fixHint: "Ask the missing question or mark the statement for manual review.", astPath: l.path, quote: l.inline.text }));
+    }
+  }
+  add("evidence.slot_refs", "evidence", refs);
+
+  add(
+    "evidence.transcript_quotes",
+    "evidence",
+    verifyTranscriptEvidence(input.ledger, input.transcript).map((p) => finding({ ruleId: "C2-EVIDENCE", docType, sectionId: "-", severity: "major", message: `Ledger evidence does not hold: ${p}`, fixHint: "Re-extract the slot from the transcript.", astPath: "$", quote: p })),
+  );
+
+  const known = new Map((input.citations ?? []).map((c) => [c.citationId, c]));
+  const cites: Finding[] = [];
+  for (const l of locate(ast)) {
+    if (l.inline.t !== "cite") continue;
+    if (!known.has(l.inline.citationId)) {
+      cites.push(finding({ ruleId: "C2-CITE", docType, sectionId: l.sectionId, severity: "major", message: `Citation ${l.inline.citationId} does not resolve in the verified citation table.`, fixHint: "Use a citationId from citations.json or remove the citation.", astPath: l.path, quote: l.inline.citationId }));
+    }
+  }
+  add("evidence.citations", "evidence", cites);
+
+  // --- style (approved regex rules only) ---------------------------------------------------------
+  const style: Finding[] = [];
+  const docText = [...units(ast)].map((u) => u.text).join("\n");
+  for (const r of input.houseStyle?.rules ?? []) {
+    if (r.status !== "approved" || r.checkType !== "regex" || !r.pattern || (r.scope !== docType && r.scope !== "both")) continue;
+    const hit = new RegExp(r.pattern, "mu").test(docText);
+    const violated = r.patternMode === "forbid" ? hit : !hit;
+    if (violated) style.push(finding({ ruleId: r.id, docType, sectionId: "-", severity: "minor", message: `House-style rule ${r.id} is violated: ${r.rule}`, fixHint: r.rule, astPath: "$", quote: "" }));
+  }
+  add("style.house_style", "style", style);
+
+  // --- safety ------------------------------------------------------------------------------------
+  const unfair: Finding[] = [];
+  if (docType === "terms") {
+    for (const entry of input.lexicon ?? []) {
+      if (entry.severity === "info" || entry.check === "llm") continue; // routed to R7
+      const re = new RegExp(entry.pattern, "u");
+      for (const u of units(ast)) {
+        if (entry.sections && !entry.sections.includes(u.sectionId)) continue;
+        for (const sentence of u.text.split(/(?<=[.다])\s+/)) {
+          if (re.test(sentence)) unfair.push(finding({ ruleId: entry.id, docType, sectionId: u.sectionId, severity: entry.severity, message: `Unfair-clause pattern ${entry.id} matched${entry.statuteRef?.length ? ` (${entry.statuteRef.join(", ")})` : ""}.`, fixHint: entry.explanation_ko ?? "Rewrite the clause so it does not exclude or shift liability without a substantial reason.", astPath: u.path, quote: sentence }));
+        }
+      }
+    }
+  }
+  add("safety.unfair_clauses", "safety", unfair);
+
+  const vague: Finding[] = [];
+  for (const u of units(ast)) {
+    if (!["S07", "S08", "S09"].includes(u.sectionId) || u.cellIndex !== 0) continue;
+    if (/(?:^|[^가-힣])등(?:$|[^가-힣])|외\s*\d*\s*(?:개)?사|등\s*\d+\s*개사/u.test(u.text)) {
+      vague.push(finding({ ruleId: u.sectionId === "S09" ? "R-S09-002" : "R-S07-003", docType, sectionId: u.sectionId, severity: "major", message: "A recipient or processor is abbreviated (\"등\"); each must be named.", fixHint: "Name every recipient or processor, or link a full list where the rule allows it.", astPath: u.path, quote: u.text }));
+    }
+  }
+  add("safety.vague_recipients", "safety", vague);
+
+  const hasDisclaimer = ast.sections.some((s) => s.blocks.some((b) => b.t === "note" && b.kind === "disclaimer"));
+  add("safety.disclaimer", "safety", hasDisclaimer ? [] : [finding({ ruleId: "C2-DISCLAIMER", docType, sectionId: "-", severity: "major", message: "The mandatory reference-draft disclaimer block is missing.", fixHint: "Add a disclaimer note block.", astPath: "sections", quote: "" })]);
+
+  // --- cross-document ----------------------------------------------------------------------------
+  if (input.crossFacts) {
+    const cross: Finding[] = [];
+    const { own, other } = input.crossFacts;
+    for (const key of Object.keys(own).filter((k) => k in other).sort()) {
+      if (own[key]!.trim() !== other[key]!.trim()) cross.push(finding({ ruleId: key === "org" ? "X-01" : key === "minAge" ? "X-02" : `X-${key}`, docType, sectionId: "-", severity: "major", message: `Cross-document value "${key}" differs: "${own[key]}" vs "${other[key]}".`, fixHint: "Use one value in both documents.", astPath: "$", quote: `${own[key]} | ${other[key]}` }));
+    }
+    add("cross_doc.values_equal", "cross_doc", cross);
+  }
+
+  return CheckResultsSchema.parse({ runId: input.runId, docType, passed: outcomes.every((c) => c.passed), checks: outcomes });
+}
