@@ -2,7 +2,9 @@
  * Live smoke test: intake -> extract (R2) -> coverage (C1) -> gap (R3) on the Row 7 fixture with the REAL API.
  * Runs only when ANTHROPIC_API_KEY is set; otherwise prints "skipped" and exits 0.
  *
- *   bun scripts/smoke-extract.ts
+ *   bun scripts/smoke-extract.ts [transcript.txt [form.md]]
+ *
+ * Masking is off by default (user decision 2026-09-30); the input is sanitized and sent as-is.
  *
  * Spends real tokens (roughly one Haiku call plus at most one Sonnet call). Prints per-stage token usage.
  * Never prints the key or any vault value.
@@ -22,20 +24,14 @@ if (!process.env.ANTHROPIC_API_KEY) {
   process.exit(0);
 }
 
-// Safety (PM hold): the intake masker is being hardened, so only the clean Row 7 fixture may go to the API.
-// The script takes no input path and refuses arguments or overrides.
-if (process.argv.length > 2 || process.env.SMOKE_INPUT) {
-  console.error("refused: smoke-extract takes no input path; it only runs the clean Row 7 fixture (test/fixtures/intake/interview.ko.txt)");
-  process.exit(2);
-}
-
 const root = join(import.meta.dir, "..");
 const fixtures = join(root, "packages", "core", "test", "fixtures", "intake");
 const kb = loadKrKnowledge(krPaths(root));
 const runId = "20260929-101500-a1b2c3";
 
-const transcript = await new TextFileSttAdapter().transcribe(join(fixtures, "interview.ko.txt"));
-const { maskedTranscript, formSlots, vault } = runIntake({ runId, transcript, form: await readFile(join(fixtures, "form.md"), "utf8") });
+const [transcriptPath = join(fixtures, "interview.ko.txt"), formPath = join(fixtures, "form.md")] = process.argv.slice(2);
+const transcript = await new TextFileSttAdapter().transcribe(transcriptPath);
+const { maskedTranscript, formSlots, vault } = runIntake({ runId, transcript, form: await readFile(formPath, "utf8") });
 
 const llm = new AnthropicLlmClient({ vault });
 const extract = await runExtract({ llm }, { maskedTranscript, formSlots, template: kb.template, registry: kb.registry, slotHints: kb.slotHints });
