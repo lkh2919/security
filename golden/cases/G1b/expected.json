@@ -1,0 +1,141 @@
+{
+  "caseId": "G1b",
+  "synthetic": true,
+  "scenario": "G1 plus overseas cloud and processors (S09 and S10 both drafted)",
+  "slots": {
+    "gate.membership": true,
+    "gate.childrenU14": false,
+    "gate.sensitiveData": false,
+    "gate.uniqueId": false,
+    "gate.onDevice": false,
+    "gate.marketing": false,
+    "gate.thirdPartyProvision": false,
+    "gate.additionalUseOngoing": false,
+    "gate.outsourcing": true,
+    "gate.overseasTransfer": true,
+    "gate.overseasDirectCollection": false,
+    "gate.sensitivePublicExposure": false,
+    "gate.pseudonymized": false,
+    "gate.autoCollection": true,
+    "gate.behavioralIdentified": false,
+    "gate.behavioralNonIdentified": false,
+    "gate.thirdPartyTrackers": false,
+    "gate.dataPortabilitySender": false,
+    "gate.automatedDecision": false,
+    "gate.foreignNoKrAddress": false,
+    "gate.domesticRepRequired": false,
+    "gate.cctvFixed": false,
+    "gate.cctvMobile": false,
+    "gate.genAI": false,
+    "gate.locationInfo": false,
+    "privacy.S20_includeRemedies": true,
+    "profile.serviceTypes": [
+      "b2c_commerce"
+    ],
+    "terms.applicable": true,
+    "terms.paid": true,
+    "terms.ugc": false,
+    "terms.customerType": "consumer",
+    "terms.minAge": 14,
+    "privacy.S09_processors": [
+      {
+        "name": "한빛택배",
+        "task": "상품 배송"
+      },
+      {
+        "name": "메시지허브",
+        "task": "주문 안내 문자 발송"
+      },
+      {
+        "name": "클라우드원",
+        "task": "클라우드 저장"
+      },
+      {
+        "name": "크래시랩",
+        "task": "앱 오류 분석"
+      }
+    ],
+    "privacy.S10_overseas": [
+      {
+        "recipient": "클라우드원",
+        "country": "싱가포르",
+        "task": "클라우드 저장",
+        "basisType": "outsourcing"
+      },
+      {
+        "recipient": "크래시랩",
+        "country": "미국",
+        "task": "앱 오류 분석",
+        "basisType": "outsourcing"
+      }
+    ]
+  },
+  "applicability": {
+    "documents": {
+      "privacy": true,
+      "terms": true
+    },
+    "items": {
+      "S01": "yes",
+      "S02": "yes",
+      "S03": "yes",
+      "S05": "yes",
+      "S06": "yes",
+      "S11": "yes",
+      "S16": "yes",
+      "S18": "yes",
+      "S24": "yes",
+      "S04": "no",
+      "S07": "no",
+      "S08": "no",
+      "S09": "yes",
+      "S10": "yes",
+      "S12": "no",
+      "S13": "no",
+      "S14": "yes",
+      "S15": "no",
+      "S17": "no",
+      "S19": "no",
+      "S21": "no",
+      "S22": "no",
+      "S20": "yes",
+      "S23": "no",
+      "A1": "no",
+      "X1": "no",
+      "T01": "yes",
+      "T02": "yes",
+      "T03": "yes",
+      "T04": "yes",
+      "T05": "yes",
+      "T06": "yes",
+      "T07": "yes",
+      "T08": "yes",
+      "T09": "yes",
+      "T10": "yes",
+      "T11": "yes",
+      "T12": "yes",
+      "T13": "yes",
+      "T14": "yes",
+      "T15": "yes"
+    },
+    "warnings": []
+  },
+  "requiredPhrases": {
+    "privacy": [
+      "클라우드원",
+      "싱가포르",
+      "크래시랩",
+      "미국",
+      "거부"
+    ],
+    "terms": [
+      "7일"
+    ]
+  },
+  "forbiddenPhrases": [
+    "등",
+    "국외 이전 없음"
+  ],
+  "expectedVerdict": "pass",
+  "notes": "S10 states, per transfer: legal basis, items, destination country, recipient, date and method, refusal (R-S10-003, R-S10-004)."
+}

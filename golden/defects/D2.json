@@ -1,0 +1,24 @@
+{
+  "id": "D2",
+  "docType": "privacy",
+  "baseCase": "G1",
+  "defectClass": "wrong recipient",
+  "sectionId": "S09",
+  "mutation": {
+    "kind": "replace",
+    "instruction": "In the S09 table replace the processor 한빛택배 with a company name that does not appear in the fact ledger.",
+    "defectiveText": "수탁자: 새벽로지스 / 위탁업무: 상품 배송"
+  },
+  "expected": {
+    "ruleId": "R-S09-001",
+    "docType": "privacy",
+    "sectionId": "S09",
+    "severity": "major",
+    "layer": "llm"
+  },
+  "rationale": "The processor differs from the ledger (accuracy against evidence). The auditor sees the ledger and the masked transcript and must catch the mismatch.",
+  "sources": [
+    "PIPA:26",
+    "PIPA:30(1)4"
+  ]
+}

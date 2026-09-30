@@ -18,4 +18,5 @@ export * from "./check-results";
 export * from "./audit-envelope";
 export * from "./freshness-report";
 export * from "./manifest";
+export * from "./rubric";
 export * from "./run-state";

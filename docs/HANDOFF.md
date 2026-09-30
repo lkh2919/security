@@ -50,7 +50,7 @@ independent audit before rendering MD/HTML/DOCX plus a Reviewer Sheet for the In
 | 6b | Clause library normalization, house-style candidates, manifest | **interrupted — check partial output in `kb/jurisdictions/kr/clauses/{privacy,terms}` and finish** |
 | 7 | Intake (STT adapter, segmenter, form parser, masker) | done, but a masking rework was interrupted |
 | 7-off | Add `masking: "off" \| "basic"` (default off); make the client `assertNoPii` gate optional (`piiGate`, default false); smoke script accepts an input path | done (PR #1) |
-| 8 | Golden cases G1–G3, W1–W3, seeded defects, rubric v1 | **interrupted — check `golden/` and `kb/jurisdictions/kr/rubric/`** |
+| 8 | Golden cases G1–G3 (+G1b, G2b), W1–W4, seeded defects D1–D8, rubric v1 | done for inputs, expectations, defect specs and rubric (`golden/cases`, `golden/defects`, `kb/jurisdictions/kr/rubric/rubric-v1.json`, `test/golden-cases.test.ts`, `test/rubric.test.ts`). Reference drafts (`golden/cases/*/reference/`) wait for the Row 11 drafters; the privacy-domain-expert reviews them before they become the baseline. House style is still candidate, so the rubric's houseStyle score is not assessed. |
 | 9a | Anthropic client, R2 extract, C1 coverage, R3 gap | done |
 | 10 | Renderer MD/HTML/DOCX + Reviewer Sheet | done |
 | 12 | Law freshness watcher (`scripts/freshness-check.ts`) | done |

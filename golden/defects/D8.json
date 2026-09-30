@@ -1,0 +1,23 @@
+{
+  "id": "D8",
+  "docType": "cross",
+  "baseCase": "G1",
+  "defectClass": "minimum age mismatch",
+  "sectionId": "T06",
+  "mutation": {
+    "kind": "replace",
+    "instruction": "In the terms (T06) state minimum age 19 while the privacy policy and the ledger say 14.",
+    "defectiveText": "만 19세 이상인 자만 회원으로 가입할 수 있습니다."
+  },
+  "expected": {
+    "ruleId": "X-02",
+    "docType": "cross",
+    "sectionId": "T06",
+    "severity": "major",
+    "layer": "llm"
+  },
+  "rationale": "Cross-document check X-02 (see also R-T06-004): the terms age limit must equal the policy treatment and the ledger value terms.minAge.",
+  "sources": [
+    "ECA:13(3)"
+  ]
+}
