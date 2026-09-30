@@ -11,7 +11,7 @@ import type { CheckResults } from "../../contracts/check-results";
 import type { Rubric } from "../../contracts/rubric";
 import type { TokenUsage } from "../../llm/client";
 import { buildAuditEnvelope, runAudit, type AuditDeps, type EnvelopeInput } from "../audit";
-import { runC2, type C2Input } from "../check";
+import { crossFactsFor, runC2, type C2Input } from "../check";
 import { draftDocument, type DraftDeps, type DraftInput } from "../draft";
 
 export interface LoopInput {
@@ -38,6 +38,8 @@ export interface LoopResult {
   readonly escalated: boolean;
   /** Findings still open at the end: C2 (deterministic) and R7 findings, blocker/major/minor. */
   readonly openFindings: readonly Finding[];
+  /** Facts the drafters could not find, latest per section (for the Reviewer Sheet). */
+  readonly missingFacts: readonly { readonly sectionId: string; readonly text: string }[];
   readonly usage: TokenUsage;
 }
 
@@ -50,6 +52,7 @@ const add = (a: TokenUsage, b: TokenUsage): TokenUsage => ({
 });
 
 /** Findings a drafter can act on: they name a real section of the document (or a section that should exist). */
+const isSection = (id: string): boolean => /^(S\d{2}|T\d{2}|A1|X1)$/.test(id);
 const fixable = (f: Finding): boolean => f.severity !== "info" && f.sectionId !== "-" && f.sectionId !== "$" && /^(S\d{2}|T\d{2}|A1|X1)$/.test(f.sectionId);
 
 export async function runDocumentLoop(deps: { draft: DraftDeps; audit: AuditDeps }, input: LoopInput): Promise<LoopResult> {
@@ -61,12 +64,15 @@ export async function runDocumentLoop(deps: { draft: DraftDeps; audit: AuditDeps
   let fix: Finding[] = [];
   let prior: Finding[] = [];
   let last: { report: AuditReport; c2: CheckResults } | undefined;
+  const missing = new Map<string, { sectionId: string; text: string }[]>();
 
   for (let i = 1; i <= cap; i++) {
     const drafted = await draftDocument(deps.draft, { ...input.draft, ...(ast ? { previous: ast, fixFindings: fix } : {}) });
     usage = add(usage, drafted.usage);
     ast = drafted.ast;
-    const c2 = runC2({ ...input.c2, runId: input.draft.runId, docType, ast });
+    for (const sid of new Set([...drafted.llmSections, ...drafted.clauseSections, ...drafted.missingFacts.map((m) => m.sectionId)])) missing.delete(sid);
+    for (const m of drafted.missingFacts) missing.set(m.sectionId, [...(missing.get(m.sectionId) ?? []), m]);
+    const c2 = runC2({ ...input.c2, runId: input.draft.runId, docType, ast, crossFacts: input.c2.crossFacts ?? crossFactsFor(ast, input.draft.ledger) });
     const c2Findings = c2.checks.flatMap((c) => c.findings);
     const envelope = buildAuditEnvelope({ ...input.envelope, ast, c2Results: c2, priorFindings: prior });
     const audited = await runAudit(deps.audit, { runId: input.draft.runId, iteration: i as 1 | 2 | 3, envelope, rubric: input.rubric });
@@ -75,12 +81,15 @@ export async function runDocumentLoop(deps: { draft: DraftDeps; audit: AuditDeps
     last = { report: audited.report, c2 };
     if (audited.report.verdict !== "fail") break;
 
-    fix = [...c2Findings, ...audited.report.findings].filter(fixable);
+    // A document-level house-style violation is given to every drafted section so the drafters can follow the rule.
+    const drafted_ids = ast.sections.filter((x) => x.status === "drafted").map((x) => x.id);
+    const expand = (f: Finding): Finding[] => (!isSection(f.sectionId) && f.ruleId.startsWith("H-") ? drafted_ids.map((id) => ({ ...f, sectionId: id })) : [f]);
+    fix = [...c2Findings, ...audited.report.findings].flatMap(expand).filter(fixable);
     prior = audited.report.findings;
     if (fix.length === 0) break; // nothing a drafter can fix: escalate now
   }
 
   const { report, c2 } = last!;
   const open = [...c2.checks.flatMap((c) => c.findings), ...report.findings].filter((f) => f.severity !== "info");
-  return { ast: ast!, iterations, final: report, finalC2: c2, escalated: report.verdict === "fail", openFindings: open, usage };
+  return { ast: ast!, iterations, final: report, finalC2: c2, escalated: report.verdict === "fail", openFindings: open, missingFacts: [...missing.values()].flat().sort((a, b) => (a.sectionId < b.sectionId ? -1 : 1)), usage };
 }

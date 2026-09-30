@@ -4,8 +4,8 @@
  *
  *  - an answer to a single-target question fills that slot (typed by the registry);
  *  - a multi-target question needs an object keyed by target slot id (each key is filled separately);
- *  - `null` (skipped) leaves the slot as it is, except that a skipped `must` question turns a slot that is not
- *    `filled` into `needs_manual_review`;
+ *  - `null` (skipped) leaves the slot as it is, except that a skipped `must` question turns a slot that is neither
+ *    `filled` nor `not_applicable` into `needs_manual_review`;
  *  - an answer that cannot be typed is rejected (reported, slot untouched), never guessed.
  */
 import {
@@ -74,7 +74,7 @@ export function applyAnswers(args: { ledger: FactLedger; questionSet: QuestionSe
     if (a.value === null) {
       if (q.priority !== "must") continue;
       for (const t of q.targets) {
-        if (slots[t]?.status === "filled") continue;
+        if (slots[t]?.status === "filled" || slots[t]?.status === "not_applicable") continue;
         slots[t] = { status: "needs_manual_review", value: null, confidence: 0, evidence: slots[t]?.evidence ?? [] };
         flagged.push(t);
       }

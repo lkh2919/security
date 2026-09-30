@@ -33,7 +33,7 @@ import { runCachedStage } from "../../pipeline/run-stage";
 import { RunStore } from "../../pipeline/run-store";
 import { StageCache } from "../../pipeline/stage-cache";
 import { loadRubric } from "../audit";
-import { citationsFromRulePacks, type LexiconEntry } from "../check";
+import { citationsFromRulePacks, statedFacts, type LexiconEntry } from "../check";
 import { krPaths, loadKrKnowledge, runCoverage, type KrKnowledge } from "../coverage";
 import { loadRuleSections } from "../draft";
 import { runExtract } from "../extract";
@@ -104,8 +104,27 @@ export async function startRun(deps: PipelineDeps, input: StartInput): Promise<P
     documents: ["privacy", "terms"],
     now: deps.now,
   });
-  const cache = new StageCache({ dir: join(deps.runsRoot, ".cache"), now: deps.now });
 
+  try {
+    return await runStart(deps, store, kb, input, masking, effectiveDate);
+  } catch (err) {
+    await failRun(store, err);
+    throw err;
+  }
+}
+
+async function failRun(store: RunStore, err: unknown): Promise<void> {
+  const message = (err instanceof Error ? err.message : String(err)).slice(0, 500);
+  await store
+    .updateState((s) => {
+      s.status = "failed";
+      if (s.currentStage) s.stages[s.currentStage] = { ...(s.stages[s.currentStage] ?? { status: "failed" }), status: "failed", error: message };
+    })
+    .catch(() => undefined);
+}
+
+async function runStart(deps: PipelineDeps, store: RunStore, kb: Kb, input: StartInput, masking: MaskingMode, effectiveDate: string): Promise<PipelineOutcome> {
+  const cache = new StageCache({ dir: join(deps.runsRoot, ".cache"), now: deps.now });
   await store.markStage("intake", { status: "running" });
   const intake = runIntake({ runId: store.runId, transcript: input.transcript, form: input.form }, { masking });
   await store.markStage("intake", { status: "done" });
@@ -149,7 +168,7 @@ async function afterLedger(deps: PipelineDeps, store: RunStore, kb: Kb, ledger: 
     });
     return { status: "awaiting_answers", runId: store.runId, round: nextRound, questionSet: gap.questionSet };
   }
-  await store.markStage("interview", { status: "skipped" });
+  if (round === 0) await store.markStage("interview", { status: "skipped" });
   return finishRun(deps, store, kb, ledger, cov.applicability);
 }
 
@@ -169,7 +188,20 @@ export async function continueRun(deps: PipelineDeps, args: { runId: string; ans
     s.status = "running";
     s.stages.interview = { status: "done", artifact: store.artifactName("interview", `q${round}`) };
   });
-  return afterLedger(deps, store, kb, applied.ledger, round as 1 | 2);
+  try {
+    return await afterLedger(deps, store, kb, applied.ledger, round as 1 | 2);
+  } catch (err) {
+    // The answers were valid; the failure is later. Put the run back where it can be resumed with the same answers.
+    await store
+      .updateState((s) => {
+        s.status = "awaiting_answers";
+        s.currentStage = "interview";
+        s.interviewRound = round;
+        s.stages.interview = { status: "running", artifact: store.artifactName("interview", `q${round}`) };
+      })
+      .catch(() => undefined);
+    throw err;
+  }
 }
 
 async function finishRun(deps: PipelineDeps, store: RunStore, kb: Kb, ledger: FactLedger, applicability: ApplicabilityMap): Promise<PipelineOutcome> {
@@ -192,11 +224,12 @@ async function finishRun(deps: PipelineDeps, store: RunStore, kb: Kb, ledger: Fa
   const audits: AuditReport[] = [];
   const checks: CheckResults[] = [];
   const verdicts: Record<string, string> = {};
+  const openQuestions: string[] = [];
   let escalated = false;
   for (const docType of ["privacy", "terms"] as const) {
     if (!applicability.documents[docType].applicable) continue;
     await store.markStage("draft", { status: "running" });
-    const other = docType === "terms" && docs.privacy ? { ast: docs.privacy, facts: {} } : null;
+    const other = docType === "terms" && docs.privacy ? { ast: docs.privacy, facts: statedFacts(docs.privacy) } : null;
     const res = await runDocumentLoop(
       { draft: { llm: deps.llm }, audit: { llm: deps.llm } },
       {
@@ -207,6 +240,7 @@ async function finishRun(deps: PipelineDeps, store: RunStore, kb: Kb, ledger: Fa
       },
     );
     docs[docType] = res.ast;
+    for (const m of res.missingFacts) openQuestions.push(`[${docType} ${m.sectionId}] ${m.text}`);
     audits.push(res.final);
     checks.push(res.finalC2);
     verdicts[docType] = res.final.verdict;
@@ -232,6 +266,7 @@ async function finishRun(deps: PipelineDeps, store: RunStore, kb: Kb, ledger: Fa
     audits,
     checks,
     slotEvidence: evidenceFromLedger(ledger),
+    openQuestions,
   });
   await store.writeArtifact("render", encodeRenderOutput(rendered), { schema: RenderOutputStoredSchema });
   const outDir = store.path("output");

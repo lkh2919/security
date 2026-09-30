@@ -44,11 +44,11 @@ for (const stage of ["R2", "R4-fallback", "R5P", "R5T", "R7"] as const) console.
 
 await mkdir(join(root, "golden", "runs"), { recursive: true });
 const stamp = new Date().toISOString().replace(/[:.]/g, "-");
-await writeFile(join(root, "golden", "runs", `${stamp}.json`), JSON.stringify({ source, runs, cases: cases ?? "all", metrics: result.metrics, failures: result.failures, defects: result.defects, verdicts: result.cases.map((c) => ({ caseId: c.caseId, verdicts: c.verdicts, escalated: c.escalated })) }, null, 2));
+await writeFile(join(root, "golden", "runs", `${stamp}.json`), JSON.stringify({ source, runs, cases: cases ?? "all", metrics: result.metrics, failures: result.failures, unmeasured: result.unmeasured, defects: result.defects, verdicts: result.cases.map((c) => ({ caseId: c.caseId, verdicts: c.verdicts, escalated: c.escalated })) }, null, 2));
 
 if (result.failures.length) {
   console.error("GATE FAILED:");
   for (const f of result.failures) console.error(`  ${f.metric} = ${String(f.value)} (need ${f.threshold})`);
   process.exit(1);
 }
-console.log("GATE PASSED");
+console.log(result.unmeasured.length ? `GATE PASSED (INCOMPLETE: not measured in this run: ${result.unmeasured.join(", ")})` : "GATE PASSED");
