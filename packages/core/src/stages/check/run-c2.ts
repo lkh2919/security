@@ -46,6 +46,8 @@ export interface C2Input {
   readonly citations?: readonly Citation[];
   readonly houseStyle?: HouseStyleFile;
   readonly lexicon?: readonly LexiconEntry[];
+  /** The R8 renderer always appends the fixed disclaimer, so the AST needs none. Set false to require an AST disclaimer note. Default true. */
+  readonly disclaimerByRenderer?: boolean;
   /** Cross-document values of this document and of the sibling (`org`, `minAge`, ...). Omitted -> check skipped. */
   readonly crossFacts?: { readonly own: Readonly<Record<string, string>>; readonly other: Readonly<Record<string, string>> };
 }
@@ -214,7 +216,7 @@ export function runC2(input: C2Input): CheckResults {
   }
   add("safety.vague_recipients", "safety", vague);
 
-  const hasDisclaimer = ast.sections.some((s) => s.blocks.some((b) => b.t === "note" && b.kind === "disclaimer"));
+  const hasDisclaimer = input.disclaimerByRenderer !== false || ast.sections.some((s) => s.blocks.some((b) => b.t === "note" && b.kind === "disclaimer"));
   add("safety.disclaimer", "safety", hasDisclaimer ? [] : [finding({ ruleId: "C2-DISCLAIMER", docType, sectionId: "-", severity: "major", message: "The mandatory reference-draft disclaimer block is missing.", fixHint: "Add a disclaimer note block.", astPath: "sections", quote: "" })]);
 
   // --- cross-document ----------------------------------------------------------------------------
