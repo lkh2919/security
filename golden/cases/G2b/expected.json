@@ -1,0 +1,107 @@
+{
+  "caseId": "G2b",
+  "synthetic": true,
+  "scenario": "G2 plus payroll party whose role (outsourcing vs third-party provision) is unclear",
+  "slots": {
+    "gate.membership": false,
+    "gate.childrenU14": false,
+    "gate.sensitiveData": false,
+    "gate.uniqueId": false,
+    "gate.onDevice": false,
+    "gate.marketing": false,
+    "gate.thirdPartyProvision": "needs_manual_review",
+    "gate.additionalUseOngoing": false,
+    "gate.outsourcing": "needs_manual_review",
+    "gate.overseasTransfer": false,
+    "gate.overseasDirectCollection": false,
+    "gate.sensitivePublicExposure": false,
+    "gate.pseudonymized": false,
+    "gate.autoCollection": false,
+    "gate.behavioralIdentified": false,
+    "gate.behavioralNonIdentified": false,
+    "gate.thirdPartyTrackers": false,
+    "gate.dataPortabilitySender": false,
+    "gate.automatedDecision": false,
+    "gate.foreignNoKrAddress": false,
+    "gate.domesticRepRequired": false,
+    "gate.cctvFixed": false,
+    "gate.cctvMobile": false,
+    "gate.genAI": false,
+    "gate.locationInfo": false,
+    "privacy.S20_includeRemedies": true,
+    "profile.serviceTypes": [
+      "internal_hr"
+    ],
+    "terms.applicable": false,
+    "privacy.S05_hrStatutoryRecords": [
+      {
+        "record": "근로자 명부, 근태 기록",
+        "statute": "근로기준법",
+        "years": 3,
+        "entryId": "KR-RET-LSA-02"
+      }
+    ]
+  },
+  "applicability": {
+    "documents": {
+      "privacy": true,
+      "terms": false
+    },
+    "items": {
+      "S01": "yes",
+      "S02": "yes",
+      "S03": "yes",
+      "S05": "yes",
+      "S06": "yes",
+      "S11": "yes",
+      "S16": "yes",
+      "S18": "yes",
+      "S24": "yes",
+      "S04": "no",
+      "S07": "unknown",
+      "S08": "no",
+      "S09": "unknown",
+      "S10": "no",
+      "S12": "no",
+      "S13": "no",
+      "S14": "no",
+      "S15": "no",
+      "S17": "no",
+      "S19": "no",
+      "S21": "no",
+      "S22": "no",
+      "S20": "yes",
+      "S23": "no",
+      "A1": "no",
+      "X1": "no",
+      "T01": "no",
+      "T02": "no",
+      "T03": "no",
+      "T04": "no",
+      "T05": "no",
+      "T06": "no",
+      "T07": "no",
+      "T08": "no",
+      "T09": "no",
+      "T10": "no",
+      "T11": "no",
+      "T12": "no",
+      "T13": "no",
+      "T14": "no",
+      "T15": "no"
+    },
+    "warnings": [
+      "DELEGATION_VS_PROVISION"
+    ]
+  },
+  "requiredPhrases": {
+    "privacy": [
+      "페이온"
+    ]
+  },
+  "forbiddenPhrases": [
+    "확정"
+  ],
+  "expectedVerdict": "pass_with_warnings",
+  "notes": "User decision: delegation vs provision ambiguity is always flagged for manual review; the draft must show both candidates (R-S07-007, R-S09-007) and never pick one silently."
+}

@@ -1,0 +1,24 @@
+{
+  "id": "D6",
+  "docType": "terms",
+  "baseCase": "G1",
+  "defectClass": "blanket liability exclusion",
+  "sectionId": "T14",
+  "mutation": {
+    "kind": "insert",
+    "instruction": "Insert into T14 a clause excluding all liability.",
+    "defectiveText": "회사는 이용자에게 발생한 어떠한 손해에 대해서도 고의 또는 과실 여부와 관계없이 일체의 책임을 지지 않습니다."
+  },
+  "expected": {
+    "ruleId": "R-T14-001",
+    "docType": "terms",
+    "sectionId": "T14",
+    "severity": "blocker",
+    "layer": "llm"
+  },
+  "rationale": "Excluding liability for intent or gross negligence is void under ARTC 7(1). C2 also hits lexicon U-ARTC7-01; the seeded test measures whether R7 reports it independently.",
+  "sources": [
+    "ARTC:7[1]",
+    "ARTC:7[2]"
+  ]
+}

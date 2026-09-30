@@ -1,0 +1,107 @@
+{
+  "caseId": "G2",
+  "synthetic": true,
+  "scenario": "Internal HR groupware: employees only, terms not applicable, HR statutory retention",
+  "slots": {
+    "gate.membership": false,
+    "gate.childrenU14": false,
+    "gate.sensitiveData": false,
+    "gate.uniqueId": false,
+    "gate.onDevice": false,
+    "gate.marketing": false,
+    "gate.thirdPartyProvision": false,
+    "gate.additionalUseOngoing": false,
+    "gate.outsourcing": false,
+    "gate.overseasTransfer": false,
+    "gate.overseasDirectCollection": false,
+    "gate.sensitivePublicExposure": false,
+    "gate.pseudonymized": false,
+    "gate.autoCollection": false,
+    "gate.behavioralIdentified": false,
+    "gate.behavioralNonIdentified": false,
+    "gate.thirdPartyTrackers": false,
+    "gate.dataPortabilitySender": false,
+    "gate.automatedDecision": false,
+    "gate.foreignNoKrAddress": false,
+    "gate.domesticRepRequired": false,
+    "gate.cctvFixed": false,
+    "gate.cctvMobile": false,
+    "gate.genAI": false,
+    "gate.locationInfo": false,
+    "privacy.S20_includeRemedies": true,
+    "profile.serviceTypes": [
+      "internal_hr"
+    ],
+    "terms.applicable": false,
+    "privacy.S05_hrStatutoryRecords": [
+      {
+        "record": "근로자 명부, 근태 기록",
+        "statute": "근로기준법",
+        "years": 3,
+        "entryId": "KR-RET-LSA-02"
+      }
+    ]
+  },
+  "applicability": {
+    "documents": {
+      "privacy": true,
+      "terms": false
+    },
+    "items": {
+      "S01": "yes",
+      "S02": "yes",
+      "S03": "yes",
+      "S05": "yes",
+      "S06": "yes",
+      "S11": "yes",
+      "S16": "yes",
+      "S18": "yes",
+      "S24": "yes",
+      "S04": "no",
+      "S07": "no",
+      "S08": "no",
+      "S09": "no",
+      "S10": "no",
+      "S12": "no",
+      "S13": "no",
+      "S14": "no",
+      "S15": "no",
+      "S17": "no",
+      "S19": "no",
+      "S21": "no",
+      "S22": "no",
+      "S20": "yes",
+      "S23": "no",
+      "A1": "no",
+      "X1": "no",
+      "T01": "no",
+      "T02": "no",
+      "T03": "no",
+      "T04": "no",
+      "T05": "no",
+      "T06": "no",
+      "T07": "no",
+      "T08": "no",
+      "T09": "no",
+      "T10": "no",
+      "T11": "no",
+      "T12": "no",
+      "T13": "no",
+      "T14": "no",
+      "T15": "no"
+    },
+    "warnings": []
+  },
+  "requiredPhrases": {
+    "privacy": [
+      "근로기준법",
+      "3년"
+    ]
+  },
+  "forbiddenPhrases": [
+    "회원",
+    "이용약관에 동의"
+  ],
+  "expectedVerdict": "pass",
+  "notes": "Terms document is reported not_applicable with a reason; S05 cites only retention-periods.json entries (R-S05-007)."
+}

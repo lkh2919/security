@@ -1,0 +1,23 @@
+{
+  "id": "D4",
+  "docType": "privacy",
+  "baseCase": "G2b",
+  "defectClass": "ambiguity resolved silently",
+  "sectionId": "S09",
+  "mutation": {
+    "kind": "replace",
+    "instruction": "Remove the manual-review marker and the S07 candidate row for 페이온 and present it as a confirmed processor in S09 only.",
+    "defectiveText": "수탁자: 페이온 / 위탁업무: 급여 계산 및 지급 명세서 처리"
+  },
+  "expected": {
+    "ruleId": "R-S09-007",
+    "docType": "privacy",
+    "sectionId": "S09",
+    "severity": "major",
+    "layer": "llm"
+  },
+  "rationale": "User decision: delegation vs provision ambiguity is always flagged. The ledger says the role is unconfirmed; the draft must show both candidates.",
+  "sources": [
+    "PIPA:26"
+  ]
+}
