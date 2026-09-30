@@ -1,0 +1,95 @@
+{
+  "id": "lotte.privacy.S06.retail_ecommerce.01",
+  "docType": "privacy",
+  "sectionId": "S06",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-department-store-privacy",
+    "lotte-mart-privacy",
+    "seven-eleven-privacy",
+    "lotte-himart-privacy",
+    "lotte-himart-mall-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteshopping.com",
+    "company.lottemart.com",
+    "www.7-eleven.co.kr",
+    "company.himart.co.kr",
+    "www.e-himart.co.kr"
+  ],
+  "policyVersionOrDate": "2026년 07월 22일부터 적용 / 시행일자 : 2026-07-09 / 공고일자 : 2010년 12월 03일 / 2026.03.30부터 적용",
+  "layout": "guideline_numbered",
+  "text": "1. 파기 시점\n- 회원 탈퇴 또는 이용계약 종료, 이용 목적 달성, 보유기간 경과 시 지체 없이 파기합니다.\n2. 파기 절차\n- 파기 사유가 발생한 개인정보를 선정하고 개인정보 보호책임자의 승인을 받아 파기합니다.\n3. 파기 방법\n- 전자적 파일 형태의 정보는 기록을 재생할 수 없는 기술적 방법으로 삭제합니다.\n- 종이 문서에 기록된 정보는 분쇄하거나 소각하여 파기합니다.\n{%if gate.membership%}\n4. 관계 법령에 따라 보존하는 정보는 별도 저장소로 분리하여 해당 기간 경과 후 파기합니다.\n{%endif%}\n\n{{destructionText}}",
+  "variables": [
+    {
+      "name": "destructionText",
+      "slotId": "privacy.S06_destruction",
+      "description": "Destruction procedure and method"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S06-001",
+    "R-S06-003",
+    "R-S06-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S06-002",
+      "level": "must",
+      "note": "보존 근거 표는 S05와 연계되어 있음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "시점·절차·방법 3분할 구조.",
+  "frequency": 5,
+  "frequencyBase": 5,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-department-store-privacy",
+      "sourceUrl": "https://www.lotteshopping.com/etc/personalinfo",
+      "affiliate": "Lotte Department Store",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026년 07월 22일부터 적용 ; v19.9 ; V19.8 ; V19.9",
+      "contentHash": "a859427af048dabf825212295551607baaa748b71da215390d0194ffcf34fbb0"
+    },
+    {
+      "captureId": "lotte-mart-privacy",
+      "sourceUrl": "https://company.lottemart.com/privacy/privacy.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2026-07-09 ; 2026년 7월 9일부터 적용 ; V13.5 ; V13.4",
+      "contentHash": "590a26db8498b8c4c8e6207f1d0ae882474ee75a92941b51e9a6ef52435f4d4d"
+    },
+    {
+      "captureId": "seven-eleven-privacy",
+      "sourceUrl": "https://www.7-eleven.co.kr/util/policyPrivacy.asp",
+      "affiliate": "Korea Seven (7-Eleven)",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2010년 12월 03일 ; 개정일자 : 2026년 07월 08일 ; 시행일자 : 2026년 07월 15일 ; 2026년 07월 15일 시행",
+      "contentHash": "6af655aff980d52c4d64c8ebea85ef5d24994e94e40fdd6bd45bb3ee912cd2f0"
+    },
+    {
+      "captureId": "lotte-himart-privacy",
+      "sourceUrl": "https://company.himart.co.kr/policy/privacy",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.03.30부터 적용",
+      "contentHash": "83b3b5e65b8d770cc4afbb51379c4a472ed07128a7c60d2bdb141a316d91a5cf"
+    },
+    {
+      "captureId": "lotte-himart-mall-privacy",
+      "sourceUrl": "https://www.e-himart.co.kr/app/terms/privacy?stonType=PC",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.07.10부터 적용 ; VER 9.6 ; VER 9.5 ; VER 9.4",
+      "contentHash": "df3adf5a2e5bbb423c88ecf061c24e22d7647dc3a22eb6a5e468e6ad54c2b3b7"
+    }
+  ]
+}

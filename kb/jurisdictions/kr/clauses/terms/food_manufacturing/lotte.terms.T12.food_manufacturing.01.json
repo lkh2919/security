@@ -1,0 +1,60 @@
+{
+  "id": "lotte.terms.T12.food_manufacturing.01",
+  "docType": "terms",
+  "sectionId": "T12",
+  "domainGroup": "food_manufacturing",
+  "sourceCaptureIds": [
+    "lotte-wellfood-terms"
+  ],
+  "sourceSites": [
+    "www.lottewellfood.com"
+  ],
+  "policyVersionOrDate": "2015년 4월 20일부터 시행",
+  "layout": "legacy_article",
+  "text": "제N조 (게시물의 관리·운영)\n1. 이용자가 게시한 게시물의 저작권은 이용자에게 귀속됩니다.\n2. 회사는 게시물이 법령에 위반되거나 타인의 권리를 침해한다고 판단되는 경우 관련 법령이 정한 절차에 따라 게시를 중단하거나 삭제할 수 있으며 그 사유를 이용자에게 알립니다.\n{{ipPolicy}}",
+  "variables": [
+    {
+      "name": "ipPolicy",
+      "slotId": "terms.ipPolicy",
+      "description": "Copyright and posting rules"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "terms.ugc",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-T12-003",
+    "R-T12-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T12-001",
+      "level": "must",
+      "note": "회사 저작물 귀속 문구는 별도 조항."
+    },
+    {
+      "ruleId": "R-T12-002",
+      "level": "must",
+      "note": "사용 허락 범위를 명시하지 않은 포괄 조항 여부는 vetting 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 2,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-wellfood-terms",
+      "sourceUrl": "https://www.lottewellfood.com/policy/use",
+      "affiliate": "Lotte Wellfood",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2015년 4월 20일부터 시행",
+      "contentHash": "27c92d094aaa5850a438e3164fbdad5b21326d87f3fff9ac3ad9e1a05889ecbf"
+    }
+  ]
+}

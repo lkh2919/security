@@ -1,0 +1,36 @@
+{
+  "id": "S04",
+  "packVersion": "privacy-2026.04",
+  "title": { "ko": "14세 미만 아동의 개인정보 처리에 관한 사항", "en": "Children under 14" },
+  "guidelineRef": { "doc": "pipc-guideline-2026-04", "part": "III", "section": 4, "pages": "29-30", "lines": "887-932", "related": "Appendix 2 (children's policy, p133+)" },
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "conditional",
+  "catalogClass": "C",
+  "handling": "warn",
+  "applicability": { "when": { "slot": "gate.childrenU14", "op": "truthy" }, "ifNot": "not_processed_statement_allowed" },
+  "rules": [
+    { "ruleId": "R-S04-001", "sectionId": "S04", "level": "must", "element": "guardian data items", "statement": "State the personal data processed to obtain the legal guardian's consent (e.g. guardian name, mobile number).", "legalRefs": ["PIPA:22-2(1)"], "check": { "kind": "deterministic", "expr": "count(section.S04.guardianItems) >= 1" }, "sourceSpan": "L889-892", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S04-002", "sectionId": "S04", "level": "should", "element": "consent fact and verification method", "statement": "Separately state that guardian consent is obtained and how it is verified, describing the procedure actually used rather than restating the law.", "legalRefs": [], "check": { "kind": "llm", "expr": "describesActualProcedure(section.S04, slot(privacy.S04_guardianVerifyMethod))" }, "sourceSpan": "L893-898", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S04-003", "sectionId": "S04", "level": "must", "element": "child-readable wording", "statement": "Use an easy-to-understand format and clear, plain language for this section.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L900-902", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S04-004", "sectionId": "S04", "level": "should", "element": "separate children's policy", "statement": "If the main users are children under 14, provide a separate children's version of the policy (Appendix 2).", "legalRefs": [], "check": { "kind": "deterministic", "expr": "if(slot(privacy.S04_childFriendlyVersion)) flag('render_child_version')" }, "sourceSpan": "L903-905", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S04-005", "sectionId": "S04", "level": "may", "element": "guardian data collected from the child", "statement": "Guardian data collected directly from the child without guardian consent may be listed under S03.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L915-917", "verifiedAt": "2026-09-29" }
+  ],
+  "goodPatterns": [
+    "Clause 1: consent for a child's data is obtained from the legal guardian.",
+    "Clause 2: minimal guardian data is requested from the child; the guardian marks consent on a web page and the confirmation is sent to the guardian by text message (describe the method really used)."
+  ],
+  "commonDefects": [
+    { "id": "D-S04-01", "severity": "major", "defect": "Copies the statutory list of verification methods instead of the method actually used.", "seedCandidate": true },
+    { "id": "D-S04-02", "severity": "major", "defect": "Service admits under-14 users but the section is missing or says children are not processed." },
+    { "id": "D-S04-03", "severity": "minor", "defect": "Minimum age in terms (T06) conflicts with this section (cross-doc)." }
+  ],
+  "extractionHints": ["\"만 14세 미만\", \"법정대리인\", \"보호자 동의\"", "age gate, birth-date check", "SMS/phone verification of guardian", "kids service, school, academy"],
+  "interviewNodes": ["Q-S04-01", "Q-S04-80", "Q-S04-81", "Q-S04-82", "Q-S14-83", "Q-T06-06"],
+  "legalRefs": {
+    "PIPA:22-2(1)": { "law": "개인정보 보호법", "article": "22-2", "paragraph": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p29 L889", "lawGoKr": false }
+  },
+  "warnNote": "Handling = warn: drafter emits a manual-review placeholder plus the guideline-backed elements; legal review confirms the verification method.",
+  "needsVerification": [
+    { "id": "NV-S04-01", "note": "Statutory list of acceptable guardian-verification methods is not in the guideline; do not generate it." }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "lotte.privacy.S07.group_holding.01",
+  "docType": "privacy",
+  "sectionId": "S07",
+  "domainGroup": "group_holding",
+  "sourceCaptureIds": [
+    "lotte-holdings-privacy"
+  ],
+  "sourceSites": [
+    "www.lotte.co.kr"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 03월 10일",
+  "layout": "guideline_numbered",
+  "text": "회사는 {{serviceName}} 접수 시 제공된 개인정보를 불만 처리 등 민원 처리와 고지사항 전달을 위하여 관계 회사에 제공할 수 있습니다. 제공하는 개인정보의 상세 내역은 다음과 같습니다.\n{%if gate.thirdPartyProvision%}\n\n{{thirdPartyTable}}\n\n(표 열) 제공받는 자 / 제공 정보 / 제공 목적 / 이용·보유 기간\n{%endif%}",
+  "variables": [
+    {
+      "name": "serviceName",
+      "slotId": "profile.serviceNames",
+      "description": "Service or site name(s) covered by the document"
+    },
+    {
+      "name": "thirdPartyTable",
+      "slotId": "privacy.S07_thirdParties",
+      "description": "Recipients with purpose, items, and recipient retention period"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.thirdPartyProvision",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S07-001",
+    "R-S07-002",
+    "R-S07-003"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S07-004",
+      "level": "may",
+      "note": "수령자를 개별 회사명으로 나열한 원문 방식. 대규모 계열사 나열은 링크/별도 화면 방식이 권장됨."
+    },
+    {
+      "ruleId": "R-S07-005",
+      "level": "may",
+      "note": "조건부 유형화 미적용."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "제공받는 자 명단(계열사 다수)은 제거하고 표 슬롯으로 치환.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-07"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotte-holdings-privacy",
+      "sourceUrl": "https://www.lotte.co.kr/privacy/agree.do",
+      "affiliate": "Lotte Holdings (group corporate site)",
+      "businessGroup": "group_holding",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 03월 10일 ; 시행일자 : 2026년 03월 16일 ; 2026년 03월 16일 부터 시행",
+      "contentHash": "1ad4f5da933e8cf4870d164c407d8058be09b3e60dc19fabceed3379cef6aa87"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "id": "lotte.terms.T03.hr_corporate.01",
+  "docType": "terms",
+  "sectionId": "T03",
+  "domainGroup": "hr_corporate",
+  "sourceCaptureIds": [
+    "lotte-recruit-terms"
+  ],
+  "sourceSites": [
+    "recruit.lotte.co.kr"
+  ],
+  "policyVersionOrDate": null,
+  "layout": "legacy_article",
+  "text": "제2조 (약관의 효력 및 변경)\n1. 이 약관은 서비스 화면에 게시하거나 그 밖의 방법으로 회원에게 공지함으로써 효력이 발생합니다.\n2. 회사는 필요하다고 인정되는 경우 관련 법령을 위배하지 않는 범위에서 이 약관을 변경할 수 있으며, 변경된 약관은 제1항과 같은 방법으로 공지합니다. 변경 시 적용일자 {{noticeDaysBefore}}일 전부터 공지합니다.\n제3조 (약관 외 준칙)\n이 약관에서 정하지 아니한 사항은 관련 법령 또는 상관례에 따릅니다.",
+  "variables": [
+    {
+      "name": "noticeDaysBefore",
+      "slotId": "terms.noticePeriodDays",
+      "description": "Days of advance notice before a change takes effect"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "terms.applicable",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-T03-001",
+    "R-T03-004",
+    "R-T03-007"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T03-002",
+      "level": "must",
+      "note": "중요 내용 설명 절차 없음."
+    },
+    {
+      "ruleId": "R-T03-005",
+      "level": "must",
+      "note": "묵시 동의 조항 없음."
+    },
+    {
+      "ruleId": "R-T03-006",
+      "level": "should",
+      "note": "불소급 문구 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-recruit-terms",
+      "sourceUrl": "https://recruit.lotte.co.kr/about/termOfPolicy",
+      "affiliate": "Lotte Group recruiting site",
+      "businessGroup": "hr_corporate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": null,
+      "contentHash": "830691c6eefc2b3070bf23d81f762b1389acf724a5cc0012f21ac82ee84aae37"
+    }
+  ]
+}

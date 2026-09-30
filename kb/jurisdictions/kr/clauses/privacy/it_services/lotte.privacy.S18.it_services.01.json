@@ -1,0 +1,59 @@
+{
+  "id": "lotte.privacy.S18.it_services.01",
+  "docType": "privacy",
+  "sectionId": "S18",
+  "domainGroup": "it_services",
+  "sourceCaptureIds": [
+    "lotteinnovate-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteinnovate.com"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 6월 25일",
+  "layout": "guideline_numbered",
+  "text": "회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만 처리 및 피해 구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.\n\n■ 개인정보 보호책임자\n- 소속/직책: {{officerContact}}\n- 전자우편: (업무용 공용 주소)\n■ 개인정보 보호 담당부서\n- 소속: {{deptContact}}\n- 전자우편: (업무용 공용 주소)\n\n이용자는 회사의 서비스를 이용하며 발생하는 모든 개인정보 보호 관련 민원을 개인정보 관리책임자 또는 담당부서로 신고하실 수 있습니다. 회사는 이용자의 신고 사항에 대해 신속하게 충분한 답변을 드리겠습니다.",
+  "variables": [
+    {
+      "name": "officerContact",
+      "slotId": "privacy.S18_officer",
+      "description": "Privacy officer: role/title and functional e-mail (no personal name in reusable text)"
+    },
+    {
+      "name": "deptContact",
+      "slotId": "privacy.S18_dept",
+      "description": "Responsible department: name and functional e-mail"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S18-001",
+    "R-S18-002",
+    "R-S18-003",
+    "R-S18-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "원문은 책임자 개인 이름을 노출. 직책+공용 전자우편만 남기는 H-12 방식으로 정규화."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "원문에 있던 개인 이름과 개인 전자우편은 제거됨.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-12"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotteinnovate-privacy",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 6월 25일 ; 시행일자 : 2026년 6월 25일 ; 공고일자 : 2025년 9월 18일 ; 시행일자 : 2025년 9월 18일",
+      "contentHash": "ed631cda902e7824593df708a5399a8fe8e4516efd4252d5cb9ce0f65f4f7b7d"
+    }
+  ]
+}

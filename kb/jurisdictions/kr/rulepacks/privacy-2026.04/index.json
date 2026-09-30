@@ -1,0 +1,1078 @@
+{
+  "packVersion": "privacy-2026.04",
+  "generated": "2026-09-30",
+  "generator": "row4c validate.ts --write-index (scratchpad; regenerate after pack edits)",
+  "source": {
+    "doc": "pipc-guideline-2026-04",
+    "title": "개인정보 처리방침 작성지침 (2026. 4.)",
+    "file": "kb/_sources/pipc-guideline-2026-04.txt",
+    "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased; source attribution required)"
+  },
+  "verification": {
+    "verifiedBy": "legalRefs cite 'pipc-guideline-2026-04' (article appears in the guideline text at the given page/line) or 'spike-2026-09-29' (law.go.kr API via spike-report.md).",
+    "lawGoKr": "true only where the Row 3 spike read the provision on law.go.kr; all others await law-level verification.",
+    "verifiedAt": "date the rule was checked against the guideline text",
+    "apiVerified": "verifiedBy may be an object or array {url, fetched, version}: provision read on law.go.kr Open API (OC removed from url). Row 4c, 2026-09-30.",
+    "beyondGuideline": "rules with beyondGuideline: true come from statute text, not the 2026.4 guideline.",
+    "effectiveMeta": "effectiveFrom / effectiveStatus (in_force | upcoming) / effectiveNote / source on rules tied to dated amendments (spike)."
+  },
+  "ruleShapeNotes": [
+    "Rules follow design R5.2; rule.legalRefs are keys into the pack-level legalRefs map (compact form).",
+    "check.expr is pseudo-DSL for automation-engineer (C2); 'lex.*' refers to lexicons below.",
+    "Pack-level fields beyond R5.2: requiredElements are the rules; conditionalTyping, goodPatterns (paraphrased), commonDefects (rubric and seeded-defect input), extractionHints, interviewNodes, needsVerification."
+  ],
+  "changes2026": {
+    "source": "guideline revision history L27-30",
+    "items": [
+      {
+        "topic": "conditional typing of recipients and processors",
+        "sections": [
+          "S07",
+          "S09"
+        ],
+        "rules": [
+          "R-S07-005",
+          "R-S09-004"
+        ]
+      },
+      {
+        "topic": "improved change-notice method (version list, application periods, comparison table, batched minor changes e.g. 4 weeks)",
+        "sections": [
+          "S24"
+        ],
+        "rules": [
+          "R-S24-002",
+          "R-S24-003",
+          "R-S24-004",
+          "R-S24-005"
+        ]
+      },
+      {
+        "topic": "generative-AI service appendix",
+        "sections": [
+          "A1"
+        ],
+        "rules": [
+          "R-A1-001..R-A1-010"
+        ]
+      }
+    ]
+  },
+  "effectiveDated": [
+    {
+      "ruleId": "R-A1-011",
+      "effectiveFrom": "2027-03-09",
+      "status": "upcoming"
+    },
+    {
+      "ruleId": "R-S16-005",
+      "effectiveFrom": "2025-03-13",
+      "status": "in_force"
+    },
+    {
+      "ruleId": "R-S17-001",
+      "effectiveFrom": "2024-03-15",
+      "status": "in_force"
+    },
+    {
+      "ruleId": "R-S17-005",
+      "effectiveFrom": "2024-03-15",
+      "status": "in_force"
+    },
+    {
+      "ruleId": "R-S18-005",
+      "effectiveFrom": "2026-09-11",
+      "status": "in_force"
+    },
+    {
+      "ruleId": "R-S18-006",
+      "effectiveFrom": "2026-09-11",
+      "status": "in_force"
+    },
+    {
+      "ruleId": "R-S19-001",
+      "effectiveFrom": "2025-10-02",
+      "status": "in_force"
+    },
+    {
+      "ruleId": "R-S19-003",
+      "effectiveFrom": "2025-10-02",
+      "status": "in_force"
+    }
+  ],
+  "beyondGuideline": [
+    {
+      "ruleId": "R-A1-011",
+      "effectiveFrom": "2027-03-09"
+    },
+    {
+      "ruleId": "R-S05-007",
+      "effectiveFrom": null
+    },
+    {
+      "ruleId": "R-S18-005",
+      "effectiveFrom": "2026-09-11"
+    },
+    {
+      "ruleId": "R-S18-006",
+      "effectiveFrom": "2026-09-11"
+    },
+    {
+      "ruleId": "R-S18-007",
+      "effectiveFrom": null
+    }
+  ],
+  "flags": [
+    {
+      "flagId": "ambiguity.delegation_vs_provision",
+      "definedIn": "S09",
+      "itemIds": [
+        "S09",
+        "S07",
+        "S10"
+      ],
+      "policy": "always manual review"
+    }
+  ],
+  "sections": [
+    {
+      "id": "A1",
+      "file": "A1.json",
+      "title": "생성형 인공지능(AI) 서비스 처리방침 부록",
+      "classification": "conditional",
+      "catalogClass": "C",
+      "handling": "warn",
+      "pages": "118-132",
+      "lines": "3701-4259",
+      "applicability": {
+        "slot": "gate.genAI",
+        "op": "truthy"
+      },
+      "triggers": [
+        "생성형 AI",
+        "챗봇",
+        "LLM",
+        "프롬프트",
+        "AI 학습",
+        "옵트아웃",
+        "generative AI"
+      ],
+      "rules": 11,
+      "mustRules": 0,
+      "estTokens": 2529,
+      "new2026": true
+    },
+    {
+      "id": "S01",
+      "file": "S01.json",
+      "title": "제목 및 서문",
+      "classification": "mandatory",
+      "catalogClass": "M",
+      "handling": "clause",
+      "pages": "20",
+      "lines": "546-576",
+      "applicability": {
+        "all": []
+      },
+      "triggers": [
+        "개인정보 처리방침",
+        "제목",
+        "서문",
+        "개인정보처리자명",
+        "title",
+        "preamble"
+      ],
+      "rules": 6,
+      "mustRules": 2,
+      "estTokens": 1179,
+      "new2026": false
+    },
+    {
+      "id": "S02",
+      "file": "S02.json",
+      "title": "개인정보의 처리 목적",
+      "classification": "mandatory",
+      "catalogClass": "M",
+      "handling": "llm",
+      "pages": "21-23",
+      "lines": "577-654",
+      "applicability": {
+        "all": []
+      },
+      "triggers": [
+        "처리 목적",
+        "이용 목적",
+        "purpose"
+      ],
+      "rules": 6,
+      "mustRules": 4,
+      "estTokens": 1144,
+      "new2026": false
+    },
+    {
+      "id": "S03",
+      "file": "S03.json",
+      "title": "처리하는 개인정보의 항목",
+      "classification": "mandatory",
+      "catalogClass": "M",
+      "handling": "llm",
+      "pages": "24-28",
+      "lines": "655-886",
+      "applicability": {
+        "all": []
+      },
+      "triggers": [
+        "수집 항목",
+        "처리 항목",
+        "필수",
+        "선택",
+        "법적 근거",
+        "CI",
+        "간편 로그인",
+        "고유식별정보",
+        "민감정보",
+        "온디바이스",
+        "items"
+      ],
+      "rules": 9,
+      "mustRules": 7,
+      "estTokens": 2055,
+      "new2026": false
+    },
+    {
+      "id": "S04",
+      "file": "S04.json",
+      "title": "14세 미만 아동의 개인정보 처리에 관한 사항",
+      "classification": "conditional",
+      "catalogClass": "C",
+      "handling": "warn",
+      "pages": "29-30",
+      "lines": "887-932",
+      "applicability": {
+        "slot": "gate.childrenU14",
+        "op": "truthy"
+      },
+      "triggers": [
+        "만 14세 미만",
+        "아동",
+        "법정대리인",
+        "보호자 동의",
+        "children",
+        "guardian"
+      ],
+      "rules": 5,
+      "mustRules": 2,
+      "estTokens": 1043,
+      "new2026": false
+    },
+    {
+      "id": "S05",
+      "file": "S05.json",
+      "title": "개인정보의 처리 및 보유 기간",
+      "classification": "mandatory",
+      "catalogClass": "M",
+      "handling": "llm+statute_table",
+      "pages": "31-34",
+      "lines": "933-1091",
+      "applicability": {
+        "all": []
+      },
+      "triggers": [
+        "보유 기간",
+        "보관 기간",
+        "탈퇴 시까지",
+        "전자상거래법",
+        "retention"
+      ],
+      "rules": 7,
+      "mustRules": 5,
+      "estTokens": 2942,
+      "new2026": false
+    },
+    {
+      "id": "S06",
+      "file": "S06.json",
+      "title": "개인정보의 파기 절차 및 방법에 관한 사항",
+      "classification": "mandatory",
+      "catalogClass": "M",
+      "handling": "clause",
+      "pages": "35-36",
+      "lines": "1092-1139",
+      "applicability": {
+        "all": []
+      },
+      "triggers": [
+        "파기",
+        "삭제",
+        "분쇄",
+        "소각",
+        "destruction"
+      ],
+      "rules": 4,
+      "mustRules": 3,
+      "estTokens": 1140,
+      "new2026": false
+    },
+    {
+      "id": "S07",
+      "file": "S07.json",
+      "title": "개인정보의 제3자 제공에 관한 사항",
+      "classification": "conditional",
+      "catalogClass": "C",
+      "handling": "llm",
+      "pages": "37-39",
+      "lines": "1140-1252",
+      "applicability": {
+        "slot": "gate.thirdPartyProvision",
+        "op": "truthy"
+      },
+      "triggers": [
+        "제3자 제공",
+        "제공받는 자",
+        "제휴사",
+        "third party",
+        "recipient"
+      ],
+      "rules": 7,
+      "mustRules": 4,
+      "estTokens": 1639,
+      "new2026": true
+    },
+    {
+      "id": "S08",
+      "file": "S08.json",
+      "title": "추가적인 이용·제공이 지속적으로 발생 시 판단 기준",
+      "classification": "conditional",
+      "catalogClass": "C",
+      "handling": "llm",
+      "pages": "40-41",
+      "lines": "1253-1324",
+      "applicability": {
+        "slot": "gate.additionalUseOngoing",
+        "op": "truthy"
+      },
+      "triggers": [
+        "추가적 이용",
+        "추가적 제공",
+        "동의 없이",
+        "합리적 관련성",
+        "additional use"
+      ],
+      "rules": 3,
+      "mustRules": 2,
+      "estTokens": 1061,
+      "new2026": false
+    },
+    {
+      "id": "S09",
+      "file": "S09.json",
+      "title": "개인정보 처리업무의 위탁에 관한 사항",
+      "classification": "conditional",
+      "catalogClass": "C",
+      "handling": "llm",
+      "pages": "42-44",
+      "lines": "1325-1405",
+      "applicability": {
+        "slot": "gate.outsourcing",
+        "op": "truthy"
+      },
+      "triggers": [
+        "위탁",
+        "수탁자",
+        "재위탁",
+        "외주",
+        "outsourcing",
+        "processor"
+      ],
+      "rules": 7,
+      "mustRules": 3,
+      "estTokens": 2502,
+      "new2026": true
+    },
+    {
+      "id": "S10",
+      "file": "S10.json",
+      "title": "개인정보의 국외 수집 및 이전에 관한 사항",
+      "classification": "conditional",
+      "catalogClass": "C",
+      "handling": "llm",
+      "pages": "45-48",
+      "lines": "1406-1577",
+      "applicability": {
+        "any": [
+          {
+            "slot": "gate.overseasTransfer",
+            "op": "truthy"
+          },
+          {
+            "slot": "gate.overseasDirectCollection",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "국외 이전",
+        "해외 서버",
+        "클라우드 리전",
+        "국외 수집",
+        "overseas",
+        "cross-border"
+      ],
+      "rules": 7,
+      "mustRules": 6,
+      "estTokens": 1738,
+      "new2026": false
+    },
+    {
+      "id": "S11",
+      "file": "S11.json",
+      "title": "개인정보의 안전성 확보조치에 관한 사항",
+      "classification": "mandatory",
+      "catalogClass": "M",
+      "handling": "clause_checklist",
+      "pages": "49",
+      "lines": "1578-1608",
+      "applicability": {
+        "all": []
+      },
+      "triggers": [
+        "안전성 확보조치",
+        "암호화",
+        "접근통제",
+        "접속기록",
+        "safeguards"
+      ],
+      "rules": 3,
+      "mustRules": 2,
+      "estTokens": 1072,
+      "new2026": false
+    },
+    {
+      "id": "S12",
+      "file": "S12.json",
+      "title": "민감정보의 공개 가능성 및 비공개를 선택하는 방법",
+      "classification": "conditional",
+      "catalogClass": "C",
+      "handling": "llm",
+      "pages": "50-51",
+      "lines": "1609-1667",
+      "applicability": {
+        "slot": "gate.sensitivePublicExposure",
+        "op": "truthy"
+      },
+      "triggers": [
+        "민감정보 공개",
+        "비공개 설정",
+        "공개 폴더",
+        "sensitive disclosure"
+      ],
+      "rules": 3,
+      "mustRules": 2,
+      "estTokens": 953,
+      "new2026": false
+    },
+    {
+      "id": "S13",
+      "file": "S13.json",
+      "title": "가명정보 처리에 관한 사항",
+      "classification": "conditional",
+      "catalogClass": "C",
+      "handling": "llm",
+      "pages": "52-53",
+      "lines": "1668-1759",
+      "applicability": {
+        "slot": "gate.pseudonymized",
+        "op": "truthy"
+      },
+      "triggers": [
+        "가명정보",
+        "가명처리",
+        "결합",
+        "pseudonym"
+      ],
+      "rules": 6,
+      "mustRules": 6,
+      "estTokens": 1139,
+      "new2026": false
+    },
+    {
+      "id": "S14",
+      "file": "S14.json",
+      "title": "개인정보 자동 수집 장치의 설치·운영 및 거부에 관한 사항",
+      "classification": "conditional",
+      "catalogClass": "C",
+      "handling": "clause",
+      "pages": "54-61",
+      "lines": "1760-2129",
+      "applicability": {
+        "slot": "gate.autoCollection",
+        "op": "truthy"
+      },
+      "triggers": [
+        "쿠키",
+        "SDK",
+        "광고식별자",
+        "행태정보",
+        "맞춤형 광고",
+        "cookie",
+        "ADID",
+        "IDFA"
+      ],
+      "rules": 7,
+      "mustRules": 4,
+      "estTokens": 1468,
+      "new2026": false
+    },
+    {
+      "id": "S15",
+      "file": "S15.json",
+      "title": "개인정보 자동 수집 장치를 통해 제3자가 행태정보를 수집하도록 허용하는 경우 그 수집·이용 및 거부에 관한 사항",
+      "classification": "recommended",
+      "catalogClass": "R+C",
+      "handling": "clause",
+      "pages": "62-64",
+      "lines": "2130-2246",
+      "applicability": {
+        "slot": "gate.thirdPartyTrackers",
+        "op": "truthy"
+      },
+      "triggers": [
+        "픽셀",
+        "태그",
+        "제3자 쿠키",
+        "서드파티",
+        "third-party tracker"
+      ],
+      "rules": 4,
+      "mustRules": 0,
+      "estTokens": 739,
+      "new2026": false
+    },
+    {
+      "id": "S16",
+      "file": "S16.json",
+      "title": "정보주체와 법정대리인의 권리·의무 및 행사방법에 관한 사항",
+      "classification": "mandatory",
+      "catalogClass": "M",
+      "handling": "clause",
+      "pages": "65-66",
+      "lines": "2247-2333",
+      "applicability": {
+        "all": []
+      },
+      "triggers": [
+        "열람",
+        "정정",
+        "삭제",
+        "처리정지",
+        "동의철회",
+        "전송요구",
+        "마이데이터",
+        "rights",
+        "portability"
+      ],
+      "rules": 7,
+      "mustRules": 4,
+      "estTokens": 1935,
+      "new2026": false
+    },
+    {
+      "id": "S17",
+      "file": "S17.json",
+      "title": "자동화된 결정에 관한 사항",
+      "classification": "conditional",
+      "catalogClass": "C",
+      "handling": "llm+manual_flag",
+      "pages": "67-71",
+      "lines": "2334-2543",
+      "applicability": {
+        "slot": "gate.automatedDecision",
+        "op": "truthy"
+      },
+      "triggers": [
+        "자동화된 결정",
+        "AI 심사",
+        "자동 탈락",
+        "자동 제재",
+        "automated decision"
+      ],
+      "rules": 6,
+      "mustRules": 5,
+      "estTokens": 1330,
+      "new2026": false
+    },
+    {
+      "id": "S18",
+      "file": "S18.json",
+      "title": "개인정보 보호책임자의 성명 또는 개인정보 업무 담당부서 및 고충사항을 처리하는 부서에 관한 사항",
+      "classification": "mandatory",
+      "catalogClass": "M",
+      "handling": "clause",
+      "pages": "72",
+      "lines": "2544-2585",
+      "applicability": {
+        "all": []
+      },
+      "triggers": [
+        "개인정보 보호책임자",
+        "CPO",
+        "고충처리",
+        "privacy officer"
+      ],
+      "rules": 7,
+      "mustRules": 2,
+      "estTokens": 2766,
+      "new2026": false
+    },
+    {
+      "id": "S19",
+      "file": "S19.json",
+      "title": "국내대리인 지정에 관한 사항",
+      "classification": "conditional",
+      "catalogClass": "C",
+      "handling": "clause",
+      "pages": "73-74",
+      "lines": "2586-2633",
+      "applicability": {
+        "all": [
+          {
+            "slot": "gate.foreignNoKrAddress",
+            "op": "truthy"
+          },
+          {
+            "slot": "gate.domesticRepRequired",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "국내대리인",
+        "해외 사업자",
+        "domestic representative"
+      ],
+      "rules": 3,
+      "mustRules": 2,
+      "estTokens": 1189,
+      "new2026": false
+    },
+    {
+      "id": "S20",
+      "file": "S20.json",
+      "title": "정보주체의 권익침해에 대한 구제방법",
+      "classification": "recommended",
+      "catalogClass": "R",
+      "handling": "clause",
+      "pages": "75",
+      "lines": "2634-2668",
+      "applicability": {
+        "not": {
+          "slot": "privacy.S20_includeRemedies",
+          "op": "eq",
+          "value": false
+        }
+      },
+      "triggers": [
+        "권익침해",
+        "분쟁조정",
+        "침해신고",
+        "remedies"
+      ],
+      "rules": 4,
+      "mustRules": 1,
+      "estTokens": 796,
+      "new2026": false
+    },
+    {
+      "id": "S21",
+      "file": "S21.json",
+      "title": "고정형 영상정보처리기기 운영·관리에 관한 사항",
+      "classification": "conditional",
+      "catalogClass": "C",
+      "handling": "warn",
+      "pages": "76-78",
+      "lines": "2669-2766",
+      "applicability": {
+        "slot": "gate.cctvFixed",
+        "op": "truthy"
+      },
+      "triggers": [
+        "CCTV",
+        "고정형 영상정보처리기기"
+      ],
+      "rules": 3,
+      "mustRules": 1,
+      "estTokens": 947,
+      "new2026": false
+    },
+    {
+      "id": "S22",
+      "file": "S22.json",
+      "title": "이동형 영상정보처리기기 운영·관리에 관한 사항",
+      "classification": "conditional",
+      "catalogClass": "C",
+      "handling": "warn",
+      "pages": "79-80",
+      "lines": "2767-2845",
+      "applicability": {
+        "slot": "gate.cctvMobile",
+        "op": "truthy"
+      },
+      "triggers": [
+        "이동형 영상정보처리기기",
+        "배달 로봇",
+        "드론",
+        "차량 카메라"
+      ],
+      "rules": 3,
+      "mustRules": 1,
+      "estTokens": 891,
+      "new2026": false
+    },
+    {
+      "id": "S23",
+      "file": "S23.json",
+      "title": "개인정보처리자가 개인정보 처리 기준 및 보호조치 등에 관하여 자율적으로 개인정보 처리방침에 포함하여 정한 사항",
+      "classification": "recommended",
+      "catalogClass": "R",
+      "handling": "llm_optional",
+      "pages": "81-82",
+      "lines": "2846-2913",
+      "applicability": {
+        "slot": "privacy.S23_voluntary",
+        "op": "exists"
+      },
+      "triggers": [
+        "ISMS-P",
+        "영향평가",
+        "휴면",
+        "투명성 보고서",
+        "AI 학습데이터 기준",
+        "voluntary"
+      ],
+      "rules": 3,
+      "mustRules": 1,
+      "estTokens": 834,
+      "new2026": false
+    },
+    {
+      "id": "S24",
+      "file": "S24.json",
+      "title": "개인정보 처리방침의 변경에 관한 사항",
+      "classification": "mandatory",
+      "catalogClass": "M",
+      "handling": "clause",
+      "pages": "83-85",
+      "lines": "2914-3022",
+      "applicability": {
+        "all": []
+      },
+      "triggers": [
+        "시행일",
+        "변경 이력",
+        "이전 버전",
+        "대조표",
+        "변경 안내",
+        "change notice"
+      ],
+      "rules": 5,
+      "mustRules": 3,
+      "estTokens": 1360,
+      "new2026": true
+    }
+  ],
+  "notInPacks": [
+    {
+      "id": "X1",
+      "title": "위치정보",
+      "reason": "Outside the guideline (Location Information Act); interview gate only, warn-only, needs legal source."
+    }
+  ],
+  "lawCodes": {
+    "PIPA": "개인정보 보호법",
+    "DEC": "개인정보 보호법 시행령",
+    "STDG": "표준 개인정보 보호지침",
+    "ECA-DEC": "전자상거래 등에서의 소비자보호에 관한 법률 시행령",
+    "CPPA": "통신비밀보호법",
+    "LSA": "근로기준법 (+ DEC: 근로기준법 시행령 in combined keys)",
+    "NTBA": "국세기본법",
+    "OSHA": "산업안전보건법 (+ RULE: 시행규칙)",
+    "HIRE": "채용절차의 공정화에 관한 법률 (+ DEC: 시행령)",
+    "SAFE": "개인정보의 안전성 확보조치 기준 (고시)"
+  },
+  "lawIndex": {
+    "CPPA:15-2(2)": [
+      "S05"
+    ],
+    "DEC:14-2": [
+      "A1"
+    ],
+    "DEC:14-2(1)": [
+      "S08"
+    ],
+    "DEC:14-2(2)": [
+      "S08"
+    ],
+    "DEC:17(1)": [
+      "S03"
+    ],
+    "DEC:17(5)": [
+      "S03"
+    ],
+    "DEC:18": [
+      "S12"
+    ],
+    "DEC:25(1)": [
+      "S21",
+      "S22"
+    ],
+    "DEC:30": [
+      "S11"
+    ],
+    "DEC:30-2": [
+      "S11"
+    ],
+    "DEC:31(1)1": [
+      "S03"
+    ],
+    "DEC:31(1)2": [
+      "S10"
+    ],
+    "DEC:31(1)3": [
+      "S11"
+    ],
+    "DEC:31(1)4": [
+      "S10"
+    ],
+    "DEC:31(2)": [
+      "S24"
+    ],
+    "DEC:32-3": [
+      "S19"
+    ],
+    "DEC:32(1)": [
+      "S18"
+    ],
+    "DEC:32(3)": [
+      "S18"
+    ],
+    "DEC:32(4)": [
+      "S18"
+    ],
+    "DEC:41(1)": [
+      "S16"
+    ],
+    "DEC:42-2": [
+      "S16"
+    ],
+    "DEC:42-6(5)": [
+      "S16"
+    ],
+    "ECA-DEC:6(1)1": [
+      "S05"
+    ],
+    "ECA-DEC:6(1)2": [
+      "S05"
+    ],
+    "ECA-DEC:6(1)3": [
+      "S05"
+    ],
+    "ECA-DEC:6(1)4": [
+      "S05"
+    ],
+    "PIPA:2(2)": [
+      "S02"
+    ],
+    "PIPA:15(1)": [
+      "S03"
+    ],
+    "PIPA:15(1)2": [
+      "S03"
+    ],
+    "PIPA:15(1)3": [
+      "S03"
+    ],
+    "PIPA:15(3)": [
+      "A1",
+      "S08"
+    ],
+    "PIPA:17": [
+      "S07"
+    ],
+    "PIPA:17(4)": [
+      "S08"
+    ],
+    "PIPA:18": [
+      "S02",
+      "S07"
+    ],
+    "PIPA:21(1)": [
+      "S06"
+    ],
+    "PIPA:22-2(1)": [
+      "S04"
+    ],
+    "PIPA:23(1)": [
+      "S03",
+      "S12"
+    ],
+    "PIPA:23(3)": [
+      "S12"
+    ],
+    "PIPA:24(1)": [
+      "S03"
+    ],
+    "PIPA:25-2(1)1": [
+      "S22"
+    ],
+    "PIPA:25-2(4)": [
+      "S22"
+    ],
+    "PIPA:25(1)": [
+      "S21"
+    ],
+    "PIPA:25(7)": [
+      "S21"
+    ],
+    "PIPA:26": [
+      "S09"
+    ],
+    "PIPA:26(6)": [
+      "S09"
+    ],
+    "PIPA:26(8)": [
+      "S09"
+    ],
+    "PIPA:28-2": [
+      "A1",
+      "S13"
+    ],
+    "PIPA:28-3": [
+      "S13"
+    ],
+    "PIPA:28-4": [
+      "S13"
+    ],
+    "PIPA:28-8(1)": [
+      "S10"
+    ],
+    "PIPA:28-8(1)1": [
+      "S10"
+    ],
+    "PIPA:28-8(1)3": [
+      "S10"
+    ],
+    "PIPA:28-8(2)": [
+      "A1",
+      "S10"
+    ],
+    "PIPA:28-12(5)": [
+      "A1"
+    ],
+    "PIPA:29": [
+      "S11"
+    ],
+    "PIPA:30(1)": [
+      "S01"
+    ],
+    "PIPA:30(1)1": [
+      "S02"
+    ],
+    "PIPA:30(1)2": [
+      "S05"
+    ],
+    "PIPA:30(1)3": [
+      "S07"
+    ],
+    "PIPA:30(1)3-2": [
+      "S06"
+    ],
+    "PIPA:30(1)3-3": [
+      "S12"
+    ],
+    "PIPA:30(1)4": [
+      "S09"
+    ],
+    "PIPA:30(1)4-2": [
+      "S13"
+    ],
+    "PIPA:30(1)5": [
+      "S16"
+    ],
+    "PIPA:30(1)6": [
+      "S18"
+    ],
+    "PIPA:30(1)7": [
+      "S14"
+    ],
+    "PIPA:30(2)": [
+      "S24"
+    ],
+    "PIPA:31": [
+      "S18"
+    ],
+    "PIPA:31-2": [
+      "S19"
+    ],
+    "PIPA:31(2)": [
+      "S18"
+    ],
+    "PIPA:31(3)": [
+      "S18"
+    ],
+    "PIPA:31(4)": [
+      "S18"
+    ],
+    "PIPA:35-2": [
+      "S16"
+    ],
+    "PIPA:35(4)": [
+      "S16"
+    ],
+    "PIPA:37-2": [
+      "S17"
+    ],
+    "PIPA:37(2)": [
+      "S16"
+    ],
+    "PIPA:38(4)": [
+      "S16"
+    ],
+    "PIPA:63(1)": [
+      "S19"
+    ],
+    "STDG:7": [
+      "S07"
+    ],
+    "STDG:18(1)": [
+      "S01"
+    ],
+    "STDG:18(2)": [
+      "S03"
+    ],
+    "STDG:20(1)": [
+      "S01"
+    ]
+  },
+  "lexicons": {
+    "vague": [
+      "\\S+\\s등(?=[\\s,.)]|$)",
+      "등\\s*\\d+\\s*개사",
+      "기타 필요한",
+      "서비스 제공 등"
+    ],
+    "vagueRetention": [
+      "목적\\s*달성\\s*시",
+      "일정\\s*기간",
+      "필요한\\s*기간",
+      "관련\\s*법령에\\s*따라(?!.*「)"
+    ],
+    "vagueRecipient": [
+      "제휴사",
+      "협력사",
+      "관계\\s*기관",
+      "금융기관",
+      "정부기관",
+      "\\S+\\s등\\s*\\d*\\s*개?사?"
+    ]
+  }
+}

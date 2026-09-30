@@ -1,0 +1,138 @@
+{
+  "id": "T02",
+  "packVersion": "terms-kftc-10023",
+  "title": {
+    "ko": "정의",
+    "en": "Definitions"
+  },
+  "stdTermsRef": {
+    "doc": "kftc-10023-2015-06-26",
+    "articles": "제2조",
+    "raw": "kb/_sources/terms/kftc-10023-2015-06-26.txt"
+  },
+  "attribution": "KFTC, 전자상거래(인터넷사이버몰) 표준약관 제10023호 (2015. 6. 26. 개정) and statutes via law.go.kr (paraphrased)",
+  "classification": "mandatory",
+  "module": "core",
+  "handling": "clause",
+  "applicability": {
+    "when": {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        }
+      ]
+    },
+    "notApplicableWhen": {
+      "slot": "terms.applicable",
+      "op": "eq",
+      "value": false
+    }
+  },
+  "slots": [
+    "terms.definitions"
+  ],
+  "rules": [
+    {
+      "ruleId": "R-T02-001",
+      "sectionId": "T02",
+      "level": "must",
+      "element": "core terms",
+      "statement": "Define the operator/service (e.g. \"몰\" or \"회사\"), user (이용자: members and non-members), member (회원) and, where non-member purchase exists, non-member (비회원).",
+      "legalRefs": [
+        "STD10023:2"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "definesAll(section.T02, ['이용자', '회원']) && (!slot(terms.nonMemberPurchase) || defines(section.T02, '비회원'))"
+      },
+      "sourceSpan": "STD10023 제2조",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T02-002",
+      "sectionId": "T02",
+      "level": "should",
+      "element": "consistent, unambiguous terms",
+      "statement": "Every quoted term used later is defined once and used consistently; ambiguous wording is construed in favour of the customer, so avoid vague definitions.",
+      "legalRefs": [
+        "ARTC:5(2)"
+      ],
+      "check": {
+        "kind": "llm",
+        "expr": "termConsistency(doc)"
+      },
+      "sourceSpan": "ARTC 제5조제2항",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T02-003",
+      "sectionId": "T02",
+      "level": "should",
+      "element": "paid-item terms",
+      "statement": "Define points, mileage, paid content or subscriptions if the service uses them, without narrowing statutory concepts such as consumer (소비자) or mail-order sale (통신판매).",
+      "legalRefs": [
+        "ECA:2"
+      ],
+      "check": {
+        "kind": "llm"
+      },
+      "sourceSpan": "ECA 제2조",
+      "verifiedAt": "2026-09-29"
+    }
+  ],
+  "unfairPatterns": [],
+  "goodPatterns": [
+    "Numbered definitions list mirroring std 2조 (몰, 이용자, 회원, 비회원) plus service-specific items."
+  ],
+  "commonDefects": [
+    {
+      "id": "D-T02-01",
+      "severity": "minor",
+      "defect": "Term used in the body (e.g. \"포인트\") never defined, or defined twice with different meanings."
+    },
+    {
+      "id": "D-T02-02",
+      "severity": "minor",
+      "defect": "Definition of \"이용자\" excludes non-members while non-member purchase exists."
+    }
+  ],
+  "extractionHints": [
+    "glossary words used on the site: 포인트, 적립금, 쿠폰, 구독, 이용권"
+  ],
+  "interviewNodes": [
+    "Q-T02-02"
+  ],
+  "interviewHints": [
+    "Ask which service-specific terms need definitions (Q-T02-02).",
+    "Ask whether non-members can buy (proposed slot terms.nonMemberPurchase)."
+  ],
+  "legalRefs": {
+    "ARTC:5(2)": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "5",
+      "paragraph": "2",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제5조 제2항",
+      "lawGoKr": true
+    },
+    "ECA:2": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "2",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제2조",
+      "lawGoKr": true
+    },
+    "STD10023:2": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "2",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제2조",
+      "lawGoKr": false
+    }
+  },
+  "needsVerification": [],
+  "missingSlots": [
+    "terms.nonMemberPurchase"
+  ]
+}

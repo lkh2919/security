@@ -1,0 +1,66 @@
+{
+  "id": "lotte.privacy.S03.group_holding.01",
+  "docType": "privacy",
+  "sectionId": "S03",
+  "domainGroup": "group_holding",
+  "sourceCaptureIds": [
+    "lotte-holdings-privacy"
+  ],
+  "sourceSites": [
+    "www.lotte.co.kr"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 03월 10일",
+  "layout": "guideline_numbered",
+  "text": "회사는 {{serviceName}} 운영을 위해 아래와 같은 개인정보를 수집하고 있습니다.\n- 필수 입력 사항: 제보자의 이름, 연락처, 전자우편, 제보 내용(제보 유형, 제보 대상 회사, 결과 회신 방법)에 포함된 개인정보, 제보 결과 조회용 비밀번호\n- 선택 입력 사항: 제보 대상자의 소속 부서, 직위·직책\n- 서비스 이용 과정에서 생성되어 수집될 수 있는 정보: {{generatedItems}}\n\n{{itemsTable}}",
+  "variables": [
+    {
+      "name": "serviceName",
+      "slotId": "profile.serviceNames",
+      "description": "Service or site name(s) covered by the document"
+    },
+    {
+      "name": "generatedItems",
+      "slotId": "privacy.S03_generatedItems",
+      "description": "Items generated during service use (logs, cookies, IP)"
+    },
+    {
+      "name": "itemsTable",
+      "slotId": "privacy.S03_items",
+      "description": "Items per purpose with legal basis and retention, rendered as tables"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S03-001",
+    "R-S03-003",
+    "R-S03-005"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S03-002",
+      "level": "must",
+      "note": "'제보 내용에 포함된 개인정보 일체'는 포괄 표현. 제3자(제보 대상자) 정보의 처리 근거 명시 필요."
+    },
+    {
+      "ruleId": "R-S03-004",
+      "level": "must",
+      "note": "무동의 처리 항목별 법적 근거 표시 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "제보 접수 서비스는 제3자 정보가 함께 수집되므로 vetting 시 별도 검토 필요.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-holdings-privacy",
+      "sourceUrl": "https://www.lotte.co.kr/privacy/agree.do",
+      "affiliate": "Lotte Holdings (group corporate site)",
+      "businessGroup": "group_holding",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 03월 10일 ; 시행일자 : 2026년 03월 16일 ; 2026년 03월 16일 부터 시행",
+      "contentHash": "1ad4f5da933e8cf4870d164c407d8058be09b3e60dc19fabceed3379cef6aa87"
+    }
+  ]
+}

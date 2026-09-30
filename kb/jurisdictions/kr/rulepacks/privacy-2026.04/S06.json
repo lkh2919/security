@@ -1,0 +1,32 @@
+{
+  "id": "S06",
+  "packVersion": "privacy-2026.04",
+  "title": {"ko":"개인정보의 파기 절차 및 방법에 관한 사항","en":"Destruction procedure and method"},
+  "guidelineRef": {"doc":"pipc-guideline-2026-04","part":"III","section":6,"pages":"35-36","lines":"1092-1139"},
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "mandatory",
+  "catalogClass": "M",
+  "handling": "clause",
+  "applicability": {"when":{"all":[]}},
+  "rules": [
+    {"ruleId":"R-S06-001","sectionId":"S06","level":"must","element":"destroy without delay","statement":"State that personal data is destroyed without delay once it is no longer needed (retention expired or purpose achieved).","legalRefs":["PIPA:30(1)3-2"],"check":{"kind":"deterministic","expr":"match(section.S06.text, /지체\\s*없이.*파기/)"},"sourceSpan":"L1094-1096","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S06-002","sectionId":"S06","level":"must","element":"preservation basis, items, period","statement":"When other laws require keeping data instead of destroying it, state the preservation basis, the items the law covers, and the period. This may be omitted here if S05 already states them, with a pointer or link to S05 (recommended).","legalRefs":["PIPA:30(1)3-2","PIPA:21(1)"],"check":{"kind":"deterministic","expr":"if(any(S05.rows, basis=='statute')) (exists(section.S06.preserved) || hasPointer(section.S06, 'S05'))"},"sourceSpan":"L1098-1111, L355-357","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S06-003","sectionId":"S06","level":"must","element":"procedure and method details","statement":"Describe the destruction procedure and method in detail (who selects and approves, how electronic files and paper are destroyed).","legalRefs":[],"check":{"kind":"deterministic","expr":"exists(section.S06.procedure) && exists(section.S06.method)"},"sourceSpan":"L1113","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S06-004","sectionId":"S06","level":"should","element":"separate storage statement","statement":"Where data is preserved under other laws, say it is moved to a separate database or stored apart from other data.","legalRefs":[],"check":{"kind":"llm"},"sourceSpan":"L1102-1103","verifiedAt":"2026-09-29"}
+  ],
+  "goodPatterns": ["Clause 1: destroy without delay when retention ends or the purpose is achieved.","Clause 2: data that must be kept under other laws is moved to a separate DB or location; pointer to S05 for items, basis, period.","Clause 3: procedure (select data due for destruction, destroy with the privacy officer's approval) and method (electronic files made unrecoverable; paper shredded or incinerated)."],
+  "commonDefects": [
+    {"id":"D-S06-01","severity":"major","defect":"Mentions legal retention but gives no basis/items/period here or in S05.","seedCandidate":true},
+    {"id":"D-S06-02","severity":"minor","defect":"Method stated only for electronic files, not paper (or vice versa) although both exist."}
+  ],
+  "extractionHints": ["\"파기\", \"삭제\", \"분쇄\", \"소각\", \"복구 불가\"","approval by privacy officer","separate DB, archive, cold storage"],
+  "interviewNodes": ["Q-S06-01","Q-S06-02","Q-S05-02","Q-S05-40","Q-S05-41"],
+  "legalRefs": {
+    "PIPA:30(1)3-2": {"law":"개인정보 보호법","article":"30","paragraph":"1","item":"3-2","verifiedBy":"pipc-guideline-2026-04","at":"p35 L1094","lawGoKr":false},
+    "PIPA:21(1)": {"law":"개인정보 보호법","article":"21","paragraph":"1","note":"proviso (단서)","verifiedBy":"pipc-guideline-2026-04","at":"p13 L355","lawGoKr":false}
+  },
+  "references": ["개인정보의 안전성 확보조치 기준: current 개인정보보호위원회 고시 제2026-9호 (발령·시행 2026-07-01; 제15조제5호 and 제18조 from 2027-01-01). The 2026.4 guideline cites 고시 제2025-9호 (발령 2025-10-31), which was current when the guideline was issued and is now superseded. Cite the notice by name; if a number is needed, use 제2026-9호."],
+  "needsVerification": [
+    {"id":"NV-S06-01","note":"Guideline cites safety-measures notice No. 2025-9; spike found No. 2026-9 effective 2026-07-01. Do not cite a notice number in clauses until reconciled.","status":"resolved","resolvedAt":"2026-09-30","resolution":"Verified via admrul API: both numbers exist. 제2025-9호 (2025-10-31) is superseded by 제2026-9호 (2026-07-01, current). Sources: https://www.law.go.kr/DRF/lawService.do?target=admrul&type=XML&ID=2100000281400 and the admrul history search (fetched 2026-09-30)."}
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "id": "lotte.privacy.S15.cross_group.01",
+  "docType": "privacy",
+  "sectionId": "S15",
+  "domainGroup": "cross_group",
+  "sourceCaptureIds": [
+    "seven-eleven-privacy",
+    "lotte-himart-mall-privacy"
+  ],
+  "sourceSites": [
+    "www.7-eleven.co.kr",
+    "www.e-himart.co.kr"
+  ],
+  "policyVersionOrDate": "공고일자 : 2010년 12월 03일 / 2026.07.10부터 적용",
+  "layout": "guideline_numbered",
+  "text": "회사의 서비스에는 제3자(광고·분석 서비스 사업자)가 행태정보를 수집할 수 있도록 허용하는 도구가 설치되어 있을 수 있습니다.\n{%if gate.thirdPartyTrackers%}\n\n{{trackerTable}}\n\n(표 열) 행태정보를 수집하는 사업자 / 수집하는 행태정보의 항목 / 수집 목적 / 보유·이용기간 / 거부 방법\n- 정보주체는 브라우저 설정 및 사업자가 제공하는 거부 메뉴를 통해 제3자의 행태정보 수집을 거부할 수 있습니다.\n{%endif%}",
+  "variables": [
+    {
+      "name": "trackerTable",
+      "slotId": "privacy.S15_trackers",
+      "description": "Third-party trackers permitted on the service"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.thirdPartyTrackers",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S15-001",
+    "R-S15-002",
+    "R-S15-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S15-003",
+      "level": "should",
+      "note": "정기 점검 운영 절차는 정책 문구가 아니라 내부 운영사항."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "코퍼스에서 제3자 추적기를 별도 절로 다룬 원문은 소수. 표 구조는 지침 기준으로 보강.",
+  "frequency": 2,
+  "frequencyBase": 15,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "seven-eleven-privacy",
+      "sourceUrl": "https://www.7-eleven.co.kr/util/policyPrivacy.asp",
+      "affiliate": "Korea Seven (7-Eleven)",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2010년 12월 03일 ; 개정일자 : 2026년 07월 08일 ; 시행일자 : 2026년 07월 15일 ; 2026년 07월 15일 시행",
+      "contentHash": "6af655aff980d52c4d64c8ebea85ef5d24994e94e40fdd6bd45bb3ee912cd2f0"
+    },
+    {
+      "captureId": "lotte-himart-mall-privacy",
+      "sourceUrl": "https://www.e-himart.co.kr/app/terms/privacy?stonType=PC",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.07.10부터 적용 ; VER 9.6 ; VER 9.5 ; VER 9.4",
+      "contentHash": "df3adf5a2e5bbb423c88ecf061c24e22d7647dc3a22eb6a5e468e6ad54c2b3b7"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "id": "lotte.privacy.S03.hr_corporate.02",
+  "docType": "privacy",
+  "sectionId": "S03",
+  "domainGroup": "hr_corporate",
+  "sourceCaptureIds": [
+    "lotte-recruit-privacy"
+  ],
+  "sourceSites": [
+    "recruit.lotte.co.kr"
+  ],
+  "policyVersionOrDate": "2026. 09. 08부터 적용",
+  "layout": "legacy_article",
+  "text": "회사는 채용을 위해 다음의 정보를 온라인으로 입력받습니다.\n\n{{itemsTable}}\n\n- 홈페이지 회원 가입: 이름, 생년월일, 성별, 아이디, 비밀번호, 연락처, 전자우편, 본인 확인 정보\n- 입사 지원 및 인재 DB: 인적사항, 학력, 병역, 경력, 지원 직무, 자기소개서, 어학, 자격, 입사 지원 이력\n- 인적성 진단: 본인 확인용 정보와 진단 실시 영상 및 결과\n- 평판 조회: 평판 조회 결과\n- 1:1 문의: 이름, 연락처, 전자우편",
+  "variables": [
+    {
+      "name": "itemsTable",
+      "slotId": "privacy.S03_items",
+      "description": "Items per purpose with legal basis and retention, rendered as tables"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S03-001",
+    "R-S03-003"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S03-004",
+      "level": "must",
+      "note": "무동의 처리 근거 열 없음."
+    },
+    {
+      "ruleId": "R-S03-002",
+      "level": "must",
+      "note": "'등'을 쓰지 않았으나 항목 세부는 itemsTable에 위임."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "채용 사이트 4~5단 항목 구분 패턴. 세부 항목은 슬롯에서 채운다.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-recruit-privacy",
+      "sourceUrl": "https://recruit.lotte.co.kr/about/personalPolicy27",
+      "affiliate": "Lotte Group recruiting site",
+      "businessGroup": "hr_corporate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026. 09. 08부터 적용 ; ver 9.1 ; ver 9.0 ; ver 8.9",
+      "contentHash": "bea4c6ae916cd20a0fe393a2c59f45a88fcf71f0485597054be67d5bc3354c48"
+    }
+  ]
+}

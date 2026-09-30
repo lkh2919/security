@@ -1,0 +1,57 @@
+{
+  "id": "lotte.terms.T13.retail_ecommerce.01",
+  "docType": "terms",
+  "sectionId": "T13",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-mart-terms"
+  ],
+  "sourceSites": [
+    "company.lottemart.com"
+  ],
+  "policyVersionOrDate": "2025년 10월 1일부터 적용",
+  "layout": "legacy_article",
+  "text": "제N조의2 (탈퇴 회원의 개인정보 이용)\n회사는 회원이 탈퇴한 경우 개인정보 처리방침에 정한 바에 따라 관계 법령상 보존 의무가 있는 정보만 분리하여 보관하며, 그 외의 개인정보는 지체 없이 파기합니다.",
+  "variables": [],
+  "conditions": [
+    {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "gate.membership",
+          "op": "truthy"
+        }
+      ]
+    }
+  ],
+  "coversElements": [
+    "R-T13-001",
+    "R-T13-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T13-002",
+      "level": "must",
+      "note": "표준 문구 잔존 여부 확인."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 3,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-mart-terms",
+      "sourceUrl": "https://company.lottemart.com/privacy/term.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025년 10월 1일부터 적용 ; 2025년 5월 29일부터 적용",
+      "contentHash": "5ac1c0c774222ff77be14ea0dff78529b128683e67b2095cb40543a80246eaed"
+    }
+  ]
+}

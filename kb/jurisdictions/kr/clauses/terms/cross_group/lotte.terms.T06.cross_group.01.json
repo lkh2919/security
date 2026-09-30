@@ -1,0 +1,194 @@
+{
+  "id": "lotte.terms.T06.cross_group.01",
+  "docType": "terms",
+  "sectionId": "T06",
+  "domainGroup": "cross_group",
+  "sourceCaptureIds": [
+    "lotte-recruit-terms",
+    "lotte-mart-terms",
+    "lotte-himart-terms",
+    "lotte-rental-terms",
+    "lotte-castle-terms",
+    "lotte-global-logis-terms-parcel-service",
+    "lotte-global-logis-terms-location",
+    "lotte-wellfood-terms",
+    "lotte-chilsung-terms",
+    "lotte-charlotte-theater-terms",
+    "lpoint-terms-members-portal",
+    "lpoint-terms"
+  ],
+  "sourceSites": [
+    "recruit.lotte.co.kr",
+    "company.lottemart.com",
+    "company.himart.co.kr",
+    "www.lotterentacar.net",
+    "www.lottecastle.co.kr",
+    "www.lotteglogis.com",
+    "www.lottewellfood.com",
+    "company.lottechilsung.co.kr",
+    "www.charlottetheater.co.kr",
+    "members.lpoint.com"
+  ],
+  "policyVersionOrDate": "2025년 10월 1일부터 적용 / 2025.08.29부터 적용 / 시행일자 : 2020/01/16 / 2019년 5월 27일부터 시행",
+  "layout": "legacy_article",
+  "text": "제6조 (회원가입)\n1. 이용자는 회사가 정한 가입 양식에 따라 회원정보를 기입한 후 이 약관에 동의한다는 의사표시를 함으로써 회원가입을 신청합니다.\n2. 회사는 제1항과 같이 회원으로 가입할 것을 신청한 이용자 중 다음 각 호에 해당하지 않는 한 회원으로 등록합니다.\n{{membershipRules}}\n  가. 가입 신청자가 이 약관에 의하여 이전에 회원 자격을 상실한 적이 있는 경우(다만 회원 자격 상실 후 {{noticeDaysBefore}}일이 경과한 자로서 회사의 회원 재가입 승낙을 얻은 경우는 예외로 합니다)\n  나. 등록 내용에 허위, 기재누락, 오기가 있는 경우\n  다. 그 밖에 회원으로 등록하는 것이 회사의 기술상 현저히 지장이 있다고 판단되는 경우\n3. 회원가입계약의 성립 시기는 회사의 승낙이 회원에게 도달한 시점으로 합니다.\n4. 회원은 회원가입 시 등록한 사항에 변경이 있는 경우, 상당한 기간 이내에 회사에 대하여 회원정보 수정 등의 방법으로 그 변경사항을 알려야 합니다.\n{%if terms.minAge%}\n5. 만 {{minAge}}세 미만의 아동은 법정대리인의 동의 없이 회원가입을 할 수 없습니다.\n{%endif%}",
+  "variables": [
+    {
+      "name": "membershipRules",
+      "slotId": "terms.membershipRules",
+      "description": "Membership application rules and grounds for refusal"
+    },
+    {
+      "name": "noticeDaysBefore",
+      "slotId": "terms.noticePeriodDays",
+      "description": "Days of advance notice before a change takes effect"
+    },
+    {
+      "name": "minAge",
+      "slotId": "terms.minAge",
+      "description": "Minimum age for joining without a guardian"
+    }
+  ],
+  "conditions": [
+    {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "gate.membership",
+          "op": "truthy"
+        }
+      ]
+    }
+  ],
+  "coversElements": [
+    "R-T06-001",
+    "R-T06-002",
+    "R-T06-003",
+    "R-T06-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T06-001",
+      "level": "must",
+      "note": "거절 사유를 '기술상 지장' 등 포괄적으로 쓰지 않도록 구체적 열거 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 12,
+  "frequencyBase": 13,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-recruit-terms",
+      "sourceUrl": "https://recruit.lotte.co.kr/about/termOfPolicy",
+      "affiliate": "Lotte Group recruiting site",
+      "businessGroup": "hr_corporate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": null,
+      "contentHash": "830691c6eefc2b3070bf23d81f762b1389acf724a5cc0012f21ac82ee84aae37"
+    },
+    {
+      "captureId": "lotte-mart-terms",
+      "sourceUrl": "https://company.lottemart.com/privacy/term.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025년 10월 1일부터 적용 ; 2025년 5월 29일부터 적용",
+      "contentHash": "5ac1c0c774222ff77be14ea0dff78529b128683e67b2095cb40543a80246eaed"
+    },
+    {
+      "captureId": "lotte-himart-terms",
+      "sourceUrl": "https://company.himart.co.kr/policy/terms",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025.08.29부터 적용",
+      "contentHash": "59e7cc599d744e3fda2d9afad802786922cbd67b51afa876bf2f615a625db01f"
+    },
+    {
+      "captureId": "lotte-rental-terms",
+      "sourceUrl": "https://www.lotterentacar.net/kor/footer/footerTermsNew.do?mnCd=MK0903",
+      "affiliate": "Lotte Rental",
+      "businessGroup": "services_leisure",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2020/01/16 ; 2020년 1월 16일부터 시행",
+      "contentHash": "53373e281b85b33a258cd270a4541695a574adb432e972f917c03c87daee5600"
+    },
+    {
+      "captureId": "lotte-castle-terms",
+      "sourceUrl": "https://www.lottecastle.co.kr/castleMember/sign-up/terms/index.do",
+      "affiliate": "Lotte E&C (Lotte Castle brand)",
+      "businessGroup": "construction_realestate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2019년 5월 27일부터 시행",
+      "contentHash": "5c1dc63a7a3aa13d0d09b69bec0cf886dde9d2f4182e847927a1175b037bea32"
+    },
+    {
+      "captureId": "lotte-global-logis-terms-parcel-service",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/service",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일 : 2020년 6월 5일",
+      "contentHash": "b1e9b3279664b85623f0ced70947b59042fec99889200a4f94cd9666f7981024"
+    },
+    {
+      "captureId": "lotte-global-logis-terms-location",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/location",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2016년 5월 3일부터 시행",
+      "contentHash": "77d5485dba1c140585cc1891356957c01900b3dd86b8ed5769c2607be14c214d"
+    },
+    {
+      "captureId": "lotte-wellfood-terms",
+      "sourceUrl": "https://www.lottewellfood.com/policy/use",
+      "affiliate": "Lotte Wellfood",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2015년 4월 20일부터 시행",
+      "contentHash": "27c92d094aaa5850a438e3164fbdad5b21326d87f3fff9ac3ad9e1a05889ecbf"
+    },
+    {
+      "captureId": "lotte-chilsung-terms",
+      "sourceUrl": "https://company.lottechilsung.co.kr/kor/util/terms/contentsid/567/index.do",
+      "affiliate": "Lotte Chilsung Beverage",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2015년 04월 20일부터 시행",
+      "contentHash": "0042aa51bf8696d3c2ea0c3ddc8949134723a7521527e2810c3adafab69f4408"
+    },
+    {
+      "captureId": "lotte-charlotte-theater-terms",
+      "sourceUrl": "https://www.charlottetheater.co.kr/etc/terms.asp",
+      "affiliate": "Lotte Cultureworks / Charlotte Theater",
+      "businessGroup": "services_leisure",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "개정 일자 : 2012년 08월 30일 ; 2006년 10월 26일 개정 ; 2012년 08월 30일 시행 ; 2012년 08월 30일 개정",
+      "contentHash": "134577217c9fccea9b01b5dc5681234efc695c04321c3bb1f9348e4fb7064a93"
+    },
+    {
+      "captureId": "lpoint-terms-members-portal",
+      "sourceUrl": "https://members.lpoint.com/resources/html/privacy/iframe_1000_C1_ko.html",
+      "affiliate": "Lotte Members (L.POINT)",
+      "businessGroup": "loyalty_membership",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2020년 04월 28일부터 시행 ; 2020.04.28 개정 ; 2020년 08월 18일부터 시행 ; 2020년 11월 19일부터 시행",
+      "contentHash": "82d05f33b2100a3b70b65012ece5ed78b41c3041579ee075b8fc9f93d634ece8"
+    },
+    {
+      "captureId": "lpoint-terms",
+      "sourceUrl": "https://members.lpoint.com/resources/html/privacy/iframe_1009_C0_ko.html",
+      "affiliate": "Lotte Members (L.POINT)",
+      "businessGroup": "loyalty_membership",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2012년 2월 22일부터 시행 ; 2012년 2월 22일 개정 ; 2013년 5월 1일부터 시행 ; 2013년 5월 1일 개정",
+      "contentHash": "11203ef1de8f0d33430f958a1facaa7ae39be78bd5a0d86c8ad2abaf952021bb"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "id": "lotte.privacy.S07.hr_corporate.01",
+  "docType": "privacy",
+  "sectionId": "S07",
+  "domainGroup": "hr_corporate",
+  "sourceCaptureIds": [
+    "lotte-recruit-privacy"
+  ],
+  "sourceSites": [
+    "recruit.lotte.co.kr"
+  ],
+  "policyVersionOrDate": "2026. 09. 08부터 적용",
+  "layout": "legacy_article",
+  "text": "회사는 원활한 채용 전형 진행을 위하여 정보주체의 동의를 얻어 다음과 같이 필요한 최소한의 범위로만 제공합니다.\n\n1. 계열사 입사 지원 관련 채용 지원 정보\n- 제공받는 자: 입사 지원자가 지원한 계열사 및 인재 DB 공개를 위해 지원자가 선택한 계열사\n- 제공 목적: 계열사 채용 전형 진행, 서류 심사·면접 등의 근거 자료\n- 제공 항목: {{thirdPartyTable}}\n- 제공받는 자의 보유 및 이용기간: 지원공고 마감일 또는 최종 등록일로부터 3년 등 본문 보유기간 표에 따름\n\n2. 법령상 확인이 필요한 경우 (해당 시)\n{%if gate.sensitiveData%}\n- 보훈 대상 여부 확인 및 장애 여부 확인을 위하여 관계 기관에 필요한 최소 정보를 제공합니다. 제공받는 기관, 목적, 항목, 보유기간은 표에 적습니다.\n{%endif%}\n\n3. 평판 조회\n- 제공받는 자: 평판 조회 전문 회사\n- 제공 목적: 평판 조회\n- 제공 항목: 이름, 연락처, 지원서상 경력사항\n- 보유 및 이용기간: 채용 전형 기간\n\n4. 1:1 문의\n- 제공받는 자: 문의 대상 계열사\n- 제공 목적: 문의 확인 및 답변\n- 제공 항목: 이름, 전자우편, 연락처",
+  "variables": [
+    {
+      "name": "thirdPartyTable",
+      "slotId": "privacy.S07_thirdParties",
+      "description": "Recipients with purpose, items, and recipient retention period"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.thirdPartyProvision",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S07-001",
+    "R-S07-002",
+    "R-S07-003",
+    "R-S07-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S07-005",
+      "level": "may",
+      "note": "계열사가 다수인 경우 명칭을 나열하는 방식. 2026.4의 조건부 유형화는 적용하지 않음."
+    },
+    {
+      "ruleId": "R-S07-004",
+      "level": "may",
+      "note": "다수 수령자 목록 처리 방식(별도 화면/링크)은 원문에 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "그룹 채용에 특유한 계열사 제공. 원문의 계열사 명단은 슬롯으로 치환하고 제거함.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-recruit-privacy",
+      "sourceUrl": "https://recruit.lotte.co.kr/about/personalPolicy27",
+      "affiliate": "Lotte Group recruiting site",
+      "businessGroup": "hr_corporate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026. 09. 08부터 적용 ; ver 9.1 ; ver 9.0 ; ver 8.9",
+      "contentHash": "bea4c6ae916cd20a0fe393a2c59f45a88fcf71f0485597054be67d5bc3354c48"
+    }
+  ]
+}

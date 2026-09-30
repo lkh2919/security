@@ -1,0 +1,61 @@
+{
+  "id": "lotte.privacy.S07.retail_ecommerce.01",
+  "docType": "privacy",
+  "sectionId": "S07",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-himart-mall-privacy"
+  ],
+  "sourceSites": [
+    "www.e-himart.co.kr"
+  ],
+  "policyVersionOrDate": "2026.07.10부터 적용",
+  "layout": "guideline_numbered",
+  "text": "회사는 정보주체의 개인정보를 개인정보의 처리 목적에서 명시한 범위 내에서만 처리하며, 다음의 경우에 한하여 개인정보를 제3자에게 제공합니다.\n{%if gate.thirdPartyProvision%}\n1. 정보주체가 사전에 동의한 경우\n{{thirdPartyTable}}\n2. 법령의 규정에 의하거나 수사 목적으로 법령에 정해진 절차와 방법에 따라 수사기관의 요구가 있는 경우\n{%endif%}\n정보주체는 제공에 대한 동의를 거부할 수 있으며, 동의하지 않는 경우 해당 제휴 서비스의 이용이 제한될 수 있습니다.",
+  "variables": [
+    {
+      "name": "thirdPartyTable",
+      "slotId": "privacy.S07_thirdParties",
+      "description": "Recipients with purpose, items, and recipient retention period"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.thirdPartyProvision",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S07-001",
+    "R-S07-002",
+    "R-S07-003"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S07-005",
+      "level": "may",
+      "note": "조건부 유형화 방식 없음."
+    },
+    {
+      "ruleId": "R-S07-007",
+      "level": "must",
+      "note": "국외 제공 안내 연계 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 5,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-himart-mall-privacy",
+      "sourceUrl": "https://www.e-himart.co.kr/app/terms/privacy?stonType=PC",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.07.10부터 적용 ; VER 9.6 ; VER 9.5 ; VER 9.4",
+      "contentHash": "df3adf5a2e5bbb423c88ecf061c24e22d7647dc3a22eb6a5e468e6ad54c2b3b7"
+    }
+  ]
+}

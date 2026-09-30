@@ -1,0 +1,58 @@
+{
+  "id": "lotte.privacy.S07.logistics.01",
+  "docType": "privacy",
+  "sectionId": "S07",
+  "domainGroup": "logistics",
+  "sourceCaptureIds": [
+    "lotte-global-logis-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteglogis.com"
+  ],
+  "policyVersionOrDate": "v3.9",
+  "layout": "guideline_numbered",
+  "text": "1) 정보주체의 동의를 받아 개인정보를 제공하는 경우\n(표) 제공받는 자 / 제공 목적 / 제공 항목 / 보유 및 이용기간\n\n2) 정보주체의 동의를 받지 않고 개인정보를 제공하는 경우\n(표) 법적 근거 / 제공받는 자 / 제공 목적 / 제공 항목 / 보유 및 이용기간\n\n{{thirdPartyTable}}",
+  "variables": [
+    {
+      "name": "thirdPartyTable",
+      "slotId": "privacy.S07_thirdParties",
+      "description": "Recipients with purpose, items, and recipient retention period"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.thirdPartyProvision",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S07-001",
+    "R-S07-002",
+    "R-S07-003"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S07-005",
+      "level": "may",
+      "note": "조건부 유형화 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-06"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotte-global-logis-privacy",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/privacy",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "v3.9 ; v3.8 ; v3.7 ; v3.6",
+      "contentHash": "410069f0b4dfeea3eac1b789a4a0b07900230a4fbfafecb6ae19f2c3f2fe8114"
+    }
+  ]
+}

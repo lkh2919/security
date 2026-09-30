@@ -1,0 +1,77 @@
+{
+  "id": "lotte.privacy.S02.retail_ecommerce.01",
+  "docType": "privacy",
+  "sectionId": "S02",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-department-store-privacy",
+    "lotte-mart-privacy",
+    "lotte-himart-mall-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteshopping.com",
+    "company.lottemart.com",
+    "www.e-himart.co.kr"
+  ],
+  "policyVersionOrDate": "2026년 07월 22일부터 적용 / 시행일자 : 2026-07-09 / 2026.07.10부터 적용",
+  "layout": "guideline_numbered",
+  "text": "1. 회원 가입 및 관리\n- 회원제 서비스 이용에 따른 본인 확인, 개인 식별, 부정 이용 방지, 가입 의사 확인, 불만 처리 등 민원 처리, 고지사항 전달\n2. 재화 또는 서비스 제공\n- 물품 배송, 서비스 제공, 계약서·청구서 발송, 콘텐츠 제공, 본인 인증, 요금 결제·정산\n3. 고객 상담 및 민원 처리\n- 문의·불만 접수 및 처리 결과 회신, 분쟁 조정을 위한 기록 보존\n{%if gate.marketing%}\n4. 마케팅 및 광고에의 활용 (선택 동의)\n- 신규 서비스 개발과 맞춤 서비스 제공, 이벤트 및 광고성 정보 제공과 참여 기회 제공, 서비스의 유효성 확인, 접속 빈도 파악과 이용 통계\n{%endif%}\n\n{{purposeTable}}",
+  "variables": [
+    {
+      "name": "purposeTable",
+      "slotId": "privacy.S02_purposes",
+      "description": "Purposes per service or task, rendered as a list or table"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S02-001",
+    "R-S02-005"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S02-002",
+      "level": "must",
+      "note": "'서비스 제공', '맞춤 서비스' 등 상위 목적 문구가 남아 있어 구체화 필요."
+    },
+    {
+      "ruleId": "R-S02-004",
+      "level": "must",
+      "note": "무동의 처리 목적과 동의 기반 목적의 예측 가능성 구분이 표 구조에 의존."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "유통 계열이 공유하는 4단 목적 구조(가입·제공·상담·마케팅).",
+  "frequency": 3,
+  "frequencyBase": 5,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-department-store-privacy",
+      "sourceUrl": "https://www.lotteshopping.com/etc/personalinfo",
+      "affiliate": "Lotte Department Store",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026년 07월 22일부터 적용 ; v19.9 ; V19.8 ; V19.9",
+      "contentHash": "a859427af048dabf825212295551607baaa748b71da215390d0194ffcf34fbb0"
+    },
+    {
+      "captureId": "lotte-mart-privacy",
+      "sourceUrl": "https://company.lottemart.com/privacy/privacy.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2026-07-09 ; 2026년 7월 9일부터 적용 ; V13.5 ; V13.4",
+      "contentHash": "590a26db8498b8c4c8e6207f1d0ae882474ee75a92941b51e9a6ef52435f4d4d"
+    },
+    {
+      "captureId": "lotte-himart-mall-privacy",
+      "sourceUrl": "https://www.e-himart.co.kr/app/terms/privacy?stonType=PC",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.07.10부터 적용 ; VER 9.6 ; VER 9.5 ; VER 9.4",
+      "contentHash": "df3adf5a2e5bbb423c88ecf061c24e22d7647dc3a22eb6a5e468e6ad54c2b3b7"
+    }
+  ]
+}

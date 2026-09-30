@@ -1,0 +1,60 @@
+{
+  "id": "lotte.privacy.S03.it_services.01",
+  "docType": "privacy",
+  "sectionId": "S03",
+  "domainGroup": "it_services",
+  "sourceCaptureIds": [
+    "lotteinnovate-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteinnovate.com"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 6월 25일",
+  "layout": "guideline_numbered",
+  "text": "회사는 「개인정보 보호법」에 따라 서비스 제공을 위해 필요한 최소한의 범위에서 개인정보를 수집·이용합니다.\n\n2-1. 정보주체의 동의를 받지 않고 처리하는 개인정보 항목\n(표) 법적 근거: 「개인정보 보호법」 제15조 제1항 제4호(계약의 이행)\n구분 / 수집 목적 / 수집 항목 / 보유 및 이용기간\n\n2-2. 정보주체의 동의를 받아 처리하는 개인정보 항목\n(표) 법적 근거: 「개인정보 보호법」 제15조 제1항 제1호(정보주체의 동의)\n구분 / 수집 목적 / 수집 항목 / 보유 및 이용기간\n\n2-3. 서비스 이용 과정에서 생성되어 수집될 수 있는 정보\n- {{generatedItems}}\n\n{{itemsTable}}",
+  "variables": [
+    {
+      "name": "generatedItems",
+      "slotId": "privacy.S03_generatedItems",
+      "description": "Items generated during service use (logs, cookies, IP)"
+    },
+    {
+      "name": "itemsTable",
+      "slotId": "privacy.S03_items",
+      "description": "Items per purpose with legal basis and retention, rendered as tables"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S03-001",
+    "R-S03-003",
+    "R-S03-004",
+    "R-S03-005"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S03-006",
+      "level": "must",
+      "note": "타인 제공 정보의 출처는 별도 기재되어 있지 않음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-02",
+    "H-06"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotteinnovate-privacy",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 6월 25일 ; 시행일자 : 2026년 6월 25일 ; 공고일자 : 2025년 9월 18일 ; 시행일자 : 2025년 9월 18일",
+      "contentHash": "ed631cda902e7824593df708a5399a8fe8e4516efd4252d5cb9ce0f65f4f7b7d"
+    }
+  ]
+}

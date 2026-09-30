@@ -1,0 +1,135 @@
+{
+  "id": "lotte.privacy.S03.cross_group.02",
+  "docType": "privacy",
+  "sectionId": "S03",
+  "domainGroup": "cross_group",
+  "sourceCaptureIds": [
+    "lotte-holdings-privacy",
+    "lotteinnovate-privacy",
+    "lotte-mart-privacy",
+    "seven-eleven-privacy",
+    "lotte-himart-privacy",
+    "lotte-himart-mall-privacy",
+    "lotte-wellfood-privacy",
+    "lotte-chilsung-privacy",
+    "lpoint-privacy"
+  ],
+  "sourceSites": [
+    "www.lotte.co.kr",
+    "www.lotteinnovate.com",
+    "company.lottemart.com",
+    "www.7-eleven.co.kr",
+    "company.himart.co.kr",
+    "www.e-himart.co.kr",
+    "www.lottewellfood.com",
+    "company.lottechilsung.co.kr",
+    "m.lpoint.com"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 03월 10일 / 공고일자 : 2026년 6월 25일 / 시행일자 : 2026-07-09 / 공고일자 : 2010년 12월 03일",
+  "layout": "guideline_numbered",
+  "text": "서비스 이용 과정에서 다음과 같은 정보가 자동으로 생성되어 수집될 수 있습니다.\n- {{generatedItems}}\n\n회사는 다음과 같은 방법으로 개인정보를 수집합니다.\n- {{collectionMethods}}",
+  "variables": [
+    {
+      "name": "generatedItems",
+      "slotId": "privacy.S03_generatedItems",
+      "description": "Items generated during service use (logs, cookies, IP)"
+    },
+    {
+      "name": "collectionMethods",
+      "description": "How data is collected (web form, phone, e-mail, offline form, tools)"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S03-005"
+  ],
+  "gapsVsGuideline": [],
+  "vetted": false,
+  "vettingNotes": "서비스이용기록, 접속로그, 쿠키, 접속 IP 등 자동 생성 정보 문단.",
+  "frequency": 9,
+  "frequencyBase": 15,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-holdings-privacy",
+      "sourceUrl": "https://www.lotte.co.kr/privacy/agree.do",
+      "affiliate": "Lotte Holdings (group corporate site)",
+      "businessGroup": "group_holding",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 03월 10일 ; 시행일자 : 2026년 03월 16일 ; 2026년 03월 16일 부터 시행",
+      "contentHash": "1ad4f5da933e8cf4870d164c407d8058be09b3e60dc19fabceed3379cef6aa87"
+    },
+    {
+      "captureId": "lotteinnovate-privacy",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 6월 25일 ; 시행일자 : 2026년 6월 25일 ; 공고일자 : 2025년 9월 18일 ; 시행일자 : 2025년 9월 18일",
+      "contentHash": "ed631cda902e7824593df708a5399a8fe8e4516efd4252d5cb9ce0f65f4f7b7d"
+    },
+    {
+      "captureId": "lotte-mart-privacy",
+      "sourceUrl": "https://company.lottemart.com/privacy/privacy.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2026-07-09 ; 2026년 7월 9일부터 적용 ; V13.5 ; V13.4",
+      "contentHash": "590a26db8498b8c4c8e6207f1d0ae882474ee75a92941b51e9a6ef52435f4d4d"
+    },
+    {
+      "captureId": "seven-eleven-privacy",
+      "sourceUrl": "https://www.7-eleven.co.kr/util/policyPrivacy.asp",
+      "affiliate": "Korea Seven (7-Eleven)",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2010년 12월 03일 ; 개정일자 : 2026년 07월 08일 ; 시행일자 : 2026년 07월 15일 ; 2026년 07월 15일 시행",
+      "contentHash": "6af655aff980d52c4d64c8ebea85ef5d24994e94e40fdd6bd45bb3ee912cd2f0"
+    },
+    {
+      "captureId": "lotte-himart-privacy",
+      "sourceUrl": "https://company.himart.co.kr/policy/privacy",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.03.30부터 적용",
+      "contentHash": "83b3b5e65b8d770cc4afbb51379c4a472ed07128a7c60d2bdb141a316d91a5cf"
+    },
+    {
+      "captureId": "lotte-himart-mall-privacy",
+      "sourceUrl": "https://www.e-himart.co.kr/app/terms/privacy?stonType=PC",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.07.10부터 적용 ; VER 9.6 ; VER 9.5 ; VER 9.4",
+      "contentHash": "df3adf5a2e5bbb423c88ecf061c24e22d7647dc3a22eb6a5e468e6ad54c2b3b7"
+    },
+    {
+      "captureId": "lotte-wellfood-privacy",
+      "sourceUrl": "https://www.lottewellfood.com/policy/privacy",
+      "affiliate": "Lotte Wellfood",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자: 2026년 8월 10일 ; v.2.22 ; v.2.21 ; v.2.20",
+      "contentHash": "072b5887741bb5bb109ac2c6d576162ef430c18da9c328d1f8a3d22cd4d8aa94"
+    },
+    {
+      "captureId": "lotte-chilsung-privacy",
+      "sourceUrl": "https://company.lottechilsung.co.kr/kor/util/privacy/view.do?guide=14",
+      "affiliate": "Lotte Chilsung Beverage",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2015년 03월 17일 ; 시행일자 : 2026년 02월 12일 ; 시행일자 : 2025년 10월 22일 ; 시행일자 : 2025년 6월 30일",
+      "contentHash": "649fa54564a02d4c3525dc1f9b85cd6f3147c2200781222bbcaa90abbb9e3ff8"
+    },
+    {
+      "captureId": "lpoint-privacy",
+      "sourceUrl": "https://m.lpoint.com/app/center/LWDD100300.do?prvGrpId=A07&prvSeq=275",
+      "affiliate": "Lotte Members (L.POINT)",
+      "businessGroup": "loyalty_membership",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2016. 7. 1 ; 시행일자 : 2016. 7. 11 ; 시행일자 : 2016. 7. 27 ; 시행일자 : 2016. 8. 16",
+      "contentHash": "a3869dc06869e39c3abf2222dfe62b26930acf7f5f4cbc576c3a8b7f6382a962"
+    }
+  ]
+}

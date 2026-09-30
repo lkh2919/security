@@ -1,0 +1,74 @@
+{
+  "id": "lotte.terms.T07.retail_ecommerce.01",
+  "docType": "terms",
+  "sectionId": "T07",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-mart-terms",
+    "lotte-himart-terms"
+  ],
+  "sourceSites": [
+    "company.lottemart.com",
+    "company.himart.co.kr"
+  ],
+  "policyVersionOrDate": "2025년 10월 1일부터 적용 / 2025.08.29부터 적용",
+  "layout": "legacy_article",
+  "text": "제7조 (회원 탈퇴 및 자격 상실 등)\n1. 회원은 회사에 언제든지 탈퇴를 요청할 수 있으며 회사는 즉시 회원 탈퇴를 처리합니다. 다만 진행 중인 주문·환불이 있는 경우 완료 후 처리할 수 있습니다.\n2. 회원이 허위 정보 등록, 타인 정보 도용, 서비스 운영 방해, 법령 또는 약관 위반 행위를 한 경우 회사는 회원 자격을 제한하거나 상실시킬 수 있습니다.\n3. 회사가 회원 자격을 제한·상실시키려는 경우 사전에 그 사유를 통지하고 소명할 기회를 부여합니다.\n4. 탈퇴 시 적립 혜택의 소멸 여부와 기준은 {{pointPolicy}}에 따라 사전에 안내합니다.",
+  "variables": [
+    {
+      "name": "pointPolicy",
+      "description": "Point/mileage rules (no matching interview slot yet)"
+    }
+  ],
+  "conditions": [
+    {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "gate.membership",
+          "op": "truthy"
+        }
+      ]
+    }
+  ],
+  "coversElements": [
+    "R-T07-001",
+    "R-T07-002",
+    "R-T07-003"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "포인트 소멸 조항은 소비자에게 불리하지 않도록 사전 고지 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 2,
+  "frequencyBase": 3,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-mart-terms",
+      "sourceUrl": "https://company.lottemart.com/privacy/term.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025년 10월 1일부터 적용 ; 2025년 5월 29일부터 적용",
+      "contentHash": "5ac1c0c774222ff77be14ea0dff78529b128683e67b2095cb40543a80246eaed"
+    },
+    {
+      "captureId": "lotte-himart-terms",
+      "sourceUrl": "https://company.himart.co.kr/policy/terms",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025.08.29부터 적용",
+      "contentHash": "59e7cc599d744e3fda2d9afad802786922cbd67b51afa876bf2f615a625db01f"
+    }
+  ]
+}

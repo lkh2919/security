@@ -1,0 +1,66 @@
+{
+  "id": "lotte.terms.T04.services_leisure.01",
+  "docType": "terms",
+  "sectionId": "T04",
+  "domainGroup": "services_leisure",
+  "sourceCaptureIds": [
+    "lotte-rental-terms",
+    "lotte-charlotte-theater-terms"
+  ],
+  "sourceSites": [
+    "www.lotterentacar.net",
+    "www.charlottetheater.co.kr"
+  ],
+  "policyVersionOrDate": "시행일자 : 2020/01/16 / 개정 일자 : 2012년 08월 30일",
+  "layout": "legacy_article",
+  "text": "제N조 (서비스의 내용)\n회사가 제공하는 서비스는 다음과 같습니다.\n1. 회원 서비스: 회원 등급 및 혜택 제공, 포인트 적립·사용\n2. 예약·대여 서비스: {{serviceScope}}\n3. 위치기반 서비스 (해당 시)\n4. 그 밖에 회사가 정하는 서비스\n서비스 내용을 변경하는 경우 변경 사유와 내용을 사전에 공지합니다.",
+  "variables": [
+    {
+      "name": "serviceScope",
+      "slotId": "terms.serviceScope",
+      "description": "Services provided under the terms"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "terms.applicable",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-T04-001",
+    "R-T04-002"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T04-003",
+      "level": "must",
+      "note": "손해 보상 기준 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 2,
+  "frequencyBase": 2,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-rental-terms",
+      "sourceUrl": "https://www.lotterentacar.net/kor/footer/footerTermsNew.do?mnCd=MK0903",
+      "affiliate": "Lotte Rental",
+      "businessGroup": "services_leisure",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2020/01/16 ; 2020년 1월 16일부터 시행",
+      "contentHash": "53373e281b85b33a258cd270a4541695a574adb432e972f917c03c87daee5600"
+    },
+    {
+      "captureId": "lotte-charlotte-theater-terms",
+      "sourceUrl": "https://www.charlottetheater.co.kr/etc/terms.asp",
+      "affiliate": "Lotte Cultureworks / Charlotte Theater",
+      "businessGroup": "services_leisure",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "개정 일자 : 2012년 08월 30일 ; 2006년 10월 26일 개정 ; 2012년 08월 30일 시행 ; 2012년 08월 30일 개정",
+      "contentHash": "134577217c9fccea9b01b5dc5681234efc695c04321c3bb1f9348e4fb7064a93"
+    }
+  ]
+}

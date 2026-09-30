@@ -1,0 +1,1 @@
+{"formVersion":"infosec-2026.1","serviceName":"페이랩","description":"결제 서비스","fields":{"담당자":"한서준","정산계좌":110123456789012,"연락처":"010-7345-6712"},"flows":[{"name":"결제","dataItems":["카드번호"],"purposes":["결제"],"recipients":["PG사"],"retention":"5년"}]}

@@ -1,0 +1,152 @@
+{
+  "id": "lotte.terms.T15.cross_group.02",
+  "docType": "terms",
+  "sectionId": "T15",
+  "domainGroup": "cross_group",
+  "sourceCaptureIds": [
+    "lotte-mart-terms",
+    "lotte-himart-terms",
+    "lotte-rental-terms",
+    "lotte-castle-terms",
+    "lotte-global-logis-terms-parcel-service",
+    "lotte-global-logis-terms-location",
+    "lotte-wellfood-terms",
+    "lotte-chilsung-terms",
+    "lpoint-terms-members-portal",
+    "lpoint-terms"
+  ],
+  "sourceSites": [
+    "company.lottemart.com",
+    "company.himart.co.kr",
+    "www.lotterentacar.net",
+    "www.lottecastle.co.kr",
+    "www.lotteglogis.com",
+    "www.lottewellfood.com",
+    "company.lottechilsung.co.kr",
+    "members.lpoint.com"
+  ],
+  "policyVersionOrDate": "2025년 10월 1일부터 적용 / 2025.08.29부터 적용 / 시행일자 : 2020/01/16 / 2019년 5월 27일부터 시행",
+  "layout": "legacy_article",
+  "text": "제N조 (재판권 및 준거법)\n1. 회사와 이용자 간에 발생한 전자상거래 분쟁에 관한 소송은 제소 당시의 이용자의 주소에 의하고, 주소가 없는 경우에는 거소를 관할하는 지방법원의 전속관할로 합니다. 다만 제소 당시 이용자의 주소 또는 거소가 분명하지 않거나 외국 거주자의 경우에는 민사소송법상의 관할법원에 제기합니다.\n2. 회사와 이용자 간에 제기된 전자상거래 소송에는 대한민국 법을 적용합니다.\n{{disputeVenue}}",
+  "variables": [
+    {
+      "name": "disputeVenue",
+      "slotId": "terms.disputeVenue",
+      "description": "Competent court for disputes"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "terms.applicable",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-T15-003",
+    "R-T15-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "원문 일부는 '회사 본점 소재지 법원' 관할을 합의관할로 정함. 표준 문구(이용자 주소지 관할)와 다르므로 vetting 시 주의."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "관할 조항 문구가 원문마다 다름. 이용자 주소지 관할이 표준이며 본점 소재지 전속 합의는 불공정 소지가 있어 lexicon 대조 필요.",
+  "frequency": 10,
+  "frequencyBase": 13,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-mart-terms",
+      "sourceUrl": "https://company.lottemart.com/privacy/term.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025년 10월 1일부터 적용 ; 2025년 5월 29일부터 적용",
+      "contentHash": "5ac1c0c774222ff77be14ea0dff78529b128683e67b2095cb40543a80246eaed"
+    },
+    {
+      "captureId": "lotte-himart-terms",
+      "sourceUrl": "https://company.himart.co.kr/policy/terms",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025.08.29부터 적용",
+      "contentHash": "59e7cc599d744e3fda2d9afad802786922cbd67b51afa876bf2f615a625db01f"
+    },
+    {
+      "captureId": "lotte-rental-terms",
+      "sourceUrl": "https://www.lotterentacar.net/kor/footer/footerTermsNew.do?mnCd=MK0903",
+      "affiliate": "Lotte Rental",
+      "businessGroup": "services_leisure",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2020/01/16 ; 2020년 1월 16일부터 시행",
+      "contentHash": "53373e281b85b33a258cd270a4541695a574adb432e972f917c03c87daee5600"
+    },
+    {
+      "captureId": "lotte-castle-terms",
+      "sourceUrl": "https://www.lottecastle.co.kr/castleMember/sign-up/terms/index.do",
+      "affiliate": "Lotte E&C (Lotte Castle brand)",
+      "businessGroup": "construction_realestate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2019년 5월 27일부터 시행",
+      "contentHash": "5c1dc63a7a3aa13d0d09b69bec0cf886dde9d2f4182e847927a1175b037bea32"
+    },
+    {
+      "captureId": "lotte-global-logis-terms-parcel-service",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/service",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일 : 2020년 6월 5일",
+      "contentHash": "b1e9b3279664b85623f0ced70947b59042fec99889200a4f94cd9666f7981024"
+    },
+    {
+      "captureId": "lotte-global-logis-terms-location",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/location",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2016년 5월 3일부터 시행",
+      "contentHash": "77d5485dba1c140585cc1891356957c01900b3dd86b8ed5769c2607be14c214d"
+    },
+    {
+      "captureId": "lotte-wellfood-terms",
+      "sourceUrl": "https://www.lottewellfood.com/policy/use",
+      "affiliate": "Lotte Wellfood",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2015년 4월 20일부터 시행",
+      "contentHash": "27c92d094aaa5850a438e3164fbdad5b21326d87f3fff9ac3ad9e1a05889ecbf"
+    },
+    {
+      "captureId": "lotte-chilsung-terms",
+      "sourceUrl": "https://company.lottechilsung.co.kr/kor/util/terms/contentsid/567/index.do",
+      "affiliate": "Lotte Chilsung Beverage",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2015년 04월 20일부터 시행",
+      "contentHash": "0042aa51bf8696d3c2ea0c3ddc8949134723a7521527e2810c3adafab69f4408"
+    },
+    {
+      "captureId": "lpoint-terms-members-portal",
+      "sourceUrl": "https://members.lpoint.com/resources/html/privacy/iframe_1000_C1_ko.html",
+      "affiliate": "Lotte Members (L.POINT)",
+      "businessGroup": "loyalty_membership",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2020년 04월 28일부터 시행 ; 2020.04.28 개정 ; 2020년 08월 18일부터 시행 ; 2020년 11월 19일부터 시행",
+      "contentHash": "82d05f33b2100a3b70b65012ece5ed78b41c3041579ee075b8fc9f93d634ece8"
+    },
+    {
+      "captureId": "lpoint-terms",
+      "sourceUrl": "https://members.lpoint.com/resources/html/privacy/iframe_1009_C0_ko.html",
+      "affiliate": "Lotte Members (L.POINT)",
+      "businessGroup": "loyalty_membership",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2012년 2월 22일부터 시행 ; 2012년 2월 22일 개정 ; 2013년 5월 1일부터 시행 ; 2013년 5월 1일 개정",
+      "contentHash": "11203ef1de8f0d33430f958a1facaa7ae39be78bd5a0d86c8ad2abaf952021bb"
+    }
+  ]
+}

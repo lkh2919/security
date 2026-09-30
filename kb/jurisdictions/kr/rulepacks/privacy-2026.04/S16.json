@@ -1,0 +1,45 @@
+{
+  "id": "S16",
+  "packVersion": "privacy-2026.04",
+  "title": { "ko": "정보주체와 법정대리인의 권리·의무 및 행사방법에 관한 사항", "en": "Rights of data subjects and legal representatives" },
+  "guidelineRef": { "doc": "pipc-guideline-2026-04", "part": "III", "section": 16, "pages": "65-66", "lines": "2247-2333" },
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "mandatory",
+  "catalogClass": "M",
+  "handling": "clause",
+  "applicability": { "when": { "all": [] } },
+  "rules": [
+    { "ruleId": "R-S16-001", "sectionId": "S16", "level": "must", "element": "rights and how to exercise", "statement": "State the rights and duties of data subjects and legal representatives and, concretely, how and through which procedure to exercise access, transmission request, correction/deletion, suspension, consent withdrawal and automated-decision refusal/explanation.", "legalRefs": ["PIPA:30(1)5"], "check": { "kind": "deterministic", "expr": "has(section.S16.rights, ['access','correction_deletion','suspension','withdrawal']) && exists(section.S16.procedure)" }, "sourceSpan": "L2249-2256", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S16-002", "sectionId": "S16", "level": "must", "element": "website self-service", "statement": "If a website is operated, explain in plain terms how to use its access, transmission, correction and deletion functions (e.g. member info view/edit, withdrawal, consent withdrawal menus).", "legalRefs": [], "check": { "kind": "deterministic", "expr": "if(slot(profile.channels) includes 'web') exists(section.S16.selfServicePaths)" }, "sourceSpan": "L2260-2264", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S16-003", "sectionId": "S16", "level": "must", "element": "no harder than collection", "statement": "Procedures reflect actual operations and are not harder than the way data was collected.", "legalRefs": ["PIPA:38(4)"], "check": { "kind": "llm" }, "sourceSpan": "L2266-2268", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S16-004", "sectionId": "S16", "level": "should", "element": "request form and contact", "statement": "Offer a downloadable request form and state the department and contact that receives requests (may be the S18 privacy department).", "legalRefs": [], "check": { "kind": "deterministic", "expr": "exists(section.S16.requestDept)" }, "sourceSpan": "L2263, L2270-2275", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S16-005", "sectionId": "S16", "level": "must", "element": "transmission request (if transmitter)", "statement": "If the processor is an information transmitter (정보전송자), state how to request transmission to oneself, and how to check transmission status and history; for third-party transmission, say it is requested via the recipient's service and that recipient lists and request status are on the national transmission support platform.", "legalRefs": ["PIPA:35-2", "DEC:42-2", "DEC:42-6(5)"], "check": { "kind": "deterministic", "expr": "if(slot(gate.dataPortabilitySender)) exists(section.S16.portability.self) && exists(section.S16.portability.thirdParty)" }, "sourceSpan": "L2277-2290", "verifiedAt": "2026-09-29", "effectiveFrom": "2025-03-13", "effectiveStatus": "in_force", "effectiveNote": "PIPA 35-2 right to request transmission in force from 2025-03-13 (Act 19234 addendum 1(2); Decree 35343 addendum 1(2)). Decree 36121 widened scope from 2026-08-20; one item derived 2027-02-20 is unverified.", "source": "spike-report.md §2c/§3.2; https://law.go.kr/DRF/lawSearch.do?OC=test&target=eflaw&type=XML&LID=011357&nw=1,2,3&display=100&sort=efdes (fetched 2026-09-29)" },
+    { "ruleId": "R-S16-006", "sectionId": "S16", "level": "should", "element": "agents, limits, identity check, response time", "statement": "Cover exercise through a legal representative or agent (with power of attorney), statutory limits on access and suspension, no deletion where another law requires the data, identity verification, and the response period.", "legalRefs": ["DEC:41(1)", "PIPA:35(4)", "PIPA:37(2)"], "check": { "kind": "llm" }, "sourceSpan": "L2296-2331", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S16-007", "sectionId": "S16", "level": "should", "element": "minors", "statement": "Children under 14 exercise rights through the legal representative; minors 14 or older may act themselves or through the representative.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L2298-2300", "verifiedAt": "2026-09-29" }
+  ],
+  "goodPatterns": [
+    "Numbered clauses: rights list; channels (writing, phone, e-mail, fax, internet) with actual menu paths; optional transmission and third-party transmission lines; automated-decision request path; agent with power-of-attorney form; statutory limits; identity check; receiving department and contact with reply within 10 days (transmission without delay) as in the example."
+  ],
+  "commonDefects": [
+    { "id": "D-S16-01", "severity": "major", "defect": "Only 'contact us' given; no self-service path although a website/app exists.", "seedCandidate": true },
+    { "id": "D-S16-02", "severity": "major", "defect": "Withdrawal or deletion requires a harder route (e.g. visit or mail) than sign-up (online)." },
+    { "id": "D-S16-03", "severity": "major", "defect": "Transmitter omits transmission-request method." },
+    { "id": "D-S16-04", "severity": "minor", "defect": "Response period stated inconsistently with the operator's real process." }
+  ],
+  "extractionHints": ["menu names: 내 정보, 회원정보, 탈퇴, 동의 철회", "\"마이데이터\", \"전송요구\", \"온마이데이터\"", "CS channel, reply time", "power of attorney, legal representative"],
+  "interviewNodes": ["Q-S16-01", "Q-S16-02", "Q-S16-03", "Q-S16-04", "Q-P-03", "Q-A1-53"],
+  "legalRefs": {
+    "PIPA:30(1)5": { "law": "개인정보 보호법", "article": "30", "paragraph": "1", "item": "5", "verifiedBy": "pipc-guideline-2026-04", "at": "p65 L2249", "lawGoKr": false },
+    "PIPA:38(4)": { "law": "개인정보 보호법", "article": "38", "paragraph": "4", "verifiedBy": "pipc-guideline-2026-04", "at": "p65 L2268", "lawGoKr": false },
+    "PIPA:35-2": { "law": "개인정보 보호법", "article": "35-2", "verifiedBy": "pipc-guideline-2026-04", "at": "p65 L2277", "lawGoKr": true, "lawGoKrSource": "spike-report.md §2c (fetched 2026-09-29)" },
+    "DEC:42-2": { "law": "개인정보 보호법 시행령", "article": "42-2", "verifiedBy": "pipc-guideline-2026-04", "at": "p65 L2277", "lawGoKr": false },
+    "DEC:42-6(5)": { "law": "개인정보 보호법 시행령", "article": "42-6", "paragraph": "5", "verifiedBy": "pipc-guideline-2026-04", "at": "p65 L2280", "lawGoKr": false },
+    "DEC:41(1)": { "law": "개인정보 보호법 시행령", "article": "41", "paragraph": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p66 L2302 (example)", "lawGoKr": false },
+    "PIPA:35(4)": { "law": "개인정보 보호법", "article": "35", "paragraph": "4", "verifiedBy": "pipc-guideline-2026-04", "at": "p66 L2318 (example)", "lawGoKr": false },
+    "PIPA:37(2)": { "law": "개인정보 보호법", "article": "37", "paragraph": "2", "verifiedBy": "pipc-guideline-2026-04", "at": "p66 L2319 (example)", "lawGoKr": false }
+  },
+  "needsVerification": [
+    { "id": "NV-S16-01", "note": "Who counts as an information transmitter (Decree 42-2 thresholds, widened by Decree 36121 from 2026-08-20) is not in the guideline; C1 marks gate.dataPortabilitySender needs_manual_review unless the user confirms." },
+    { "id": "NV-S16-02", "note": "The 10-day reply period appears only in the guideline example; confirm against Decree 41 before making it a must rule." }
+  ]
+}

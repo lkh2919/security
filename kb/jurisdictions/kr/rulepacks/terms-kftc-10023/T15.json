@@ -1,0 +1,294 @@
+{
+  "id": "T15",
+  "packVersion": "terms-kftc-10023",
+  "title": {
+    "ko": "분쟁해결·재판권 및 준거법",
+    "en": "Disputes, jurisdiction and governing law"
+  },
+  "stdTermsRef": {
+    "doc": "kftc-10023-2015-06-26",
+    "articles": "제23조~제24조",
+    "raw": "kb/_sources/terms/kftc-10023-2015-06-26.txt"
+  },
+  "attribution": "KFTC, 전자상거래(인터넷사이버몰) 표준약관 제10023호 (2015. 6. 26. 개정) and statutes via law.go.kr (paraphrased)",
+  "classification": "mandatory",
+  "module": "core",
+  "handling": "clause",
+  "applicability": {
+    "when": {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        }
+      ]
+    },
+    "notApplicableWhen": {
+      "slot": "terms.applicable",
+      "op": "eq",
+      "value": false
+    }
+  },
+  "slots": [
+    "terms.disputeVenue",
+    "terms.paid"
+  ],
+  "rules": [
+    {
+      "ruleId": "R-T15-001",
+      "sectionId": "T15",
+      "level": "must",
+      "element": "complaint handling",
+      "statement": "Operate a complaint and damage-compensation handling function; handle complaints with priority and, if delayed, notify the reason and schedule promptly.",
+      "legalRefs": [
+        "STD10023:23(1)",
+        "STD10023:23(2)",
+        "ECA:13(2)8"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "mentions(section.T15, ['불만|의견','처리']) && present(slot(terms.complaintChannel))"
+      },
+      "sourceSpan": "STD10023 제23조①②; ECA 제13조제2항제8호",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T15-002",
+      "sectionId": "T15",
+      "level": "should",
+      "element": "mediation",
+      "statement": "Mention that the user's damage-relief request may be referred to mediation by a body the KFTC or a city/province governor refers to.",
+      "legalRefs": [
+        "STD10023:23(3)"
+      ],
+      "check": {
+        "kind": "llm"
+      },
+      "sourceSpan": "STD10023 제23조③",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T15-003",
+      "sectionId": "T15",
+      "level": "must",
+      "element": "consumer jurisdiction",
+      "statement": "For e-commerce disputes with consumers: exclusive jurisdiction of the district court of the consumer's address at filing (residence if no address); only if unclear or the user lives abroad, the Civil Procedure Act court. For non-commerce or B2B services, any venue clause must not be unfairly disadvantageous to the customer.",
+      "legalRefs": [
+        "ECA:36",
+        "STD10023:24(1)",
+        "ARTC:14[1]"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!match(section.T15, lex.U-ARTC14-01) && !match(section.T15, lex.U-ARTC14-02) && (!slot(terms.paid) || mentions(section.T15, ['주소','전속관할']))"
+      },
+      "sourceSpan": "ECA 제36조; STD10023 제24조①; ARTC 제14조제1호",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T15-004",
+      "sectionId": "T15",
+      "level": "should",
+      "element": "governing law",
+      "statement": "Korean law governs disputes between operator and users.",
+      "legalRefs": [
+        "STD10023:24(2)"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "mentions(section.T15, ['한국법|대한민국 법'])"
+      },
+      "sourceSpan": "STD10023 제24조②",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T15-005",
+      "sectionId": "T15",
+      "level": "must",
+      "element": "no suit ban or proof shift",
+      "statement": "No clause barring customers from suing or shifting the burden of proof to them without substantial reason.",
+      "legalRefs": [
+        "ARTC:14[1]",
+        "ARTC:14[2]"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!match(doc, lex.U-ARTC14-03) && !match(doc, lex.U-ARTC14-04)"
+      },
+      "sourceSpan": "ARTC 제14조",
+      "verifiedAt": "2026-09-29"
+    }
+  ],
+  "unfairPatterns": [
+    {
+      "lexiconId": "U-ARTC12-03",
+      "pattern": "(\\uC11C\\uBA74|\\uB0B4\\uC6A9\\uC99D\\uBA85|\\uBC29\\uBB38|\\uC6B0\\uD3B8)[^.]{0,10}(\\uC73C\\uB85C\\uB9CC|\\uC5D0\\s*\\uC758\\uD574\\uC11C\\uB9CC|\\uB9CC\\s*\\uAC00\\uB2A5)",
+      "statuteRef": [
+        "ARTC:12[2]",
+        "ECA:21-2(1)4"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ARTC14-01",
+      "pattern": "(\\uD68C\\uC0AC|\\uBCF8\\uC0AC|\\uB2F9\\uC0AC)[^.]{0,10}(\\uC18C\\uC7AC\\uC9C0|\\uC8FC\\uC18C\\uC9C0|\\uBCF8\\uC810)[^.]{0,25}(\\uBC95\\uC6D0|\\uAD00\\uD560)",
+      "statuteRef": [
+        "ARTC:14[1]",
+        "ECA:36"
+      ],
+      "severity": "blocker"
+    },
+    {
+      "lexiconId": "U-ARTC14-02",
+      "pattern": "\\uC11C\\uC6B8\\uC911\\uC559\\uC9C0\\uBC29?\\uBC95\\uC6D0?[^.]{0,20}(\\uAD00\\uD560|\\uC804\\uC18D)",
+      "statuteRef": [
+        "ARTC:14[1]",
+        "ECA:36"
+      ],
+      "severity": "blocker"
+    },
+    {
+      "lexiconId": "U-ARTC14-03",
+      "pattern": "(\\uC774\\uC6A9\\uC790|\\uD68C\\uC6D0|\\uACE0\\uAC1D|\\uC18C\\uBE44\\uC790)[^.]{0,10}(\\uC774|\\uAC00|\\uAED8\\uC11C)\\s*(\\uC785\\uC99D|\\uC99D\\uBA85)(\\uD558\\uC5EC\\uC57C|\\uD574\\uC57C|\\uD560\\s*\\uCC45\\uC784)",
+      "statuteRef": [
+        "ARTC:14[2]",
+        "ECA:17(5)"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ARTC14-04",
+      "pattern": "(\\uC18C\\uC1A1|\\uC18C\\uB97C|\\uC774\\uC758)[^.]{0,15}(\\uC81C\\uAE30\\uD560\\s*\\uC218\\s*\\uC5C6|\\uC81C\\uAE30\\uD558\\uC9C0\\s*\\uC54A\\uAE30\\uB85C|\\uC81C\\uAE30\\uD558\\uC9C0\\s*\\uC544\\uB2C8)",
+      "statuteRef": [
+        "ARTC:14[1]"
+      ],
+      "severity": "major"
+    }
+  ],
+  "goodPatterns": [
+    "Complaint body -> mediation -> consumer-address court -> Korean law."
+  ],
+  "commonDefects": [
+    {
+      "id": "D-T15-01",
+      "severity": "blocker",
+      "defect": "Exclusive jurisdiction at the operator's head-office court for consumer e-commerce.",
+      "seedCandidate": true
+    }
+  ],
+  "extractionHints": [
+    "customer centre / complaint channel",
+    "venue wording from legal team",
+    "B2B vs consumer customers"
+  ],
+  "interviewNodes": [
+    "Q-T15-19"
+  ],
+  "interviewHints": [
+    "Ask venue preference (Q-T15-19) but default to consumer-address court for consumer commerce; collect complaint channel (proposed slot terms.complaintChannel) and customer type (proposed terms.customerType)."
+  ],
+  "legalRefs": {
+    "ARTC:12[2]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "12",
+      "item": "2",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제12조 제2호",
+      "lawGoKr": true
+    },
+    "ARTC:14[1]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "14",
+      "item": "1",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제14조 제1호",
+      "lawGoKr": true
+    },
+    "ARTC:14[2]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "14",
+      "item": "2",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제14조 제2호",
+      "lawGoKr": true
+    },
+    "ECA:13(2)8": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "13",
+      "paragraph": "2",
+      "item": "8",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제13조 제2항 제8호",
+      "lawGoKr": true
+    },
+    "ECA:17(5)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "5",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제17조 제5항",
+      "lawGoKr": true
+    },
+    "ECA:21-2(1)4": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "21-2",
+      "paragraph": "1",
+      "item": "4",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제21조의2 제1항 제4호",
+      "lawGoKr": true
+    },
+    "ECA:36": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "36",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제36조",
+      "lawGoKr": true
+    },
+    "STD10023:23(1)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "23",
+      "paragraph": "1",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제23조 제1항",
+      "lawGoKr": false
+    },
+    "STD10023:23(2)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "23",
+      "paragraph": "2",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제23조 제2항",
+      "lawGoKr": false
+    },
+    "STD10023:23(3)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "23",
+      "paragraph": "3",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제23조 제3항",
+      "lawGoKr": false
+    },
+    "STD10023:24(1)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "24",
+      "paragraph": "1",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제24조 제1항",
+      "lawGoKr": false
+    },
+    "STD10023:24(2)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "24",
+      "paragraph": "2",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제24조 제2항",
+      "lawGoKr": false
+    }
+  },
+  "needsVerification": [],
+  "missingSlots": [
+    "terms.complaintChannel",
+    "terms.customerType"
+  ]
+}

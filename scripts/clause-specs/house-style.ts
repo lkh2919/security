@@ -1,0 +1,155 @@
+/** House-style rule CANDIDATES from Lotte Innovate public policies (H-01..H-13 from Row 6a plus new ones). Not approved. */
+export interface HouseRule {
+  id: string;
+  scope: "privacy" | "terms" | "both";
+  rule: string;
+  rationale: string;
+  evidence: string[];
+  checkType: "regex" | "structure" | "manual";
+  /** regex source when checkType = regex */
+  pattern?: string;
+  /** whether a match is required or forbidden */
+  patternMode?: "require" | "forbid";
+  /** structural assertion in prose for structure checks */
+  structure?: string;
+  origin: "row6a-analysis" | "row6b-new";
+  status: "candidate";
+}
+
+const IN = "lotteinnovate-privacy";
+const CC = "lotteinnovate-privacy-cctv";
+
+export const houseStyleCandidates: HouseRule[] = [
+  {
+    id: "H-01", scope: "privacy", origin: "row6a-analysis", status: "candidate", checkType: "regex", patternMode: "require",
+    pattern: "^.{0,80}\\(이하\\s*[\"“]회사[\"”]\\).{0,400}(준수|따라)",
+    rule: "서문은 두 문단으로 쓴다. 첫 문단에서 운영자를 \"회사\"로 정의하고, 이어서 준수하는 법령과 이 방침의 목적을 밝힌다.",
+    rationale: "Innovate V4.7 preamble defines 회사 in the first sentence and cites the laws in the second paragraph; the same opener recurs across the group.",
+    evidence: [IN, "lotte-holdings-privacy", "lotte-recruit-privacy"],
+  },
+  {
+    id: "H-02", scope: "privacy", origin: "row6a-analysis", status: "candidate", checkType: "regex", patternMode: "require",
+    pattern: "^#{2,4}\\s*\\d{1,2}\\.\\s+\\S+",
+    rule: "본문 대제목은 \"1. 제목\" 형식의 숫자 번호를, 하위 항목은 \"가. 나. 다.\"를, 표 묶음은 \"2-1, 2-2\"를 쓴다.",
+    rationale: "Innovate numbers headings N. and sub-items lettered; consent-based and consent-free tables use 2-1, 2-2.",
+    evidence: [IN],
+  },
+  {
+    id: "H-03", scope: "privacy", origin: "row6a-analysis", status: "candidate", checkType: "structure",
+    structure: "Before the numbered body there is a key-points block with at least: 처리 목적, 처리 항목, 보유기간, 파기절차, 안전성 확보조치, 고충사항 처리부서; each card ends with a pointer to the full text.",
+    rule: "번호가 붙은 본문 앞에 주요 처리 사항(항목, 목적, 보유기간, 파기절차, 안전성 확보조치, 고충 처리부서)을 요약한 블록을 두고, 각 카드 끝에 본문 확인 안내를 붙인다.",
+    rationale: "Innovate, Wellfood and Department Store open with a key-points summary block.",
+    evidence: [IN, "lotte-wellfood-privacy", "lotte-department-store-privacy"],
+  },
+  {
+    id: "H-04", scope: "both", origin: "row6a-analysis", status: "candidate", checkType: "regex", patternMode: "forbid",
+    pattern: "(?:한|는|있|없|된|했|였|을|할)다\\.(?:\\s|$)",
+    rule: "문장은 \"~합니다 / ~하고 있습니다\" 체로 쓰고 \"~한다\" 체는 쓰지 않는다. 법령 조문 인용과 표 안의 명사형 나열은 예외로 한다.",
+    rationale: "All Innovate body text is polite declarative; rights list is in noun form.",
+    evidence: [IN, CC],
+  },
+  {
+    id: "H-05", scope: "privacy", origin: "row6a-analysis", status: "candidate", checkType: "manual",
+    rule: "운영자는 \"회사\"로 통일한다. 권리와 법적 근거를 다루는 절에서는 \"정보주체\", 그 밖의 절에서는 \"이용자\"를 쓰되 한 문서 안에서 구분 기준을 일관되게 지킨다.",
+    rationale: "Innovate mixes 이용자 and 정보주체; consistency inside one document is the safe candidate. Needs human judgment on the split.",
+    evidence: [IN],
+  },
+  {
+    id: "H-06", scope: "privacy", origin: "row6a-analysis", status: "candidate", checkType: "structure",
+    structure: "Two separate tables: consent-free items (header carries the PIPA legal basis, e.g. 제15조 제1항 제4호) and consent-based items (제15조 제1항 제1호); columns 구분, 수집 목적, 수집 항목, 보유 및 이용기간.",
+    rule: "동의 없이 처리하는 항목과 동의를 받아 처리하는 항목을 표 두 개로 나누고, 머리행에 개인정보 보호법 근거 조문을 적는다.",
+    rationale: "Innovate 2-1 and 2-2 tables; the same split appears in Logistics and Seven-Eleven.",
+    evidence: [IN, "lotte-global-logis-privacy", "seven-eleven-privacy"],
+  },
+  {
+    id: "H-07", scope: "privacy", origin: "row6a-analysis", status: "candidate", checkType: "structure",
+    structure: "Third-party provision table columns: 제공받는 자, 제공목적, 제공항목, 보유 및 이용기간. Delegation table columns: 수탁업체, 위탁업무 내용 (min).",
+    rule: "제3자 제공과 처리업무 위탁은 표로 정리한다. 위탁 표에는 최소한 수탁업체와 위탁업무 내용 열을 둔다.",
+    rationale: "Innovate sections 4 and 5.",
+    evidence: [IN],
+  },
+  {
+    id: "H-08", scope: "privacy", origin: "row6a-analysis", status: "candidate", checkType: "structure",
+    structure: "Overseas transfer section lists 가 through 사: items, country, date and method, recipient, purpose and period, basis, refusal method and effect.",
+    rule: "국외이전 절은 이전 항목, 국가, 일시와 방법, 이전받는 자, 이용 목적과 기간, 근거, 거부 방법과 효과를 가~사 항으로 법정 순서에 맞춰 쓴다.",
+    rationale: "Innovate section 6 mirrors the statutory disclosure list.",
+    evidence: [IN],
+  },
+  {
+    id: "H-09", scope: "privacy", origin: "row6a-analysis", status: "candidate", checkType: "regex", patternMode: "require",
+    pattern: "보존\\s*근거\\s*:.+\\n.*보존\\s*기간\\s*:",
+    rule: "보유기간은 법령 근거가 있으면 \"보존 근거\"와 \"보존 기간\"을 한 쌍의 줄로 함께 적는다.",
+    rationale: "Innovate section 3 per-service retention pairs.",
+    evidence: [IN],
+  },
+  {
+    id: "H-10", scope: "privacy", origin: "row6a-analysis", status: "candidate", checkType: "regex", patternMode: "require",
+    pattern: "공고일자\\s*:.+시행일자\\s*:",
+    rule: "마지막 절은 처리방침 변경 안내로 하고, 공고일자, 시행일자, 버전번호를 각각 한 줄로 적는다.",
+    rationale: "Innovate section 11 and the version selector.",
+    evidence: [IN, "lotte-holdings-privacy"],
+  },
+  {
+    id: "H-11", scope: "privacy", origin: "row6a-analysis", status: "candidate", checkType: "manual",
+    rule: "개정할 때마다 변경된 조항만 담은 신ㆍ구 대조표(구분, 변경 전, 변경 후, 사유)를 붙인다.",
+    rationale: "Innovate and Holdings publish an old/new comparison table; also matches guideline 2026.4 change-notice rules (S24).",
+    evidence: [IN, "lotte-holdings-privacy"],
+  },
+  {
+    id: "H-12", scope: "privacy", origin: "row6a-analysis", status: "candidate", checkType: "regex", patternMode: "forbid",
+    pattern: "(?:성명|이름)\\s*[:：]\\s*[가-힣]{2,4}(?:\\s|$)",
+    rule: "재사용하는 조항에는 담당자 개인 이름을 쓰지 않는다. 보호책임자는 직책과 업무용 전자우편, 담당부서는 부서명과 업무용 전자우편만 적는다.",
+    rationale: "Innovate prints a named officer, which goes stale; the candidate keeps role plus functional address.",
+    evidence: [IN],
+  },
+  {
+    id: "H-13", scope: "both", origin: "row6a-analysis", status: "candidate", checkType: "structure",
+    structure: "Video-surveillance policy is a separate document with its own version and dates; the general policy links to it instead of embedding it.",
+    rule: "영상정보처리기기 운영ㆍ관리 방침은 별도 문서로 두고 자체 버전과 일자를 표기한다.",
+    rationale: "Innovate publishes the CCTV policy on its own page with version selector V2.0.",
+    evidence: [CC],
+  },
+  // ---- new in Row 6b ----
+  {
+    id: "H-14", scope: "privacy", origin: "row6b-new", status: "candidate", checkType: "regex", patternMode: "require",
+    pattern: "※\\s*세부\\s*(?:항목|내용)은",
+    rule: "요약 블록의 각 카드는 \"※ 세부 항목은 개인정보처리방침 본문 확인\"과 같은 본문 안내 문구로 끝낸다.",
+    rationale: "Innovate summary cards each end with a pointer note.",
+    evidence: [IN],
+  },
+  {
+    id: "H-15", scope: "privacy", origin: "row6b-new", status: "candidate", checkType: "structure",
+    structure: "Cookie subsection has two bullets: 쿠키의 사용목적 and 쿠키의 설치ㆍ운영 및 거부 (browser menu path).",
+    rule: "쿠키 항은 \"쿠키의 사용목적\"과 \"쿠키의 설치ㆍ운영 및 거부\"를 나눠 쓰고, 거부는 브라우저 설정 경로로 안내한다.",
+    rationale: "Innovate 2-3 나; the same two-bullet pattern occurs in Logistics and Castle.",
+    evidence: [IN, "lotte-global-logis-privacy", "lotte-castle-privacy"],
+  },
+  {
+    id: "H-16", scope: "privacy", origin: "row6b-new", status: "candidate", checkType: "regex", patternMode: "require",
+    pattern: "(?:privacy\\.kisa\\.or\\.kr|118).*\\n?.*(?:1301|spo\\.go\\.kr).*\\n?.*(?:182|police)",
+    rule: "권익침해 구제방법은 기관명, 누리집 주소, 국번 없는 전화번호를 한 줄씩 목록으로 적는다(개인정보침해신고센터, 대검찰청, 경찰청 등). 현행 연락처는 규칙 묶음의 최신본과 대조한다.",
+    rationale: "Innovate section 10 lists agencies as name : domain (short number) lines.",
+    evidence: [IN],
+  },
+  {
+    id: "H-17", scope: "privacy", origin: "row6b-new", status: "candidate", checkType: "regex", patternMode: "require",
+    pattern: "위임장",
+    rule: "권리 행사 절에는 대리인이 행사할 때 제출하는 위임장 서식 안내(개인정보 처리 방법에 관한 고시 별지 서식)를 넣는다.",
+    rationale: "Innovate 7 라 항 and Seven-Eleven section 5 reference the notice form.",
+    evidence: [IN, "seven-eleven-privacy"],
+  },
+  {
+    id: "H-18", scope: "privacy", origin: "row6b-new", status: "candidate", checkType: "structure",
+    structure: "Video policy headings in order: 설치근거 및 목적; 설치현황 및 촬영범위 (table); 관리책임자 및 접근권한자 (table); 촬영시간, 보관기간, 보관장소 및 처리방법 (table); 개인영상정보의 확인 방법; further items (rights, security, delegation, change).",
+    rule: "영상정보처리기기 방침은 설치근거 및 목적, 설치현황 및 촬영범위, 관리책임자 및 접근권한자, 촬영시간ㆍ보관기간ㆍ보관장소 및 처리방법, 개인영상정보 확인 방법 순으로 쓰고 중간 세 절은 표로 정리한다.",
+    rationale: "Innovate CCTV V2.0 order; Castle, Logistics and Wellfood follow the same statutory order.",
+    evidence: [CC, "lotte-castle-privacy-cctv", "lotte-global-logis-privacy-cctv"],
+  },
+  {
+    id: "H-19", scope: "privacy", origin: "row6b-new", status: "candidate", checkType: "regex", patternMode: "require",
+    pattern: "「[^」]{2,40}」\\s*제\\s*\\d+조",
+    rule: "법령은 낫표(「」)로 묶어 \"「법령명」 제N조 제N항\" 형식으로 인용한다.",
+    rationale: "Innovate retention lines cite statutes as 「전자상거래법 시행령」 제6조; the group style is consistent.",
+    evidence: [IN, "lotte-recruit-privacy"],
+  },
+];

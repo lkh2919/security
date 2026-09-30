@@ -1,0 +1,71 @@
+{
+  "id": "lotte.privacy.S08.cross_group.01",
+  "docType": "privacy",
+  "sectionId": "S08",
+  "domainGroup": "cross_group",
+  "sourceCaptureIds": [
+    "lotte-recruit-privacy",
+    "lotte-mart-privacy"
+  ],
+  "sourceSites": [
+    "recruit.lotte.co.kr",
+    "company.lottemart.com"
+  ],
+  "policyVersionOrDate": "2026. 09. 08부터 적용 / 시행일자 : 2026-07-09",
+  "layout": "guideline_numbered",
+  "text": "회사는 「개인정보 보호법」 제15조제3항 및 제17조제4항에 따라 정보주체의 동의 없이 개인정보를 추가로 이용·제공할 수 있습니다. 이에 따라 회사는 다음의 사항을 고려하여 추가적인 이용·제공이 가능한지를 판단합니다.\n1. 당초 수집 목적과 관련성이 있는지 여부\n2. 개인정보를 수집한 정황 또는 처리 관행에 비추어 볼 때 추가적인 이용·제공에 대한 예측 가능성이 있는지 여부\n3. 정보주체의 이익을 부당하게 침해하는지 여부\n4. 가명처리 또는 암호화 등 안전성 확보에 필요한 조치를 하였는지 여부\n\n{{additionalUseTable}}\n{{additionalUseCriteria}}",
+  "variables": [
+    {
+      "name": "additionalUseTable",
+      "slotId": "privacy.S08_additionalUse",
+      "description": "Ongoing additional uses or provisions without consent"
+    },
+    {
+      "name": "additionalUseCriteria",
+      "slotId": "privacy.S08_criteria",
+      "description": "Judgment criteria for additional use or provision"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.additionalUseOngoing",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S08-001",
+    "R-S08-002"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S08-003",
+      "level": "may",
+      "note": "세부 내역을 링크로 안내하는 방식은 원문에 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "판단 기준 4항은 공통. 실제로 추가 이용이 있을 때만 gate.additionalUseOngoing로 포함.",
+  "frequency": 2,
+  "frequencyBase": 15,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-recruit-privacy",
+      "sourceUrl": "https://recruit.lotte.co.kr/about/personalPolicy27",
+      "affiliate": "Lotte Group recruiting site",
+      "businessGroup": "hr_corporate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026. 09. 08부터 적용 ; ver 9.1 ; ver 9.0 ; ver 8.9",
+      "contentHash": "bea4c6ae916cd20a0fe393a2c59f45a88fcf71f0485597054be67d5bc3354c48"
+    },
+    {
+      "captureId": "lotte-mart-privacy",
+      "sourceUrl": "https://company.lottemart.com/privacy/privacy.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2026-07-09 ; 2026년 7월 9일부터 적용 ; V13.5 ; V13.4",
+      "contentHash": "590a26db8498b8c4c8e6207f1d0ae882474ee75a92941b51e9a6ef52435f4d4d"
+    }
+  ]
+}

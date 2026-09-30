@@ -1,0 +1,93 @@
+{
+  "id": "lotte.privacy.S01.cross_group.04",
+  "docType": "privacy",
+  "sectionId": "S01",
+  "domainGroup": "cross_group",
+  "sourceCaptureIds": [
+    "lotteinnovate-privacy",
+    "lotte-department-store-privacy",
+    "lotte-wellfood-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteinnovate.com",
+    "www.lotteshopping.com",
+    "www.lottewellfood.com"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 6월 25일 / 2026년 07월 22일부터 적용 / 시행일자: 2026년 8월 10일",
+  "layout": "guideline_numbered",
+  "text": "### 주요 개인정보 처리 표시\n\n- 처리 목적: {{summaryPurposes}}\n  ※ 세부 항목은 개인정보 처리방침 본문에서 확인하실 수 있습니다.\n- 처리하는 개인정보 항목: {{summaryItems}}\n- 보유 및 이용기간: {{summaryRetention}}\n- 파기 절차: {{summaryDestruction}}\n- 안전성 확보조치: {{summarySecurity}}\n- 고충사항 처리부서: {{deptContact}}",
+  "variables": [
+    {
+      "name": "summaryPurposes",
+      "slotId": "privacy.S02_purposes",
+      "description": "Short list of processing purposes for the key-points block"
+    },
+    {
+      "name": "summaryItems",
+      "slotId": "privacy.S03_items",
+      "description": "Short list of item groups for the key-points block"
+    },
+    {
+      "name": "summaryRetention",
+      "slotId": "privacy.S05_retention",
+      "description": "Short retention summary for the key-points block"
+    },
+    {
+      "name": "summaryDestruction",
+      "slotId": "privacy.S06_destruction",
+      "description": "Short destruction summary for the key-points block"
+    },
+    {
+      "name": "summarySecurity",
+      "slotId": "privacy.S11_measures",
+      "description": "Short security summary for the key-points block"
+    },
+    {
+      "name": "deptContact",
+      "slotId": "privacy.S18_dept",
+      "description": "Responsible department: name and functional e-mail"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S01-006"
+  ],
+  "gapsVsGuideline": [],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 3,
+  "frequencyBase": 15,
+  "houseStyleTags": [
+    "H-03",
+    "H-14"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotteinnovate-privacy",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 6월 25일 ; 시행일자 : 2026년 6월 25일 ; 공고일자 : 2025년 9월 18일 ; 시행일자 : 2025년 9월 18일",
+      "contentHash": "ed631cda902e7824593df708a5399a8fe8e4516efd4252d5cb9ce0f65f4f7b7d"
+    },
+    {
+      "captureId": "lotte-department-store-privacy",
+      "sourceUrl": "https://www.lotteshopping.com/etc/personalinfo",
+      "affiliate": "Lotte Department Store",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026년 07월 22일부터 적용 ; v19.9 ; V19.8 ; V19.9",
+      "contentHash": "a859427af048dabf825212295551607baaa748b71da215390d0194ffcf34fbb0"
+    },
+    {
+      "captureId": "lotte-wellfood-privacy",
+      "sourceUrl": "https://www.lottewellfood.com/policy/privacy",
+      "affiliate": "Lotte Wellfood",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자: 2026년 8월 10일 ; v.2.22 ; v.2.21 ; v.2.20",
+      "contentHash": "072b5887741bb5bb109ac2c6d576162ef430c18da9c328d1f8a3d22cd4d8aa94"
+    }
+  ]
+}

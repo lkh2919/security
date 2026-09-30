@@ -1,0 +1,46 @@
+{
+  "id": "S10",
+  "packVersion": "privacy-2026.04",
+  "title": {"ko":"개인정보의 국외 수집 및 이전에 관한 사항","en":"Overseas collection and transfer"},
+  "guidelineRef": {"doc":"pipc-guideline-2026-04","part":"III","section":10,"pages":"45-48","lines":"1406-1577"},
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "conditional",
+  "catalogClass": "C",
+  "handling": "llm",
+  "applicability": {"when":{"any":[{"slot":"gate.overseasTransfer","op":"truthy"},{"slot":"gate.overseasDirectCollection","op":"truthy"}]},"ifNot":"not_processed_statement_allowed"},
+  "rules": [
+    {"ruleId":"R-S10-001","sectionId":"S10","level":"must","element":"separate section","statement":"Describe overseas collection and transfer (provision, access, outsourcing, storage) separately from domestic provision and outsourcing so the data subject clearly notices it.","legalRefs":[],"check":{"kind":"deterministic","expr":"exists(section.S10)"},"sourceSpan":"L1408-1412","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S10-002","sectionId":"S10","level":"must","element":"direct collection countries","statement":"When collecting directly from abroad (e.g. a foreign operator subject to PIPA collecting on foreign servers), list every country where the data is processed.","legalRefs":["DEC:31(1)4"],"check":{"kind":"deterministic","expr":"if(slot(gate.overseasDirectCollection)) count(section.S10.directCountries) >= 1"},"sourceSpan":"L1414-1419","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S10-003","sectionId":"S10","level":"must","element":"transfer checklist","statement":"For each transfer (including onward transfer) state: legal basis (one item of PIPA 28-8(1)); items; destination countries, timing and method; recipient name (for a corporation, its name and contact); recipient's purpose and retention; how to refuse, the procedure, and the effect of refusing.","legalRefs":["PIPA:28-8(1)","PIPA:28-8(2)","DEC:31(1)2"],"check":{"kind":"deterministic","expr":"every(section.S10.rows, r => r.basis && r.items && r.countries && r.timingMethod && r.recipient && r.recipientContact && r.purpose && r.retention) && exists(section.S10.refusal)"},"sourceSpan":"L1427-1441","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S10-004","sectionId":"S10","level":"must","element":"all countries (cloud)","statement":"Where cloud use sends data to several countries, list all of them.","legalRefs":[],"check":{"kind":"llm"},"sourceSpan":"L1432-1433","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S10-005","sectionId":"S10","level":"must","element":"other-law basis named","statement":"If the basis lies in another law, treaty or international agreement, name it and the article.","legalRefs":[],"check":{"kind":"deterministic","expr":"every(rows.where(basisType=='other_law'), r => r.otherLaw && r.article)"},"sourceSpan":"L1444-1446","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S10-006","sectionId":"S10","level":"may","element":"integrated with S07/S09","statement":"Overseas provision or outsourcing may be written only here if each row states its type (provision or outsourcing) and includes all S07 or S09 fields; then S07/S09 need not repeat it.","legalRefs":[],"check":{"kind":"deterministic","expr":"every(rows, r => r.type in ['provision','outsourcing','storage','access']) && typeFieldsComplete(rows)"},"sourceSpan":"L1448-1458","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S10-007","sectionId":"S10","level":"must","element":"re-transfer after direct collection","statement":"If data collected directly abroad is again provided, outsourced or stored abroad (including the same country), describe that transfer too.","legalRefs":[],"check":{"kind":"llm"},"sourceSpan":"L1460-1462","verifiedAt":"2026-09-29"}
+  ],
+  "basisOptionsInGuideline": [
+    {"code":"PIPA:28-8(1)1","label":"동의","at":"p47 L1514, L1551"},
+    {"code":"PIPA:28-8(1)3","label":"계약 이행을 위한 국외 처리위탁·보관","at":"p46 L1476, p47 L1523"},
+    {"code":"other_law_treaty","label":"다른 법률·조약·국제협정 (name and article)","at":"p46 L1444"},
+    {"code":"other","label":"other 28-8(1) items: not described in the guideline; route to legal review","needs_verification":true}
+  ],
+  "goodPatterns": ["Heading 'overseas transfer'; a lead sentence citing PIPA 28-8(2) and stating refusal consequences and how to withdraw (e.g. membership cancellation path and call center).","One table per type (provision / outsourcing-storage): basis | items | countries | timing and method | recipient and contact | purpose | retention.","Examples of transfer types: HQ abroad consolidates or views Korean customer DB (provision); overseas call center subsidiary (outsourcing); backup to overseas servers (storage)."],
+  "commonDefects": [
+    {"id":"D-S10-01","severity":"blocker","defect":"Overseas cloud storage or API vendor not disclosed as a transfer.","seedCandidate":true},
+    {"id":"D-S10-02","severity":"major","defect":"Missing recipient contact, timing/method, or refusal method and effect.","seedCandidate":true},
+    {"id":"D-S10-03","severity":"major","defect":"Legal basis missing or not tied to a 28-8(1) item."},
+    {"id":"D-S10-04","severity":"minor","defect":"Only the vendor's HQ country listed while data sits in several regions."}
+  ],
+  "extractionHints": ["AWS/GCP/Azure region names, 'US region', 'Singapore'","overseas HQ, global CRM, offshore call center","foreign LLM or SaaS API names","\"해외 서버\", \"암호화 전송\", \"VPN\", \"전용선\"","withdrawal as the way to refuse transfer"],
+  "interviewNodes": ["Q-S10-01","Q-S10-02","Q-S10-70","Q-S10-71","Q-S10-72","Q-S10-73","Q-S10-74","Q-S10-75","Q-S10-76","Q-S10-77","Q-A1-54","Q-S09-06"],
+  "legalRefs": {
+    "PIPA:28-8(1)": {"law":"개인정보 보호법","article":"28-8","paragraph":"1","verifiedBy":"pipc-guideline-2026-04","at":"p45 L1427","lawGoKr":false},
+    "PIPA:28-8(1)1": {"law":"개인정보 보호법","article":"28-8","paragraph":"1","item":"1","verifiedBy":"pipc-guideline-2026-04","at":"p47 L1514","lawGoKr":false},
+    "PIPA:28-8(1)3": {"law":"개인정보 보호법","article":"28-8","paragraph":"1","item":"3","verifiedBy":"pipc-guideline-2026-04","at":"p46 L1476","lawGoKr":false},
+    "PIPA:28-8(2)": {"law":"개인정보 보호법","article":"28-8","paragraph":"2","verifiedBy":"pipc-guideline-2026-04","at":"p45 L1429","lawGoKr":false},
+    "DEC:31(1)2": {"law":"개인정보 보호법 시행령","article":"31","paragraph":"1","item":"2","verifiedBy":"pipc-guideline-2026-04","at":"p14 L381","lawGoKr":false},
+    "DEC:31(1)4": {"law":"개인정보 보호법 시행령","article":"31","paragraph":"1","item":"4","verifiedBy":"pipc-guideline-2026-04","at":"p14 L385","lawGoKr":false}
+  },
+  "needsVerification": [
+    {"id":"NV-S10-01","note":"Items of PIPA 28-8(1) other than 1 and 3 are not described in the guideline; do not generate their wording."}
+  ]
+}

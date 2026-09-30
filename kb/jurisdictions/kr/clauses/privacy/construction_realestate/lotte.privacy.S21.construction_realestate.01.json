@@ -1,0 +1,71 @@
+{
+  "id": "lotte.privacy.S21.construction_realestate.01",
+  "docType": "privacy",
+  "sectionId": "S21",
+  "domainGroup": "construction_realestate",
+  "sourceCaptureIds": [
+    "lotte-castle-privacy-cctv"
+  ],
+  "sourceSites": [
+    "www.lottecastle.co.kr"
+  ],
+  "policyVersionOrDate": "시행일자 : 2025년 06월 26일",
+  "layout": "guideline_numbered",
+  "text": "{{operatorName}}는 「개인정보 보호법」 제25조에 따라 다음과 같이 영상정보처리기기를 설치·운영합니다.\n- 설치 근거 및 목적: 시설 안전 관리, 범죄 예방, 화재 및 사고 예방\n- 설치 대수, 위치 및 촬영 범위: {{cctvTable}}\n- 관리책임자 및 접근 권한자: {{cctvManager}}\n- 촬영 시간, 보관 기간, 보관 장소 및 처리 방법: {{cctvRetention}}\n- 영상정보 확인 방법: 확인 요청 시 {{requestDept}}가 접수하며, 타인 정보가 포함된 경우 가림 처리를 요청할 수 있습니다.\n- 안전성 확보 조치: 접근 통제와 접속 기록 보관",
+  "variables": [
+    {
+      "name": "operatorName",
+      "slotId": "profile.orgNameRef",
+      "description": "Operator legal name (defined once as 회사)"
+    },
+    {
+      "name": "cctvTable",
+      "slotId": "privacy.S21_cctvFixed",
+      "description": "Fixed video devices: facility, count, location and coverage"
+    },
+    {
+      "name": "cctvManager",
+      "slotId": "privacy.S21_cctvFixed",
+      "description": "Video management officer and authorized access holders (role and department only)"
+    },
+    {
+      "name": "cctvRetention",
+      "slotId": "privacy.S21_cctvFixed",
+      "description": "Recording hours, retention days, storage place and method"
+    },
+    {
+      "name": "requestDept",
+      "slotId": "privacy.S16_requestDept",
+      "description": "Department receiving access requests (role and functional e-mail only)"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.cctvFixed",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S21-001",
+    "R-S21-002"
+  ],
+  "gapsVsGuideline": [],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-13"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotte-castle-privacy-cctv",
+      "sourceUrl": "https://www.lottecastle.co.kr/movie/index.do",
+      "affiliate": "Lotte E&C (Lotte Castle brand)",
+      "businessGroup": "construction_realestate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2025년 06월 26일 ; 2025년 06월 26일 시행",
+      "contentHash": "efcad73579ab3ed90aafb079c2b88d1bf21e3769eb7d390901e04c9d1c55aae3"
+    }
+  ]
+}

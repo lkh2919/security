@@ -1,0 +1,59 @@
+{
+  "id": "lotte.terms.T14.retail_ecommerce.01",
+  "docType": "terms",
+  "sectionId": "T14",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-mart-terms",
+    "lotte-himart-terms"
+  ],
+  "sourceSites": [
+    "company.lottemart.com",
+    "company.himart.co.kr"
+  ],
+  "policyVersionOrDate": "2025년 10월 1일부터 적용 / 2025.08.29부터 적용",
+  "layout": "legacy_article",
+  "text": "제N조 (타사와의 관계)\n1. 서비스와 연결된 다른 사업자의 사이트(이하 \"피연결사이트\")는 서비스와 별개의 사이트이며, 회사는 피연결사이트에서 제공하는 재화 등에 관한 정보의 정확성과 거래에 대하여 책임을 지지 않습니다. 다만 회사가 거래의 당사자로 표시된 경우 또는 이용자가 회사를 통하여 거래한 사실이 명확한 경우에는 그러하지 아니합니다.\n2. 이용자는 피연결사이트에서 재화 등을 구매하거나 서비스를 이용하는 경우 해당 사이트의 약관과 정책이 적용됨을 확인하여야 합니다.",
+  "variables": [],
+  "conditions": [
+    {
+      "slot": "terms.applicable",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-T14-005"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T14-001",
+      "level": "must",
+      "note": "일반 면책 조항은 별도 clause."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "연결 사이트 면책은 회사가 당사자로 표시된 경우를 제외하는 조건이 붙은 형태만 채택.",
+  "frequency": 2,
+  "frequencyBase": 3,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-mart-terms",
+      "sourceUrl": "https://company.lottemart.com/privacy/term.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025년 10월 1일부터 적용 ; 2025년 5월 29일부터 적용",
+      "contentHash": "5ac1c0c774222ff77be14ea0dff78529b128683e67b2095cb40543a80246eaed"
+    },
+    {
+      "captureId": "lotte-himart-terms",
+      "sourceUrl": "https://company.himart.co.kr/policy/terms",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025.08.29부터 적용",
+      "contentHash": "59e7cc599d744e3fda2d9afad802786922cbd67b51afa876bf2f615a625db01f"
+    }
+  ]
+}

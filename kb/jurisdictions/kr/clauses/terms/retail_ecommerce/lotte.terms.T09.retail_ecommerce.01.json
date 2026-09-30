@@ -1,0 +1,76 @@
+{
+  "id": "lotte.terms.T09.retail_ecommerce.01",
+  "docType": "terms",
+  "sectionId": "T09",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-mart-terms",
+    "lotte-himart-terms"
+  ],
+  "sourceSites": [
+    "company.lottemart.com",
+    "company.himart.co.kr"
+  ],
+  "policyVersionOrDate": "2025년 10월 1일부터 적용 / 2025.08.29부터 적용",
+  "layout": "legacy_article",
+  "text": "제9조 (구매신청 및 개인정보 제공 동의 등)\n1. 이용자는 서비스에서 다음 또는 이와 유사한 방법에 의하여 구매를 신청하며, 회사는 이용자가 구매신청을 함에 있어서 다음의 각 내용을 알기 쉽게 제공하여야 합니다.\n  가. 재화 등의 검색 및 선택\n  나. 받는 사람의 성명, 주소, 전화번호, 전자우편주소 등의 입력\n  다. 약관 내용, 청약철회권이 제한되는 서비스, 배송료·설치비 등의 비용 부담과 관련한 내용에 대한 확인\n  라. 이 약관에 동의하고 위 다.의 사항을 확인하거나 거부하는 표시\n  마. 재화 등의 구매신청 및 이에 관한 확인 또는 회사의 확인에 대한 동의\n  바. 결제 방법의 선택\n2. 회사가 제3자에게 이용자의 개인정보를 제공할 필요가 있는 경우 제공받는 자, 제공 목적, 제공할 정보의 내용 등을 구매 신청 시 이용자에게 알리고 동의를 받습니다.\n\n제10조 (계약의 성립)\n1. 회사는 제9조와 같은 구매신청에 대하여 다음 각 호에 해당하면 승낙하지 않을 수 있습니다: {{contractFormation}}\n  가. 신청 내용에 허위, 기재누락, 오기가 있는 경우\n  나. 미성년자가 담배, 주류 등 청소년보호법에서 금지하는 재화 및 용역을 구매하는 경우\n  다. 그 밖에 구매신청에 승낙하는 것이 회사의 기술상 현저히 지장이 있다고 판단하는 경우\n2. 회사의 승낙이 수신확인통지 형태로 이용자에게 도달한 시점에 계약이 성립한 것으로 봅니다.\n3. 회사의 승낙의 의사표시에는 이용자의 구매신청에 대한 확인 및 판매 가능 여부, 구매신청의 정정·취소 등에 관한 정보 등을 포함합니다.",
+  "variables": [
+    {
+      "name": "contractFormation",
+      "slotId": "terms.contractFormation",
+      "description": "When the purchase contract is formed"
+    }
+  ],
+  "conditions": [
+    {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "terms.paid",
+          "op": "truthy"
+        }
+      ]
+    }
+  ],
+  "coversElements": [
+    "R-T09-001",
+    "R-T09-002",
+    "R-T09-003",
+    "R-T09-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "승낙 거절 사유를 '기술상 지장' 등 포괄적으로 쓰지 않도록 구체 사유 열거 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 2,
+  "frequencyBase": 3,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-mart-terms",
+      "sourceUrl": "https://company.lottemart.com/privacy/term.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025년 10월 1일부터 적용 ; 2025년 5월 29일부터 적용",
+      "contentHash": "5ac1c0c774222ff77be14ea0dff78529b128683e67b2095cb40543a80246eaed"
+    },
+    {
+      "captureId": "lotte-himart-terms",
+      "sourceUrl": "https://company.himart.co.kr/policy/terms",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025.08.29부터 적용",
+      "contentHash": "59e7cc599d744e3fda2d9afad802786922cbd67b51afa876bf2f615a625db01f"
+    }
+  ]
+}

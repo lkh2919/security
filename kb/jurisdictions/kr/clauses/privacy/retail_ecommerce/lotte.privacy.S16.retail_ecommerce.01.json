@@ -1,0 +1,112 @@
+{
+  "id": "lotte.privacy.S16.retail_ecommerce.01",
+  "docType": "privacy",
+  "sectionId": "S16",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-department-store-privacy",
+    "lotte-mart-privacy",
+    "seven-eleven-privacy",
+    "lotte-himart-privacy",
+    "lotte-himart-mall-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteshopping.com",
+    "company.lottemart.com",
+    "www.7-eleven.co.kr",
+    "company.himart.co.kr",
+    "www.e-himart.co.kr"
+  ],
+  "policyVersionOrDate": "2026년 07월 22일부터 적용 / 시행일자 : 2026-07-09 / 공고일자 : 2010년 12월 03일 / 2026.03.30부터 적용",
+  "layout": "guideline_numbered",
+  "text": "1. 온라인 회원은 {{selfServicePaths}}에서 언제든지 개인정보를 열람·정정하거나 동의를 철회(회원 탈퇴)할 수 있습니다.\n2. 오프라인 회원 또는 온라인으로 처리하기 어려운 경우에는 {{requestDept}}에 서면, 전화, 전자우편 등 {{rightsChannels}}의 방법으로 요구하실 수 있으며 회사는 지체 없이 조치합니다.\n3. 회사가 보유한 정보에 오류가 있다는 정정 요구가 있는 경우 정정을 완료할 때까지 해당 개인정보를 이용하거나 제공하지 않습니다.\n4. 회사는 정보주체의 요구에 따라 삭제된 개인정보는 '개인정보의 보유 및 이용기간'에 명시된 바에 따라 처리하고 그 외의 용도로 열람하거나 이용할 수 없도록 처리합니다.\n5. 정보주체는 법정대리인 또는 위임받은 자를 통하여 권리를 행사할 수 있으며 이 경우 위임장을 제출해야 합니다.",
+  "variables": [
+    {
+      "name": "selfServicePaths",
+      "slotId": "privacy.S16_selfServicePaths",
+      "description": "Self-service menu path for viewing, correcting, deleting, withdrawing"
+    },
+    {
+      "name": "requestDept",
+      "slotId": "privacy.S16_requestDept",
+      "description": "Department receiving access requests (role and functional e-mail only)"
+    },
+    {
+      "name": "rightsChannels",
+      "slotId": "privacy.S16_rightsChannels",
+      "description": "Channels to exercise rights (written, phone, e-mail, fax, online)"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S16-001",
+    "R-S16-002",
+    "R-S16-003",
+    "R-S16-004",
+    "R-S16-006"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S16-005",
+      "level": "must",
+      "note": "전송요구권 없음."
+    },
+    {
+      "ruleId": "R-S16-007",
+      "level": "should",
+      "note": "미성년자 권리 안내 부분적."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "회원 셀프서비스 경로와 오프라인 창구를 병기하는 유통 패턴.",
+  "frequency": 5,
+  "frequencyBase": 5,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-department-store-privacy",
+      "sourceUrl": "https://www.lotteshopping.com/etc/personalinfo",
+      "affiliate": "Lotte Department Store",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026년 07월 22일부터 적용 ; v19.9 ; V19.8 ; V19.9",
+      "contentHash": "a859427af048dabf825212295551607baaa748b71da215390d0194ffcf34fbb0"
+    },
+    {
+      "captureId": "lotte-mart-privacy",
+      "sourceUrl": "https://company.lottemart.com/privacy/privacy.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2026-07-09 ; 2026년 7월 9일부터 적용 ; V13.5 ; V13.4",
+      "contentHash": "590a26db8498b8c4c8e6207f1d0ae882474ee75a92941b51e9a6ef52435f4d4d"
+    },
+    {
+      "captureId": "seven-eleven-privacy",
+      "sourceUrl": "https://www.7-eleven.co.kr/util/policyPrivacy.asp",
+      "affiliate": "Korea Seven (7-Eleven)",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2010년 12월 03일 ; 개정일자 : 2026년 07월 08일 ; 시행일자 : 2026년 07월 15일 ; 2026년 07월 15일 시행",
+      "contentHash": "6af655aff980d52c4d64c8ebea85ef5d24994e94e40fdd6bd45bb3ee912cd2f0"
+    },
+    {
+      "captureId": "lotte-himart-privacy",
+      "sourceUrl": "https://company.himart.co.kr/policy/privacy",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.03.30부터 적용",
+      "contentHash": "83b3b5e65b8d770cc4afbb51379c4a472ed07128a7c60d2bdb141a316d91a5cf"
+    },
+    {
+      "captureId": "lotte-himart-mall-privacy",
+      "sourceUrl": "https://www.e-himart.co.kr/app/terms/privacy?stonType=PC",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.07.10부터 적용 ; VER 9.6 ; VER 9.5 ; VER 9.4",
+      "contentHash": "df3adf5a2e5bbb423c88ecf061c24e22d7647dc3a22eb6a5e468e6ad54c2b3b7"
+    }
+  ]
+}

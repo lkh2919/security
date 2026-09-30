@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "clause-record.schema.json",
+  "title": "ClauseRecord (Lotte clause library, Row 6b)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id", "docType", "sectionId", "domainGroup", "sourceCaptureIds", "sourceSites", "policyVersionOrDate",
+    "layout", "text", "variables", "conditions", "coversElements", "gapsVsGuideline", "vetted", "vettingNotes",
+    "frequency", "frequencyBase", "houseStyleTags", "provenance"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^lotte[.](privacy|terms)[.](S[0-9][0-9]|A1|T[0-9][0-9])[.][a-z_]+[.][0-9][0-9]$" },
+    "docType": { "enum": ["privacy", "terms"] },
+    "sectionId": { "type": "string", "pattern": "^(S[0-9][0-9]|A1|T[0-9][0-9])$" },
+    "domainGroup": {
+      "enum": ["cross_group", "it_services", "retail_ecommerce", "hr_corporate", "construction_realestate", "logistics", "services_leisure", "food_manufacturing", "group_holding"]
+    },
+    "sourceCaptureIds": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "sourceSites": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "policyVersionOrDate": { "type": ["string", "null"] },
+    "layout": { "enum": ["legacy_article", "guideline_numbered"] },
+    "text": { "type": "string", "minLength": 20 },
+    "variables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "description"],
+        "properties": {
+          "name": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]*$" },
+          "slotId": { "type": "string", "pattern": "^[a-zA-Z][A-Za-z0-9]*[.][A-Za-z0-9_]+$" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "conditions": { "type": "array", "items": { "$ref": "#/$defs/cond" } },
+    "coversElements": { "type": "array", "items": { "type": "string", "pattern": "^R-(S[0-9][0-9]|A1|T[0-9][0-9])-[0-9]{3}$" } },
+    "gapsVsGuideline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ruleId", "level", "note"],
+        "properties": {
+          "ruleId": { "type": ["string", "null"], "pattern": "^R-(S[0-9][0-9]|A1|T[0-9][0-9])-[0-9]{3}$" },
+          "level": { "enum": ["must", "should", "may", null] },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "vetted": { "const": false },
+    "vettingNotes": { "type": "string" },
+    "frequency": { "type": "integer", "minimum": 1 },
+    "frequencyBase": { "type": "integer", "minimum": 1 },
+    "houseStyleTags": { "type": "array", "items": { "type": "string", "pattern": "^H-[0-9][0-9]$" } },
+    "provenance": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["captureId", "sourceUrl", "affiliate", "businessGroup", "captureDate", "policyVersionOrEffectiveDate", "contentHash"],
+        "properties": {
+          "captureId": { "type": "string" },
+          "sourceUrl": { "type": "string" },
+          "affiliate": { "type": "string" },
+          "businessGroup": { "type": "string" },
+          "captureDate": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+          "policyVersionOrEffectiveDate": { "type": ["string", "null"] },
+          "contentHash": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "cond": {
+      "oneOf": [
+        { "type": "object", "additionalProperties": false, "required": ["all"], "properties": { "all": { "type": "array", "items": { "$ref": "#/$defs/cond" }, "minItems": 1 } } },
+        { "type": "object", "additionalProperties": false, "required": ["any"], "properties": { "any": { "type": "array", "items": { "$ref": "#/$defs/cond" }, "minItems": 1 } } },
+        { "type": "object", "additionalProperties": false, "required": ["not"], "properties": { "not": { "$ref": "#/$defs/cond" } } },
+        {
+          "type": "object", "additionalProperties": false, "required": ["slot", "op"],
+          "properties": { "slot": { "type": "string" }, "op": { "enum": ["eq", "in", "exists", "truthy"] }, "value": {} }
+        }
+      ]
+    }
+  }
+}

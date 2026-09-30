@@ -1,0 +1,26 @@
+{
+  "id": "S15",
+  "packVersion": "privacy-2026.04",
+  "title": { "ko": "개인정보 자동 수집 장치를 통해 제3자가 행태정보를 수집하도록 허용하는 경우 그 수집·이용 및 거부에 관한 사항", "en": "Third-party behavioral data collection" },
+  "guidelineRef": { "doc": "pipc-guideline-2026-04", "part": "III", "section": 15, "pages": "62-64", "lines": "2130-2246", "related": "Appendix 9" },
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "recommended",
+  "catalogClass": "R+C",
+  "handling": "clause",
+  "applicability": { "when": { "slot": "gate.thirdPartyTrackers", "op": "truthy" }, "ifNot": "omit" },
+  "rules": [
+    { "ruleId": "R-S15-001", "sectionId": "S15", "level": "should", "element": "tracker table", "statement": "When third parties are allowed to collect behavioral data via devices on own web/app, state per device: name, type, collecting company, behavioral data collected, purpose.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "every(section.S15.rows, r => r.deviceName && r.deviceType && r.collector && r.items && r.purpose)" }, "sourceSpan": "L2133-2140", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S15-002", "sectionId": "S15", "level": "should", "element": "refusal method", "statement": "Explain how to block it in web browsers or on the mobile device; for apps not using a mobile browser, give in-app or device-level steps.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "exists(section.S15.refusal)" }, "sourceSpan": "L2139-2143", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S15-003", "sectionId": "S15", "level": "should", "element": "periodic review (operational)", "statement": "Periodically check installed third-party devices, necessity and items (operator checklist, not policy text).", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L2145-2148", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S15-004", "sectionId": "S15", "level": "may", "element": "separate window", "statement": "Details may be provided in a separate linked window.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L2239-2242", "verifiedAt": "2026-09-29" }
+  ],
+  "goodPatterns": ["Separate web and app tables: device name | type (JavaScript tag, pixel, SDK) | collecting company | data collected | purpose; followed by browser and device blocking steps."],
+  "commonDefects": [
+    { "id": "D-S15-01", "severity": "minor", "defect": "Third-party SDKs present in the app but not listed (recommended item; audit as warning)." },
+    { "id": "D-S15-02", "severity": "minor", "defect": "Collecting company named only as 'ad partners'." }
+  ],
+  "extractionHints": ["pixel, tag manager, ad SDK, analytics SDK names", "\"광고 회사가 가져가요\", \"픽셀 심었어요\""],
+  "interviewNodes": ["Q-S15-01", "Q-S15-60"],
+  "legalRefs": {},
+  "needsVerification": []
+}

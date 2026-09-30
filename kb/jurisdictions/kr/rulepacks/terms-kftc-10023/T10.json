@@ -1,0 +1,606 @@
+{
+  "id": "T10",
+  "packVersion": "terms-kftc-10023",
+  "title": {
+    "ko": "청약철회 등 및 그 효과(환급)",
+    "en": "Withdrawal of offer and refund"
+  },
+  "stdTermsRef": {
+    "doc": "kftc-10023-2015-06-26",
+    "articles": "제15조~제16조",
+    "raw": "kb/_sources/terms/kftc-10023-2015-06-26.txt"
+  },
+  "attribution": "KFTC, 전자상거래(인터넷사이버몰) 표준약관 제10023호 (2015. 6. 26. 개정) and statutes via law.go.kr (paraphrased)",
+  "classification": "conditional",
+  "module": "commerce",
+  "handling": "llm+statute_table",
+  "applicability": {
+    "when": {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "terms.paid",
+          "op": "truthy"
+        }
+      ]
+    },
+    "notApplicableWhen": {
+      "slot": "terms.applicable",
+      "op": "eq",
+      "value": false
+    }
+  },
+  "slots": [
+    "terms.refundPolicy",
+    "terms.subscription"
+  ],
+  "rules": [
+    {
+      "ruleId": "R-T10-001",
+      "sectionId": "T10",
+      "level": "must",
+      "element": "7-day withdrawal",
+      "statement": "Consumers may withdraw within 7 days of receiving the contract document, or of supply if later (longer if agreed); special starting points apply when the document or seller address is missing.",
+      "legalRefs": [
+        "ECA:17(1)",
+        "STD10023:15(1)"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "mentions(section.T10, ['7일']) && !match(section.T10, lex.U-ARTC9-01)"
+      },
+      "sourceSpan": "ECA 제17조제1항; STD10023 제15조①",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T10-002",
+      "sectionId": "T10",
+      "level": "must",
+      "element": "statutory exceptions only, with measures",
+      "statement": "Limit exceptions to the statutory list (loss/damage by the consumer except opening packaging to inspect; value loss by use or consumption; value loss by time; opened packaging of copyable goods; started services/digital content except unstarted divisible parts) and state that exceptions 2-5 do not apply unless the operator clearly marked the restriction or offered a trial.",
+      "legalRefs": [
+        "ECA:17(2)",
+        "ECA:17(2)5",
+        "ECA:17(6)",
+        "STD10023:15(2)",
+        "STD10023:15(3)"
+      ],
+      "check": {
+        "kind": "llm",
+        "expr": "subsetOf(section.T10.exceptions, statute.ECA17_2) && mentions(section.T10, ['표시|명기','시용|시험 사용'])"
+      },
+      "sourceSpan": "ECA 제17조제2항·제6항; STD10023 제15조②③",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T10-003",
+      "sectionId": "T10",
+      "level": "must",
+      "element": "mismatch withdrawal",
+      "statement": "If goods differ from the advertisement or contract, withdrawal within 3 months of supply or 30 days from when the consumer knew or could have known.",
+      "legalRefs": [
+        "ECA:17(3)",
+        "STD10023:15(4)"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "mentions(section.T10, ['3개월|3월','30일'])"
+      },
+      "sourceSpan": "ECA 제17조제3항; STD10023 제15조④",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T10-004",
+      "sectionId": "T10",
+      "level": "must",
+      "element": "3-business-day refund",
+      "statement": "Refund within 3 business days from return of goods (services/digital content: from the withdrawal date; unsupplied goods: from the withdrawal date), with delay interest for late refunds.",
+      "legalRefs": [
+        "ECA:18(2)",
+        "STD10023:16(1)"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "mentions(section.T10, ['3영업일']) && !numericExceeds(section.T10, lex.U-ECA18-01, 3)"
+      },
+      "sourceSpan": "ECA 제18조제2항; STD10023 제16조①",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T10-005",
+      "sectionId": "T10",
+      "level": "must",
+      "element": "card cancellation",
+      "statement": "For card and similar payments, ask the payment provider without delay to stop or cancel the charge.",
+      "legalRefs": [
+        "ECA:18(3)",
+        "STD10023:16(2)"
+      ],
+      "check": {
+        "kind": "llm"
+      },
+      "sourceSpan": "ECA 제18조제3항; STD10023 제16조②",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T10-006",
+      "sectionId": "T10",
+      "level": "must",
+      "element": "return costs, no penalty",
+      "statement": "For ordinary withdrawal the consumer bears return costs and no penalty or damages may be charged; for mismatch withdrawal the operator bears return costs; state clearly who bears shipping costs.",
+      "legalRefs": [
+        "ECA:18(9)",
+        "ECA:18(10)",
+        "STD10023:16(3)",
+        "STD10023:16(4)"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!match(section.T10, lex.U-ECA18-02)"
+      },
+      "sourceSpan": "ECA 제18조제9항·제10항; STD10023 제16조③④",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T10-007",
+      "sectionId": "T10",
+      "level": "must",
+      "element": "operator burden of proof",
+      "statement": "Do not place on the consumer the burden of proving damage responsibility, contract conclusion or supply facts in withdrawal disputes; the seller bears it.",
+      "legalRefs": [
+        "ECA:17(5)",
+        "ARTC:14[2]"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!match(section.T10, lex.U-ARTC14-03)"
+      },
+      "sourceSpan": "ECA 제17조제5항",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T10-008",
+      "sectionId": "T10",
+      "level": "must",
+      "element": "no less favourable terms",
+      "statement": "No clause may shorten the periods or add conditions to withdrawal, refund or damages rules; agreements contrary to ECA 17-19 that disadvantage the consumer are void.",
+      "legalRefs": [
+        "ECA:35",
+        "ARTC:9[1]"
+      ],
+      "check": {
+        "kind": "llm",
+        "expr": "compare(section.T10, statute.ECA17_19)"
+      },
+      "sourceSpan": "ECA 제35조",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T10-009",
+      "sectionId": "T10",
+      "level": "should",
+      "element": "consumer-default damages cap",
+      "statement": "Where the contract is cancelled for the consumer's fault, damages claimed may not exceed the ECA 19 limits (usage fee/loss in value if returned; sale price if not) plus late-payment interest.",
+      "legalRefs": [
+        "ECA:19(1)"
+      ],
+      "check": {
+        "kind": "llm"
+      },
+      "sourceSpan": "ECA 제19조제1항",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T10-010",
+      "sectionId": "T10",
+      "level": "should",
+      "element": "no obstruction",
+      "statement": "Do not obstruct withdrawal by deceptive means or by changing address, phone or domain.",
+      "legalRefs": [
+        "ECA:21(1)1",
+        "ECA:21(1)2"
+      ],
+      "check": {
+        "kind": "llm"
+      },
+      "sourceSpan": "ECA 제21조제1항제1호·제2호",
+      "verifiedAt": "2026-09-29"
+    }
+  ],
+  "unfairPatterns": [
+    {
+      "lexiconId": "U-ARTC9-01",
+      "pattern": "(\\uD658\\uBD88|\\uD658\\uAE09|\\uCCAD\\uC57D\\s*\\uCCA0\\uD68C|\\uBC18\\uD488|\\uAD50\\uD658)[^.]{0,20}(\\uBD88\\uAC00|\\uD560\\s*\\uC218\\s*\\uC5C6|\\uB418\\uC9C0\\s*\\uC54A)",
+      "statuteRef": [
+        "ARTC:9[1]",
+        "ECA:17(1)",
+        "ECA:35"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ARTC9-03",
+      "pattern": "\\uC790\\uB3D9\\s*(\\uC73C\\uB85C)?[^.]{0,15}(\\uC5F0\\uC7A5|\\uAC31\\uC2E0|\\uACB0\\uC81C|\\uC804\\uD658)",
+      "statuteRef": [
+        "ARTC:9[6]",
+        "ECA:13(6)"
+      ],
+      "severity": "info"
+    },
+    {
+      "lexiconId": "U-ARTC9-04",
+      "pattern": "(\\uC794\\uC5EC|\\uBBF8\\uC0AC\\uC6A9|\\uC801\\uB9BD|\\uBCF4\\uC720)[^.]{0,15}(\\uD3EC\\uC778\\uD2B8|\\uC801\\uB9BD\\uAE08|\\uB9C8\\uC77C\\uB9AC\\uC9C0|\\uC774\\uC6A9\\uB8CC|\\uAE08\\uC561|\\uCE90\\uC2DC)[^.]{0,25}(\\uC18C\\uBA78|\\uD658\\uBD88\\s*(\\uB418\\uC9C0|\\uD558\\uC9C0)\\s*\\uC54A|\\uBC18\\uD658\\s*(\\uB418\\uC9C0|\\uD558\\uC9C0)\\s*\\uC54A|\\uBAB0\\uC218)",
+      "statuteRef": [
+        "ARTC:9[4]",
+        "ARTC:9[5]",
+        "STD10023:5(3)"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ARTC12-03",
+      "pattern": "(\\uC11C\\uBA74|\\uB0B4\\uC6A9\\uC99D\\uBA85|\\uBC29\\uBB38|\\uC6B0\\uD3B8)[^.]{0,10}(\\uC73C\\uB85C\\uB9CC|\\uC5D0\\s*\\uC758\\uD574\\uC11C\\uB9CC|\\uB9CC\\s*\\uAC00\\uB2A5)",
+      "statuteRef": [
+        "ARTC:12[2]",
+        "ECA:21-2(1)4"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ARTC14-03",
+      "pattern": "(\\uC774\\uC6A9\\uC790|\\uD68C\\uC6D0|\\uACE0\\uAC1D|\\uC18C\\uBE44\\uC790)[^.]{0,10}(\\uC774|\\uAC00|\\uAED8\\uC11C)\\s*(\\uC785\\uC99D|\\uC99D\\uBA85)(\\uD558\\uC5EC\\uC57C|\\uD574\\uC57C|\\uD560\\s*\\uCC45\\uC784)",
+      "statuteRef": [
+        "ARTC:14[2]",
+        "ECA:17(5)"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ECA17-01",
+      "pattern": "(\\uB514\\uC9C0\\uD138\\s*\\uCF58\\uD150\\uCE20|\\uC774\\uC6A9\\uAD8C|\\uB2E4\\uC6B4\\uB85C\\uB4DC|\\uC2A4\\uD2B8\\uB9AC\\uBC0D)[^.]{0,30}(\\uD658\\uBD88|\\uCCAD\\uC57D\\s*\\uCCA0\\uD68C|\\uCDE8\\uC18C)[^.]{0,10}(\\uBD88\\uAC00|\\uD560\\s*\\uC218\\s*\\uC5C6|\\uB418\\uC9C0\\s*\\uC54A)",
+      "statuteRef": [
+        "ECA:17(2)5",
+        "ECA:17(6)"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ECA18-01",
+      "pattern": "(\\uD658\\uBD88|\\uD658\\uAE09)[^.]{0,40}?(\\d+)\\s*(\\uC601\\uC5C5\\uC77C|\\uC77C|\\uC8FC)\\s*(\\uC774\\uB0B4|\\uB0B4\\uC5D0|\\uD6C4)",
+      "statuteRef": [
+        "ECA:18(2)"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ECA18-02",
+      "pattern": "(\\uCCAD\\uC57D\\s*\\uCCA0\\uD68C|\\uBC18\\uD488|\\uAD6C\\uB9E4\\s*\\uCDE8\\uC18C)[^.]{0,30}(\\uC704\\uC57D\\uAE08|\\uCDE8\\uC18C\\s*\\uC218\\uC218\\uB8CC|\\uC190\\uD574\\s*\\uBC30\\uC0C1)(?![^.]{0,15}(\\uCCAD\\uAD6C\\uD558\\uC9C0|\\uBD80\\uACFC\\uD558\\uC9C0|\\uBC1B\\uC9C0)\\s*\\uC54A)",
+      "statuteRef": [
+        "ECA:18(9)"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ECA21-2-01",
+      "pattern": "(\\uD0C8\\uD1F4|\\uD574\\uC9C0|\\uAD6C\\uB3C5\\s*\\uCDE8\\uC18C)[^.]{0,30}(\\uACE0\\uAC1D\\uC13C\\uD130|\\uC804\\uD654|\\uBC29\\uBB38|\\uC11C\\uBA74|\\uC774\\uBA54\\uC77C)[^.]{0,15}(\\uC73C\\uB85C\\uB9CC|\\uB97C\\s*\\uD1B5\\uD574\\uC11C\\uB9CC|\\uC5D0\\uC11C\\uB9CC|\\uB9CC\\s*\\uAC00\\uB2A5)",
+      "statuteRef": [
+        "ECA:21-2(1)4"
+      ],
+      "severity": "major"
+    }
+  ],
+  "goodPatterns": [
+    "Statute-mirroring table: case | period | start date | who pays return | refund deadline.",
+    "Digital content: restriction only after provision starts, with trial/preview and clear marking."
+  ],
+  "commonDefects": [
+    {
+      "id": "D-T10-01",
+      "severity": "blocker",
+      "defect": "\"단순 변심에 의한 환불 불가\" or withdrawal period shorter than 7 days.",
+      "seedCandidate": true
+    },
+    {
+      "id": "D-T10-02",
+      "severity": "major",
+      "defect": "Refund within 7-14 business days.",
+      "seedCandidate": true
+    },
+    {
+      "id": "D-T10-03",
+      "severity": "major",
+      "defect": "Cancellation fee or penalty charged for statutory withdrawal."
+    },
+    {
+      "id": "D-T10-04",
+      "severity": "major",
+      "defect": "Blanket \"디지털 상품 환불 불가\" without start-of-provision condition."
+    }
+  ],
+  "extractionHints": [
+    "refund / return policy text",
+    "who pays return shipping",
+    "digital or subscription products",
+    "refund processing days"
+  ],
+  "interviewNodes": [
+    "Q-T10-12",
+    "Q-T10-13"
+  ],
+  "interviewHints": [
+    "Refund table (Q-T10-12), subscription (Q-T10-13).",
+    "Proposed: goods types (physical/service/digital), withdrawal-restricted goods and the measures taken, customer type (consumer vs business)."
+  ],
+  "legalRefs": {
+    "ARTC:12[2]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "12",
+      "item": "2",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제12조 제2호",
+      "lawGoKr": true
+    },
+    "ARTC:14[2]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "14",
+      "item": "2",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제14조 제2호",
+      "lawGoKr": true
+    },
+    "ARTC:9[1]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "9",
+      "item": "1",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제9조 제1호",
+      "lawGoKr": true
+    },
+    "ARTC:9[4]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "9",
+      "item": "4",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제9조 제4호",
+      "lawGoKr": true
+    },
+    "ARTC:9[5]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "9",
+      "item": "5",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제9조 제5호",
+      "lawGoKr": true
+    },
+    "ARTC:9[6]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "9",
+      "item": "6",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제9조 제6호",
+      "lawGoKr": true
+    },
+    "ECA:13(6)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "13",
+      "paragraph": "6",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제13조 제6항",
+      "lawGoKr": true
+    },
+    "ECA:17(1)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "1",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제17조 제1항",
+      "lawGoKr": true
+    },
+    "ECA:17(2)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "2",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제17조 제2항",
+      "lawGoKr": true
+    },
+    "ECA:17(2)5": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "2",
+      "item": "5",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제17조 제2항 제5호",
+      "lawGoKr": true
+    },
+    "ECA:17(3)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "3",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제17조 제3항",
+      "lawGoKr": true
+    },
+    "ECA:17(5)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "5",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제17조 제5항",
+      "lawGoKr": true
+    },
+    "ECA:17(6)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "6",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제17조 제6항",
+      "lawGoKr": true
+    },
+    "ECA:18(10)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "18",
+      "paragraph": "10",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제18조 제10항",
+      "lawGoKr": true
+    },
+    "ECA:18(2)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "18",
+      "paragraph": "2",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제18조 제2항",
+      "lawGoKr": true
+    },
+    "ECA:18(3)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "18",
+      "paragraph": "3",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제18조 제3항",
+      "lawGoKr": true
+    },
+    "ECA:18(9)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "18",
+      "paragraph": "9",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제18조 제9항",
+      "lawGoKr": true
+    },
+    "ECA:19(1)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "19",
+      "paragraph": "1",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제19조 제1항",
+      "lawGoKr": true
+    },
+    "ECA:21(1)1": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "21",
+      "paragraph": "1",
+      "item": "1",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제21조 제1항 제1호",
+      "lawGoKr": true
+    },
+    "ECA:21(1)2": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "21",
+      "paragraph": "1",
+      "item": "2",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제21조 제1항 제2호",
+      "lawGoKr": true
+    },
+    "ECA:21-2(1)4": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "21-2",
+      "paragraph": "1",
+      "item": "4",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제21조의2 제1항 제4호",
+      "lawGoKr": true
+    },
+    "ECA:35": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "35",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제35조",
+      "lawGoKr": true
+    },
+    "STD10023:15(1)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "15",
+      "paragraph": "1",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제15조 제1항",
+      "lawGoKr": false
+    },
+    "STD10023:15(2)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "15",
+      "paragraph": "2",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제15조 제2항",
+      "lawGoKr": false
+    },
+    "STD10023:15(3)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "15",
+      "paragraph": "3",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제15조 제3항",
+      "lawGoKr": false
+    },
+    "STD10023:15(4)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "15",
+      "paragraph": "4",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제15조 제4항",
+      "lawGoKr": false
+    },
+    "STD10023:16(1)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "16",
+      "paragraph": "1",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제16조 제1항",
+      "lawGoKr": false
+    },
+    "STD10023:16(2)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "16",
+      "paragraph": "2",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제16조 제2항",
+      "lawGoKr": false
+    },
+    "STD10023:16(3)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "16",
+      "paragraph": "3",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제16조 제3항",
+      "lawGoKr": false
+    },
+    "STD10023:16(4)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "16",
+      "paragraph": "4",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제16조 제4항",
+      "lawGoKr": false
+    },
+    "STD10023:5(3)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "5",
+      "paragraph": "3",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제5조 제3항",
+      "lawGoKr": false
+    }
+  },
+  "needsVerification": [
+    {
+      "id": "NV-T10-01",
+      "note": "Delay-interest rate: std 16① cites ECA decree 제21조의2; decree text not read on law.go.kr in Row 4b. Do not print a rate."
+    },
+    {
+      "id": "NV-T10-02",
+      "note": "ECA 17(2)6 decree-defined exceptions (e.g. made-to-order) not read; do not add without decree verification."
+    }
+  ],
+  "missingSlots": [
+    "terms.goodsTypes",
+    "terms.withdrawalRestrictedGoods",
+    "terms.customerType",
+    "terms.pointsMileage"
+  ]
+}

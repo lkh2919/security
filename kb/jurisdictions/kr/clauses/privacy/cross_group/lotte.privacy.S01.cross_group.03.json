@@ -1,0 +1,77 @@
+{
+  "id": "lotte.privacy.S01.cross_group.03",
+  "docType": "privacy",
+  "sectionId": "S01",
+  "domainGroup": "cross_group",
+  "sourceCaptureIds": [
+    "lotte-recruit-privacy",
+    "lotteinnovate-privacy",
+    "lotte-global-logis-privacy",
+    "lotte-chilsung-privacy"
+  ],
+  "sourceSites": [
+    "recruit.lotte.co.kr",
+    "www.lotteinnovate.com",
+    "www.lotteglogis.com",
+    "company.lottechilsung.co.kr"
+  ],
+  "policyVersionOrDate": "2026. 09. 08부터 적용 / 공고일자 : 2026년 6월 25일 / v3.9 / 시행일자 : 2015년 03월 17일",
+  "layout": "guideline_numbered",
+  "text": "이 개인정보 처리방침은 다음과 같은 내용을 담고 있습니다.\n\n{{tableOfContents}}",
+  "variables": [
+    {
+      "name": "tableOfContents",
+      "description": "Generated list of numbered headings"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S01-005"
+  ],
+  "gapsVsGuideline": [],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 4,
+  "frequencyBase": 15,
+  "houseStyleTags": [
+    "H-02"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotte-recruit-privacy",
+      "sourceUrl": "https://recruit.lotte.co.kr/about/personalPolicy27",
+      "affiliate": "Lotte Group recruiting site",
+      "businessGroup": "hr_corporate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026. 09. 08부터 적용 ; ver 9.1 ; ver 9.0 ; ver 8.9",
+      "contentHash": "bea4c6ae916cd20a0fe393a2c59f45a88fcf71f0485597054be67d5bc3354c48"
+    },
+    {
+      "captureId": "lotteinnovate-privacy",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 6월 25일 ; 시행일자 : 2026년 6월 25일 ; 공고일자 : 2025년 9월 18일 ; 시행일자 : 2025년 9월 18일",
+      "contentHash": "ed631cda902e7824593df708a5399a8fe8e4516efd4252d5cb9ce0f65f4f7b7d"
+    },
+    {
+      "captureId": "lotte-global-logis-privacy",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/privacy",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "v3.9 ; v3.8 ; v3.7 ; v3.6",
+      "contentHash": "410069f0b4dfeea3eac1b789a4a0b07900230a4fbfafecb6ae19f2c3f2fe8114"
+    },
+    {
+      "captureId": "lotte-chilsung-privacy",
+      "sourceUrl": "https://company.lottechilsung.co.kr/kor/util/privacy/view.do?guide=14",
+      "affiliate": "Lotte Chilsung Beverage",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2015년 03월 17일 ; 시행일자 : 2026년 02월 12일 ; 시행일자 : 2025년 10월 22일 ; 시행일자 : 2025년 6월 30일",
+      "contentHash": "649fa54564a02d4c3525dc1f9b85cd6f3147c2200781222bbcaa90abbb9e3ff8"
+    }
+  ]
+}

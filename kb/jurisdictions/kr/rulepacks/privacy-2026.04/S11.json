@@ -1,0 +1,34 @@
+{
+  "id": "S11",
+  "packVersion": "privacy-2026.04",
+  "title": {"ko":"개인정보의 안전성 확보조치에 관한 사항","en":"Safety measures"},
+  "guidelineRef": {"doc":"pipc-guideline-2026-04","part":"III","section":11,"pages":"49","lines":"1578-1608"},
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "mandatory",
+  "catalogClass": "M",
+  "handling": "clause_checklist",
+  "applicability": {"when":{"all":[]}},
+  "rules": [
+    {"ruleId":"R-S11-001","sectionId":"S11","level":"must","element":"measures stated","statement":"State the safety measures taken under PIPA 29 and Decree 30 and 30-2.","legalRefs":["DEC:31(1)3","PIPA:29","DEC:30","DEC:30-2"],"check":{"kind":"deterministic","expr":"count(section.S11.measures) >= 1"},"sourceSpan":"L1580-1583","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S11-002","sectionId":"S11","level":"must","element":"actual measures by category","statement":"Describe the managerial, technical and physical measures actually implemented (per the safety-measures standard), not a generic list.","legalRefs":[],"check":{"kind":"llm","expr":"subset(section.S11.measures, slot(privacy.S11_measures)) && has(categories,['managerial','technical','physical'])"},"sourceSpan":"L1585-1589","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S11-003","sectionId":"S11","level":"may","element":"security-aware wording","statement":"Where disclosure could raise breach risk, the level of detail may be reduced without affecting security.","legalRefs":[],"check":{"kind":"llm"},"sourceSpan":"L1590-1592","verifiedAt":"2026-09-29"}
+  ],
+  "measureCatalog": {"managerial":["internal management plan","regular staff training","dedicated organization"],"technical":["access-rights management for processing systems","access-control system","internet network separation (망 차단)","encryption of personal data","keeping and checking access logs","security software installed and updated","vulnerability checks and fixes"],"physical":["access control to server and records rooms","locked storage of documents and removable media","disaster safety measures","control of removable-media in/out"]},
+  "goodPatterns": ["Three numbered lines: managerial, technical, physical; each lists only measures confirmed in the interview."],
+  "commonDefects": [
+    {"id":"D-S11-01","severity":"major","defect":"Boilerplate list includes measures the company does not perform (accuracy defect).","seedCandidate":true},
+    {"id":"D-S11-02","severity":"minor","defect":"Only technical measures listed; managerial and physical missing."}
+  ],
+  "extractionHints": ["encryption, access control, logs, firewall, VPN, training","ISMS / ISMS-P certification (also S23)","server room access, locked cabinets"],
+  "interviewNodes": ["Q-S11-01"],
+  "legalRefs": {
+    "DEC:31(1)3": {"law":"개인정보 보호법 시행령","article":"31","paragraph":"1","item":"3","verifiedBy":"pipc-guideline-2026-04","at":"p49 L1580","lawGoKr":false},
+    "PIPA:29": {"law":"개인정보 보호법","article":"29","verifiedBy":"pipc-guideline-2026-04","at":"p49 L1580","lawGoKr":false},
+    "DEC:30": {"law":"개인정보 보호법 시행령","article":"30","verifiedBy":"pipc-guideline-2026-04","at":"p49 L1581","lawGoKr":false},
+    "DEC:30-2": {"law":"개인정보 보호법 시행령","article":"30-2","verifiedBy":"pipc-guideline-2026-04","at":"p49 L1582","lawGoKr":false}
+  },
+  "needsVerification": [
+    {"id":"NV-S11-01","note":"Notice number resolved (current 제2026-9호, 2026-07-01). Still open: the measure-by-measure diff between 제2025-9호 and 제2026-9호 was not done, and 제2025-9호 부칙 staged 4(1)12-13, 5(1), 5(6), 6(2), 8(1)-(2) to take effect one year after 2025-10-31 (2026-10-31). Check for new mandatory measures before rubric v1 treats measureCatalog as complete."}
+  ],
+  "references": ["개인정보의 안전성 확보조치 기준: current 개인정보보호위원회 고시 제2026-9호 (발령·시행 2026-07-01; 제15조제5호 and 제18조 from 2027-01-01). The 2026.4 guideline cites 고시 제2025-9호 (발령 2025-10-31), which was current when the guideline was issued and is now superseded. Cite the notice by name; if a number is needed, use 제2026-9호."]
+}

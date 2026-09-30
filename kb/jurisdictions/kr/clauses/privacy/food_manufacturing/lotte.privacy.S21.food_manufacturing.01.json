@@ -1,0 +1,66 @@
+{
+  "id": "lotte.privacy.S21.food_manufacturing.01",
+  "docType": "privacy",
+  "sectionId": "S21",
+  "domainGroup": "food_manufacturing",
+  "sourceCaptureIds": [
+    "lotte-wellfood-privacy-cctv"
+  ],
+  "sourceSites": [
+    "www.lottewellfood.com"
+  ],
+  "policyVersionOrDate": "v. 1.0",
+  "layout": "guideline_numbered",
+  "text": "회사는 「개인정보 보호법」 제25조에 따라 다음과 같이 영상정보처리기기를 설치·운영합니다.\n- 설치 목적: 시설 안전 및 범죄 예방\n- 설치 현황: {{cctvTable}}\n- 관리책임자 및 접근 권한자: {{cctvManager}}\n- 촬영 시간, 보관 기간, 보관 장소 및 처리 방법: {{cctvRetention}}\n- 확인 방법: {{requestDept}}에 요청서를 제출하여 열람 등을 요구할 수 있습니다.\n- 안전성 확보 조치: 접근 통제와 접속 기록 보관",
+  "variables": [
+    {
+      "name": "cctvTable",
+      "slotId": "privacy.S21_cctvFixed",
+      "description": "Fixed video devices: facility, count, location and coverage"
+    },
+    {
+      "name": "cctvManager",
+      "slotId": "privacy.S21_cctvFixed",
+      "description": "Video management officer and authorized access holders (role and department only)"
+    },
+    {
+      "name": "cctvRetention",
+      "slotId": "privacy.S21_cctvFixed",
+      "description": "Recording hours, retention days, storage place and method"
+    },
+    {
+      "name": "requestDept",
+      "slotId": "privacy.S16_requestDept",
+      "description": "Department receiving access requests (role and functional e-mail only)"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.cctvFixed",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S21-001",
+    "R-S21-002"
+  ],
+  "gapsVsGuideline": [],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-13"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotte-wellfood-privacy-cctv",
+      "sourceUrl": "https://www.lottewellfood.com/policy/video",
+      "affiliate": "Lotte Wellfood",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "v. 1.0 ; v. 2.1 ; v. 2.0 ; v. 1.9",
+      "contentHash": "d4b787df0966493158fa14273f5f38a3acaaa0f9439c862ced9564ce70060604"
+    }
+  ]
+}

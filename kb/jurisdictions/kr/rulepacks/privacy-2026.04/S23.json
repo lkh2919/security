@@ -1,0 +1,31 @@
+{
+  "id": "S23",
+  "packVersion": "privacy-2026.04",
+  "title": { "ko": "개인정보처리자가 개인정보 처리 기준 및 보호조치 등에 관하여 자율적으로 개인정보 처리방침에 포함하여 정한 사항", "en": "Voluntary items" },
+  "guidelineRef": { "doc": "pipc-guideline-2026-04", "part": "III", "section": 23, "pages": "81-82", "lines": "2846-2913" },
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "recommended",
+  "catalogClass": "R",
+  "handling": "llm_optional",
+  "applicability": { "when": { "slot": "privacy.S23_voluntary", "op": "exists" }, "ifNot": "omit" },
+  "rules": [
+    { "ruleId": "R-S23-001", "sectionId": "S23", "level": "may", "element": "voluntary measures", "statement": "Describe protection measures taken voluntarily beyond statutory safety duties.", "legalRefs": [], "check": { "kind": "llm", "expr": "subset(section.S23.claims, slot(privacy.S23_voluntary))" }, "sourceSpan": "L2849-2852", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S23-002", "sectionId": "S23", "level": "should", "element": "AI training-data criteria", "statement": "AI model/system developers and AI service providers should set and publish criteria for collecting, preprocessing and using training data (main sources, collection methods, minimum quality standards, safety measures), reflecting data minimization and purpose specification.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "if(slot(gate.genAI)) exists(section.S23.aiTrainingCriteria)" }, "sourceSpan": "L2854-2860", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S23-003", "sectionId": "S23", "level": "must", "element": "claims are true", "statement": "Any certification, assessment or activity claimed must be confirmed by the interview (scope and period stated).", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L2894-2907", "verifiedAt": "2026-09-29" }
+  ],
+  "examples": {
+    "additionalProtection": ["domestic/overseas certifications such as ISMS-P (with scope and period)", "privacy by design and privacy impact assessment", "dormant-customer policy"],
+    "selfRegulation": ["co-regulation or self-regulatory codes", "self-regulatory bodies", "privacy officers' council", "privacy day campaigns"],
+    "transparency": ["periodic transparency reports", "privacy investment (staff, budget)", "AI training-data collection and use criteria", "privacy posts on blogs or video platforms"],
+    "userLiteracy": ["app permission management and consent withdrawal", "children and youth privacy policies"]
+  },
+  "goodPatterns": ["Lead sentence on extra effort beyond statutory duties; certification table (name, scope, period); voluntary PIA statement with system and period; one line for other activities."],
+  "commonDefects": [
+    { "id": "D-S23-01", "severity": "major", "defect": "Claims a certification the company does not hold or with wrong scope (accuracy)." },
+    { "id": "D-S23-02", "severity": "minor", "defect": "Gen-AI service with no published training-data criteria (recommended)." }
+  ],
+  "extractionHints": ["ISMS, ISMS-P, APEC CBPR, ISO 27701", "영향평가, PbD", "휴면 정책", "transparency report"],
+  "interviewNodes": ["Q-S23-01", "Q-S23-57", "Q-S05-31"],
+  "legalRefs": {},
+  "needsVerification": []
+}

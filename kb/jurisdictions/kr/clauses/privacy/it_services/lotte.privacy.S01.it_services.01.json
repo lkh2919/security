@@ -1,0 +1,57 @@
+{
+  "id": "lotte.privacy.S01.it_services.01",
+  "docType": "privacy",
+  "sectionId": "S01",
+  "domainGroup": "it_services",
+  "sourceCaptureIds": [
+    "lotteinnovate-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteinnovate.com"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 6월 25일",
+  "layout": "guideline_numbered",
+  "text": "이 개인정보 처리방침은 {{operatorName}}(이하 \"회사\")가 운영하는 {{serviceName}}에 적용되며, 위 서비스를 이용하는 과정에서 회사에 제공된 개인정보의 처리에 관한 사항을 정합니다.\n회사가 별도로 운영하는 다른 서비스에는 해당 서비스의 개인정보 처리방침이 적용됩니다.",
+  "variables": [
+    {
+      "name": "operatorName",
+      "slotId": "profile.orgNameRef",
+      "description": "Operator legal name (defined once as 회사)"
+    },
+    {
+      "name": "serviceName",
+      "slotId": "profile.serviceNames",
+      "description": "Service or site name(s) covered by the document"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S01-003",
+    "R-S01-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "원문은 홈페이지 서비스만 다루고 회사의 전반적인 처리(고객사 업무 수탁 등)는 범위 밖임을 명시하지 않음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-01"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotteinnovate-privacy",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 6월 25일 ; 시행일자 : 2026년 6월 25일 ; 공고일자 : 2025년 9월 18일 ; 시행일자 : 2025년 9월 18일",
+      "contentHash": "ed631cda902e7824593df708a5399a8fe8e4516efd4252d5cb9ce0f65f4f7b7d"
+    }
+  ]
+}

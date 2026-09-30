@@ -1,0 +1,53 @@
+{
+  "id": "lotte.privacy.S06.it_services.01",
+  "docType": "privacy",
+  "sectionId": "S06",
+  "domainGroup": "it_services",
+  "sourceCaptureIds": [
+    "lotteinnovate-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteinnovate.com"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 6월 25일",
+  "layout": "guideline_numbered",
+  "text": "회사는 개인정보 보유기간의 경과, 처리 목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기합니다.\n\n가. 파기 절차\n- 이용자가 입력한 정보는 수집 동의에 따른 보유 기간이 지난 후 즉시 파기됩니다. 다만 다른 법령에 따라 보관이 필요한 경우 별도의 DB(종이의 경우 별도의 서류)에 분리 보관하여 일정 기간 저장하며 다른 목적으로 이용하지 않습니다.\n나. 파기 방법\n- 종이에 출력된 개인정보는 분쇄기로 분쇄하거나 소각을 통하여 파기합니다.\n- 전자적 파일 형태로 저장된 개인정보는 기록을 재생할 수 없는 기술적 방법을 사용하여 삭제합니다.\n\n{{destructionText}}",
+  "variables": [
+    {
+      "name": "destructionText",
+      "slotId": "privacy.S06_destruction",
+      "description": "Destruction procedure and method"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S06-001",
+    "R-S06-003",
+    "R-S06-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S06-002",
+      "level": "must",
+      "note": "분리 보관 대상 항목·근거·기간을 이 문서 안에서 구체적으로 명시하지 않고 '3. 보유기간' 절을 참조하도록 함."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-02"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotteinnovate-privacy",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 6월 25일 ; 시행일자 : 2026년 6월 25일 ; 공고일자 : 2025년 9월 18일 ; 시행일자 : 2025년 9월 18일",
+      "contentHash": "ed631cda902e7824593df708a5399a8fe8e4516efd4252d5cb9ce0f65f4f7b7d"
+    }
+  ]
+}

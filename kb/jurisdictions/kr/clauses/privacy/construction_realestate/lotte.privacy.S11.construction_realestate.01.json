@@ -1,0 +1,50 @@
+{
+  "id": "lotte.privacy.S11.construction_realestate.01",
+  "docType": "privacy",
+  "sectionId": "S11",
+  "domainGroup": "construction_realestate",
+  "sourceCaptureIds": [
+    "lotte-castle-privacy"
+  ],
+  "sourceSites": [
+    "www.lottecastle.co.kr"
+  ],
+  "policyVersionOrDate": "시행일자 : 2026년 07월 16일",
+  "layout": "legacy_article",
+  "text": "회사는 이용자의 개인정보를 처리함에 있어 개인정보가 분실, 도난, 유출, 변조 또는 훼손되지 않도록 안전성 확보를 위하여 다음과 같은 기술적·관리적 대책을 강구하고 있습니다.\n- 개인정보의 암호화 및 접근 통제\n- 보안 프로그램 설치 및 주기적 점검\n- 취급 직원 최소화 및 교육\n- 출입 통제\n\n{{securityMeasures}}",
+  "variables": [
+    {
+      "name": "securityMeasures",
+      "slotId": "privacy.S11_measures",
+      "description": "Managerial, technical and physical safeguards actually implemented"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S11-001",
+    "R-S11-002"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S11-003",
+      "level": "may",
+      "note": "대책 문구가 포괄적이며 실제 조치 항목 명시 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-castle-privacy",
+      "sourceUrl": "https://www.lottecastle.co.kr/privacy/index.do",
+      "affiliate": "Lotte E&C (Lotte Castle brand)",
+      "businessGroup": "construction_realestate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2026년 07월 16일 ; 공고일자 : 2026년 07월 09일 ; 2026년 07월 16일 시행 ; 2026년 05월 13일 시행",
+      "contentHash": "d346946e83f4c4b1d279675daad519db2fef800cd78ba1dc456630f88daa2bde"
+    }
+  ]
+}

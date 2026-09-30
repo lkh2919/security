@@ -1,0 +1,102 @@
+{
+  "id": "lotte.terms.T09.retail_ecommerce.02",
+  "docType": "terms",
+  "sectionId": "T09",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-department-store-terms",
+    "lotte-mart-terms",
+    "lotte-himart-terms"
+  ],
+  "sourceSites": [
+    "www.lotteshopping.com",
+    "company.lottemart.com",
+    "company.himart.co.kr"
+  ],
+  "policyVersionOrDate": "2025년 10월 1일부터 적용 / 2025.08.29부터 적용",
+  "layout": "legacy_article",
+  "text": "제11조 (지급방법)\n서비스에서 구매한 재화 등에 대한 대금 지급 방법은 다음 각 호의 방법 중 가능한 방법으로 할 수 있습니다. 다만 회사는 이용자의 지급방법에 대하여 재화 등의 대금에 어떠한 명목의 수수료도 추가하여 징수할 수 없습니다: {{paymentMethods}}\n\n제12조 (수신확인통지, 구매신청 변경 및 취소)\n1. 회사는 이용자의 구매신청이 있는 경우 이용자에게 수신확인통지를 합니다.\n2. 수신확인통지를 받은 이용자는 의사표시의 불일치 등이 있는 경우에는 수신확인통지를 받은 후 즉시 구매신청 변경 및 취소를 요청할 수 있고 회사는 배송 전에 이용자의 요청이 있는 경우에는 지체 없이 그 요청에 따라 처리합니다. 다만 이미 대금을 지불한 경우에는 청약철회 등에 관한 규정에 따릅니다.\n\n제13조 (재화 등의 공급)\n1. 회사는 이용자와 재화 등의 공급 시기에 관하여 별도의 약정이 없는 한 이용자가 청약을 한 날부터 7일 이내에 재화 등을 배송할 수 있도록 주문 제작, 포장 등 기타의 필요한 조치를 취합니다. {{deliveryTerms}}\n2. 회사는 이용자가 구매한 재화에 대해 배송수단, 수단별 배송비용 부담자, 수단별 배송기간 등을 명시합니다.\n\n제14조 (환급)\n회사는 이용자가 구매신청한 재화 등이 품절 등의 사유로 인도 또는 제공을 할 수 없을 때에는 지체 없이 그 사유를 이용자에게 통지하고 사전에 재화 등의 대금을 받은 경우에는 대금을 받은 날부터 3영업일 이내에 환급하거나 환급에 필요한 조치를 취합니다.",
+  "variables": [
+    {
+      "name": "paymentMethods",
+      "slotId": "terms.paymentMethods",
+      "description": "Accepted payment methods"
+    },
+    {
+      "name": "deliveryTerms",
+      "description": "Delivery timing, area and fee (no matching interview slot yet)"
+    }
+  ],
+  "conditions": [
+    {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "terms.paid",
+          "op": "truthy"
+        }
+      ]
+    }
+  ],
+  "coversElements": [
+    "R-T09-004",
+    "R-T09-005",
+    "R-T09-006",
+    "R-T09-007",
+    "R-T09-008"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T09-009",
+      "level": "must",
+      "note": "구독형 요금 인상 사전 고지 조항은 원문에 없음."
+    },
+    {
+      "ruleId": "R-T09-010",
+      "level": "should",
+      "note": "선택 부가 상품 기본 선택(pre-tick) 금지 문구 없음."
+    },
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "배송기간 7일 초과 시 약정이 필요한 점 확인."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 3,
+  "frequencyBase": 3,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-department-store-terms",
+      "sourceUrl": "https://www.lotteshopping.com/etc/terms",
+      "affiliate": "Lotte Department Store",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": null,
+      "contentHash": "3745289f656b1c1c406d4b6ec65200b1e4b271a58e0c737937cc5fec73e5cf43"
+    },
+    {
+      "captureId": "lotte-mart-terms",
+      "sourceUrl": "https://company.lottemart.com/privacy/term.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025년 10월 1일부터 적용 ; 2025년 5월 29일부터 적용",
+      "contentHash": "5ac1c0c774222ff77be14ea0dff78529b128683e67b2095cb40543a80246eaed"
+    },
+    {
+      "captureId": "lotte-himart-terms",
+      "sourceUrl": "https://company.himart.co.kr/policy/terms",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025.08.29부터 적용",
+      "contentHash": "59e7cc599d744e3fda2d9afad802786922cbd67b51afa876bf2f615a625db01f"
+    }
+  ]
+}

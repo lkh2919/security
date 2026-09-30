@@ -1,0 +1,108 @@
+{
+  "id": "lotte.terms.T02.cross_group.01",
+  "docType": "terms",
+  "sectionId": "T02",
+  "domainGroup": "cross_group",
+  "sourceCaptureIds": [
+    "lotte-himart-terms",
+    "lotte-rental-terms",
+    "lotte-chilsung-terms",
+    "lotte-charlotte-theater-terms",
+    "lpoint-terms"
+  ],
+  "sourceSites": [
+    "company.himart.co.kr",
+    "www.lotterentacar.net",
+    "company.lottechilsung.co.kr",
+    "www.charlottetheater.co.kr",
+    "members.lpoint.com"
+  ],
+  "policyVersionOrDate": "2025.08.29부터 적용 / 시행일자 : 2020/01/16 / 2015년 04월 20일부터 시행 / 개정 일자 : 2012년 08월 30일",
+  "layout": "legacy_article",
+  "text": "제2조 (용어의 정의)\n이 약관에서 사용하는 용어의 정의는 다음과 같습니다.\n1. \"서비스\"란 회사가 {{siteUrl}} 등을 통하여 이용자에게 제공하는 {{serviceScope}}를 말합니다.\n2. \"이용자\"란 서비스에 접속하여 이 약관에 따라 회사가 제공하는 서비스를 받는 회원 및 비회원을 말합니다.\n3. \"회원\"이란 회사에 개인정보를 제공하고 회원 등록을 한 자로서 회사의 정보를 지속적으로 제공받으며 서비스를 계속하여 이용할 수 있는 자를 말합니다.\n4. \"비회원\"이란 회원에 가입하지 않고 회사가 제공하는 서비스를 이용하는 자를 말합니다.\n{%if terms.paid%}\n5. \"재화 등\"이란 회사가 이용자에게 판매·제공하는 재화 또는 용역을 말합니다.\n{%endif%}\n{{termsDefinitions}}",
+  "variables": [
+    {
+      "name": "siteUrl",
+      "description": "Public URL of the service or site"
+    },
+    {
+      "name": "serviceScope",
+      "slotId": "terms.serviceScope",
+      "description": "Services provided under the terms"
+    },
+    {
+      "name": "termsDefinitions",
+      "slotId": "terms.definitions",
+      "description": "Defined terms of the terms document"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "terms.applicable",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-T02-001",
+    "R-T02-002"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T02-003",
+      "level": "should",
+      "note": "유료 항목 정의는 조건부로만 포함."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 5,
+  "frequencyBase": 13,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-himart-terms",
+      "sourceUrl": "https://company.himart.co.kr/policy/terms",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025.08.29부터 적용",
+      "contentHash": "59e7cc599d744e3fda2d9afad802786922cbd67b51afa876bf2f615a625db01f"
+    },
+    {
+      "captureId": "lotte-rental-terms",
+      "sourceUrl": "https://www.lotterentacar.net/kor/footer/footerTermsNew.do?mnCd=MK0903",
+      "affiliate": "Lotte Rental",
+      "businessGroup": "services_leisure",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2020/01/16 ; 2020년 1월 16일부터 시행",
+      "contentHash": "53373e281b85b33a258cd270a4541695a574adb432e972f917c03c87daee5600"
+    },
+    {
+      "captureId": "lotte-chilsung-terms",
+      "sourceUrl": "https://company.lottechilsung.co.kr/kor/util/terms/contentsid/567/index.do",
+      "affiliate": "Lotte Chilsung Beverage",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2015년 04월 20일부터 시행",
+      "contentHash": "0042aa51bf8696d3c2ea0c3ddc8949134723a7521527e2810c3adafab69f4408"
+    },
+    {
+      "captureId": "lotte-charlotte-theater-terms",
+      "sourceUrl": "https://www.charlottetheater.co.kr/etc/terms.asp",
+      "affiliate": "Lotte Cultureworks / Charlotte Theater",
+      "businessGroup": "services_leisure",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "개정 일자 : 2012년 08월 30일 ; 2006년 10월 26일 개정 ; 2012년 08월 30일 시행 ; 2012년 08월 30일 개정",
+      "contentHash": "134577217c9fccea9b01b5dc5681234efc695c04321c3bb1f9348e4fb7064a93"
+    },
+    {
+      "captureId": "lpoint-terms",
+      "sourceUrl": "https://members.lpoint.com/resources/html/privacy/iframe_1009_C0_ko.html",
+      "affiliate": "Lotte Members (L.POINT)",
+      "businessGroup": "loyalty_membership",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2012년 2월 22일부터 시행 ; 2012년 2월 22일 개정 ; 2013년 5월 1일부터 시행 ; 2013년 5월 1일 개정",
+      "contentHash": "11203ef1de8f0d33430f958a1facaa7ae39be78bd5a0d86c8ad2abaf952021bb"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "id": "lotte.privacy.S05.it_services.01",
+  "docType": "privacy",
+  "sectionId": "S05",
+  "domainGroup": "it_services",
+  "sourceCaptureIds": [
+    "lotteinnovate-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteinnovate.com"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 6월 25일",
+  "layout": "guideline_numbered",
+  "text": "가. {{serviceName}} 고객 문의\n- 보존 근거: 「전자상거래 등에서의 소비자보호에 관한 법률 시행령」에 따른 소비자의 불만 또는 분쟁 처리에 관한 기록\n- 보존 기간: 3년\n나. 자료 다운로드\n- 보존 기간: 1년\n다. 예약 서비스\n- 보존 기간: 3개월\n라. 접속 기록\n- 보존 항목: 인터넷 로그 기록, 접속지 추적 자료\n- 보존 근거: 「통신비밀보호법」에 따른 통신사실확인자료 보관\n- 보존 기간: 3개월\n\n{{retentionTable}}",
+  "variables": [
+    {
+      "name": "serviceName",
+      "slotId": "profile.serviceNames",
+      "description": "Service or site name(s) covered by the document"
+    },
+    {
+      "name": "retentionTable",
+      "slotId": "privacy.S05_retention",
+      "description": "Retention period and basis per service or item group"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S05-001",
+    "R-S05-003",
+    "R-S05-004",
+    "R-S05-005"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S05-006",
+      "level": "should",
+      "note": "연장 예외는 별도 문장 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "서비스별 보존 기간을 '보존 근거 / 보존 기간' 쌍 줄로 쓰는 스타일. 기간 값은 예시이며 슬롯으로 대체한다.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-09"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotteinnovate-privacy",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 6월 25일 ; 시행일자 : 2026년 6월 25일 ; 공고일자 : 2025년 9월 18일 ; 시행일자 : 2025년 9월 18일",
+      "contentHash": "ed631cda902e7824593df708a5399a8fe8e4516efd4252d5cb9ce0f65f4f7b7d"
+    }
+  ]
+}

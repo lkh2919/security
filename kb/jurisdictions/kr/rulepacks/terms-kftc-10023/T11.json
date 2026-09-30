@@ -1,0 +1,261 @@
+{
+  "id": "T11",
+  "packVersion": "terms-kftc-10023",
+  "title": {
+    "ko": "회사와 이용자의 의무",
+    "en": "Obligations of operator and users"
+  },
+  "stdTermsRef": {
+    "doc": "kftc-10023-2015-06-26",
+    "articles": "제18조~제20조",
+    "raw": "kb/_sources/terms/kftc-10023-2015-06-26.txt"
+  },
+  "attribution": "KFTC, 전자상거래(인터넷사이버몰) 표준약관 제10023호 (2015. 6. 26. 개정) and statutes via law.go.kr (paraphrased)",
+  "classification": "mandatory",
+  "module": "core",
+  "handling": "clause",
+  "applicability": {
+    "when": {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        }
+      ]
+    },
+    "notApplicableWhen": {
+      "slot": "terms.applicable",
+      "op": "eq",
+      "value": false
+    }
+  },
+  "slots": [
+    "terms.userObligations"
+  ],
+  "rules": [
+    {
+      "ruleId": "R-T11-001",
+      "sectionId": "T11",
+      "level": "must",
+      "element": "operator duties",
+      "statement": "State operator duties: no unlawful acts, continuous and stable provision, security system protecting personal (incl. credit) information, liability for unfair labelling/advertising, no unsolicited commercial e-mail.",
+      "legalRefs": [
+        "STD10023:18"
+      ],
+      "check": {
+        "kind": "llm",
+        "expr": "covers(section.T11, ['안정적','보안','광고성'])"
+      },
+      "sourceSpan": "STD10023 제18조",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T11-002",
+      "sectionId": "T11",
+      "level": "should",
+      "element": "credential duties",
+      "statement": "Members manage their ID and password (except where the operator is responsible), do not let third parties use them, and report theft promptly.",
+      "legalRefs": [
+        "STD10023:19"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!match(section.T11, lex.U-ARTC7-04)"
+      },
+      "sourceSpan": "STD10023 제19조",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T11-003",
+      "sectionId": "T11",
+      "level": "should",
+      "element": "user prohibited acts",
+      "statement": "List concrete prohibited acts (false registration, identity theft, altering posted information, unauthorised programs, IP infringement, defamation or obstruction, obscene or violent content) plus service-specific ones from the interview.",
+      "legalRefs": [
+        "STD10023:20"
+      ],
+      "check": {
+        "kind": "llm",
+        "expr": "covers(section.T11, slot(terms.userObligations))"
+      },
+      "sourceSpan": "STD10023 제20조",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T11-004",
+      "sectionId": "T11",
+      "level": "must",
+      "element": "no risk shift or excessive damages",
+      "statement": "User obligations must not shift the operator's risks to users, restrict dealings with third parties unfairly, or impose excessive damages.",
+      "legalRefs": [
+        "ARTC:7[2]",
+        "ARTC:8",
+        "ARTC:11[3]"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!match(section.T11, lex.U-ARTC8-01) && !match(section.T11, lex.U-ARTC11-03)"
+      },
+      "sourceSpan": "ARTC 제7조제2호, 제8조, 제11조제3호",
+      "verifiedAt": "2026-09-29"
+    }
+  ],
+  "unfairPatterns": [
+    {
+      "lexiconId": "U-ARTC7-04",
+      "pattern": "(\\uBAA8\\uB4E0|\\uC77C\\uCCB4\\uC758?)\\s*(\\uCC45\\uC784|\\uC190\\uD574)[^.]{0,15}(\\uC774\\uC6A9\\uC790|\\uD68C\\uC6D0|\\uACE0\\uAC1D)(\\uC5D0\\uAC8C|\\uC774|\\uAC00)\\s*(\\uC788|\\uBD80\\uB2F4|\\uADC0\\uC18D)",
+      "statuteRef": [
+        "ARTC:7[2]"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ARTC8-01",
+      "pattern": "(\\uC704\\uC57D\\uAE08|\\uC190\\uD574\\s*\\uBC30\\uC0C1\\s*\\uC608\\uC815\\uC561|\\uC9C0\\uC5F0\\s*\\uC190\\uD574\\uAE08)[^.]{0,30}\\d+\\s*(\\uBC30|%|\\uD37C\\uC13C\\uD2B8|\\uD560)",
+      "statuteRef": [
+        "ARTC:8"
+      ],
+      "severity": "minor"
+    },
+    {
+      "lexiconId": "U-ARTC11-01",
+      "pattern": "(\\uC0C1\\uACC4|\\uD56D\\uBCC0)[^.]{0,20}(\\uD560\\s*\\uC218\\s*\\uC5C6|\\uD3EC\\uAE30|\\uC81C\\uD55C)",
+      "statuteRef": [
+        "ARTC:11[1]"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ARTC11-03",
+      "pattern": "(\\uB2E4\\uB978|\\uD0C0)\\s*(\\uC0AC\\uC5C5\\uC790|\\uC5C5\\uCCB4|\\uC11C\\uBE44\\uC2A4)[^.]{0,20}(\\uACC4\\uC57D|\\uAC70\\uB798|\\uC774\\uC6A9)[^.]{0,15}(\\uAE08\\uC9C0|\\uD560\\s*\\uC218\\s*\\uC5C6)",
+      "statuteRef": [
+        "ARTC:11[3]"
+      ],
+      "severity": "minor"
+    },
+    {
+      "lexiconId": "U-ARTC6-01",
+      "pattern": "(\\uAE30\\uD0C0|\\uADF8\\s*\\uBC16\\uC5D0)[^.]{0,10}(\\uD68C\\uC0AC|\\uBAB0)[^.]{0,5}(\\uAC00|\\uC774)\\s*(\\uD544\\uC694|\\uBD80\\uC801\\uC808|\\uBD80\\uC801\\uB2F9|\\uBD80\\uC801\\uD569)(\\uD558\\uB2E4\\uACE0|\\uD558\\uB2E4)\\s*(\\uD310\\uB2E8|\\uC778\\uC815)",
+      "statuteRef": [
+        "ARTC:6(2)1",
+        "ARTC:6(2)2"
+      ],
+      "severity": "minor"
+    },
+    {
+      "lexiconId": "U-GEN-01",
+      "pattern": "\\uCC45\\uC784\\uC744?\\s*(\\uC9C0\\uC9C0|\\uBD80\\uB2F4\\uD558\\uC9C0)\\s*(\\uC54A|\\uC544\\uB2C8)",
+      "statuteRef": [
+        "ARTC:7[1]",
+        "ARTC:7[2]"
+      ],
+      "severity": "info"
+    }
+  ],
+  "goodPatterns": [
+    "Operator duties first, then member credential duties, then user prohibited acts list."
+  ],
+  "commonDefects": [
+    {
+      "id": "D-T11-01",
+      "severity": "major",
+      "defect": "Members bear \"all responsibility\" for account misuse even when caused by the operator's security failure."
+    },
+    {
+      "id": "D-T11-02",
+      "severity": "minor",
+      "defect": "No operator duties at all (one-sided terms)."
+    }
+  ],
+  "extractionHints": [
+    "community rules",
+    "anti-abuse policy"
+  ],
+  "interviewNodes": [
+    "Q-T11-14"
+  ],
+  "interviewHints": [
+    "Ask service-specific prohibited acts (Q-T11-14)."
+  ],
+  "legalRefs": {
+    "ARTC:11[1]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "11",
+      "item": "1",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제11조 제1호",
+      "lawGoKr": true
+    },
+    "ARTC:11[3]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "11",
+      "item": "3",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제11조 제3호",
+      "lawGoKr": true
+    },
+    "ARTC:6(2)1": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "6",
+      "paragraph": "2",
+      "item": "1",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제6조 제2항 제1호",
+      "lawGoKr": true
+    },
+    "ARTC:6(2)2": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "6",
+      "paragraph": "2",
+      "item": "2",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제6조 제2항 제2호",
+      "lawGoKr": true
+    },
+    "ARTC:7[1]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "7",
+      "item": "1",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제7조 제1호",
+      "lawGoKr": true
+    },
+    "ARTC:7[2]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "7",
+      "item": "2",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제7조 제2호",
+      "lawGoKr": true
+    },
+    "ARTC:8": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "8",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제8조",
+      "lawGoKr": true
+    },
+    "STD10023:18": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "18",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제18조",
+      "lawGoKr": false
+    },
+    "STD10023:19": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "19",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제19조",
+      "lawGoKr": false
+    },
+    "STD10023:20": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "20",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제20조",
+      "lawGoKr": false
+    }
+  },
+  "needsVerification": []
+}

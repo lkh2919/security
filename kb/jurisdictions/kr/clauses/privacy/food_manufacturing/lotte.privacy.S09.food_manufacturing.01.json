@@ -1,0 +1,66 @@
+{
+  "id": "lotte.privacy.S09.food_manufacturing.01",
+  "docType": "privacy",
+  "sectionId": "S09",
+  "domainGroup": "food_manufacturing",
+  "sourceCaptureIds": [
+    "lotte-wellfood-privacy",
+    "lotte-chilsung-privacy"
+  ],
+  "sourceSites": [
+    "www.lottewellfood.com",
+    "company.lottechilsung.co.kr"
+  ],
+  "policyVersionOrDate": "시행일자: 2026년 8월 10일 / 시행일자 : 2015년 03월 17일",
+  "layout": "legacy_article",
+  "text": "제N조 (수집한 개인정보 취급 위탁)\n1. 회사는 원활한 업무 처리를 위해 이용자의 개인정보를 위탁 처리할 수 있으며, 위탁하는 경우 사전에 그 사실을 알립니다.\n2. 회사는 서비스 이행을 위해 아래와 같이 개인정보 취급 업무를 위탁하고 있습니다.\n{{processorTable}}\n(표 열) 수탁업체 / 위탁업무 내용\n3. 회사는 위탁계약 시 개인정보 보호에 관한 사항을 계약서에 명시하고 수탁자를 관리·감독합니다.",
+  "variables": [
+    {
+      "name": "processorTable",
+      "slotId": "privacy.S09_processors",
+      "description": "Processors and outsourced tasks"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.outsourcing",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S09-001",
+    "R-S09-002"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S09-004",
+      "level": "may",
+      "note": "조건부 유형화 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 2,
+  "frequencyBase": 2,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-wellfood-privacy",
+      "sourceUrl": "https://www.lottewellfood.com/policy/privacy",
+      "affiliate": "Lotte Wellfood",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자: 2026년 8월 10일 ; v.2.22 ; v.2.21 ; v.2.20",
+      "contentHash": "072b5887741bb5bb109ac2c6d576162ef430c18da9c328d1f8a3d22cd4d8aa94"
+    },
+    {
+      "captureId": "lotte-chilsung-privacy",
+      "sourceUrl": "https://company.lottechilsung.co.kr/kor/util/privacy/view.do?guide=14",
+      "affiliate": "Lotte Chilsung Beverage",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2015년 03월 17일 ; 시행일자 : 2026년 02월 12일 ; 시행일자 : 2025년 10월 22일 ; 시행일자 : 2025년 6월 30일",
+      "contentHash": "649fa54564a02d4c3525dc1f9b85cd6f3147c2200781222bbcaa90abbb9e3ff8"
+    }
+  ]
+}

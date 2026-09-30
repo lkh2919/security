@@ -1,0 +1,213 @@
+{
+  "id": "T04",
+  "packVersion": "terms-kftc-10023",
+  "title": {
+    "ko": "서비스의 제공 및 변경",
+    "en": "Provision and change of service"
+  },
+  "stdTermsRef": {
+    "doc": "kftc-10023-2015-06-26",
+    "articles": "제4조",
+    "raw": "kb/_sources/terms/kftc-10023-2015-06-26.txt"
+  },
+  "attribution": "KFTC, 전자상거래(인터넷사이버몰) 표준약관 제10023호 (2015. 6. 26. 개정) and statutes via law.go.kr (paraphrased)",
+  "classification": "mandatory",
+  "module": "core",
+  "handling": "llm",
+  "applicability": {
+    "when": {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        }
+      ]
+    },
+    "notApplicableWhen": {
+      "slot": "terms.applicable",
+      "op": "eq",
+      "value": false
+    }
+  },
+  "slots": [
+    "terms.serviceScope"
+  ],
+  "rules": [
+    {
+      "ruleId": "R-T04-001",
+      "sectionId": "T04",
+      "level": "must",
+      "element": "service list",
+      "statement": "List the services provided (e.g. product information and contract conclusion, delivery, other services) consistent with the interview answer.",
+      "legalRefs": [
+        "STD10023:4(1)"
+      ],
+      "check": {
+        "kind": "llm",
+        "expr": "covers(section.T04, slot(terms.serviceScope))"
+      },
+      "sourceSpan": "STD10023 제4조①",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T04-002",
+      "sectionId": "T04",
+      "level": "must",
+      "element": "change only for concrete reasons with notice",
+      "statement": "Change of contracted content only for concrete reasons (sold out, change of technical specification) with the reason notified promptly; changes for future contracts are posted with their effective date. No change at the operator's sole discretion.",
+      "legalRefs": [
+        "ARTC:10[1]",
+        "STD10023:4(2)",
+        "STD10023:4(3)"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!match(section.T04, lex.U-ARTC10-01) && !match(section.T04, lex.U-ARTC10-02)"
+      },
+      "sourceSpan": "ARTC 제10조제1호; STD10023 제4조②③",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T04-003",
+      "sectionId": "T04",
+      "level": "must",
+      "element": "compensation for change",
+      "statement": "The operator compensates users' losses from such changes unless it proves no intent or negligence; do not exclude this liability.",
+      "legalRefs": [
+        "STD10023:4(4)",
+        "ARTC:7[2]"
+      ],
+      "check": {
+        "kind": "llm"
+      },
+      "sourceSpan": "STD10023 제4조④; ARTC 제7조제2호",
+      "verifiedAt": "2026-09-29"
+    }
+  ],
+  "unfairPatterns": [
+    {
+      "lexiconId": "U-ARTC7-01",
+      "pattern": "(\\uC5B4\\uB5A0\\uD55C|\\uC77C\\uCCB4\\uC758?|\\uBAA8\\uB4E0)\\s*(\\uCC45\\uC784|\\uC190\\uD574|\\uBC30\\uC0C1)[^.]{0,25}(\\uC9C0\\uC9C0\\s*\\uC54A|\\uBD80\\uB2F4\\uD558\\uC9C0\\s*\\uC54A|\\uBA74\\uC81C|\\uBA74\\uCC45)",
+      "statuteRef": [
+        "ARTC:7[1]",
+        "ARTC:7[2]"
+      ],
+      "severity": "blocker"
+    },
+    {
+      "lexiconId": "U-ARTC10-01",
+      "pattern": "(\\uD68C\\uC0AC|\\uBAB0)[^.]{0,6}(\\uC758\\s*)?(\\uD310\\uB2E8|\\uC7AC\\uB7C9|\\uC0AC\\uC815|\\uC815\\uCC45)\\uC5D0\\s*\\uB530\\uB77C[^.]{0,30}(\\uBCC0\\uACBD|\\uC911\\uB2E8|\\uC885\\uB8CC|\\uC218\\uC815|\\uC81C\\uD55C)",
+      "statuteRef": [
+        "ARTC:10[1]",
+        "ARTC:10[2]"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ARTC10-02",
+      "pattern": "(\\uD68C\\uC0AC|\\uBAB0)[^.]{0,10}\\uC5B8\\uC81C\\uB4E0\\uC9C0[^.]{0,30}(\\uBCC0\\uACBD|\\uC911\\uB2E8|\\uC885\\uB8CC|\\uC218\\uC815|\\uD574\\uC9C0)",
+      "statuteRef": [
+        "ARTC:10[1]",
+        "ARTC:10[2]"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-GEN-01",
+      "pattern": "\\uCC45\\uC784\\uC744?\\s*(\\uC9C0\\uC9C0|\\uBD80\\uB2F4\\uD558\\uC9C0)\\s*(\\uC54A|\\uC544\\uB2C8)",
+      "statuteRef": [
+        "ARTC:7[1]",
+        "ARTC:7[2]"
+      ],
+      "severity": "info"
+    }
+  ],
+  "goodPatterns": [
+    "Numbered service list; change clause tied to 품절/기술적 사양 변경 with immediate notice; fault-based compensation."
+  ],
+  "commonDefects": [
+    {
+      "id": "D-T04-01",
+      "severity": "major",
+      "defect": "\"회사는 사정에 따라 언제든지 서비스를 변경할 수 있다\" without reason or notice.",
+      "seedCandidate": true
+    }
+  ],
+  "extractionHints": [
+    "what the service does",
+    "change / discontinuation practices"
+  ],
+  "interviewNodes": [
+    "Q-T04-04"
+  ],
+  "interviewHints": [
+    "Ask for the concrete service list (Q-T04-04)."
+  ],
+  "legalRefs": {
+    "ARTC:10[1]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "10",
+      "item": "1",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제10조 제1호",
+      "lawGoKr": true
+    },
+    "ARTC:10[2]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "10",
+      "item": "2",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제10조 제2호",
+      "lawGoKr": true
+    },
+    "ARTC:7[1]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "7",
+      "item": "1",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제7조 제1호",
+      "lawGoKr": true
+    },
+    "ARTC:7[2]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "7",
+      "item": "2",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제7조 제2호",
+      "lawGoKr": true
+    },
+    "STD10023:4(1)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "4",
+      "paragraph": "1",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제4조 제1항",
+      "lawGoKr": false
+    },
+    "STD10023:4(2)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "4",
+      "paragraph": "2",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제4조 제2항",
+      "lawGoKr": false
+    },
+    "STD10023:4(3)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "4",
+      "paragraph": "3",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제4조 제3항",
+      "lawGoKr": false
+    },
+    "STD10023:4(4)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "4",
+      "paragraph": "4",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제4조 제4항",
+      "lawGoKr": false
+    }
+  },
+  "needsVerification": []
+}

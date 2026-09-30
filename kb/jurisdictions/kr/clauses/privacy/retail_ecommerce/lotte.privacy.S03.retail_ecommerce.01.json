@@ -1,0 +1,84 @@
+{
+  "id": "lotte.privacy.S03.retail_ecommerce.01",
+  "docType": "privacy",
+  "sectionId": "S03",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-department-store-privacy",
+    "lotte-mart-privacy",
+    "seven-eleven-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteshopping.com",
+    "company.lottemart.com",
+    "www.7-eleven.co.kr"
+  ],
+  "policyVersionOrDate": "2026년 07월 22일부터 적용 / 시행일자 : 2026-07-09 / 공고일자 : 2010년 12월 03일",
+  "layout": "guideline_numbered",
+  "text": "회사는 서비스 제공을 위한 필수 정보와 이용자 각각의 필요에 맞는 서비스를 제공하기 위한 선택 정보로 구분하여 개인정보를 수집합니다. 선택 정보를 입력하지 않은 경우에도 기본 서비스 이용에는 제한이 없습니다.\n\n{{itemsTable}}\n\n{{generatedItems}}\n{%if gate.uniqueId%}\n고유식별정보는 관계 법령에 따른 경우에 한하여 처리하며, 처리하는 항목과 근거는 위 표에 적습니다.\n{%endif%}",
+  "variables": [
+    {
+      "name": "itemsTable",
+      "slotId": "privacy.S03_items",
+      "description": "Items per purpose with legal basis and retention, rendered as tables"
+    },
+    {
+      "name": "generatedItems",
+      "slotId": "privacy.S03_generatedItems",
+      "description": "Items generated during service use (logs, cookies, IP)"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S03-001",
+    "R-S03-003",
+    "R-S03-005",
+    "R-S03-007"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S03-004",
+      "level": "must",
+      "note": "무동의 처리 항목별 법적 근거의 표시 여부는 원문마다 다름. 표에 근거 열 필요."
+    },
+    {
+      "ruleId": "R-S03-006",
+      "level": "must",
+      "note": "타사(제휴·소셜 로그인)로부터 제공받는 항목은 receivedItems 슬롯에서 별도 기재 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 3,
+  "frequencyBase": 5,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-department-store-privacy",
+      "sourceUrl": "https://www.lotteshopping.com/etc/personalinfo",
+      "affiliate": "Lotte Department Store",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026년 07월 22일부터 적용 ; v19.9 ; V19.8 ; V19.9",
+      "contentHash": "a859427af048dabf825212295551607baaa748b71da215390d0194ffcf34fbb0"
+    },
+    {
+      "captureId": "lotte-mart-privacy",
+      "sourceUrl": "https://company.lottemart.com/privacy/privacy.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2026-07-09 ; 2026년 7월 9일부터 적용 ; V13.5 ; V13.4",
+      "contentHash": "590a26db8498b8c4c8e6207f1d0ae882474ee75a92941b51e9a6ef52435f4d4d"
+    },
+    {
+      "captureId": "seven-eleven-privacy",
+      "sourceUrl": "https://www.7-eleven.co.kr/util/policyPrivacy.asp",
+      "affiliate": "Korea Seven (7-Eleven)",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2010년 12월 03일 ; 개정일자 : 2026년 07월 08일 ; 시행일자 : 2026년 07월 15일 ; 2026년 07월 15일 시행",
+      "contentHash": "6af655aff980d52c4d64c8ebea85ef5d24994e94e40fdd6bd45bb3ee912cd2f0"
+    }
+  ]
+}

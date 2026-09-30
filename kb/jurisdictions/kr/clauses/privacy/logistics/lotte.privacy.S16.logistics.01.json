@@ -1,0 +1,62 @@
+{
+  "id": "lotte.privacy.S16.logistics.01",
+  "docType": "privacy",
+  "sectionId": "S16",
+  "domainGroup": "logistics",
+  "sourceCaptureIds": [
+    "lotte-global-logis-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteglogis.com"
+  ],
+  "policyVersionOrDate": "v3.9",
+  "layout": "guideline_numbered",
+  "text": "6. 정보주체와 법정대리인의 권리·의무 및 행사방법에 관한 사항\n① 정보주체는 회사에 대하여 언제든지 개인정보 열람·정정·삭제·처리정지 및 철회 요구 등의 권리를 행사할 수 있습니다.\n② 권리 행사는 {{requestDept}}를 통하여 {{rightsChannels}}으로 하실 수 있으며 회사는 지체 없이 조치합니다.\n③ 정보주체가 개인정보의 오류에 대한 정정 또는 삭제를 요구한 경우 회사는 그 조치가 완료될 때까지 해당 개인정보를 이용하거나 제공하지 않습니다.\n④ 권리 행사는 법정대리인이나 위임을 받은 자를 통하여 하실 수 있으며, 위임장을 제출하셔야 합니다.\n⑤ 개인정보 열람 및 처리정지 요구는 법률에 따라 제한될 수 있습니다.",
+  "variables": [
+    {
+      "name": "requestDept",
+      "slotId": "privacy.S16_requestDept",
+      "description": "Department receiving access requests (role and functional e-mail only)"
+    },
+    {
+      "name": "rightsChannels",
+      "slotId": "privacy.S16_rightsChannels",
+      "description": "Channels to exercise rights (written, phone, e-mail, fax, online)"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S16-001",
+    "R-S16-003",
+    "R-S16-004",
+    "R-S16-006"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S16-005",
+      "level": "must",
+      "note": "전송요구권 없음."
+    },
+    {
+      "ruleId": "R-S16-002",
+      "level": "must",
+      "note": "온라인 처리 경로 안내 부족."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-global-logis-privacy",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/privacy",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "v3.9 ; v3.8 ; v3.7 ; v3.6",
+      "contentHash": "410069f0b4dfeea3eac1b789a4a0b07900230a4fbfafecb6ae19f2c3f2fe8114"
+    }
+  ]
+}

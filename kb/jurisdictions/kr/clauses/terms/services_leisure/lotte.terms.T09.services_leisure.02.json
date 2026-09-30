@@ -1,0 +1,67 @@
+{
+  "id": "lotte.terms.T09.services_leisure.02",
+  "docType": "terms",
+  "sectionId": "T09",
+  "domainGroup": "services_leisure",
+  "sourceCaptureIds": [
+    "lotte-charlotte-theater-terms"
+  ],
+  "sourceSites": [
+    "www.charlottetheater.co.kr"
+  ],
+  "policyVersionOrDate": "개정 일자 : 2012년 08월 30일",
+  "layout": "legacy_article",
+  "text": "제N조 (결제)\n회원은 회사가 정한 결제 수단으로 요금을 결제할 수 있으며 결제 방법에 따른 수수료는 {{paymentMethods}}에 따릅니다. 회사는 결제 시 대금, 수량, 취소 조건 등 중요한 거래 조건을 미리 알려 확인을 받습니다.",
+  "variables": [
+    {
+      "name": "paymentMethods",
+      "slotId": "terms.paymentMethods",
+      "description": "Accepted payment methods"
+    }
+  ],
+  "conditions": [
+    {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "terms.paid",
+          "op": "truthy"
+        }
+      ]
+    }
+  ],
+  "coversElements": [
+    "R-T09-005"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T09-001",
+      "level": "must",
+      "note": "구매 신청 절차 세부 없음."
+    },
+    {
+      "ruleId": "R-T09-004",
+      "level": "must",
+      "note": "계약 성립 시점 명시 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 2,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-charlotte-theater-terms",
+      "sourceUrl": "https://www.charlottetheater.co.kr/etc/terms.asp",
+      "affiliate": "Lotte Cultureworks / Charlotte Theater",
+      "businessGroup": "services_leisure",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "개정 일자 : 2012년 08월 30일 ; 2006년 10월 26일 개정 ; 2012년 08월 30일 시행 ; 2012년 08월 30일 개정",
+      "contentHash": "134577217c9fccea9b01b5dc5681234efc695c04321c3bb1f9348e4fb7064a93"
+    }
+  ]
+}

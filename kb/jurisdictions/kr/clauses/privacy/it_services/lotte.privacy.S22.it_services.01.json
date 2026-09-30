@@ -1,0 +1,67 @@
+{
+  "id": "lotte.privacy.S22.it_services.01",
+  "docType": "privacy",
+  "sectionId": "S22",
+  "domainGroup": "it_services",
+  "sourceCaptureIds": [
+    "lotteinnovate-privacy-cctv"
+  ],
+  "sourceSites": [
+    "www.lotteinnovate.com"
+  ],
+  "policyVersionOrDate": "공고일자:2026년 01월 09일",
+  "layout": "guideline_numbered",
+  "text": "회사는 이동형 영상정보처리기기(바디캠 등)를 다음과 같이 운영합니다.\n{%if gate.cctvMobile%}\n- 설치·운영 근거 및 목적: 「개인정보 보호법」 제25조의2에 따른 업무 목적의 촬영 (촬영 목적)\n- 기기 종류 및 대수, 운영 장소: {{cctvMobileTable}}\n- 촬영 시간, 보관 기간, 보관 장소 및 처리 방법: 촬영 영상은 저장매체 용량에 맞춰 순환적으로 덮어쓰는 방식 등으로 삭제하며, 보관 기간은 관리책임자가 정한 기간(예: 30일)에 따릅니다.\n- 촬영 사실 표시 방법: 촬영 중임을 알리는 표시(불빛, 소리, 안내 문구 등)를 사용합니다.\n- 관리책임자 및 접근 권한자: {{cctvManager}}\n{%endif%}",
+  "variables": [
+    {
+      "name": "cctvMobileTable",
+      "slotId": "privacy.S22_cctvMobile",
+      "description": "Mobile video devices (body cam, drone, robot): type, purpose, retention"
+    },
+    {
+      "name": "cctvManager",
+      "slotId": "privacy.S21_cctvFixed",
+      "description": "Video management officer and authorized access holders (role and department only)"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.cctvMobile",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S22-001",
+    "R-S22-002"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S22-003",
+      "level": "should",
+      "note": "가명·익명 처리 등 개인영상정보 보호 조치 문구 없음."
+    },
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "촬영 사실 표시 방법은 원문에 언급이 없어 지침 기준으로 추가한 문구이므로 도메인 전문가 검토 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "원문은 바디캠 항목을 고정형 표 안에 한 줄로 포함. 촬영 사실 표시 문구는 원문에 없는 지침 보완 문구.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-13"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotteinnovate-privacy-cctv",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacycctv",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자:2026년 01월 09일 ; 시행일자:2026년 01월 16일",
+      "contentHash": "7f1fee553e64c5159093fa1d4ce226bbf4b7f435dc970984cb2a83e46c83d256"
+    }
+  ]
+}

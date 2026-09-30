@@ -1,0 +1,76 @@
+{
+  "id": "lotte.privacy.S10.retail_ecommerce.01",
+  "docType": "privacy",
+  "sectionId": "S10",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-mart-privacy",
+    "lotte-himart-mall-privacy"
+  ],
+  "sourceSites": [
+    "company.lottemart.com",
+    "www.e-himart.co.kr"
+  ],
+  "policyVersionOrDate": "시행일자 : 2026-07-09 / 2026.07.10부터 적용",
+  "layout": "guideline_numbered",
+  "text": "회사는 서비스 제공을 위하여 다음과 같이 개인정보 처리업무를 국외 사업자에게 위탁하거나 보관하게 할 수 있습니다.\n{%if gate.overseasTransfer%}\n{{overseasTable}}\n정보주체는 국외 이전을 거부할 수 있으며, 거부 방법과 거부 시 이용이 제한되는 서비스는 다음과 같습니다. {{overseasRefusal}}\n{%endif%}",
+  "variables": [
+    {
+      "name": "overseasTable",
+      "slotId": "privacy.S10_overseas",
+      "description": "Overseas transfers: items, country, timing and method, recipient, purpose and period, legal basis"
+    },
+    {
+      "name": "overseasRefusal",
+      "slotId": "privacy.S10_refusal",
+      "description": "How to refuse overseas transfer and the effect of refusing"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.overseasTransfer",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S10-001",
+    "R-S10-003"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S10-005",
+      "level": "must",
+      "note": "근거 조항 명시 미흡."
+    },
+    {
+      "ruleId": "R-S10-006",
+      "level": "may",
+      "note": "위탁·제공 절과의 통합 표시 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 2,
+  "frequencyBase": 5,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-mart-privacy",
+      "sourceUrl": "https://company.lottemart.com/privacy/privacy.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2026-07-09 ; 2026년 7월 9일부터 적용 ; V13.5 ; V13.4",
+      "contentHash": "590a26db8498b8c4c8e6207f1d0ae882474ee75a92941b51e9a6ef52435f4d4d"
+    },
+    {
+      "captureId": "lotte-himart-mall-privacy",
+      "sourceUrl": "https://www.e-himart.co.kr/app/terms/privacy?stonType=PC",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.07.10부터 적용 ; VER 9.6 ; VER 9.5 ; VER 9.4",
+      "contentHash": "df3adf5a2e5bbb423c88ecf061c24e22d7647dc3a22eb6a5e468e6ad54c2b3b7"
+    }
+  ]
+}

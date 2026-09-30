@@ -1,0 +1,216 @@
+{
+  "id": "T13",
+  "packVersion": "terms-kftc-10023",
+  "title": {
+    "ko": "개인정보보호",
+    "en": "Privacy protection (link to privacy policy)"
+  },
+  "stdTermsRef": {
+    "doc": "kftc-10023-2015-06-26",
+    "articles": "제17조",
+    "raw": "kb/_sources/terms/kftc-10023-2015-06-26.txt"
+  },
+  "attribution": "KFTC, 전자상거래(인터넷사이버몰) 표준약관 제10023호 (2015. 6. 26. 개정) and statutes via law.go.kr (paraphrased)",
+  "classification": "mandatory",
+  "module": "core",
+  "handling": "cross_doc",
+  "applicability": {
+    "when": {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        }
+      ]
+    },
+    "notApplicableWhen": {
+      "slot": "terms.applicable",
+      "op": "eq",
+      "value": false
+    }
+  },
+  "slots": [
+    "terms.privacyPolicyUrl"
+  ],
+  "rules": [
+    {
+      "ruleId": "R-T13-001",
+      "sectionId": "T13",
+      "level": "must",
+      "element": "link to privacy policy",
+      "statement": "Refer to the separate privacy policy (link/path) for personal-data processing instead of restating purposes, items, recipients or retention in the terms; any wording kept must match the privacy AST.",
+      "legalRefs": [
+        "PIPA:30(2)"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "present(slot(terms.privacyPolicyUrl)) && linksTo(section.T13, slot(terms.privacyPolicyUrl)) && crossConsistent(section.T13, privacyAST)"
+      },
+      "sourceSpan": "PIPA 제30조제2항 (cross-doc)",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T13-002",
+      "sectionId": "T13",
+      "level": "must",
+      "element": "no outdated standard wording",
+      "statement": "Do not copy std 17조/9조 wording tied to the old 정보통신망법 제22조 regime (\"개인정보관리책임자\", \"개인정보 취급방침\", \"취급위탁\"); use current PIPA terms (개인정보 보호책임자, 개인정보 처리방침, 처리위탁).",
+      "legalRefs": [
+        "STD10023:17(5)",
+        "STD10023:9(3)"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!match(doc, /개인정보\\s*관리\\s*책임자|개인정보\\s*취급\\s*방침|취급\\s*위탁/)"
+      },
+      "sourceSpan": "STD10023 제9조③, 제17조⑤ (2015 text)",
+      "verifiedAt": "2026-09-29",
+      "needsVerification": true
+    },
+    {
+      "ruleId": "R-T13-003",
+      "sectionId": "T13",
+      "level": "must",
+      "element": "no blanket disclosure licence",
+      "statement": "No clause allowing disclosure or provision of customer information to affiliates or third parties without consent or legal basis.",
+      "legalRefs": [
+        "ARTC:11[4]",
+        "ECA:21(1)6"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!match(doc, lex.U-ARTC11-02)"
+      },
+      "sourceSpan": "ARTC 제11조제4호; ECA 제21조제1항제6호",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T13-004",
+      "sectionId": "T13",
+      "level": "should",
+      "element": "principles consistent with privacy pack",
+      "statement": "If principles are summarised, keep them consistent with the privacy policy: minimum collection, no advance collection of purchase data at sign-up, no pre-ticked consent, no refusal of service for declining optional items, access/correction rights.",
+      "legalRefs": [
+        "STD10023:17(1)",
+        "STD10023:17(2)",
+        "STD10023:17(9)"
+      ],
+      "check": {
+        "kind": "llm",
+        "expr": "crossConsistent(section.T13, privacyAST)"
+      },
+      "sourceSpan": "STD10023 제17조①②⑨",
+      "verifiedAt": "2026-09-29"
+    }
+  ],
+  "unfairPatterns": [
+    {
+      "lexiconId": "U-ARTC11-02",
+      "pattern": "(\\uAC1C\\uC778\\uC815\\uBCF4|\\uD68C\\uC6D0\\s*\\uC815\\uBCF4|\\uACE0\\uAC1D\\s*\\uC815\\uBCF4|\\uC774\\uC6A9\\uC790\\s*\\uC815\\uBCF4)[^.]{0,30}(\\uC81C\\uD734\\uC0AC|\\uC81C3\\uC790|\\uD611\\uB825\\uC0AC)[^.]{0,20}(\\uC81C\\uACF5|\\uACF5\\uC720|\\uC774\\uC6A9)\\uD560\\s*\\uC218\\s*\\uC788",
+      "statuteRef": [
+        "ARTC:11[4]",
+        "ECA:21(1)6"
+      ],
+      "severity": "major"
+    }
+  ],
+  "goodPatterns": [
+    "Short clause: the operator protects personal data per applicable law and its privacy policy, published at <link>."
+  ],
+  "commonDefects": [
+    {
+      "id": "D-T13-01",
+      "severity": "major",
+      "defect": "Terms restate retention or recipients differently from the privacy policy.",
+      "seedCandidate": true
+    },
+    {
+      "id": "D-T13-02",
+      "severity": "minor",
+      "defect": "Uses pre-2020 terminology (개인정보관리책임자, 취급방침)."
+    }
+  ],
+  "extractionHints": [
+    "privacy policy URL/path"
+  ],
+  "interviewNodes": [
+    "Q-T13-17"
+  ],
+  "interviewHints": [
+    "Ask the privacy policy URL or menu path (Q-T13-17)."
+  ],
+  "legalRefs": {
+    "ARTC:11[4]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "11",
+      "item": "4",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제11조 제4호",
+      "lawGoKr": true
+    },
+    "ECA:21(1)6": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "21",
+      "paragraph": "1",
+      "item": "6",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제21조 제1항 제6호",
+      "lawGoKr": true
+    },
+    "PIPA:30(2)": {
+      "law": "개인정보 보호법",
+      "article": "30",
+      "paragraph": "2",
+      "verifiedBy": "pipc-guideline-2026-04",
+      "at": "제30조 제2항",
+      "lawGoKr": false,
+      "note": "cross-document reference; verified in privacy-2026.04 pack against the PIPC guideline, not re-read on law.go.kr in Row 4b"
+    },
+    "STD10023:17(1)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "17",
+      "paragraph": "1",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제17조 제1항",
+      "lawGoKr": false
+    },
+    "STD10023:17(2)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "17",
+      "paragraph": "2",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제17조 제2항",
+      "lawGoKr": false
+    },
+    "STD10023:17(5)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "17",
+      "paragraph": "5",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제17조 제5항",
+      "lawGoKr": false
+    },
+    "STD10023:17(9)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "17",
+      "paragraph": "9",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제17조 제9항",
+      "lawGoKr": false
+    },
+    "STD10023:9(3)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "9",
+      "paragraph": "3",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제9조 제3항",
+      "lawGoKr": false
+    }
+  },
+  "needsVerification": [
+    {
+      "id": "NV-T13-01",
+      "note": "The date the 정보통신망법 privacy provisions (incl. 제22조) moved into PIPA was not verified in Row 4b; R-T13-002 relies only on the 2015 std text naming the old statute."
+    }
+  ]
+}

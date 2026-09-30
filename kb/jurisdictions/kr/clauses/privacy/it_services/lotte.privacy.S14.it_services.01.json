@@ -1,0 +1,62 @@
+{
+  "id": "lotte.privacy.S14.it_services.01",
+  "docType": "privacy",
+  "sectionId": "S14",
+  "domainGroup": "it_services",
+  "sourceCaptureIds": [
+    "lotteinnovate-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteinnovate.com"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 6월 25일",
+  "layout": "guideline_numbered",
+  "text": "회사는 이용자에게 보다 개선된 서비스를 제공하기 위해 이용 정보를 저장하고 수시로 불러오는 '쿠키(cookie)'를 사용합니다.\n- 쿠키는 웹사이트를 운영하는 데 이용되는 서버가 이용자의 브라우저에 보내는 소량의 정보이며 이용자의 컴퓨터 하드디스크에 저장되기도 합니다.\n- 쿠키의 사용 목적: 이용자가 방문한 서비스와 웹사이트에 대한 방문 및 이용 형태, 인기 검색어, 보안 접속 여부 등을 파악하여 이용자에게 최적화된 정보를 제공하기 위한 근거로 사용됩니다.\n- 쿠키의 설치·운영 및 거부: 웹 브라우저 상단의 도구 > 인터넷 옵션 > 개인정보 메뉴의 설정을 통해 쿠키 저장을 거부할 수 있습니다.\n\n{{deviceTable}}",
+  "variables": [
+    {
+      "name": "deviceTable",
+      "slotId": "privacy.S14_devices",
+      "description": "Automatic collection devices, purpose, refusal path"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.autoCollection",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S14-001",
+    "R-S14-002"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "브라우저 메뉴 경로가 구형 브라우저 기준임. 현행 브라우저 경로로 갱신 필요."
+    },
+    {
+      "ruleId": "R-S14-003",
+      "level": "must",
+      "note": "행태정보 여부에 대한 언급 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "원문은 2-3 항 아래 포함(독립 절 아님). 독립 절로 분리하는 편이 지침 순서에 부합.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-15"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotteinnovate-privacy",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 6월 25일 ; 시행일자 : 2026년 6월 25일 ; 공고일자 : 2025년 9월 18일 ; 시행일자 : 2025년 9월 18일",
+      "contentHash": "ed631cda902e7824593df708a5399a8fe8e4516efd4252d5cb9ce0f65f4f7b7d"
+    }
+  ]
+}

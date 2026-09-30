@@ -1,0 +1,59 @@
+{
+  "id": "lotte.privacy.S23.logistics.01",
+  "docType": "privacy",
+  "sectionId": "S23",
+  "domainGroup": "logistics",
+  "sourceCaptureIds": [
+    "lotte-global-logis-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteglogis.com"
+  ],
+  "policyVersionOrDate": "v3.9",
+  "layout": "guideline_numbered",
+  "text": "회사는 위치정보를 처리하는 서비스를 제공하는 경우 「위치정보의 보호 및 이용 등에 관한 법률」에 따라 다음 사항을 알려드립니다.\n{%if gate.locationInfo%}\n1) 개인위치정보 처리 목적 및 보유 기간: {{locationInfo}}\n2) 개인위치정보 이용·제공 사실 확인 자료의 보유 근거 및 기간\n3) 개인위치정보의 파기 절차 및 방법\n4) 개인위치정보의 제3자 제공 및 통보\n5) 8세 이하 아동 등의 보호의무자의 권리\n6) 위치정보 관리책임자: {{deptContact}}\n{%endif%}",
+  "variables": [
+    {
+      "name": "locationInfo",
+      "slotId": "privacy.X1_location",
+      "description": "Location-information processing details"
+    },
+    {
+      "name": "deptContact",
+      "slotId": "privacy.S18_dept",
+      "description": "Responsible department: name and functional e-mail"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.locationInfo",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S23-001"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "위치정보 처리는 작성지침 24개 절에 대응 항목이 없음. 규칙 묶음에는 별도 절이 없어 S23으로 임시 매핑."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "임시 매핑: 위치정보는 X1 슬롯만 있고 규칙 절이 없음. PM이 절 추가 여부를 결정해야 함.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-global-logis-privacy",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/privacy",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "v3.9 ; v3.8 ; v3.7 ; v3.6",
+      "contentHash": "410069f0b4dfeea3eac1b789a4a0b07900230a4fbfafecb6ae19f2c3f2fe8114"
+    }
+  ]
+}

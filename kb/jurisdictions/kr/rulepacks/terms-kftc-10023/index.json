@@ -1,0 +1,1112 @@
+{
+  "packVersion": "terms-kftc-10023",
+  "version": "1.0.0",
+  "generated": "2026-09-29",
+  "generator": "Row 4b build-terms.ts (scratchpad; regenerate after edits)",
+  "source": {
+    "doc": "kftc-10023-2015-06-26",
+    "title": "전자상거래(인터넷사이버몰) 표준약관 제10023호 (2015. 6. 26. 개정)",
+    "attribution": "KFTC standard terms No. 10023 (paraphrased); statutes from law.go.kr Open API"
+  },
+  "sources": {
+    "kftc-10023-2015-06-26": {
+      "title": "전자상거래(인터넷사이버몰) 표준약관 제10023호 (2015. 6. 26. 개정)",
+      "url": "https://www.ftc.go.kr/www/selectBbsNttView.do?key=202&bordCd=201&nttSn=11139",
+      "via": "KFTC Synap document viewer (previewBbsAtchmnfl.do?key=202&fileNo=14800); .hwp not downloaded",
+      "fetched": "2026-09-29",
+      "raw": "kb/_sources/terms/kftc-10023-2015-06-26.txt"
+    },
+    "lawgokr-artc-MST260021": {
+      "title": "약관의 규제에 관한 법률 (법률 제20239호, 시행 2024-08-07, 법령ID 000667)",
+      "url": "https://www.law.go.kr/DRF/lawService.do?OC=<registered>&target=law&MST=260021&type=XML",
+      "fetched": "2026-09-29",
+      "raw": "kb/_sources/terms/artc-MST260021.xml"
+    },
+    "lawgokr-eca-MST282793": {
+      "title": "전자상거래 등에서의 소비자보호에 관한 법률 (법률 제21312호, 현행 시행 2026-07-21, 법령ID 009318)",
+      "url": "https://www.law.go.kr/DRF/lawService.do?OC=<registered>&target=law&MST=282793&type=XML",
+      "fetched": "2026-09-29",
+      "raw": "kb/_sources/terms/eca-MST282793.xml"
+    },
+    "lawgokr-eca-MST282793-ef20270121": {
+      "title": "전자상거래법 시행예정본 (시행 2027-01-21), 제개정이유 only",
+      "url": "https://www.law.go.kr/DRF/lawService.do?OC=<registered>&target=eflaw&MST=282793&efYd=20270121&type=XML",
+      "fetched": "2026-09-29",
+      "raw": "kb/_sources/terms/eca-MST282793-ef20270121.xml"
+    },
+    "pipc-guideline-2026-04": {
+      "title": "PIPC 개인정보 처리방침 작성지침 (2026.4.) via privacy-2026.04 pack",
+      "url": "https://www.pipc.go.kr/np/cop/bbs/selectBoardArticle.do?bbsId=BS217&mCode=G010030000&nttId=12018",
+      "fetched": "2026-09-29"
+    }
+  },
+  "verification": {
+    "verifiedBy": "legalRefs cite a sources key: law.go.kr API records (lawGoKr: true) for ARTC and ECA; the KFTC standard-terms text for STD10023 (official ftc.go.kr viewer, lawGoKr: false by nature); PIPA refs are cross-document and inherit privacy-2026.04 verification.",
+    "verifiedAt": "date the rule was checked against the fetched text (2026-09-29)",
+    "effectiveMeta": "effectiveFrom / effectiveStatus / effectiveNote on rules tied to dated amendments (ECA 13(6), 21-2(1): 2025-02-14 derived from Law 20302 부칙).",
+    "stdTermsCaveat": "Standard terms No. 10023 was last revised 2015-06-26; statute text read 2026-09-29 prevails where they differ (e.g. ECA 13(6), 21-2 added later; std privacy wording predates the 2020 PIPA consolidation)."
+  },
+  "ruleShapeNotes": [
+    "Same shape as privacy-2026.04: rules follow design R5.2; rule.legalRefs are keys into the file-level legalRefs map.",
+    "Key format adds LAW:article[item] for articles with items but no paragraphs (ARTC 7-14).",
+    "unfairPatterns in each section are copies of unfair-clause-lexicon.json entries (lexiconId is authoritative).",
+    "check.expr is pseudo-DSL for automation-engineer (C2); lex.<id> refers to unfair-clause-lexicon entries.",
+    "applicability.when uses R4.4 Cond; applicability.notApplicableWhen covers the internal_hr case (terms.applicable = false)."
+  ],
+  "modules": {
+    "core": [
+      "T01",
+      "T02",
+      "T03",
+      "T04",
+      "T05",
+      "T11",
+      "T13",
+      "T14",
+      "T15"
+    ],
+    "member": [
+      "T06",
+      "T07",
+      "T08"
+    ],
+    "commerce": [
+      "T09",
+      "T10"
+    ],
+    "community": [
+      "T12"
+    ]
+  },
+  "notApplicable": {
+    "when": {
+      "slot": "terms.applicable",
+      "op": "eq",
+      "value": false
+    },
+    "typical": "internal_hr (employee/HR/groupware) services: no terms document; C1 sets every T section to not_applicable and R8 states the reason (design R4.2). Interview node Q-T01-01 asks this."
+  },
+  "effectiveDated": [
+    {
+      "ruleId": "R-T07-001",
+      "effectiveFrom": "2025-02-14",
+      "status": "in_force"
+    },
+    {
+      "ruleId": "R-T09-009",
+      "effectiveFrom": "2025-02-14",
+      "status": "in_force"
+    },
+    {
+      "ruleId": "R-T09-010",
+      "effectiveFrom": "2025-02-14",
+      "status": "in_force"
+    }
+  ],
+  "upcoming": [
+    {
+      "law": "ECA",
+      "lawNo": "21312",
+      "effectiveFrom": "2027-01-21",
+      "note": "Reason text: C2C intermediary duties, foreign e-commerce operators' domestic agent, review-deletion policy disclosure, consent decisions, interim stop orders, higher fines. Article text not diffed in Row 4b.",
+      "source": "lawgokr-eca-MST282793-ef20270121"
+    }
+  ],
+  "sections": [
+    {
+      "id": "T01",
+      "file": "T01.json",
+      "title": "목적",
+      "classification": "mandatory",
+      "module": "core",
+      "handling": "clause",
+      "stdArticles": "제1조",
+      "applicability": {
+        "all": [
+          {
+            "slot": "terms.applicable",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "목적",
+        "이 약관은",
+        "권리·의무 및 책임사항",
+        "purpose"
+      ],
+      "rules": 4,
+      "mustRules": 2,
+      "unfairPatterns": 1,
+      "estTokens": 1323
+    },
+    {
+      "id": "T02",
+      "file": "T02.json",
+      "title": "정의",
+      "classification": "mandatory",
+      "module": "core",
+      "handling": "clause",
+      "stdArticles": "제2조",
+      "applicability": {
+        "all": [
+          {
+            "slot": "terms.applicable",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "정의",
+        "이용자",
+        "회원",
+        "비회원",
+        "definitions"
+      ],
+      "rules": 3,
+      "mustRules": 1,
+      "unfairPatterns": 0,
+      "estTokens": 923
+    },
+    {
+      "id": "T03",
+      "file": "T03.json",
+      "title": "약관 등의 명시와 설명 및 개정",
+      "classification": "mandatory",
+      "module": "core",
+      "handling": "clause",
+      "stdArticles": "제3조",
+      "applicability": {
+        "all": [
+          {
+            "slot": "terms.applicable",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "약관의 명시",
+        "설명",
+        "개정",
+        "적용일자",
+        "공지",
+        "amendment"
+      ],
+      "rules": 7,
+      "mustRules": 4,
+      "unfairPatterns": 2,
+      "estTokens": 2365
+    },
+    {
+      "id": "T04",
+      "file": "T04.json",
+      "title": "서비스의 제공 및 변경",
+      "classification": "mandatory",
+      "module": "core",
+      "handling": "llm",
+      "stdArticles": "제4조",
+      "applicability": {
+        "all": [
+          {
+            "slot": "terms.applicable",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "서비스의 제공",
+        "서비스 변경",
+        "업무",
+        "service change"
+      ],
+      "rules": 3,
+      "mustRules": 3,
+      "unfairPatterns": 4,
+      "estTokens": 1479
+    },
+    {
+      "id": "T05",
+      "file": "T05.json",
+      "title": "서비스의 중단",
+      "classification": "recommended",
+      "module": "core",
+      "handling": "clause",
+      "stdArticles": "제5조",
+      "applicability": {
+        "all": [
+          {
+            "slot": "terms.applicable",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "서비스 중단",
+        "점검",
+        "장애",
+        "사업 종료",
+        "suspension"
+      ],
+      "rules": 3,
+      "mustRules": 1,
+      "unfairPatterns": 7,
+      "estTokens": 2015
+    },
+    {
+      "id": "T06",
+      "file": "T06.json",
+      "title": "회원가입",
+      "classification": "conditional",
+      "module": "member",
+      "handling": "clause",
+      "stdArticles": "제6조",
+      "applicability": {
+        "all": [
+          {
+            "slot": "terms.applicable",
+            "op": "truthy"
+          },
+          {
+            "slot": "gate.membership",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "회원가입",
+        "가입 신청",
+        "승낙",
+        "sign-up"
+      ],
+      "rules": 4,
+      "mustRules": 2,
+      "unfairPatterns": 1,
+      "estTokens": 1428
+    },
+    {
+      "id": "T07",
+      "file": "T07.json",
+      "title": "회원 탈퇴 및 자격 상실 등",
+      "classification": "conditional",
+      "module": "member",
+      "handling": "clause",
+      "stdArticles": "제7조",
+      "applicability": {
+        "all": [
+          {
+            "slot": "terms.applicable",
+            "op": "truthy"
+          },
+          {
+            "slot": "gate.membership",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "회원 탈퇴",
+        "자격 정지",
+        "자격 상실",
+        "이용 제한",
+        "withdrawal"
+      ],
+      "rules": 3,
+      "mustRules": 3,
+      "unfairPatterns": 5,
+      "estTokens": 2148
+    },
+    {
+      "id": "T08",
+      "file": "T08.json",
+      "title": "회원에 대한 통지",
+      "classification": "conditional",
+      "module": "member",
+      "handling": "clause",
+      "stdArticles": "제8조",
+      "applicability": {
+        "all": [
+          {
+            "slot": "terms.applicable",
+            "op": "truthy"
+          },
+          {
+            "slot": "gate.membership",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "통지",
+        "공지",
+        "전자우편",
+        "notice"
+      ],
+      "rules": 2,
+      "mustRules": 2,
+      "unfairPatterns": 1,
+      "estTokens": 846
+    },
+    {
+      "id": "T09",
+      "file": "T09.json",
+      "title": "구매신청·계약의 성립·지급방법·재화 등의 공급",
+      "classification": "conditional",
+      "module": "commerce",
+      "handling": "llm",
+      "stdArticles": "제9조~제14조",
+      "applicability": {
+        "all": [
+          {
+            "slot": "terms.applicable",
+            "op": "truthy"
+          },
+          {
+            "slot": "terms.paid",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "구매신청",
+        "계약의 성립",
+        "수신확인",
+        "지급방법",
+        "배송",
+        "정기결제",
+        "order",
+        "payment"
+      ],
+      "rules": 10,
+      "mustRules": 8,
+      "unfairPatterns": 4,
+      "estTokens": 3785
+    },
+    {
+      "id": "T10",
+      "file": "T10.json",
+      "title": "청약철회 등 및 그 효과(환급)",
+      "classification": "conditional",
+      "module": "commerce",
+      "handling": "llm+statute_table",
+      "stdArticles": "제15조~제16조",
+      "applicability": {
+        "all": [
+          {
+            "slot": "terms.applicable",
+            "op": "truthy"
+          },
+          {
+            "slot": "terms.paid",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "청약철회",
+        "반품",
+        "교환",
+        "환불",
+        "환급",
+        "refund",
+        "withdrawal"
+      ],
+      "rules": 10,
+      "mustRules": 8,
+      "unfairPatterns": 9,
+      "estTokens": 4516
+    },
+    {
+      "id": "T11",
+      "file": "T11.json",
+      "title": "회사와 이용자의 의무",
+      "classification": "mandatory",
+      "module": "core",
+      "handling": "clause",
+      "stdArticles": "제18조~제20조",
+      "applicability": {
+        "all": [
+          {
+            "slot": "terms.applicable",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "의무",
+        "금지행위",
+        "비밀번호",
+        "ID",
+        "obligations"
+      ],
+      "rules": 4,
+      "mustRules": 2,
+      "unfairPatterns": 6,
+      "estTokens": 1877
+    },
+    {
+      "id": "T12",
+      "file": "T12.json",
+      "title": "게시물 및 저작권의 귀속·이용제한",
+      "classification": "conditional",
+      "module": "community",
+      "handling": "llm",
+      "stdArticles": "제22조",
+      "applicability": {
+        "all": [
+          {
+            "slot": "terms.applicable",
+            "op": "truthy"
+          },
+          {
+            "slot": "terms.ugc",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "게시물",
+        "저작권",
+        "지적재산권",
+        "이용 허락",
+        "copyright",
+        "UGC"
+      ],
+      "rules": 4,
+      "mustRules": 2,
+      "unfairPatterns": 2,
+      "estTokens": 1484
+    },
+    {
+      "id": "T13",
+      "file": "T13.json",
+      "title": "개인정보보호",
+      "classification": "mandatory",
+      "module": "core",
+      "handling": "cross_doc",
+      "stdArticles": "제17조",
+      "applicability": {
+        "all": [
+          {
+            "slot": "terms.applicable",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "개인정보",
+        "개인정보 처리방침",
+        "privacy"
+      ],
+      "rules": 4,
+      "mustRules": 3,
+      "unfairPatterns": 1,
+      "estTokens": 1637
+    },
+    {
+      "id": "T14",
+      "file": "T14.json",
+      "title": "책임의 제한(면책)",
+      "classification": "recommended",
+      "module": "core",
+      "handling": "clause+lexicon",
+      "stdArticles": "제4조④, 제5조②, 제13조②, 제21조",
+      "applicability": {
+        "all": [
+          {
+            "slot": "terms.applicable",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "면책",
+        "책임의 제한",
+        "손해배상",
+        "책임을 지지 않",
+        "liability"
+      ],
+      "rules": 6,
+      "mustRules": 4,
+      "unfairPatterns": 10,
+      "estTokens": 2615
+    },
+    {
+      "id": "T15",
+      "file": "T15.json",
+      "title": "분쟁해결·재판권 및 준거법",
+      "classification": "mandatory",
+      "module": "core",
+      "handling": "clause",
+      "stdArticles": "제23조~제24조",
+      "applicability": {
+        "all": [
+          {
+            "slot": "terms.applicable",
+            "op": "truthy"
+          }
+        ]
+      },
+      "triggers": [
+        "분쟁",
+        "관할",
+        "재판권",
+        "준거법",
+        "피해보상",
+        "jurisdiction"
+      ],
+      "rules": 5,
+      "mustRules": 3,
+      "unfairPatterns": 5,
+      "estTokens": 2139
+    }
+  ],
+  "missingSlots": [
+    {
+      "id": "terms.usesStdTerms",
+      "type": "yes_no",
+      "itemRefs": [
+        "T01"
+      ],
+      "desc": "Operator claims to use a KFTC standard terms form or its mark (triggers ARTC 19-3 deviation display)",
+      "proposedBy": "row_4b"
+    },
+    {
+      "id": "terms.nonMemberPurchase",
+      "type": "yes_no",
+      "itemRefs": [
+        "T02",
+        "T09"
+      ],
+      "desc": "Non-members can purchase",
+      "proposedBy": "row_4b"
+    },
+    {
+      "id": "terms.businessIdentity",
+      "type": "contact_ref",
+      "itemRefs": [
+        "T03",
+        "T09"
+      ],
+      "desc": "Placeholders for trade name, representative, address incl. complaint address, phone, e-mail, business registration no., mail-order report no. (ECA 10(1), 13(1))",
+      "proposedBy": "row_4b"
+    },
+    {
+      "id": "terms.unfavourableChangeNoticeDays",
+      "type": "number",
+      "itemRefs": [
+        "T03"
+      ],
+      "desc": "Advance notice days for amendments unfavourable to users (std baseline 30); terms.noticePeriodDays stays the general period (std 7)",
+      "proposedBy": "row_4b"
+    },
+    {
+      "id": "terms.pointsMileage",
+      "type": "yes_no",
+      "itemRefs": [
+        "T05",
+        "T10"
+      ],
+      "desc": "Service issues points, mileage or stored value (paid vs free distinguished in refundPolicy)",
+      "proposedBy": "row_4b"
+    },
+    {
+      "id": "terms.minorPurchase",
+      "type": "yes_no",
+      "itemRefs": [
+        "T06",
+        "T09"
+      ],
+      "desc": "Minors (under 19) can conclude paid contracts (ECA 13(3) cancellation-right notice)",
+      "proposedBy": "row_4b"
+    },
+    {
+      "id": "terms.goodsTypes",
+      "type": "multi",
+      "itemRefs": [
+        "T09",
+        "T10"
+      ],
+      "desc": "physical_goods | service | digital_content | subscription | ticket",
+      "proposedBy": "row_4b"
+    },
+    {
+      "id": "terms.deliveryPolicy",
+      "type": "table",
+      "itemRefs": [
+        "T09"
+      ],
+      "desc": "columns: means, costBearer, period (std 13②)",
+      "proposedBy": "row_4b"
+    },
+    {
+      "id": "terms.withdrawalRestrictedGoods",
+      "type": "table",
+      "itemRefs": [
+        "T10"
+      ],
+      "desc": "columns: goods, ground (ECA 17(2) item), measure (17(6) marking/trial)",
+      "proposedBy": "row_4b"
+    },
+    {
+      "id": "terms.marketplaceIntermediary",
+      "type": "yes_no",
+      "itemRefs": [
+        "T09",
+        "T14"
+      ],
+      "desc": "Operator acts as mail-order intermediary (통신판매중개자) or links third-party malls",
+      "proposedBy": "row_4b"
+    },
+    {
+      "id": "terms.buyerProtection",
+      "type": "single",
+      "itemRefs": [
+        "T09"
+      ],
+      "desc": "escrow | consumer_damage_insurance | not_prepaid (ECA 13(2)10) — rules pending verification",
+      "proposedBy": "row_4b"
+    },
+    {
+      "id": "terms.customerType",
+      "type": "single",
+      "itemRefs": [
+        "T10",
+        "T14",
+        "T15"
+      ],
+      "desc": "consumer | business | both — ECA consumer rules and jurisdiction depend on it",
+      "proposedBy": "row_4b"
+    },
+    {
+      "id": "terms.complaintChannel",
+      "type": "contact_ref",
+      "itemRefs": [
+        "T15"
+      ],
+      "desc": "Complaint/damage-compensation handling channel placeholders (std 23)",
+      "proposedBy": "row_4b"
+    }
+  ],
+  "lawCodes": {
+    "ARTC": "약관의 규제에 관한 법률",
+    "ECA": "전자상거래 등에서의 소비자보호에 관한 법률",
+    "STD10023": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+    "PIPA": "개인정보 보호법"
+  },
+  "lawIndex": {
+    "ARTC:10[1]": [
+      "T04",
+      "T05",
+      "T12"
+    ],
+    "ARTC:10[2]": [
+      "T04",
+      "T05"
+    ],
+    "ARTC:11[1]": [
+      "T09",
+      "T11"
+    ],
+    "ARTC:11[3]": [
+      "T11"
+    ],
+    "ARTC:11[4]": [
+      "T13"
+    ],
+    "ARTC:12[1]": [
+      "T03"
+    ],
+    "ARTC:12[2]": [
+      "T07",
+      "T10",
+      "T15"
+    ],
+    "ARTC:12[3]": [
+      "T03",
+      "T08"
+    ],
+    "ARTC:14[1]": [
+      "T15"
+    ],
+    "ARTC:14[2]": [
+      "T10",
+      "T14",
+      "T15"
+    ],
+    "ARTC:19-3(6)": [
+      "T01"
+    ],
+    "ARTC:19-3(8)": [
+      "T01"
+    ],
+    "ARTC:19-3(9)": [
+      "T01"
+    ],
+    "ARTC:3(1)": [
+      "T01"
+    ],
+    "ARTC:3(2)": [
+      "T03"
+    ],
+    "ARTC:3(3)": [
+      "T03"
+    ],
+    "ARTC:3(4)": [
+      "T03"
+    ],
+    "ARTC:4": [
+      "T03"
+    ],
+    "ARTC:5(2)": [
+      "T02"
+    ],
+    "ARTC:6(2)1": [
+      "T06",
+      "T07",
+      "T11",
+      "T12"
+    ],
+    "ARTC:6(2)2": [
+      "T06",
+      "T07",
+      "T11"
+    ],
+    "ARTC:7[1]": [
+      "T04",
+      "T05",
+      "T11",
+      "T14"
+    ],
+    "ARTC:7[2]": [
+      "T04",
+      "T05",
+      "T11",
+      "T14"
+    ],
+    "ARTC:7[3]": [
+      "T09",
+      "T14"
+    ],
+    "ARTC:7[4]": [
+      "T09",
+      "T14"
+    ],
+    "ARTC:8": [
+      "T11",
+      "T14"
+    ],
+    "ARTC:9[1]": [
+      "T10"
+    ],
+    "ARTC:9[2]": [
+      "T05",
+      "T07"
+    ],
+    "ARTC:9[3]": [
+      "T05",
+      "T07"
+    ],
+    "ARTC:9[4]": [
+      "T05",
+      "T07",
+      "T10"
+    ],
+    "ARTC:9[5]": [
+      "T05",
+      "T07",
+      "T10"
+    ],
+    "ARTC:9[6]": [
+      "T09",
+      "T10"
+    ],
+    "ECA:10(1)": [
+      "T03"
+    ],
+    "ECA:13(1)": [
+      "T03"
+    ],
+    "ECA:13(2)": [
+      "T09"
+    ],
+    "ECA:13(2)8": [
+      "T15"
+    ],
+    "ECA:13(3)": [
+      "T06",
+      "T09"
+    ],
+    "ECA:13(6)": [
+      "T09",
+      "T10"
+    ],
+    "ECA:14(1)": [
+      "T09"
+    ],
+    "ECA:14(2)": [
+      "T09"
+    ],
+    "ECA:15(1)": [
+      "T09"
+    ],
+    "ECA:15(2)": [
+      "T09"
+    ],
+    "ECA:15(3)": [
+      "T09"
+    ],
+    "ECA:17(1)": [
+      "T10"
+    ],
+    "ECA:17(2)": [
+      "T10"
+    ],
+    "ECA:17(2)5": [
+      "T10"
+    ],
+    "ECA:17(3)": [
+      "T10"
+    ],
+    "ECA:17(5)": [
+      "T10",
+      "T14",
+      "T15"
+    ],
+    "ECA:17(6)": [
+      "T10"
+    ],
+    "ECA:18(10)": [
+      "T10"
+    ],
+    "ECA:18(2)": [
+      "T10"
+    ],
+    "ECA:18(3)": [
+      "T10"
+    ],
+    "ECA:18(9)": [
+      "T10"
+    ],
+    "ECA:19(1)": [
+      "T10"
+    ],
+    "ECA:2": [
+      "T02"
+    ],
+    "ECA:21(1)1": [
+      "T10"
+    ],
+    "ECA:21(1)2": [
+      "T10"
+    ],
+    "ECA:21(1)6": [
+      "T13"
+    ],
+    "ECA:21-2(1)2": [
+      "T09"
+    ],
+    "ECA:21-2(1)4": [
+      "T07",
+      "T10",
+      "T15"
+    ],
+    "ECA:35": [
+      "T10"
+    ],
+    "ECA:36": [
+      "T15"
+    ],
+    "ECA:7": [
+      "T09"
+    ],
+    "PIPA:30(2)": [
+      "T13"
+    ],
+    "STD10023:1": [
+      "T01"
+    ],
+    "STD10023:10(1)": [
+      "T09"
+    ],
+    "STD10023:10(2)": [
+      "T09"
+    ],
+    "STD10023:10(3)": [
+      "T09"
+    ],
+    "STD10023:11": [
+      "T09"
+    ],
+    "STD10023:12(1)": [
+      "T09"
+    ],
+    "STD10023:12(2)": [
+      "T09"
+    ],
+    "STD10023:13(1)": [
+      "T09"
+    ],
+    "STD10023:13(2)": [
+      "T09",
+      "T14"
+    ],
+    "STD10023:14": [
+      "T09"
+    ],
+    "STD10023:15(1)": [
+      "T10"
+    ],
+    "STD10023:15(2)": [
+      "T10"
+    ],
+    "STD10023:15(3)": [
+      "T10"
+    ],
+    "STD10023:15(4)": [
+      "T10"
+    ],
+    "STD10023:16(1)": [
+      "T10"
+    ],
+    "STD10023:16(2)": [
+      "T10"
+    ],
+    "STD10023:16(3)": [
+      "T10"
+    ],
+    "STD10023:16(4)": [
+      "T10"
+    ],
+    "STD10023:17(1)": [
+      "T13"
+    ],
+    "STD10023:17(2)": [
+      "T13"
+    ],
+    "STD10023:17(5)": [
+      "T13"
+    ],
+    "STD10023:17(9)": [
+      "T13"
+    ],
+    "STD10023:18": [
+      "T11"
+    ],
+    "STD10023:19": [
+      "T11"
+    ],
+    "STD10023:2": [
+      "T02"
+    ],
+    "STD10023:20": [
+      "T11"
+    ],
+    "STD10023:21(2)": [
+      "T14"
+    ],
+    "STD10023:22(1)": [
+      "T12"
+    ],
+    "STD10023:22(2)": [
+      "T12"
+    ],
+    "STD10023:22(3)": [
+      "T12"
+    ],
+    "STD10023:23(1)": [
+      "T15"
+    ],
+    "STD10023:23(2)": [
+      "T15"
+    ],
+    "STD10023:23(3)": [
+      "T15"
+    ],
+    "STD10023:24(1)": [
+      "T15"
+    ],
+    "STD10023:24(2)": [
+      "T15"
+    ],
+    "STD10023:3(1)": [
+      "T03"
+    ],
+    "STD10023:3(2)": [
+      "T03"
+    ],
+    "STD10023:3(4)": [
+      "T03"
+    ],
+    "STD10023:3(5)": [
+      "T03"
+    ],
+    "STD10023:3(6)": [
+      "T03"
+    ],
+    "STD10023:4(1)": [
+      "T04"
+    ],
+    "STD10023:4(2)": [
+      "T04"
+    ],
+    "STD10023:4(3)": [
+      "T04"
+    ],
+    "STD10023:4(4)": [
+      "T04",
+      "T14"
+    ],
+    "STD10023:5(1)": [
+      "T05"
+    ],
+    "STD10023:5(2)": [
+      "T05",
+      "T14"
+    ],
+    "STD10023:5(3)": [
+      "T05",
+      "T07",
+      "T10"
+    ],
+    "STD10023:6(1)": [
+      "T06"
+    ],
+    "STD10023:6(2)": [
+      "T06"
+    ],
+    "STD10023:6(3)": [
+      "T06"
+    ],
+    "STD10023:6(4)": [
+      "T06"
+    ],
+    "STD10023:7(1)": [
+      "T07"
+    ],
+    "STD10023:7(2)": [
+      "T07"
+    ],
+    "STD10023:7(3)": [
+      "T07"
+    ],
+    "STD10023:7(4)": [
+      "T07"
+    ],
+    "STD10023:8(1)": [
+      "T08"
+    ],
+    "STD10023:8(2)": [
+      "T08"
+    ],
+    "STD10023:9(1)": [
+      "T09"
+    ],
+    "STD10023:9(3)": [
+      "T13"
+    ]
+  },
+  "lexicon": {
+    "file": "unfair-clause-lexicon.json",
+    "entries": 34
+  }
+}

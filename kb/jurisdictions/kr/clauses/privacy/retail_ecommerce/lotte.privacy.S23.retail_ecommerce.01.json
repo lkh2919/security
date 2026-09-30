@@ -1,0 +1,81 @@
+{
+  "id": "lotte.privacy.S23.retail_ecommerce.01",
+  "docType": "privacy",
+  "sectionId": "S23",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "seven-eleven-privacy",
+    "lotte-himart-privacy",
+    "lotte-himart-mall-privacy"
+  ],
+  "sourceSites": [
+    "www.7-eleven.co.kr",
+    "company.himart.co.kr",
+    "www.e-himart.co.kr"
+  ],
+  "policyVersionOrDate": "공고일자 : 2010년 12월 03일 / 2026.03.30부터 적용 / 2026.07.10부터 적용",
+  "layout": "guideline_numbered",
+  "text": "회사가 제공하는 위치기반 서비스는 다음과 같습니다.\n{%if gate.locationInfo%}\n- 서비스 내용: {{locationInfo}}\n- 개인위치정보의 이용 또는 제공: 이용자의 동의를 받고 필요한 최소한의 범위에서 이용하며, 제3자에게 제공하는 경우 매회 제공 사실을 통보합니다.\n- 위치정보 관리책임자: {{deptContact}}\n- 8세 이하의 아동 등의 보호의무자의 권리와 행사 방법\n{%endif%}",
+  "variables": [
+    {
+      "name": "locationInfo",
+      "slotId": "privacy.X1_location",
+      "description": "Location-information processing details"
+    },
+    {
+      "name": "deptContact",
+      "slotId": "privacy.S18_dept",
+      "description": "Responsible department: name and functional e-mail"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.locationInfo",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S23-001"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "규칙 묶음에 위치정보 절이 없어 S23으로 임시 매핑."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "임시 매핑. PM 결정 필요.",
+  "frequency": 3,
+  "frequencyBase": 5,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "seven-eleven-privacy",
+      "sourceUrl": "https://www.7-eleven.co.kr/util/policyPrivacy.asp",
+      "affiliate": "Korea Seven (7-Eleven)",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2010년 12월 03일 ; 개정일자 : 2026년 07월 08일 ; 시행일자 : 2026년 07월 15일 ; 2026년 07월 15일 시행",
+      "contentHash": "6af655aff980d52c4d64c8ebea85ef5d24994e94e40fdd6bd45bb3ee912cd2f0"
+    },
+    {
+      "captureId": "lotte-himart-privacy",
+      "sourceUrl": "https://company.himart.co.kr/policy/privacy",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.03.30부터 적용",
+      "contentHash": "83b3b5e65b8d770cc4afbb51379c4a472ed07128a7c60d2bdb141a316d91a5cf"
+    },
+    {
+      "captureId": "lotte-himart-mall-privacy",
+      "sourceUrl": "https://www.e-himart.co.kr/app/terms/privacy?stonType=PC",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.07.10부터 적용 ; VER 9.6 ; VER 9.5 ; VER 9.4",
+      "contentHash": "df3adf5a2e5bbb423c88ecf061c24e22d7647dc3a22eb6a5e468e6ad54c2b3b7"
+    }
+  ]
+}

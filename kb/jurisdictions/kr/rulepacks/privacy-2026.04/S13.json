@@ -1,0 +1,33 @@
+{
+  "id": "S13",
+  "packVersion": "privacy-2026.04",
+  "title": { "ko": "가명정보 처리에 관한 사항", "en": "Pseudonymized information" },
+  "guidelineRef": { "doc": "pipc-guideline-2026-04", "part": "III", "section": 13, "pages": "52-53", "lines": "1668-1759" },
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "conditional",
+  "catalogClass": "C",
+  "handling": "llm",
+  "applicability": { "when": { "slot": "gate.pseudonymized", "op": "truthy" }, "ifNot": "not_processed_statement_allowed" },
+  "rules": [
+    { "ruleId": "R-S13-001", "sectionId": "S13", "level": "must", "element": "purpose", "statement": "State the purpose of processing pseudonymized information (e.g. statistics, scientific research, public-interest archiving).", "legalRefs": ["PIPA:30(1)4-2", "PIPA:28-2"], "check": { "kind": "deterministic", "expr": "every(section.S13.rows, r => r.purpose)" }, "sourceSpan": "L1670-1678", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S13-002", "sectionId": "S13", "level": "must", "element": "period", "statement": "State the processing period of the pseudonymized information.", "legalRefs": ["PIPA:30(1)4-2"], "check": { "kind": "deterministic", "expr": "every(section.S13.rows, r => r.period)" }, "sourceSpan": "L1679", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S13-003", "sectionId": "S13", "level": "must", "element": "items pseudonymized", "statement": "State the items of personal data that were pseudonymized.", "legalRefs": ["PIPA:30(1)4-2"], "check": { "kind": "deterministic", "expr": "every(section.S13.rows, r => r.items)" }, "sourceSpan": "L1682", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S13-004", "sectionId": "S13", "level": "must", "element": "provision (if any)", "statement": "If pseudonymized information is provided to third parties, state recipient, purpose, items and recipient's retention.", "legalRefs": ["PIPA:28-3"], "check": { "kind": "deterministic", "expr": "if(rows.any(r=>r.recipient)) every(provided, r => r.recipient && r.purpose && r.items && r.retention)" }, "sourceSpan": "L1680, L1706-1712", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S13-005", "sectionId": "S13", "level": "must", "element": "outsourcing (if any)", "statement": "If processing of pseudonymized information is outsourced, state it following the S09 rules.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "if(slot(privacy.S13_pseudonym).any(processor)) exists(section.S13.outsourcing)" }, "sourceSpan": "L1674, L1681", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S13-006", "sectionId": "S13", "level": "must", "element": "safety measures (28-4)", "statement": "State the safety measures for pseudonymized information under PIPA 28-4 (e.g. separate storage of additional information, separated access rights, processing records). May be omitted here if S11 already details them.", "legalRefs": ["PIPA:28-4"], "check": { "kind": "deterministic", "expr": "exists(section.S13.safeguards) || mentions(section.S11, '28조의4')" }, "sourceSpan": "L1683-1688", "verifiedAt": "2026-09-29" }
+  ],
+  "goodPatterns": ["Blocks: use (purpose | items | period), provision (recipient | purpose | items | retention), outsourcing (processor | task), 28-4 safeguards by managerial/technical/physical."],
+  "commonDefects": [
+    { "id": "D-S13-01", "severity": "major", "defect": "Mentions pseudonymized data use but no period or items.", "seedCandidate": true },
+    { "id": "D-S13-02", "severity": "minor", "defect": "Additional-information separation not mentioned among safeguards." }
+  ],
+  "extractionHints": ["\"가명처리\", \"가명정보\", \"결합\", \"통계\", \"연구\"", "data combination projects, research partners", "AI training on pseudonymized prompts (A1 (8))"],
+  "interviewNodes": ["Q-S13-01", "Q-S13-02", "Q-A1-52"],
+  "legalRefs": {
+    "PIPA:30(1)4-2": { "law": "개인정보 보호법", "article": "30", "paragraph": "1", "item": "4-2", "verifiedBy": "pipc-guideline-2026-04", "at": "p52 L1670", "lawGoKr": false },
+    "PIPA:28-2": { "law": "개인정보 보호법", "article": "28-2", "verifiedBy": "pipc-guideline-2026-04", "at": "p52 L1671", "lawGoKr": false },
+    "PIPA:28-3": { "law": "개인정보 보호법", "article": "28-3", "verifiedBy": "pipc-guideline-2026-04", "at": "p52 L1671", "lawGoKr": false },
+    "PIPA:28-4": { "law": "개인정보 보호법", "article": "28-4", "verifiedBy": "pipc-guideline-2026-04", "at": "p52 L1683", "lawGoKr": false }
+  },
+  "needsVerification": []
+}

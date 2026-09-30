@@ -1,0 +1,45 @@
+{
+  "b2c_commerce": {
+    "profile.orgNameRef": "{{ORG_1}}",
+    "profile.serviceNames": ["쇼핑나우"],
+    "profile.serviceTypes": ["b2c_commerce"],
+    "gate.membership": true,
+    "gate.childrenU14": false,
+    "gate.marketing": false,
+    "gate.thirdPartyProvision": false,
+    "gate.outsourcing": true,
+    "gate.overseasTransfer": false,
+    "gate.overseasDirectCollection": false,
+    "gate.autoCollection": true,
+    "gate.genAI": false,
+    "gate.automatedDecision": false,
+    "gate.cctvFixed": false,
+    "gate.cctvMobile": false,
+    "gate.locationInfo": false
+  },
+  "internal_hr": {
+    "profile.serviceTypes": ["internal_hr"],
+    "gate.membership": false,
+    "gate.childrenU14": false,
+    "gate.marketing": false,
+    "gate.thirdPartyProvision": false,
+    "gate.outsourcing": false,
+    "gate.overseasTransfer": false,
+    "gate.genAI": false,
+    "gate.cctvFixed": false,
+    "gate.locationInfo": false
+  },
+  "children_cctv": {
+    "profile.serviceTypes": ["b2c_commerce"],
+    "gate.membership": true,
+    "gate.childrenU14": true,
+    "gate.cctvFixed": true,
+    "gate.cctvMobile": false,
+    "gate.locationInfo": true,
+    "gate.genAI": true,
+    "gate.marketing": false,
+    "gate.thirdPartyProvision": false,
+    "gate.outsourcing": false,
+    "gate.overseasTransfer": false
+  }
+}

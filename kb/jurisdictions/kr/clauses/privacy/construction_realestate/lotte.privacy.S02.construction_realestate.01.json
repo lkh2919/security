@@ -1,0 +1,50 @@
+{
+  "id": "lotte.privacy.S02.construction_realestate.01",
+  "docType": "privacy",
+  "sectionId": "S02",
+  "domainGroup": "construction_realestate",
+  "sourceCaptureIds": [
+    "lotte-castle-privacy"
+  ],
+  "sourceSites": [
+    "www.lottecastle.co.kr"
+  ],
+  "policyVersionOrDate": "시행일자 : 2026년 07월 16일",
+  "layout": "legacy_article",
+  "text": "회사는 수집한 개인정보를 다음의 목적을 위해 활용합니다.\n- 회원제 서비스 이용에 따른 본인 확인 및 회원 식별\n- 계약 이행을 위한 서비스 제공(하자 접수, 입주 예약, 계약 정보 조회 등) 및 민원·고충 처리\n- 분양·공사·입주 단지 안내와 상담\n- 이벤트 및 광고성 정보 제공, 참여 기회 제공\n- 청구서·경품 배송\n- 계약금 또는 신청금 환불 업무\n- 계약 수행 시 관계 법령상 의무 이행\n\n{{purposeTable}}",
+  "variables": [
+    {
+      "name": "purposeTable",
+      "slotId": "privacy.S02_purposes",
+      "description": "Purposes per service or task, rendered as a list or table"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S02-001",
+    "R-S02-005"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S02-002",
+      "level": "must",
+      "note": "'서비스 제공', '민원·고충 처리' 등 포괄 표현. 구체화 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-castle-privacy",
+      "sourceUrl": "https://www.lottecastle.co.kr/privacy/index.do",
+      "affiliate": "Lotte E&C (Lotte Castle brand)",
+      "businessGroup": "construction_realestate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2026년 07월 16일 ; 공고일자 : 2026년 07월 09일 ; 2026년 07월 16일 시행 ; 2026년 05월 13일 시행",
+      "contentHash": "d346946e83f4c4b1d279675daad519db2fef800cd78ba1dc456630f88daa2bde"
+    }
+  ]
+}

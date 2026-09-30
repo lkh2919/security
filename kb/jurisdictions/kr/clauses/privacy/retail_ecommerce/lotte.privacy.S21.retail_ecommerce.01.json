@@ -1,0 +1,105 @@
+{
+  "id": "lotte.privacy.S21.retail_ecommerce.01",
+  "docType": "privacy",
+  "sectionId": "S21",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-department-store-privacy-cctv",
+    "lotte-mart-privacy-cctv",
+    "seven-eleven-privacy-cctv"
+  ],
+  "sourceSites": [
+    "www.lotteshopping.com",
+    "company.lottemart.com",
+    "www.7-eleven.co.kr"
+  ],
+  "policyVersionOrDate": "공고일자 : 2025년 11월 12일 / 시행일자 : 2026년 2월 27일 / 공고일자 : 2023년 10월 04일",
+  "layout": "guideline_numbered",
+  "text": "{{operatorName}}는 「개인정보 보호법」 제25조 제1항에 따라 다음과 같이 고정형 영상정보처리기기를 설치·운영합니다.\n1. 설치 근거 및 목적: 범죄 예방 및 시설 안전, 화재 예방, 고객 안전, 분쟁 해결 및 도난·파손 방지 (해당하는 목적만 남김)\n2. 설치 대수, 설치 위치 및 촬영 범위: {{cctvTable}}\n3. 관리책임자, 담당 부서 및 영상정보에 대한 접근 권한자: {{cctvManager}}\n4. 영상정보의 촬영 시간, 보관 기간, 보관 장소 및 처리 방법: {{cctvRetention}}\n5. 영상정보 확인 방법 및 장소: 확인 요청은 {{requestDept}}를 통해 접수하며, 확인 방법과 장소를 안내합니다.\n6. 정보주체의 영상정보 열람 등 요구에 대한 조치: 개인영상정보에 관하여 열람 또는 존재 확인·삭제를 원하는 경우 요청서를 제출하며, 요구를 받은 날부터 10일 이내에 조치합니다.\n7. 영상정보의 안전성 확보 조치: 접근 통제, 접속 기록 보관, 암호화 등\n8. 그 밖의 사항: 설치 위치에 안내판을 설치하며 방침 변경 시 {{noticeMethod}}로 알립니다.",
+  "variables": [
+    {
+      "name": "operatorName",
+      "slotId": "profile.orgNameRef",
+      "description": "Operator legal name (defined once as 회사)"
+    },
+    {
+      "name": "cctvTable",
+      "slotId": "privacy.S21_cctvFixed",
+      "description": "Fixed video devices: facility, count, location and coverage"
+    },
+    {
+      "name": "cctvManager",
+      "slotId": "privacy.S21_cctvFixed",
+      "description": "Video management officer and authorized access holders (role and department only)"
+    },
+    {
+      "name": "cctvRetention",
+      "slotId": "privacy.S21_cctvFixed",
+      "description": "Recording hours, retention days, storage place and method"
+    },
+    {
+      "name": "requestDept",
+      "slotId": "privacy.S16_requestDept",
+      "description": "Department receiving access requests (role and functional e-mail only)"
+    },
+    {
+      "name": "noticeMethod",
+      "slotId": "privacy.S24_noticeMethod",
+      "description": "Where and how change notices are given"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.cctvFixed",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S21-001",
+    "R-S21-002",
+    "R-S21-003"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "매장 유형별(백화점, 마트, 편의점) 설치 현황 표가 각각 다름. 점포별 표는 cctvTable 슬롯로 통일."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 3,
+  "frequencyBase": 3,
+  "houseStyleTags": [
+    "H-13"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotte-department-store-privacy-cctv",
+      "sourceUrl": "https://www.lotteshopping.com/etc/operate",
+      "affiliate": "Lotte Department Store",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2025년 11월 12일 ; 시행일자 : 2025년 11월 19일",
+      "contentHash": "d08761bd383c0481838a150c780adbd61cc126e6547d202d81024a4566f78bde"
+    },
+    {
+      "captureId": "lotte-mart-privacy-cctv",
+      "sourceUrl": "https://company.lottemart.com/privacy/media.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2026년 2월 27일",
+      "contentHash": "72c62318353565e5b7c404558221bf5962ffa004bd4b61f305bf0bc3b86868f1"
+    },
+    {
+      "captureId": "seven-eleven-privacy-cctv",
+      "sourceUrl": "https://www.7-eleven.co.kr/util/videoPolicy.asp",
+      "affiliate": "Korea Seven (7-Eleven)",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2023년 10월 04일 ; 개정일자 : 2026년 04월 10일 ; 시행일자 : 2026년 04월 24일 ; 2026년 04월 24일 시행",
+      "contentHash": "0b0e3508b0701b7b848e71855e1020b2f2176ee17a89d8a2cc2f538936b270e4"
+    }
+  ]
+}

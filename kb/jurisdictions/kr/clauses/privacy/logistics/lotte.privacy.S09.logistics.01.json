@@ -1,0 +1,62 @@
+{
+  "id": "lotte.privacy.S09.logistics.01",
+  "docType": "privacy",
+  "sectionId": "S09",
+  "domainGroup": "logistics",
+  "sourceCaptureIds": [
+    "lotte-global-logis-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteglogis.com"
+  ],
+  "policyVersionOrDate": "v3.9",
+  "layout": "guideline_numbered",
+  "text": "1) 국내 위탁\n회사는 원활한 서비스 제공을 위하여 다음과 같이 개인정보 처리업무를 위탁하고 있습니다.\n{{processorTable}}\n(표 열) 수탁자 / 위탁 업무의 내용 / 개인정보 보유 및 이용기간\n\n2) 국내 재위탁\n{{subProcessorTable}}\n(표 열) 수탁자 / 재수탁자 / 재위탁 업무의 내용",
+  "variables": [
+    {
+      "name": "processorTable",
+      "slotId": "privacy.S09_processors",
+      "description": "Processors and outsourced tasks"
+    },
+    {
+      "name": "subProcessorTable",
+      "slotId": "privacy.S09_subProcessors",
+      "description": "Sub-processors and their tasks"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.outsourcing",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S09-001",
+    "R-S09-002"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S09-004",
+      "level": "may",
+      "note": "조건부 유형화 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-07"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotte-global-logis-privacy",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/privacy",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "v3.9 ; v3.8 ; v3.7 ; v3.6",
+      "contentHash": "410069f0b4dfeea3eac1b789a4a0b07900230a4fbfafecb6ae19f2c3f2fe8114"
+    }
+  ]
+}

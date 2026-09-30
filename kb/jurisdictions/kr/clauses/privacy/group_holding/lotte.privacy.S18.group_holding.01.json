@@ -1,0 +1,58 @@
+{
+  "id": "lotte.privacy.S18.group_holding.01",
+  "docType": "privacy",
+  "sectionId": "S18",
+  "domainGroup": "group_holding",
+  "sourceCaptureIds": [
+    "lotte-holdings-privacy"
+  ],
+  "sourceSites": [
+    "www.lotte.co.kr"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 03월 10일",
+  "layout": "guideline_numbered",
+  "text": "회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만 처리 및 피해 구제 등을 위하여 아래와 같이 개인정보 보호 담당부서를 지정하고 있습니다.\n- 담당부서: {{deptContact}}\n- 개인정보 보호책임자: {{officerContact}}\n\n개인정보와 관련한 문의는 위 담당부서로 접수하실 수 있으며, 회사는 지체 없이 답변 및 처리하겠습니다.",
+  "variables": [
+    {
+      "name": "deptContact",
+      "slotId": "privacy.S18_dept",
+      "description": "Responsible department: name and functional e-mail"
+    },
+    {
+      "name": "officerContact",
+      "slotId": "privacy.S18_officer",
+      "description": "Privacy officer: role/title and functional e-mail (no personal name in reusable text)"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S18-001",
+    "R-S18-002",
+    "R-S18-003"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S18-004",
+      "level": "should",
+      "note": "원문은 부서와 개인 담당자를 병기하고 담당자 이름·직통 번호를 노출함. 재사용 시 개인 정보 제거."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-12"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotte-holdings-privacy",
+      "sourceUrl": "https://www.lotte.co.kr/privacy/agree.do",
+      "affiliate": "Lotte Holdings (group corporate site)",
+      "businessGroup": "group_holding",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 03월 10일 ; 시행일자 : 2026년 03월 16일 ; 2026년 03월 16일 부터 시행",
+      "contentHash": "1ad4f5da933e8cf4870d164c407d8058be09b3e60dc19fabceed3379cef6aa87"
+    }
+  ]
+}

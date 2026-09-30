@@ -1,0 +1,49 @@
+{
+  "id": "lotte.terms.T11.hr_corporate.01",
+  "docType": "terms",
+  "sectionId": "T11",
+  "domainGroup": "hr_corporate",
+  "sourceCaptureIds": [
+    "lotte-recruit-terms"
+  ],
+  "sourceSites": [
+    "recruit.lotte.co.kr"
+  ],
+  "policyVersionOrDate": null,
+  "layout": "legacy_article",
+  "text": "제10조 (회사의 의무)\n1. 회사는 법령과 이 약관이 정하는 권리의 행사 및 의무의 이행을 신의에 따라 성실하게 합니다.\n2. 회사는 회원이 안전하게 서비스를 이용할 수 있도록 개인정보 보호를 위한 보안 시스템을 갖추고 개인정보 처리방침을 공시하고 준수합니다.\n3. 회사는 회원이 제기하는 정당한 의견이나 불만을 처리합니다.",
+  "variables": [],
+  "conditions": [
+    {
+      "slot": "terms.applicable",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-T11-001",
+    "R-T11-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T11-002",
+      "level": "should",
+      "note": "회원 의무 조항은 본 캡처에서 확인되지 않음(캡처가 10조에서 끝남)."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "채용 사이트 약관은 캡처 본문이 제10조까지만 있어 후속 조항은 미확인.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-recruit-terms",
+      "sourceUrl": "https://recruit.lotte.co.kr/about/termOfPolicy",
+      "affiliate": "Lotte Group recruiting site",
+      "businessGroup": "hr_corporate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": null,
+      "contentHash": "830691c6eefc2b3070bf23d81f762b1389acf724a5cc0012f21ac82ee84aae37"
+    }
+  ]
+}

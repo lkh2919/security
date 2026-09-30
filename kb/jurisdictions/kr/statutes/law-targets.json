@@ -1,0 +1,82 @@
+[
+  {
+    "name_ko": "개인정보 보호법",
+    "name_en": "Personal Information Protection Act (PIPA)",
+    "api_target": "law | eflaw (list: lawSearch.do; body: lawService.do)",
+    "lookup_hint": "lawSearch.do?OC={OC}&target=law&type=XML&query=%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%20%EB%B3%B4%ED%98%B8%EB%B2%95 ; pick exact 법령명한글; history: target=eflaw&LID=011357&nw=1,2,3&sort=efdes. MST 283839 (current, Act 21445, effective 2026-09-11); scheduled: MST 289415 (Act 21910, 2027-03-09), MST 283839 stage 2027-07-01. Verified 2026-09-29.",
+    "id_if_found": "law ID 011357; MST 283839",
+    "page_url": "https://www.law.go.kr/법령/개인정보보호법 (iframe shell; use the API for content)"
+  },
+  {
+    "name_ko": "개인정보 보호법 시행령",
+    "name_en": "Enforcement Decree of the PIPA",
+    "api_target": "law | eflaw",
+    "lookup_hint": "query=개인정보 보호법 시행령 (percent-encoded); eflaw&LID=011468&nw=1,2,3. Current MST 289537 (Decree 36671, effective 2026-09-11). No scheduled row found on 2026-09-29, but Decree 36121 has a stage 1 year after promulgation (derived 2027-02-20, UNVERIFIED).",
+    "id_if_found": "law ID 011468; MST 289537",
+    "page_url": "https://www.law.go.kr/법령/개인정보보호법시행령"
+  },
+  {
+    "name_ko": "약관의 규제에 관한 법률",
+    "name_en": "Act on the Regulation of Terms and Conditions (약관법)",
+    "api_target": "law | eflaw",
+    "lookup_hint": "query=약관의 규제에 관한 법률 (substring also returns the decree, ID 004135, MST 256827, effective 2023-12-21). Current Act MST 260021, promulgated 2024-02-06 (No. 20239), effective 2024-08-07; no scheduled amendment on 2026-09-29.",
+    "id_if_found": "law ID 000667; MST 260021",
+    "page_url": "https://www.law.go.kr/법령/약관의규제에관한법률"
+  },
+  {
+    "name_ko": "전자상거래 등에서의 소비자보호에 관한 법률",
+    "name_en": "Act on the Consumer Protection in Electronic Commerce",
+    "api_target": "law | eflaw",
+    "lookup_hint": "query=전자상거래 등에서의 소비자보호에 관한 법률 (also returns decree ID 009338 MST 288143 and rule ID 009356 MST 288167). Current Act MST 282793 (No. 21312, promulgated 2026-01-20), effective 2026-07-21; a further stage is scheduled for 2027-01-21 (decree also 2027-01-21). Content of the changes not read.",
+    "id_if_found": "law ID 009318; MST 282793",
+    "page_url": "https://www.law.go.kr/법령/전자상거래등에서의소비자보호에관한법률"
+  },
+  {
+    "name_ko": "정보통신망 이용촉진 및 정보보호 등에 관한 법률",
+    "name_en": "Act on Promotion of Information and Communications Network Utilization and Information Protection",
+    "api_target": "law | eflaw",
+    "lookup_hint": "Still in force (verified in API 2026-09-29). Current MST 283843 (effective 2026-09-11, ministries: 과학기술정보통신부 and 방송미디어통신위원회). Scheduled: MST 285199 (No. 21500) effective 2026-10-01 and 2027-04-01; MST 290001 (No. 21988, promulgated 2026-09-29) effective 2026-10-02; decree ID 004797 MST 290483 effective 2026-10-02. Article-level relevance to privacy policies was NOT analysed (privacy provisions were largely moved into the PIPA; only cross-references confirmed).",
+    "id_if_found": "law ID 000030; MST 283843",
+    "page_url": "https://www.law.go.kr/법령/정보통신망이용촉진및정보보호등에관한법률"
+  },
+  {
+    "name_ko": "신용정보의 이용 및 보호에 관한 법률",
+    "name_en": "Credit Information Use and Protection Act (scope note only)",
+    "api_target": "law | eflaw",
+    "lookup_hint": "Scope note only. Current MST 283841 (타법개정, effective 2026-09-11); decree ID 004105 MST 289539. Act 21445 부칙 art.4 updates its cross-reference to PIPA Art. 31.",
+    "id_if_found": "law ID 001540; MST 283841",
+    "page_url": "https://www.law.go.kr/법령/신용정보의이용및보호에관한법률"
+  },
+  {
+    "name_ko": "표준 개인정보 보호지침",
+    "name_en": "Standard Personal Information Protection Guidelines (PIPC 고시)",
+    "api_target": "admrul (list: lawSearch.do?target=admrul; body: lawService.do?target=admrul&ID=<행정규칙일련번호>)",
+    "lookup_hint": "query=표준 개인정보 보호지침&nw=1 returns exactly one current row: 고시 제2025-4호, 발령 2025-04-11, 제개정구분 일부개정, 시행일자 20250411. Reachable via API.",
+    "id_if_found": "admrul 일련번호 2100000257592 (행정규칙ID 73464)",
+    "page_url": "https://www.law.go.kr/행정규칙/표준개인정보보호지침"
+  },
+  {
+    "name_ko": "개인정보의 안전성 확보조치 기준",
+    "name_en": "Standards on Measures to Ensure the Safety of Personal Information (PIPC 고시)",
+    "api_target": "admrul",
+    "lookup_hint": "query=개인정보의 안전성 확보조치 기준 returns one current row: 고시 제2026-9호, 발령 2026-07-01, 일부개정, 시행일자 20260701. Reachable via API.",
+    "id_if_found": "admrul 일련번호 2100000281400 (행정규칙ID 73493)",
+    "page_url": "https://www.law.go.kr/행정규칙/개인정보의안전성확보조치기준"
+  },
+  {
+    "name_ko": "개인정보 처리방침 작성지침",
+    "name_en": "PIPC Privacy Policy Drafting Guidelines (guidebook, not a legal rule)",
+    "api_target": "none (admrul search returns 0 hits); web pages only",
+    "lookup_hint": "Web only. Current edition 2026.4: pipc.go.kr BS217 nttId 12018 (2026-04-23) and privacy.go.kr bbscttNo 20885 (2026-04-24). Watch both boards; see spike-report.md section 4.",
+    "id_if_found": "pipc nttId 12018; privacy.go.kr bbscttNo 20885",
+    "page_url": "https://www.pipc.go.kr/np/cop/bbs/selectBoardArticle.do?bbsId=BS217&mCode=G010030000&nttId=12018"
+  },
+  {
+    "name_ko": "표준약관 (공정거래위원회) - 제10023호 전자상거래 표준약관 외",
+    "name_en": "KFTC standard terms (e.g. E-commerce Standard Terms No. 10023)",
+    "api_target": "none (not exposed by the law.go.kr API); web only",
+    "lookup_hint": "ftc.go.kr board bordCd=201 key=202, 99 rows; 제10023호 nttSn 11139, last revision 2015-06-26; online-game 제10069호 and mobile-game 제10078호 revised 2024-02-23. Track by 호수, not nttSn.",
+    "id_if_found": "nttSn 11139 (제10023호)",
+    "page_url": "https://www.ftc.go.kr/www/selectBbsNttList.do?bordCd=201&key=202"
+  }
+]
