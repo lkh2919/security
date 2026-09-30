@@ -47,14 +47,14 @@ independent audit before rendering MD/HTML/DOCX plus a Reviewer Sheet for the In
 | 5 | Zod contracts, model registry, run store, stage cache | done |
 | 5b | Integrate `src/index.ts` exports; rule-pack/house-style/clause/manifest schemas; `applyAnswers`; KB integrity test; fix root scripts | done (`stages/interview/apply-answers.ts`, `test/kb-integrity.test.ts`) |
 | 6a | Lotte corpus capture (47 index entries) | done |
-| 6b | Clause library normalization, house-style candidates, manifest | **interrupted — check partial output in `kb/jurisdictions/kr/clauses/{privacy,terms}` and finish** |
+| 6b | Clause library normalization, house-style candidates, manifest | done: 153 clauses validate (`bun scripts/validate-clauses.ts`), manifest and candidates present. Open: user approval of house style; vetting of clauses (none vetted); 9 clauses with unbound variables (see KB gap) |
 | 7 | Intake (STT adapter, segmenter, form parser, masker) | done, but a masking rework was interrupted |
 | 7-off | Add `masking: "off" \| "basic"` (default off); make the client `assertNoPii` gate optional (`piiGate`, default false); smoke script accepts an input path | done (PR #1) |
 | 8 | Golden cases G1–G3 (+G1b, G2b), W1–W4, seeded defects D1–D8, rubric v1 | done for inputs, expectations, defect specs and rubric (`golden/cases`, `golden/defects`, `kb/jurisdictions/kr/rubric/rubric-v1.json`, `test/golden-cases.test.ts`, `test/rubric.test.ts`). Reference drafts (`golden/cases/*/reference/`) wait for the Row 11 drafters; the privacy-domain-expert reviews them before they become the baseline. House style is still candidate, so the rubric's houseStyle score is not assessed. |
 | 9a | Anthropic client, R2 extract, C1 coverage, R3 gap | done |
 | 10 | Renderer MD/HTML/DOCX + Reviewer Sheet | done |
 | 12 | Law freshness watcher (`scripts/freshness-check.ts`) | done |
-| 9b | R4 clause matcher | next (after 6b) |
+| 9b | R4 clause matcher (`stages/match`: group classification, library loader, ranking, approved-only house style) | done; committed library has 0 vetted clauses, so every section falls back to the rule pack until the privacy-domain-expert vets clauses (`vetted` + `vettedAgainst` in the clause files) |
 | 11 | Drafters R5P/R5T (clause-first), C2 checker, R7 isolated auditor | next |
 | 13 | Golden-set regression and calibration | next |
 | 14 | Router skill, README, operator guide, PPTX outline | next |

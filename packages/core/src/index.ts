@@ -5,6 +5,7 @@ export * from "./stages/intake";
 export * from "./stages/extract";
 export * from "./stages/coverage";
 export * from "./stages/gap";
+export * from "./stages/match";
 export * from "./stages/interview";
 export * from "./stages/render";
 export * from "./stages/freshness";

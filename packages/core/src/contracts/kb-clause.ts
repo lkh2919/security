@@ -14,7 +14,7 @@
  *  - `vettedAgainst` is absent on disk until the privacy-domain-expert vets the clause.
  */
 import { z } from "zod";
-import { CondSchema, DocTypeSchema, IsoDateSchema, ItemIdSchema, NonEmptyString, Sha256Schema, SlotIdSchema, type SlotRegistry } from "./common";
+import { CondSchema, DocTypeSchema, IsoDateSchema, ItemIdSchema, NonEmptyString, Sha256Schema, SlotIdSchema, VersionSchema, type SlotRegistry } from "./common";
 import { ClauseRecordSchema, type ClauseRecord } from "./clause-selection";
 
 export const KbClauseProvenanceSchema = z.strictObject({
@@ -51,6 +51,8 @@ export const KbClauseFileSchema = z.strictObject({
   coversElements: z.array(z.string().regex(/^R-/)),
   gapsVsGuideline: z.array(z.strictObject({ ruleId: z.string().regex(/^R-/).nullish(), level: z.enum(["must", "should", "may"]).nullish(), note: NonEmptyString })),
   vetted: z.boolean(),
+  /** Rule pack version the clause was vetted against; set by the privacy-domain-expert together with `vetted`. */
+  vettedAgainst: VersionSchema.optional(),
   vettingNotes: z.string(),
   frequency: z.number().int().nonnegative(),
   frequencyBase: z.number().int().nonnegative(),
@@ -93,6 +95,7 @@ export function kbClauseToRecord(file: KbClauseFile): ClauseRecord {
     conditions: file.conditions,
     provenance: { sourceUrl: p.sourceUrl, affiliate: p.affiliate, businessGroup: p.businessGroup, captureDate: p.captureDate, contentHash: p.contentHash },
     vetted: file.vetted,
+    ...(file.vettedAgainst ? { vettedAgainst: file.vettedAgainst } : {}),
     styleRefs: file.houseStyleTags,
   });
 }
