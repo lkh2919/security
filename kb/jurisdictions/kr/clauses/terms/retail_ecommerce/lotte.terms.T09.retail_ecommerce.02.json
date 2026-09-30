@@ -24,7 +24,8 @@
     },
     {
       "name": "deliveryTerms",
-      "description": "Delivery timing, area and fee (no matching interview slot yet)"
+      "description": "Delivery means, cost bearer and period (terms.deliveryPolicy table)",
+      "slotId": "terms.deliveryPolicy"
     }
   ],
   "conditions": [
