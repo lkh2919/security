@@ -34,7 +34,7 @@ type Outcome = { threw: true; err: unknown } | { threw: false; out: string; spea
 function run(segs: Seg[] | string, form = FORM, opts: Parameters<typeof runIntake>[1] = {}): Outcome {
   const segments = typeof segs === "string" ? [{ text: segs, speaker: "인터뷰이" }] : segs;
   try {
-    const result = runIntake({ runId: RUN_ID, transcript: { source: "text_file", language: "ko", segments }, form }, opts);
+    const result = runIntake({ runId: RUN_ID, transcript: { source: "text_file", language: "ko", segments }, form }, { masking: "basic", ...opts });
     return { threw: false, out: result.maskedTranscript.segments.map((s) => s.text).join("\n"), speakers: result.maskedTranscript.segments.map((s) => s.speaker ?? "").join("\n"), result };
   } catch (err) {
     return { threw: true, err };
@@ -386,7 +386,7 @@ describe("H. residual gate", () => {
   test.failing("gate has no notion of registered names: a name known to the masker but skipped by the boundary rule passes silently", () => {
     // The masker knows 박민준 (speaker label) yet leaves 박민준책임이 untouched; nothing downstream notices because the
     // vault only contains names that were replaced at least once. The gate must also test all KNOWN names.
-    const o = run([{ speaker: "인터뷰이", text: "박민준책임이 배포했어요" }], FORM, { knownNames: ["박민준"] });
+    const o = run([{ speaker: "인터뷰이", text: "박민준책임이 배포했어요" }], FORM, { masking: "basic", knownNames: ["박민준"] });
     expect(o.threw).toBe(true);
   });
 });
@@ -484,7 +484,7 @@ describe("J. no unmasked text on side channels", () => {
     const store = await RunStore.create({ runsRoot: join(dir, "runs"), runId: RUN_ID, input: { transcriptRef: "sha256:abc" }, stamps, documents: ["privacy"] });
     const cache = new StageCache({ dir: join(dir, "cache") });
     const input = await loadInput("interview.clean-forms.ko.txt");
-    const r = await runIntakeCached({ store, cache }, input);
+    const r = await runIntakeCached({ store, cache }, input, { masking: "basic" });
     const disk = await scanDir(dir);
     const originals = ["한서준", "오지훈", "L204817", "010-7345-6712", "seojun.han@paylab-corp.co.kr", "850312-2345678", "5555 4444 3333 2222", "10.71.4.19", "wiki.paylab-corp.internal"];
     for (const o of originals) {
@@ -498,14 +498,14 @@ describe("J. no unmasked text on side channels", () => {
 
   test.failing("stt-style fixture must not leak (end-to-end; every listed secret currently survives to the LLM payload)", async () => {
     const input = await loadInput("interview.stt-style.ko.txt");
-    const r = runIntake(input);
+    const r = runIntake(input, { masking: "basic" });
     const text = JSON.stringify(r.maskedTranscript);
     for (const s of ["이삼사오", "paylab 닷", "ci-paylab-prd01", "PAY-4821", "123가4567", "김도윤", "Daniel"]) expect(text).not.toContain(s);
   });
 
   test.failing("numeric JSON form values (e.g. an account number written as a JSON number) are masked", async () => {
     const input = await loadInput("interview.clean-forms.ko.txt", "form.numeric.json");
-    const r = runIntake(input);
+    const r = runIntake(input, { masking: "basic" });
     expect(JSON.stringify(r.formSlots)).not.toContain("110123456789012");
   });
 
@@ -560,13 +560,13 @@ describe("J. no unmasked text on side channels", () => {
     const store = await RunStore.create({ runsRoot: join(dir, "runs"), runId: RUN_ID, input: { transcriptRef: "sha256:abc" }, stamps, documents: ["privacy"] });
     const cache = new StageCache({ dir: join(dir, "cache") });
     const input = await loadInput("interview.clean-forms.ko.txt");
-    const r = await runIntakeCached({ store, cache }, input, { knownNames: ["한서준"] });
+    const r = await runIntakeCached({ store, cache }, input, { masking: "basic", knownNames: ["한서준"] });
     const disk = await scanDir(dir);
     expect(disk).not.toContain("한서준");
     expect(r.stage.cacheHit).toBe(false);
-    const again = await runIntakeCached({ store, cache }, input, { knownNames: ["한서준"] });
+    const again = await runIntakeCached({ store, cache }, input, { masking: "basic", knownNames: ["한서준"] });
     expect(again.stage.cacheHit).toBe(true);
-    const different = await runIntakeCached({ store, cache }, input, { knownNames: ["오지훈"] });
+    const different = await runIntakeCached({ store, cache }, input, { masking: "basic", knownNames: ["오지훈"] });
     expect(different.stage.cacheHit).toBe(false); // option changes invalidate the key
   });
 

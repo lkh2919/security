@@ -8,7 +8,7 @@
  *  - the static prefix (`request.system`) is a cached system block; volatile content stays in the user turn;
  *  - the server-side refusal fallback (`fallbacks: "default"`) is sent for models that support it (Sonnet/Opus 5.5).
  *    Haiku 4.5 has no server fallback: a refusal there surfaces as `LlmRefusalError` (callers mark `manual_review`);
- *  - `findVaultLeaks` AND the intake residual-PII gate (`assertNoPii`) run on every outgoing string before EVERY call,
+ *  - `findVaultLeaks` (and, with `piiGate: true`, the intake residual-PII gate `assertNoPii`) run on every outgoing string before EVERY call,
  *    including the schema retry (masking is a hard gate);
  *  - 429 / 5xx / connection errors are retried with exponential backoff (SDK retries are disabled so the policy is ours);
  *  - schema-invalid output gets exactly one retry that carries the validator error (design R7 "Failures");
@@ -79,6 +79,8 @@ export interface AnthropicLlmClientOptions {
   readonly baseURL?: string;
   /** Vault used for the leak scan. Strongly recommended; without it only the type-level guarantees apply. */
   readonly vault?: PiiVault;
+  /** Run the intake residual-PII gate (`assertNoPii`) on outgoing strings. Default false (masking is off by default); the vault scan always runs. */
+  readonly piiGate?: boolean;
   /** Total transport attempts per call (first try + retries). Default 4. */
   readonly maxAttempts?: number;
   /** First backoff delay; doubles per retry. Default 1000 ms. */
@@ -123,6 +125,7 @@ export class AnthropicLlmClient implements LlmClient {
   readonly usageLog: CallUsageRecord[] = [];
   private readonly sdk: Anthropic;
   private readonly vault?: PiiVault;
+  private readonly piiGate: boolean;
   private readonly maxAttempts: number;
   private readonly baseDelayMs: number;
   private readonly maxDelayMs: number;
@@ -137,6 +140,7 @@ export class AnthropicLlmClient implements LlmClient {
       this.sdk = new Anthropic({ apiKey, maxRetries: 0, ...(options.fetch ? { fetch: options.fetch } : {}), ...(options.baseURL ? { baseURL: options.baseURL } : {}) });
     }
     this.vault = options.vault;
+    this.piiGate = options.piiGate ?? false;
     this.maxAttempts = Math.max(1, options.maxAttempts ?? 4);
     this.baseDelayMs = options.baseDelayMs ?? 1_000;
     this.maxDelayMs = options.maxDelayMs ?? 20_000;
@@ -188,16 +192,18 @@ export class AnthropicLlmClient implements LlmClient {
   }
 
   /**
-   * Every outgoing string passes two gates before the network is touched: the vault scan
-   * (`preflight` -> `findVaultLeaks`, throws PiiLeakError) and the intake residual-PII gate
+   * Every outgoing string passes the vault scan (`preflight` -> `findVaultLeaks`, throws PiiLeakError);
+   * with `piiGate: true` it also passes the intake residual-PII gate
    * (`assertNoPii`, throws PiiResidualError with kinds and offsets only, never values).
    * The residual gate is a broader net than the vault: it also catches PII the masker missed.
    */
   private guard(request: StructuredCallRequest): ReturnType<typeof preflight> {
     const pre = preflight(request, this.vault);
-    const opts = this.vault ? { vault: this.vault } : {};
-    assertNoPii(request.system, opts);
-    assertNoPii(request.user, opts);
+    if (this.piiGate) {
+      const opts = this.vault ? { vault: this.vault } : {};
+      assertNoPii(request.system, opts);
+      assertNoPii(request.user, opts);
+    }
     return pre;
   }
 

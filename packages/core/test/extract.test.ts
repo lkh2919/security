@@ -26,7 +26,7 @@ const r2Fixture = JSON.parse(readFileSync(join(import.meta.dir, "fixtures", "ext
 
 async function intake() {
   const transcript = await new TextFileSttAdapter().transcribe(join(INTAKE, "interview.ko.txt"));
-  return runIntake({ runId: "20260929-101500-a1b2c3", transcript, form: await readFile(join(INTAKE, "form.md"), "utf8") });
+  return runIntake({ runId: "20260929-101500-a1b2c3", transcript, form: await readFile(join(INTAKE, "form.md"), "utf8") }, { masking: "basic" });
 }
 
 const knowledge = { template: kb.template, registry: kb.registry, slotHints: kb.slotHints };

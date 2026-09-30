@@ -19,6 +19,8 @@ import {
   type IntakeInput,
 } from "../src/stages/intake";
 
+const BASIC = { masking: "basic" } as const;
+
 const FIX = join(import.meta.dir, "fixtures", "intake");
 const RUN_ID = "20260929-101500-a1b2c3";
 
@@ -57,7 +59,7 @@ describe("STT adapters", () => {
 
 describe("runIntake on the interview fixture", () => {
   test("no original PII survives; gates pass", async () => {
-    const r = runIntake(await loadInput());
+    const r = runIntake(await loadInput(), BASIC);
     const all = JSON.stringify({ t: r.maskedTranscript, f: r.formSlots });
     expect(findVaultLeaks(all, r.vault)).toEqual([]);
     for (const o of ORIGINALS) expect(all).not.toContain(o);
@@ -70,7 +72,7 @@ describe("runIntake on the interview fixture", () => {
 
   test("every original is stored in the vault (local) and rehydration restores text", async () => {
     const input = await loadInput();
-    const r = runIntake(input);
+    const r = runIntake(input, BASIC);
     const values = Object.values(r.vault.entries).map((e) => e.value);
     for (const o of ["010-2345-6789", "10.20.30.40", "박지훈", "최수진", "이서연", "정민호", "SN20431"]) expect(values.some((v) => v.includes(o))).toBe(true);
     const seg = r.maskedTranscript.segments.find((s) => s.text.includes("업무용 번호"))!;
@@ -78,8 +80,8 @@ describe("runIntake on the interview fixture", () => {
   });
 
   test("deterministic IDs, placeholders and output; stable per value", async () => {
-    const a = runIntake(await loadInput());
-    const b = runIntake(await loadInput());
+    const a = runIntake(await loadInput(), BASIC);
+    const b = runIntake(await loadInput(), BASIC);
     expect(JSON.stringify(a)).toBe(JSON.stringify(b));
     expect(a.maskedTranscript.segments[0].id).toBe("T0001");
     expect(a.maskedTranscript.segments.at(-1)!.id).toBe("T0041");
@@ -93,7 +95,7 @@ describe("runIntake on the interview fixture", () => {
   });
 
   test("category words and role labels are preserved", async () => {
-    const r = runIntake(await loadInput());
+    const r = runIntake(await loadInput(), BASIC);
     const text = r.maskedTranscript.segments.map((s) => `${s.speaker ?? ""} ${s.text}`).join("\n");
     for (const w of ["휴대폰번호", "주민등록번호", "이메일", "배송지 주소", "위치정보", "이용자", "이용자님", "개인정보 보호책임자", "카드번호", "개발자", "인터뷰어", "기기 식별자"]) {
       expect(text).toContain(w);
@@ -102,14 +104,14 @@ describe("runIntake on the interview fixture", () => {
   });
 
   test("false positives stay intact: dates, versions, prices, retention, times, public URL", async () => {
-    const text = runIntake(await loadInput()).maskedTranscript.segments.map((s) => s.text).join("\n");
+    const text = runIntake(await loadInput(), BASIC).maskedTranscript.segments.map((s) => s.text).join("\n");
     for (const keep of ["2026-09-29", "v2.3.1", "버전 4.5.1", "3.2.0", "12,900원", "5년간", "5년", "3개월", "30일", "4.5점", "10:30", "https://www.law.go.kr"]) {
       expect(text).toContain(keep);
     }
   });
 
   test("placeholders summary matches the text", async () => {
-    const r = runIntake(await loadInput());
+    const r = runIntake(await loadInput(), BASIC);
     for (const p of r.maskedTranscript.placeholders) {
       expect(r.vault.entries[p.key]?.kind).toBe(p.kind);
       const c = r.maskedTranscript.segments.reduce((n, s) => n + (`${s.speaker ?? ""}\n${s.text}`.split(`{{${p.key}}}`).length - 1), 0);
@@ -118,7 +120,7 @@ describe("runIntake on the interview fixture", () => {
   });
 
   test("form (markdown and json) is parsed, masked and slot-keyed", async () => {
-    const md = runIntake(await loadInput("form.md")).formSlots;
+    const md = runIntake(await loadInput("form.md"), BASIC).formSlots;
     expect(md.serviceName).toBe("쇼핑나우");
     expect(md.formVersion).toBe("infosec-2026.1");
     expect(md.description).toContain("주문 결제");
@@ -128,15 +130,15 @@ describe("runIntake on the interview fixture", () => {
     expect(md.flows[0]).toMatchObject({ name: "회원가입", dataItems: ["이름", "이메일", "휴대폰번호"], retention: "탈퇴 후 5년" });
     expect(JSON.stringify(md)).not.toContain("이서연");
     expect(JSON.stringify(md)).not.toContain("02-555-9999");
-    const js = runIntake(await loadInput("form.json")).formSlots;
+    const js = runIntake(await loadInput("form.json"), BASIC).formSlots;
     expect(js.slots).toEqual({ "gate.membership": true, "terms.minAge": 14 });
     expect(js.fields["담당자"]).toMatch(/^\{\{PERSON_\d+\}\}$/);
   });
 
   test("invalid form or run id stops the run", async () => {
     const i = await loadInput();
-    expect(() => runIntake({ ...i, form: "설명: 이름 없음" })).toThrow();
-    expect(() => runIntake({ ...i, runId: "../x" })).toThrow();
+    expect(() => runIntake({ ...i, form: "설명: 이름 없음" }, BASIC)).toThrow();
+    expect(() => runIntake({ ...i, runId: "../x" }, BASIC)).toThrow();
   });
 });
 
@@ -224,7 +226,7 @@ describe("prompt-injection hygiene", () => {
     expect(sanitizeText("a\u0000b​c‮d\u0007e\tf\ng")).toBe("abcde\tf\ng");
   });
   test("wrapUntrusted fences data and defangs spoofed tags", async () => {
-    const r = runIntake(await loadInput());
+    const r = runIntake(await loadInput(), BASIC);
     const w = wrapUntrusted(r.maskedTranscript);
     expect(w.startsWith("<untrusted_transcript>")).toBe(true);
     expect(w.endsWith("</untrusted_transcript>")).toBe(true);
@@ -248,9 +250,9 @@ describe("cache safety", () => {
     const store = await RunStore.create({ runsRoot: join(dir, "runs"), runId: RUN_ID, input: { transcriptRef: "sha256:abc" }, stamps, documents: ["privacy"] });
     const cache = new StageCache({ dir: join(dir, "cache") });
     const input = await loadInput();
-    const r1 = await runIntakeCached({ store, cache }, input);
+    const r1 = await runIntakeCached({ store, cache }, input, BASIC);
     expect(r1.stage.cacheHit).toBe(false);
-    const r2 = await runIntakeCached({ store, cache }, input);
+    const r2 = await runIntakeCached({ store, cache }, input, BASIC);
     expect(r2.stage.cacheHit).toBe(true);
     expect(Object.keys(r2.vault.entries).length).toBeGreaterThan(20); // vault rebuilt on a cache hit
     expect(r2.stage.output).toEqual({ maskedTranscript: r1.maskedTranscript, formSlots: r1.formSlots });
@@ -274,5 +276,15 @@ describe("form parser", () => {
     const f = parseFormRaw("# 내 서비스\n설명: 첫 줄\n둘째 줄");
     expect(f.serviceName).toBe("내 서비스");
     expect(f.description).toBe("첫 줄\n둘째 줄");
+  });
+});
+
+describe("masking off (default)", () => {
+  test("default keeps text as-is (sanitized), empty vault, no placeholders", async () => {
+    const r = runIntake(await loadInput());
+    expect(r.maskedTranscript.maskerVersion).toBe("off-1");
+    expect(r.maskedTranscript.placeholders).toEqual([]);
+    expect(Object.keys(r.vault.entries)).toEqual([]);
+    expect(runIntake(await loadInput(), { masking: "off" })).toEqual(r);
   });
 });
