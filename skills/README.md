@@ -6,7 +6,7 @@ Skills for the privacy-agent harness, one folder each with a `SKILL.md`. Owners 
 
 | Skill | Owner | Purpose |
 |-------|-------|---------|
-| `privacy-docs` (router) | pm | Routes to `interview`, `draft`, `audit`, `freshness`; CLI subcommands `privacy-agent interview\|run\|audit\|freshness` are planned, not built |
+| `privacy-docs` (router) | pm | Routes to `interview`, `draft`, `audit`, `freshness`; entry points are the scripts in `scripts/` (`run-pipeline`, `freshness-check`, `golden-regression`) |
 | `interview` | pm | Intake, masking, extraction, coverage, gap questions, interviewer script |
 | `draft` | pm | Clause-first drafting of policy and terms, checks, rendering |
 | `audit` | pm | C2 checks, isolated auditor, capped fix loop |

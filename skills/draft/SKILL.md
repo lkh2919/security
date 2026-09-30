@@ -10,7 +10,7 @@ last_reviewed: 2026-09-29
 status: active
 scope: project
 owner: pm
-prerequisites: Bun runtime; privacy-agent CLI (planned); vetted clauses in kb/jurisdictions/kr/clauses/; rule packs in kb/jurisdictions/kr/rulepacks/
+prerequisites: Bun runtime; `scripts/run-pipeline.ts` (needs ANTHROPIC_API_KEY); vetted clauses in kb/jurisdictions/kr/clauses/; rule packs in kb/jurisdictions/kr/rulepacks/
 relates_to:
   - skill: interview
     type: follows
@@ -26,7 +26,7 @@ metadata:
 
 ## Overview
 
-Sub-skill of `privacy-docs`. Maps to the planned CLI subcommand `privacy-agent run` (and `--resume`).
+Sub-skill of `privacy-docs`. Entry point: see the CLI status line below.
 Design: R3 (R4, R5P, R5T, C2, R8), R5.3 clause library, R5.4 house style, R6.2 deterministic checks, R10 token plan.
 
 ## When to Use
@@ -37,7 +37,7 @@ Design: R3 (R4, R5P, R5T, C2, R8), R5.3 clause library, R5.4 house style, R6.2 d
 
 ## Prerequisites
 
-- CLI status: PLANNED (design R15 rows 9-12). Before it exists, report which stage is missing and stop.
+- Entry point: `bun scripts/run-pipeline.ts start|answer ...`; outputs in `runs/<id>/output/` (MD, HTML, DOCX, Reviewer Sheet). The committed clause library has no vetted clause yet, so every section is written from the rule pack by the LLM until the privacy-domain-expert vets clauses.
 - Applicability map from C1. Terms are `not_applicable` for internal HR systems, with the reason stated.
 
 ## Procedure

@@ -9,7 +9,7 @@ last_reviewed: 2026-09-29
 status: active
 scope: project
 owner: pm
-prerequisites: Bun runtime; privacy-agent CLI (planned); law.go.kr OC key held by the operator; kb/jurisdictions/kr/manifest.json
+prerequisites: Bun runtime; `scripts/freshness-check.ts`; law.go.kr OC key held by the operator; kb/jurisdictions/kr/manifest.json
 relates_to:
   - skill: law-freshness-check
     type: relates_to
@@ -25,7 +25,7 @@ metadata:
 
 ## Overview
 
-Sub-skill of `privacy-docs`. Maps to the planned CLI subcommand `privacy-agent freshness`.
+Sub-skill of `privacy-docs`. Entry point: see the CLI status line below.
 Design: R5.5 (verification list), R5.6 (stamps and flow), R3 (R6 watcher), R7 (runs in parallel with intake).
 Harness-side maintenance of the manifest and list is `law-freshness-check` (kb-curator).
 
@@ -36,7 +36,7 @@ Harness-side maintenance of the manifest and list is `law-freshness-check` (kb-c
 
 ## Prerequisites
 
-- CLI status: PLANNED (design R15 row 12). Until built, `law-freshness-check` performs the same steps by hand.
+- Entry point: `bun scripts/freshness-check.ts` (exit 0 fresh, 10 drift, 1 error). Run it on the original PC only: the law.go.kr OC key is bound to its IP. The pipeline marks its freshness stage `skipped`.
 - The OC key is supplied through the environment by the operator; never write it to a file or log.
 
 ## Procedure

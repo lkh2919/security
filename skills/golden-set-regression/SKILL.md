@@ -10,7 +10,7 @@ last_reviewed: 2026-09-29
 status: active
 scope: project
 owner: auditor
-prerequisites: Bun runtime; golden/cases/ with expected.json and reference/; privacy-agent CLI (planned); API key held by operator
+prerequisites: Bun runtime; golden/cases/ with expected.json and reference/; `scripts/golden-regression.ts`; API key held by operator
 relates_to:
   - skill: policy-audit-rubric
     type: follows
@@ -37,7 +37,7 @@ Owned by auditor. Design: R11.1 (cases), R11.2 (thresholds), R11.3 (determinism 
 
 ## Prerequisites
 
-- CLI status: PLANNED (design Row 13). Until built, run unit tests and report which gate metrics cannot yet be measured.
+- Entry point: `bun scripts/golden-regression.ts [--source expected|extract] [--runs 3] [--cases G1] [--no-defects]`. The harness and the gate (design R11.2) are mock-tested; the live calibration has not been run.
 - Cases use synthetic inputs only; no real personal data.
 
 ## Procedure
