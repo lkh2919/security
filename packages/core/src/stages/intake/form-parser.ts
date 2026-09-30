@@ -165,7 +165,7 @@ function finish(form: RawForm): RawForm {
 }
 
 /** Masks every string of a parsed form and validates the result as FormSlots. */
-export function maskForm(raw: RawForm, masker: PiiMasker, runId: string): FormSlots {
+export function maskForm(raw: RawForm, masker: Pick<PiiMasker, "mask">, runId: string): FormSlots {
   const mv = (v: FormValue): FormValue => (typeof v === "string" ? masker.mask(v) : Array.isArray(v) ? v.map((s) => masker.mask(s)) : v);
   const mapValues = (r: Record<string, FormValue>, maskKeys: boolean): Record<string, FormValue> =>
     Object.fromEntries(Object.entries(r).map(([k, v]) => [maskKeys ? masker.mask(k) : k, mv(v)]));

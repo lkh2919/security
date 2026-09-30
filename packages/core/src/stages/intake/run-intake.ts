@@ -22,6 +22,7 @@ import type { RunStore } from "../../pipeline/run-store";
 import type { StageCache } from "../../pipeline/stage-cache";
 import { parseFormRaw, maskForm, registerFormNames } from "./form-parser";
 import { assertAllNoPii } from "./gate";
+import { escapePlaceholders, sanitizeText } from "./sanitize";
 import { MASKER_VERSION, PiiMasker, type MaskOptions } from "./masker";
 import { segmentTranscript } from "./segmenter";
 
@@ -33,7 +34,17 @@ export interface IntakeInput {
   readonly form: string;
 }
 
-export type IntakeOptions = Omit<MaskOptions, "runId">;
+/**
+ * `masking: "off"` (default, user decision 2026-09-30): no PII masking and no residual gate; text is still
+ * sanitized (NFKC, invisible characters) and stays fenced as untrusted data. `"basic"` runs the PiiMasker.
+ */
+export type MaskingMode = "off" | "basic";
+
+export interface IntakeOptions extends Omit<MaskOptions, "runId"> {
+  readonly masking?: MaskingMode;
+}
+
+export const MASKING_OFF_VERSION = "off-1";
 
 export interface IntakeResult {
   readonly maskedTranscript: MaskedTranscript;
@@ -44,8 +55,30 @@ export interface IntakeResult {
 
 const PLACEHOLDER_RE = /\{\{([A-Z][A-Z0-9_]*_\d+)\}\}/g;
 
+function runIntakeOff(input: IntakeInput, runId: string): IntakeResult {
+  const clean = (t: string): string => escapePlaceholders(sanitizeText(t));
+  const segments = segmentTranscript(input.transcript).map((s) => ({
+    id: s.id,
+    ...(s.speaker ? { speaker: clean(s.speaker) } : {}),
+    ...(s.startMs !== undefined ? { startMs: s.startMs } : {}),
+    ...(s.endMs !== undefined ? { endMs: s.endMs } : {}),
+    text: clean(s.text),
+  }));
+  const maskedTranscript = MaskedTranscriptSchema.parse({
+    runId,
+    source: input.transcript.source,
+    language: input.transcript.language,
+    maskerVersion: MASKING_OFF_VERSION,
+    segments,
+    placeholders: [],
+  });
+  const formSlots = maskForm(parseFormRaw(input.form), { mask: clean }, runId);
+  return { maskedTranscript, formSlots, vault: PiiVaultSchema.parse({ runId, entries: {} }) };
+}
+
 export function runIntake(input: IntakeInput, opts: IntakeOptions = {}): IntakeResult {
   const runId = RunIdSchema.parse(input.runId);
+  if ((opts.masking ?? "off") === "off") return runIntakeOff(input, runId);
   const masker = new PiiMasker({ ...opts, runId });
   const rawForm = parseFormRaw(input.form);
   registerFormNames(rawForm, masker);
@@ -117,15 +150,16 @@ export async function runIntakeCached(
   input: IntakeInput,
   opts: IntakeOptions = {},
 ): Promise<CachedIntakeResult> {
+  const maskingVersion = (opts.masking ?? "off") === "off" ? MASKING_OFF_VERSION : MASKER_VERSION;
   const result = runIntake(input, opts); // always recomputed: cheap, deterministic, rebuilds the vault
   const stage = await runCachedStage(deps, {
     stage: "mask",
     parts: {
       stageId: "R1",
       input: { runId: input.runId, transcriptSha256: hashJson(input.transcript), formSha256: sha256Hex(input.form), options: optionsDigest(opts) },
-      promptVersion: MASKER_VERSION,
+      promptVersion: maskingVersion,
       modelId: null,
-      versions: { masker: MASKER_VERSION },
+      versions: { masker: maskingVersion },
     },
     schema: IntakeCacheOutputSchema,
     compute: () => ({ maskedTranscript: result.maskedTranscript, formSlots: result.formSlots }),
@@ -137,6 +171,7 @@ function optionsDigest(opts: IntakeOptions): string {
   const s = (r: RegExp | string): string => (typeof r === "string" ? r : r.toString());
   return sha256Hex(
     JSON.stringify({
+      m: opts.masking ?? "off",
       d: opts.publicDomains ?? null,
       e: (opts.employeeIdPatterns ?? []).map(s),
       h: (opts.internalHostPatterns ?? []).map(s),
