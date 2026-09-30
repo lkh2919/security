@@ -1,0 +1,83 @@
+{
+  "id": "lotte.privacy.S11.retail_ecommerce.01",
+  "docType": "privacy",
+  "sectionId": "S11",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-department-store-privacy",
+    "lotte-mart-privacy",
+    "lotte-himart-privacy",
+    "lotte-himart-mall-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteshopping.com",
+    "company.lottemart.com",
+    "company.himart.co.kr",
+    "www.e-himart.co.kr"
+  ],
+  "policyVersionOrDate": "2026년 07월 22일부터 적용 / 시행일자 : 2026-07-09 / 2026.03.30부터 적용 / 2026.07.10부터 적용",
+  "layout": "guideline_numbered",
+  "text": "회사는 개인정보의 안전성 확보를 위해 다음과 같은 조치를 하고 있습니다.\n1. 비밀번호 등 중요 정보의 암호화 저장 및 전송 구간 보호\n2. 개인정보처리시스템 접근권한의 최소 부여와 정기 점검, 접속 기록의 보관 및 위·변조 방지\n3. 해킹이나 악성코드에 대비한 보안 프로그램 설치 및 주기적 갱신\n4. 개인정보 취급자 지정 및 정기 교육, 퇴직·전보 시 권한 회수\n5. 전산실 및 자료 보관 장소의 출입 통제\n6. 내부관리계획 수립·시행 및 개인정보 보호 인증 유지 {{securityMeasures}}",
+  "variables": [
+    {
+      "name": "securityMeasures",
+      "slotId": "privacy.S11_measures",
+      "description": "Managerial, technical and physical safeguards actually implemented"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S11-001",
+    "R-S11-002"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "암호화 대상 항목·방식의 구체적 서술이 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 4,
+  "frequencyBase": 5,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-department-store-privacy",
+      "sourceUrl": "https://www.lotteshopping.com/etc/personalinfo",
+      "affiliate": "Lotte Department Store",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026년 07월 22일부터 적용 ; v19.9 ; V19.8 ; V19.9",
+      "contentHash": "a859427af048dabf825212295551607baaa748b71da215390d0194ffcf34fbb0"
+    },
+    {
+      "captureId": "lotte-mart-privacy",
+      "sourceUrl": "https://company.lottemart.com/privacy/privacy.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2026-07-09 ; 2026년 7월 9일부터 적용 ; V13.5 ; V13.4",
+      "contentHash": "590a26db8498b8c4c8e6207f1d0ae882474ee75a92941b51e9a6ef52435f4d4d"
+    },
+    {
+      "captureId": "lotte-himart-privacy",
+      "sourceUrl": "https://company.himart.co.kr/policy/privacy",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.03.30부터 적용",
+      "contentHash": "83b3b5e65b8d770cc4afbb51379c4a472ed07128a7c60d2bdb141a316d91a5cf"
+    },
+    {
+      "captureId": "lotte-himart-mall-privacy",
+      "sourceUrl": "https://www.e-himart.co.kr/app/terms/privacy?stonType=PC",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.07.10부터 적용 ; VER 9.6 ; VER 9.5 ; VER 9.4",
+      "contentHash": "df3adf5a2e5bbb423c88ecf061c24e22d7647dc3a22eb6a5e468e6ad54c2b3b7"
+    }
+  ]
+}

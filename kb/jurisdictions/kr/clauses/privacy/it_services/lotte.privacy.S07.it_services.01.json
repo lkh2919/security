@@ -1,0 +1,67 @@
+{
+  "id": "lotte.privacy.S07.it_services.01",
+  "docType": "privacy",
+  "sectionId": "S07",
+  "domainGroup": "it_services",
+  "sourceCaptureIds": [
+    "lotteinnovate-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteinnovate.com"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 6월 25일",
+  "layout": "guideline_numbered",
+  "text": "회사는 이용자의 개인정보를 개인정보 수집 및 이용 목적에서 알린 범위 내에서 사용하며, 이용자의 사전 동의 없이는 그 범위를 초과하여 이용하거나 원칙적으로 외부에 공개·제공하지 않습니다.\n{%if gate.thirdPartyProvision%}\n회사는 제보 접수 시 제공된 개인정보를 불만 처리 등 민원 처리와 제보 사항 전달을 위하여 해당 자회사 또는 관계 회사에 제공할 수 있습니다. 제공하는 개인정보의 상세 내역은 다음과 같습니다.\n\n{{thirdPartyTable}}\n{%endif%}",
+  "variables": [
+    {
+      "name": "thirdPartyTable",
+      "slotId": "privacy.S07_thirdParties",
+      "description": "Recipients with purpose, items, and recipient retention period"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.thirdPartyProvision",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S07-001",
+    "R-S07-003"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S07-002",
+      "level": "must",
+      "note": "무동의 제공의 경우 법적 근거 표시 없음."
+    },
+    {
+      "ruleId": "R-S07-005",
+      "level": "may",
+      "note": "국외 소재 수령자를 포함하는 경우 S10과의 연계 문장 없음."
+    },
+    {
+      "ruleId": "R-S07-004",
+      "level": "may",
+      "note": "수령자가 다수인 경우 처리 방식 미지정."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-07"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotteinnovate-privacy",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 6월 25일 ; 시행일자 : 2026년 6월 25일 ; 공고일자 : 2025년 9월 18일 ; 시행일자 : 2025년 9월 18일",
+      "contentHash": "ed631cda902e7824593df708a5399a8fe8e4516efd4252d5cb9ce0f65f4f7b7d"
+    }
+  ]
+}

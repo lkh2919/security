@@ -1,0 +1,21 @@
+Privacy Agent — Acknowledgments
+
+BENCHMARK CONCEPTS
+- Repository: github.com/kimlawtech/korean-privacy-terms (Apache-2.0)
+  License: Apache License 2.0
+  Use: Concepts only; no template text copied. Inspired design patterns for
+  conditional section pruning, service-type branching, and deterministic validation.
+
+LEGAL SOURCE MATERIAL
+- PIPC Privacy Policy Writing Guideline (April 2026)
+  Official source: Privacy Commissioner of Korea (개인정보보호위원회)
+  Use: Rule pack derivation, guideline interpretation, compliance mapping
+
+- Korean Financial Services Commission (KFTC) Standard Terms and Conditions
+  Official source: Korean Fair Trade Commission
+  Use: Terms section templates, unfair-clause lexicon, regulatory baseline
+
+- Korean Personal Information Protection Act (PIPA)
+  Korean Act on the Protection of Personal Information (2011, as amended)
+  Official source: law.go.kr
+  Use: Legal references, retention period standards, data subject rights

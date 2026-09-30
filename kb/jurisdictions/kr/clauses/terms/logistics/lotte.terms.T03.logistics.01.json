@@ -1,0 +1,56 @@
+{
+  "id": "lotte.terms.T03.logistics.01",
+  "docType": "terms",
+  "sectionId": "T03",
+  "domainGroup": "logistics",
+  "sourceCaptureIds": [
+    "lotte-global-logis-terms-parcel-service"
+  ],
+  "sourceSites": [
+    "www.lotteglogis.com"
+  ],
+  "policyVersionOrDate": "시행일 : 2020년 6월 5일",
+  "layout": "legacy_article",
+  "text": "제3조 (약관의 명시 및 설명)\n1. 사업자는 이 약관의 내용을 고객이 알기 쉽게 사업장 및 서비스 화면에 게시합니다.\n2. 사업자는 약관의 중요한 내용(운임, 손해배상 한도, 책임 소멸 사유 등)을 고객에게 설명하며, 고객이 요구하는 경우 약관의 사본을 교부합니다.\n제4조 (적용법규 등)\n이 약관에서 정하지 아니한 사항은 관련 법령 또는 상관례에 따릅니다.",
+  "variables": [],
+  "conditions": [
+    {
+      "slot": "terms.applicable",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-T03-001",
+    "R-T03-002",
+    "R-T03-003",
+    "R-T03-007"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T03-004",
+      "level": "should",
+      "note": "개정 예고 기간 조항 없음."
+    },
+    {
+      "ruleId": "R-T03-005",
+      "level": "must",
+      "note": "묵시 동의 조항 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "택배 표준약관 계통 조항.",
+  "frequency": 1,
+  "frequencyBase": 2,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-global-logis-terms-parcel-service",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/service",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일 : 2020년 6월 5일",
+      "contentHash": "b1e9b3279664b85623f0ced70947b59042fec99889200a4f94cd9666f7981024"
+    }
+  ]
+}

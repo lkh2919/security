@@ -1,0 +1,32 @@
+{
+  "id": "S21",
+  "packVersion": "privacy-2026.04",
+  "title": { "ko": "고정형 영상정보처리기기 운영·관리에 관한 사항", "en": "Fixed video devices (CCTV)" },
+  "guidelineRef": { "doc": "pipc-guideline-2026-04", "part": "III", "section": 21, "pages": "76-78", "lines": "2669-2766" },
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "conditional",
+  "catalogClass": "C",
+  "handling": "warn",
+  "applicability": { "when": { "slot": "gate.cctvFixed", "op": "truthy" }, "ifNot": "omit", "note": "Optional inclusion: an operator may publish a separate CCTV policy instead; if included here, all elements are required." },
+  "rules": [
+    { "ruleId": "R-S21-001", "sectionId": "S21", "level": "may", "element": "include in privacy policy", "statement": "A fixed-video-device operation and management policy may be included in the privacy policy instead of a separate policy.", "legalRefs": ["PIPA:25(7)"], "check": { "kind": "llm" }, "sourceSpan": "L2671-2673, L2695-2698", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S21-002", "sectionId": "S21", "level": "must", "element": "all Decree 25(1) items", "statement": "If included, cover all of: (1) installation basis and purpose; (2) number, locations, filming range; (3) manager, department, persons with access; (4) filming hours, retention period, storage place, processing method; (5) how and where the operator checks footage; (6) handling of access and other requests; (7) technical, managerial and physical protection; (8) other necessary matters.", "legalRefs": ["DEC:25(1)"], "check": { "kind": "deterministic", "expr": "has(section.S21.items, ['basisPurpose','countLocationRange','managerAccess','timeRetentionPlaceMethod','checkMethodPlace','requestHandling','protection'])" }, "sourceSpan": "L2675-2687", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S21-003", "sectionId": "S21", "level": "should", "element": "installation/management outsourcing", "statement": "If installation or management is outsourced, name the vendor and contact.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L2741-2746", "verifiedAt": "2026-09-29" }
+  ],
+  "goodPatterns": ["Eight numbered blocks following the checklist; tables for count/location and time/retention/place; note that access or deletion requests are limited to footage of the requester."],
+  "commonDefects": [
+    { "id": "D-S21-01", "severity": "major", "defect": "CCTV block missing retention period or persons with access." },
+    { "id": "D-S21-02", "severity": "minor", "defect": "Installation basis given without purpose." }
+  ],
+  "warnNote": "Handling = warn: drafter produces a manual-review placeholder with the checklist; installation-basis legality (e.g. parking lots) needs legal review.",
+  "extractionHints": ["CCTV count, lobby, parking, 24h, 30 days", "security vendor names", "who can view footage"],
+  "interviewNodes": ["Q-S21-01", "Q-S21-90", "Q-S21-91", "Q-S21-92"],
+  "legalRefs": {
+    "PIPA:25(7)": { "law": "개인정보 보호법", "article": "25", "paragraph": "7", "verifiedBy": "pipc-guideline-2026-04", "at": "p76 L2671, L2695", "lawGoKr": false },
+    "DEC:25(1)": { "law": "개인정보 보호법 시행령", "article": "25", "paragraph": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p76 L2675", "lawGoKr": false },
+    "PIPA:25(1)": { "law": "개인정보 보호법", "article": "25", "paragraph": "1", "note": "installation basis in example", "verifiedBy": "pipc-guideline-2026-04", "at": "p77 L2709", "lawGoKr": false }
+  },
+  "needsVerification": [
+    { "id": "NV-S21-01", "note": "Parking-lot basis (주차장법 시행규칙 6(1), >30 spaces) appears only as an example note (L2717); do not cite without verification." }
+  ]
+}

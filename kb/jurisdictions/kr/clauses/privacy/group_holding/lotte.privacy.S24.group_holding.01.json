@@ -1,0 +1,67 @@
+{
+  "id": "lotte.privacy.S24.group_holding.01",
+  "docType": "privacy",
+  "sectionId": "S24",
+  "domainGroup": "group_holding",
+  "sourceCaptureIds": [
+    "lotte-holdings-privacy"
+  ],
+  "sourceSites": [
+    "www.lotte.co.kr"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 03월 10일",
+  "layout": "guideline_numbered",
+  "text": "개인정보 처리방침 신·구 대조표 (공고일자: {{announceDate}}, 시행일자: {{effectiveDate}})\n{{changeSummaryTable}}\n(표 열) 구분(조항) / 변경 전 / 변경 후 / 변경 사유\n\n변경된 조항만을 표에 담고 변경 없는 조항은 표에서 제외합니다.",
+  "variables": [
+    {
+      "name": "announceDate",
+      "description": "Announcement date of this version"
+    },
+    {
+      "name": "effectiveDate",
+      "slotId": "privacy.S24_effectiveDate",
+      "description": "Effective date of this version"
+    },
+    {
+      "name": "changeSummaryTable",
+      "slotId": "privacy.S24_priorVersions",
+      "description": "Old/new comparison table of changed clauses"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S24-001",
+    "R-S24-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S24-002",
+      "level": "must",
+      "note": "이전 버전 목록과 적용 기간 표기는 별도 clause에서 충족."
+    },
+    {
+      "ruleId": "R-S24-005",
+      "level": "may",
+      "note": "경미 변경 묶음 고지 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-10",
+    "H-11"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotte-holdings-privacy",
+      "sourceUrl": "https://www.lotte.co.kr/privacy/agree.do",
+      "affiliate": "Lotte Holdings (group corporate site)",
+      "businessGroup": "group_holding",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 03월 10일 ; 시행일자 : 2026년 03월 16일 ; 2026년 03월 16일 부터 시행",
+      "contentHash": "1ad4f5da933e8cf4870d164c407d8058be09b3e60dc19fabceed3379cef6aa87"
+    }
+  ]
+}

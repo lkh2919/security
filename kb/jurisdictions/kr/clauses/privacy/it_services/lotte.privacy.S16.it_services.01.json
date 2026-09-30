@@ -1,0 +1,70 @@
+{
+  "id": "lotte.privacy.S16.it_services.01",
+  "docType": "privacy",
+  "sectionId": "S16",
+  "domainGroup": "it_services",
+  "sourceCaptureIds": [
+    "lotteinnovate-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteinnovate.com"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 6월 25일",
+  "layout": "guideline_numbered",
+  "text": "가. 정보주체는 회사에 대해 언제든지 다음 각 호의 개인정보 보호 관련 권리를 행사할 수 있습니다.\n- 개인정보 열람 요구\n- 오류 등이 있을 경우 정정 요구\n- 삭제 요구\n- 처리정지 요구\n나. 가항에 따른 권리 행사는 개인정보 보호책임자 및 담당부서 또는 회사에 대해 서면, 전화, 전자우편, 모사전송(FAX) 등을 통하여 하실 수 있으며 회사는 이에 대해 지체 없이 조치하겠습니다.\n다. 정보주체가 개인정보의 오류 등에 대한 정정 또는 삭제를 요구한 경우에는 회사는 정정 또는 삭제를 완료할 때까지 해당 개인정보를 이용하거나 제공하지 않습니다.\n라. 가항에 따른 권리 행사는 정보주체의 법정대리인이나 위임을 받은 자 등 대리인을 통하여 하실 수 있습니다. 이 경우 「개인정보 처리 방법에 관한 고시」 별지 서식에 따른 위임장을 제출하셔야 합니다.\n\n{{rightsChannels}}\n{{requestDept}}",
+  "variables": [
+    {
+      "name": "rightsChannels",
+      "slotId": "privacy.S16_rightsChannels",
+      "description": "Channels to exercise rights (written, phone, e-mail, fax, online)"
+    },
+    {
+      "name": "requestDept",
+      "slotId": "privacy.S16_requestDept",
+      "description": "Department receiving access requests (role and functional e-mail only)"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S16-001",
+    "R-S16-003",
+    "R-S16-004",
+    "R-S16-006"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S16-005",
+      "level": "must",
+      "note": "전송요구권 안내 없음."
+    },
+    {
+      "ruleId": "R-S16-002",
+      "level": "must",
+      "note": "홈페이지 자체 처리 경로(마이페이지 등) 안내 없음."
+    },
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "동의 철회 권리와 자동화된 결정에 관한 권리 문구가 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-02",
+    "H-17"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotteinnovate-privacy",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 6월 25일 ; 시행일자 : 2026년 6월 25일 ; 공고일자 : 2025년 9월 18일 ; 시행일자 : 2025년 9월 18일",
+      "contentHash": "ed631cda902e7824593df708a5399a8fe8e4516efd4252d5cb9ce0f65f4f7b7d"
+    }
+  ]
+}

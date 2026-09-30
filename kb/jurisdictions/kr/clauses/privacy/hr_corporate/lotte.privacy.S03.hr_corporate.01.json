@@ -1,0 +1,61 @@
+{
+  "id": "lotte.privacy.S03.hr_corporate.01",
+  "docType": "privacy",
+  "sectionId": "S03",
+  "domainGroup": "hr_corporate",
+  "sourceCaptureIds": [
+    "lotte-recruit-privacy"
+  ],
+  "sourceSites": [
+    "recruit.lotte.co.kr"
+  ],
+  "policyVersionOrDate": "2026. 09. 08부터 적용",
+  "layout": "guideline_numbered",
+  "text": "회사는 채용 전형과 관련 법령상 의무 이행을 위하여 다음의 민감정보를 정보주체의 별도 동의를 받아 처리합니다.\n\n{{itemsTable}}\n\n민감정보는 위 목적 이외의 용도로 이용하지 않으며, 동의하지 않아도 채용 절차 진행에는 영향을 주지 않는 항목은 그 사실을 표시합니다.",
+  "variables": [
+    {
+      "name": "itemsTable",
+      "slotId": "privacy.S03_items",
+      "description": "Items per purpose with legal basis and retention, rendered as tables"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.sensitiveData",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S03-001",
+    "R-S03-003",
+    "R-S03-007"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "원문은 민감정보를 '필수'로 표기함. 필수 표기의 적법성은 도메인 전문가 검토 필요."
+    },
+    {
+      "ruleId": "R-S03-004",
+      "level": "must",
+      "note": "무동의 처리 근거 표기 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "장애·보훈 정보는 민감정보 또는 법령상 특수 유형에 해당할 수 있어 vetting에서 분류 확인 필요.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-recruit-privacy",
+      "sourceUrl": "https://recruit.lotte.co.kr/about/personalPolicy27",
+      "affiliate": "Lotte Group recruiting site",
+      "businessGroup": "hr_corporate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026. 09. 08부터 적용 ; ver 9.1 ; ver 9.0 ; ver 8.9",
+      "contentHash": "bea4c6ae916cd20a0fe393a2c59f45a88fcf71f0485597054be67d5bc3354c48"
+    }
+  ]
+}

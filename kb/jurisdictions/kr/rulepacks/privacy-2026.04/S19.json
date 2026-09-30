@@ -1,0 +1,37 @@
+{
+  "id": "S19",
+  "packVersion": "privacy-2026.04",
+  "title": { "ko": "국내대리인 지정에 관한 사항", "en": "Domestic representative" },
+  "guidelineRef": { "doc": "pipc-guideline-2026-04", "part": "III", "section": 19, "pages": "73-74", "lines": "2586-2633" },
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "conditional",
+  "catalogClass": "C",
+  "handling": "clause",
+  "applicability": { "when": { "all": [ { "slot": "gate.foreignNoKrAddress", "op": "truthy" }, { "slot": "gate.domesticRepRequired", "op": "truthy" } ] }, "ifNot": "omit" },
+  "rules": [
+    { "ruleId": "R-S19-001", "sectionId": "S19", "level": "must", "element": "representative details", "statement": "Where a foreign operator must designate a domestic representative, state the representative's name (for a corporation, its name and the CEO's name), address (for a corporation, business office), phone number and e-mail.", "legalRefs": ["PIPA:31-2"], "check": { "kind": "deterministic", "expr": "exists(rep.name) && exists(rep.address) && exists(rep.phone) && exists(rep.email)" }, "sourceSpan": "L2588-2594", "verifiedAt": "2026-09-29", "effectiveFrom": "2025-10-02", "effectiveStatus": "in_force", "effectiveNote": "Act 20897 (promulgated 2025-04-01, in force 2025-10-02): representative's name, address, phone and e-mail must be in the policy; Decree 35780 same date.", "source": "spike-report.md §3.1-3.2; https://law.go.kr/DRF/lawSearch.do?OC=test&target=eflaw&type=XML&LID=011357&nw=1,2,3&display=100&sort=efdes (fetched 2026-09-29)" },
+    { "ruleId": "R-S19-002", "sectionId": "S19", "level": "must", "element": "reachable Korean phone", "statement": "The phone must be reachable in Korea (need not be a personal mobile) and must actually handle privacy complaints and consultations.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L2596-2599", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S19-003", "sectionId": "S19", "level": "should", "element": "affiliate selection (applicability context)", "statement": "Where the operator has a Korean corporation it set up or controls (appoints the CEO or 50%+ of officers, or holds 30%+ of shares), the representative is chosen from those corporations. Context for C1; the policy states only the chosen representative.", "legalRefs": ["PIPA:31-2", "DEC:32-3"], "check": { "kind": "llm" }, "sourceSpan": "L2612-2616", "verifiedAt": "2026-09-29", "effectiveFrom": "2025-10-02", "effectiveStatus": "in_force", "effectiveNote": "Affiliate-selection duty introduced by Act 20897 (in force 2025-10-02).", "source": "spike-report.md §3.1" }
+  ],
+  "designationCriteria": {
+    "note": "Applicability context from the guideline (PIPA 31-2, Decree 32-3); C1 uses it to question gate.domesticRepRequired.",
+    "criteria": ["prior-year total revenue of KRW 1 trillion or more", "daily average of 1 million or more Korean data subjects stored in the 3 months before prior year-end", "required by PIPC after a materials request under PIPA 63(1)"],
+    "at": "p73 L2601-2610"
+  },
+  "goodPatterns": ["Lead: data subjects may contact the representative designated under PIPA 31-2 for complaint handling; block with name (corporate name and CEO), address (office), phone, e-mail."],
+  "commonDefects": [
+    { "id": "D-S19-01", "severity": "blocker", "defect": "Foreign operator meeting the criteria omits representative or one of the four contact fields.", "seedCandidate": true },
+    { "id": "D-S19-02", "severity": "minor", "defect": "Phone given is overseas-only or a sales line." }
+  ],
+  "extractionHints": ["\"한국 지사 없음\", \"본사가 해외\", global revenue, Korean DAU", "\"국내대리인\", agent company names"],
+  "interviewNodes": ["Q-S19-01", "Q-S19-02", "Q-S19-03"],
+  "legalRefs": {
+    "PIPA:31-2": { "law": "개인정보 보호법", "article": "31-2", "verifiedBy": "pipc-guideline-2026-04", "at": "p73 L2588", "lawGoKr": true, "lawGoKrSource": "spike-report.md §3.1 (Act 20897, fetched 2026-09-29)" },
+    "DEC:32-3": { "law": "개인정보 보호법 시행령", "article": "32-3", "verifiedBy": "pipc-guideline-2026-04", "at": "p73 L2601", "lawGoKr": false },
+    "PIPA:63(1)": { "law": "개인정보 보호법", "article": "63", "paragraph": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p73 L2609", "lawGoKr": false }
+  },
+  "needsVerification": [
+    { "id": "NV-S19-01", "note": "Guideline and spike both mention a fine of up to KRW 10 million for omission; fine levels are not policy content and are not used in rules." },
+    { "id": "NV-S19-02", "note": "Decree 35780 (2025-10-02) changed designation criteria; confirm the thresholds above still match before C1 uses them as hard gates." }
+  ]
+}

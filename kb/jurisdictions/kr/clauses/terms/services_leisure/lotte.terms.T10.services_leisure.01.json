@@ -1,0 +1,80 @@
+{
+  "id": "lotte.terms.T10.services_leisure.01",
+  "docType": "terms",
+  "sectionId": "T10",
+  "domainGroup": "services_leisure",
+  "sourceCaptureIds": [
+    "lotte-rental-terms",
+    "lotte-charlotte-theater-terms"
+  ],
+  "sourceSites": [
+    "www.lotterentacar.net",
+    "www.charlottetheater.co.kr"
+  ],
+  "policyVersionOrDate": "시행일자 : 2020/01/16 / 개정 일자 : 2012년 08월 30일",
+  "layout": "legacy_article",
+  "text": "제N조 (예약 취소 및 환불)\n1. 이용자는 예약 취소 시점에 따라 {{refundPolicy}}에 정한 취소 수수료를 부담합니다. 취소 수수료는 이용자에게 미리 표시된 기준에 따르며, 회사에 귀책사유가 있는 경우에는 부과하지 않습니다.\n2. 회사가 예약을 취소하는 경우 지체 없이 이용자에게 통지하고 이미 받은 대금을 환급합니다.\n3. 환불은 원 결제 수단으로 하며 카드 결제의 경우 결제 취소로 처리합니다.",
+  "variables": [
+    {
+      "name": "refundPolicy",
+      "slotId": "terms.refundPolicy",
+      "description": "Refund and return terms per item type"
+    }
+  ],
+  "conditions": [
+    {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "terms.paid",
+          "op": "truthy"
+        }
+      ]
+    }
+  ],
+  "coversElements": [
+    "R-T10-004",
+    "R-T10-005",
+    "R-T10-006"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T10-001",
+      "level": "must",
+      "note": "7일 청약철회권과 취소 수수료 기준의 관계가 불명확."
+    },
+    {
+      "ruleId": "R-T10-002",
+      "level": "must",
+      "note": "철회 예외 사유 열거 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "서비스 이용 시작 후 취소 수수료 기준은 소비자분쟁해결기준과 대조 필요.",
+  "frequency": 2,
+  "frequencyBase": 2,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-rental-terms",
+      "sourceUrl": "https://www.lotterentacar.net/kor/footer/footerTermsNew.do?mnCd=MK0903",
+      "affiliate": "Lotte Rental",
+      "businessGroup": "services_leisure",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2020/01/16 ; 2020년 1월 16일부터 시행",
+      "contentHash": "53373e281b85b33a258cd270a4541695a574adb432e972f917c03c87daee5600"
+    },
+    {
+      "captureId": "lotte-charlotte-theater-terms",
+      "sourceUrl": "https://www.charlottetheater.co.kr/etc/terms.asp",
+      "affiliate": "Lotte Cultureworks / Charlotte Theater",
+      "businessGroup": "services_leisure",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "개정 일자 : 2012년 08월 30일 ; 2006년 10월 26일 개정 ; 2012년 08월 30일 시행 ; 2012년 08월 30일 개정",
+      "contentHash": "134577217c9fccea9b01b5dc5681234efc695c04321c3bb1f9348e4fb7064a93"
+    }
+  ]
+}

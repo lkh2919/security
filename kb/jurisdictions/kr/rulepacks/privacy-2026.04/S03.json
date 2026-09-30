@@ -1,0 +1,51 @@
+{
+  "id": "S03",
+  "packVersion": "privacy-2026.04",
+  "title": { "ko": "처리하는 개인정보의 항목", "en": "Items processed" },
+  "guidelineRef": { "doc": "pipc-guideline-2026-04", "part": "III", "section": 3, "pages": "24-28", "lines": "655-886" },
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "mandatory",
+  "catalogClass": "M",
+  "handling": "llm",
+  "applicability": { "when": { "all": [] } },
+  "rules": [
+    { "ruleId": "R-S03-001", "sectionId": "S03", "level": "must", "element": "items listed, minimum, accurate", "statement": "List the items processed; they are the minimum needed for the purposes and match actual processing.", "legalRefs": ["DEC:31(1)1", "STDG:18(2)"], "check": { "kind": "llm", "expr": "coverage(section.S03.items, slot(privacy.S03_items))" }, "sourceSpan": "L657-662, L390", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S03-002", "sectionId": "S03", "level": "must", "element": "no abbreviation", "statement": "Write concrete item names; no \"~등\" or abstract labels. Many items may be grouped into types, but each type lists its concrete items.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "!match(section.S03.items, lex.vague)" }, "sourceSpan": "L671-676", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S03-003", "sectionId": "S03", "level": "must", "element": "consent vs no-consent split", "statement": "Separate items processed with consent from items processed without consent.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "has(section.S03.groups, ['consent','no_consent'])" }, "sourceSpan": "L678-680", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S03-004", "sectionId": "S03", "level": "must", "element": "legal basis per no-consent item", "statement": "For no-consent processing, state the legal basis with each item group; when the basis is a legal obligation or public-duty item of PIPA 15(1), also name the other statute and article.", "legalRefs": ["PIPA:15(1)", "PIPA:15(1)2", "PIPA:15(1)3"], "check": { "kind": "deterministic", "expr": "every(section.S03.no_consent, g => g.legalBasis && (g.basisItem in ['2','3'] ? g.otherLaw.article : true))" }, "sourceSpan": "L682-701", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S03-005", "sectionId": "S03", "level": "must", "element": "generated data", "statement": "Name data generated during service use or business processing (not collected directly) together with the related task.", "legalRefs": [], "check": { "kind": "llm", "expr": "coverage(section.S03, slot(privacy.S03_generatedItems))" }, "sourceSpan": "L707-710", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S03-006", "sectionId": "S03", "level": "must", "element": "data received from others", "statement": "For data received from third parties or other routes (e.g. simple login), state items and legal basis.", "legalRefs": [], "check": { "kind": "llm", "expr": "coverage(section.S03, slot(privacy.S03_receivedItems))" }, "sourceSpan": "L712-713", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S03-007", "sectionId": "S03", "level": "should", "element": "unique ID / sensitive sub-groups", "statement": "Show unique identifiers and sensitive data as separate sub-groups with their purposes and specific bases (separate consent or statute).", "legalRefs": ["PIPA:24(1)", "PIPA:23(1)"], "check": { "kind": "deterministic", "expr": "if(slot(gate.uniqueId)||slot(gate.sensitiveData)) exists(section.S03.subgroups.special)" }, "sourceSpan": "L726-742", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S03-008", "sectionId": "S03", "level": "must", "element": "on-device with server storage", "statement": "Even for on-device features, if data reaches the server (e.g. via sign-up) state purpose, items, retention and legal basis.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L744-746", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S03-009", "sectionId": "S03", "level": "should", "element": "on-device-only disclosure", "statement": "Where processing stays on the device only, say that data is not sent to external servers.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "if(slot(gate.onDevice)) exists(section.S03.onDeviceNote)" }, "sourceSpan": "L748-750", "verifiedAt": "2026-09-29" }
+  ],
+  "goodPatterns": [
+    "Two blocks: (1) processed without consent, grouped by task with legal basis (e.g. contract performance, legal obligation plus statute article, other-law consent, received from others, on-device note); (2) processed with consent with basis and items.",
+    "Integrated table variant: legal basis | task | purpose | items.",
+    "Consent obtained under another statute may be shown as statute-based (no-consent) processing."
+  ],
+  "commonDefects": [
+    { "id": "D-S03-01", "severity": "major", "defect": "Items abbreviated with \"등\" or vague labels such as '결제 정보'.", "seedCandidate": true },
+    { "id": "D-S03-02", "severity": "major", "defect": "Statute named without article, or legal obligation claimed without naming the statute.", "seedCandidate": true },
+    { "id": "D-S03-03", "severity": "major", "defect": "Items omitted versus sign-up form, terms, or actual collection (e.g. address, school, grade collected but not listed)." },
+    { "id": "D-S03-04", "severity": "major", "defect": "Consent and no-consent items mixed in one list." },
+    { "id": "D-S03-05", "severity": "minor", "defect": "Auto-generated data (logs, IP, device info) missing." }
+  ],
+  "extractionHints": ["form field names, required/optional marks", "\"본인인증\", \"CI\", \"간편 로그인\", partner names", "statute names spoken with article numbers", "IP, cookies, access logs, device ID, call recordings", "health, biometric, beliefs, political views, sexual life", "resident registration number, passport"],
+  "interviewNodes": ["Q-P-04", "Q-P-05", "Q-S02-02", "Q-S02-03", "Q-S02-30", "Q-S03-01", "Q-S03-03", "Q-S03-04", "Q-S03-05", "Q-S03-06", "Q-S03-07", "Q-S03-20", "Q-S03-30", "Q-S03-40", "Q-S03-41", "Q-S02-60", "Q-A1-51"],
+  "legalRefs": {
+    "DEC:31(1)1": { "law": "개인정보 보호법 시행령", "article": "31", "paragraph": "1", "item": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p24 L657", "lawGoKr": false },
+    "STDG:18(2)": { "law": "표준 개인정보 보호지침", "article": "18", "paragraph": "2", "verifiedBy": "pipc-guideline-2026-04", "at": "p14 L390", "lawGoKr": false },
+    "PIPA:15(1)": { "law": "개인정보 보호법", "article": "15", "paragraph": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p24 L693", "lawGoKr": false },
+    "PIPA:15(1)2": { "law": "개인정보 보호법", "article": "15", "paragraph": "1", "item": "2", "verifiedBy": "pipc-guideline-2026-04", "at": "p25 L699", "lawGoKr": false },
+    "PIPA:15(1)3": { "law": "개인정보 보호법", "article": "15", "paragraph": "1", "item": "3", "verifiedBy": "pipc-guideline-2026-04", "at": "p25 L699-701", "lawGoKr": false },
+    "PIPA:24(1)": { "law": "개인정보 보호법", "article": "24", "paragraph": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p25 L730", "lawGoKr": false },
+    "PIPA:23(1)": { "law": "개인정보 보호법", "article": "23", "paragraph": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p26 L741", "lawGoKr": false },
+    "DEC:17(1)": { "law": "개인정보 보호법 시행령", "article": "17", "paragraph": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p24 L715-724", "lawGoKr": false },
+    "DEC:17(5)": { "law": "개인정보 보호법 시행령", "article": "17", "paragraph": "5", "verifiedBy": "pipc-guideline-2026-04", "at": "p24 L686", "lawGoKr": false }
+  },
+  "consentValidityNote": "Consent must meet Decree 17(1) requirements (free will, specific and clear, easy wording, clear way to indicate). No-consent items and bases may alternatively be notified by mail, e-mail, fax, phone or text (Decree 17(5)). Context for R2/C1, not a policy element.",
+  "needsVerification": [
+    { "id": "NV-S03-01", "note": "Resident registration number permitted-cases list (L735-738) is summarized from the guideline; confirm current PIPA 24-2 wording before any clause cites it." }
+  ]
+}

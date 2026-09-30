@@ -1,0 +1,47 @@
+# Node and Bun
+node_modules/
+bun.lockb
+.bun/
+
+# Output and builds
+dist/
+build/
+*.js.map
+
+# TypeScript
+*.tsbuildinfo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Runs and artifacts (product zone)
+runs/
+golden/runs/
+
+# KB raw sources (internal derivation only)
+kb/_sources/
+
+# Windows reserved device name (must include both cases)
+nul
+NUL
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencies lock (per package)
+packages/*/yarn.lock
+packages/*/package-lock.json

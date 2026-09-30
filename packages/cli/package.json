@@ -1,0 +1,19 @@
+{
+  "name": "privacy-agent",
+  "version": "0.1.0",
+  "description": "Privacy agent CLI — interview, run, audit, freshness subcommands",
+  "type": "module",
+  "bin": {
+    "privacy-agent": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "bun --watch src/cli.ts"
+  },
+  "dependencies": {
+    "@privacy-agent/core": "workspace:*"
+  },
+  "keywords": ["privacy", "policy", "cli"],
+  "author": "",
+  "license": "Proprietary"
+}

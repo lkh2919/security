@@ -1,0 +1,53 @@
+{
+  "id": "lotte.privacy.S06.group_holding.01",
+  "docType": "privacy",
+  "sectionId": "S06",
+  "domainGroup": "group_holding",
+  "sourceCaptureIds": [
+    "lotte-holdings-privacy"
+  ],
+  "sourceSites": [
+    "www.lotte.co.kr"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 03월 10일",
+  "layout": "guideline_numbered",
+  "text": "회사는 원칙적으로 개인정보 수집 및 이용 목적이 달성된 후에는 해당 정보를 지체 없이 파기합니다. 파기 절차와 방법은 다음과 같습니다.\n- 파기 절차: 입력하신 정보는 목적이 달성된 후 별도의 DB(종이의 경우 별도의 서류함)로 옮겨져 내부 방침 및 관련 법령에 따라 일정 기간 저장된 후 파기됩니다. 이 개인정보는 법률에 의한 경우가 아니고서는 보유되는 목적 이외의 다른 목적으로 이용되지 않습니다.\n- 파기 기한: 개인정보의 보유기간이 지난 경우에는 보유기간의 종료일로부터 5일 이내에, 처리 목적 달성, 해당 서비스의 폐지, 사업의 종료 등 개인정보가 불필요하게 되었을 때에는 불필요하게 되었음이 인정된 날로부터 5일 이내에 그 개인정보를 파기합니다.\n- 파기 방법: 전자적 파일 형태로 저장된 개인정보는 기록을 재생할 수 없는 기술적 방법을 사용하여 삭제하고, 종이에 출력된 개인정보는 분쇄기로 분쇄하거나 소각하여 파기합니다.\n\n{{destructionText}}",
+  "variables": [
+    {
+      "name": "destructionText",
+      "slotId": "privacy.S06_destruction",
+      "description": "Destruction procedure and method"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S06-001",
+    "R-S06-003",
+    "R-S06-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S06-002",
+      "level": "must",
+      "note": "법령상 보존 항목·근거·기간은 S05와 연계하여 명시 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "'5일 이내' 파기 기한은 표준 개인정보 보호지침 취지에 부합. 지침 현행 조문과 대조 필요.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-02"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotte-holdings-privacy",
+      "sourceUrl": "https://www.lotte.co.kr/privacy/agree.do",
+      "affiliate": "Lotte Holdings (group corporate site)",
+      "businessGroup": "group_holding",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 03월 10일 ; 시행일자 : 2026년 03월 16일 ; 2026년 03월 16일 부터 시행",
+      "contentHash": "1ad4f5da933e8cf4870d164c407d8058be09b3e60dc19fabceed3379cef6aa87"
+    }
+  ]
+}

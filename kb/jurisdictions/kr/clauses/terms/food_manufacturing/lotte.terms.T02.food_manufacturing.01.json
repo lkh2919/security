@@ -1,0 +1,49 @@
+{
+  "id": "lotte.terms.T02.food_manufacturing.01",
+  "docType": "terms",
+  "sectionId": "T02",
+  "domainGroup": "food_manufacturing",
+  "sourceCaptureIds": [
+    "lotte-wellfood-terms"
+  ],
+  "sourceSites": [
+    "www.lottewellfood.com"
+  ],
+  "policyVersionOrDate": "2015년 4월 20일부터 시행",
+  "layout": "legacy_article",
+  "text": "제N조 (용어의 정의)\n이 약관에서 사용하는 용어의 정의는 다음과 같습니다.\n1. \"회원\"이란 회사에 개인정보를 제공하여 회원 등록을 한 자로서 서비스를 계속적으로 이용할 수 있는 자를 말합니다.\n2. \"이용자 ID\"란 회원의 식별과 서비스 이용을 위하여 회원이 정하고 회사가 승인하는 문자와 숫자의 조합을 말합니다.\n3. \"게시물\"이란 회원이 서비스에 게시한 글, 사진, 파일 등을 말합니다.\n{{termsDefinitions}}",
+  "variables": [
+    {
+      "name": "termsDefinitions",
+      "slotId": "terms.definitions",
+      "description": "Defined terms of the terms document"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "terms.applicable",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-T02-001",
+    "R-T02-002"
+  ],
+  "gapsVsGuideline": [],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 2,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-wellfood-terms",
+      "sourceUrl": "https://www.lottewellfood.com/policy/use",
+      "affiliate": "Lotte Wellfood",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2015년 4월 20일부터 시행",
+      "contentHash": "27c92d094aaa5850a438e3164fbdad5b21326d87f3fff9ac3ad9e1a05889ecbf"
+    }
+  ]
+}

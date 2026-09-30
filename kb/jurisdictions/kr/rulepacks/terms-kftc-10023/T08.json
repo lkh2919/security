@@ -1,0 +1,130 @@
+{
+  "id": "T08",
+  "packVersion": "terms-kftc-10023",
+  "title": {
+    "ko": "회원에 대한 통지",
+    "en": "Notices to members"
+  },
+  "stdTermsRef": {
+    "doc": "kftc-10023-2015-06-26",
+    "articles": "제8조",
+    "raw": "kb/_sources/terms/kftc-10023-2015-06-26.txt"
+  },
+  "attribution": "KFTC, 전자상거래(인터넷사이버몰) 표준약관 제10023호 (2015. 6. 26. 개정) and statutes via law.go.kr (paraphrased)",
+  "classification": "conditional",
+  "module": "member",
+  "handling": "clause",
+  "applicability": {
+    "when": {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "gate.membership",
+          "op": "truthy"
+        }
+      ]
+    },
+    "notApplicableWhen": {
+      "slot": "terms.applicable",
+      "op": "eq",
+      "value": false
+    }
+  },
+  "slots": [
+    "terms.memberNoticeChannels"
+  ],
+  "rules": [
+    {
+      "ruleId": "R-T08-001",
+      "sectionId": "T08",
+      "level": "must",
+      "element": "individual notice channel",
+      "statement": "Individual notices go to the channel the member designated (e-mail, SMS, app push).",
+      "legalRefs": [
+        "STD10023:8(1)"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "nonEmpty(slot(terms.memberNoticeChannels)) && mentionsAny(section.T08, slot(terms.memberNoticeChannels))"
+      },
+      "sourceSpan": "STD10023 제8조①",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T08-002",
+      "sectionId": "T08",
+      "level": "must",
+      "element": "board posting limits",
+      "statement": "Posting on the notice board for at least one week may replace notices to unspecified members only; matters materially affecting a member's own transactions require individual notice.",
+      "legalRefs": [
+        "STD10023:8(2)",
+        "ARTC:12[3]"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!match(section.T08, lex.U-ARTC12-02) || mentions(section.T08, ['개별'])"
+      },
+      "sourceSpan": "STD10023 제8조②; ARTC 제12조제3호",
+      "verifiedAt": "2026-09-29"
+    }
+  ],
+  "unfairPatterns": [
+    {
+      "lexiconId": "U-ARTC12-02",
+      "pattern": "(\\uAC8C\\uC2DC|\\uACF5\\uC9C0|\\uAC8C\\uC7AC)[^.]{0,25}(\\uD1B5\\uC9C0|\\uB3C4\\uB2EC)(\\uD55C|\\uB41C)\\s*\\uAC83\\uC73C\\uB85C\\s*(\\uBD05|\\uAC04\\uC8FC)",
+      "statuteRef": [
+        "ARTC:12[3]"
+      ],
+      "severity": "major"
+    }
+  ],
+  "goodPatterns": [
+    "Two paragraphs: designated channel; 1-week board posting with individual-notice carve-out."
+  ],
+  "commonDefects": [
+    {
+      "id": "D-T08-01",
+      "severity": "major",
+      "defect": "All notices deemed delivered by website posting, including adverse individual matters."
+    }
+  ],
+  "extractionHints": [
+    "notice channels used"
+  ],
+  "interviewNodes": [
+    "Q-T08-08"
+  ],
+  "interviewHints": [
+    "Ask notice channels (Q-T08-08)."
+  ],
+  "legalRefs": {
+    "ARTC:12[3]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "12",
+      "item": "3",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제12조 제3호",
+      "lawGoKr": true
+    },
+    "STD10023:8(1)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "8",
+      "paragraph": "1",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제8조 제1항",
+      "lawGoKr": false
+    },
+    "STD10023:8(2)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "8",
+      "paragraph": "2",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제8조 제2항",
+      "lawGoKr": false
+    }
+  },
+  "needsVerification": []
+}

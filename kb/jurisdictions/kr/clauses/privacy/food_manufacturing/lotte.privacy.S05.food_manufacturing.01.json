@@ -1,0 +1,72 @@
+{
+  "id": "lotte.privacy.S05.food_manufacturing.01",
+  "docType": "privacy",
+  "sectionId": "S05",
+  "domainGroup": "food_manufacturing",
+  "sourceCaptureIds": [
+    "lotte-wellfood-privacy",
+    "lotte-chilsung-privacy"
+  ],
+  "sourceSites": [
+    "www.lottewellfood.com",
+    "company.lottechilsung.co.kr"
+  ],
+  "policyVersionOrDate": "시행일자: 2026년 8월 10일 / 시행일자 : 2015년 03월 17일",
+  "layout": "legacy_article",
+  "text": "제N조 (개인정보의 보유·이용기간)\n1. 회사는 원칙적으로 개인정보의 수집 목적 또는 제공받은 목적이 달성된 때에는 해당 개인정보를 지체 없이 파기합니다. 다만 다음의 정보는 아래의 이유로 명시한 기간 동안 보존합니다.\n{{retentionTable}}\n{{retentionExceptions}}",
+  "variables": [
+    {
+      "name": "retentionTable",
+      "slotId": "privacy.S05_retention",
+      "description": "Retention period and basis per service or item group"
+    },
+    {
+      "name": "retentionExceptions",
+      "slotId": "privacy.S05_retentionExceptions",
+      "description": "Statutory retention exceptions (law, item, period)"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S05-001",
+    "R-S05-003",
+    "R-S05-005"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S05-004",
+      "level": "should",
+      "note": "보존 항목의 명시 부족."
+    },
+    {
+      "ruleId": "R-S05-002",
+      "level": "must",
+      "note": "동의 항목과 보유기간 일치 확인 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 2,
+  "frequencyBase": 2,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-wellfood-privacy",
+      "sourceUrl": "https://www.lottewellfood.com/policy/privacy",
+      "affiliate": "Lotte Wellfood",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자: 2026년 8월 10일 ; v.2.22 ; v.2.21 ; v.2.20",
+      "contentHash": "072b5887741bb5bb109ac2c6d576162ef430c18da9c328d1f8a3d22cd4d8aa94"
+    },
+    {
+      "captureId": "lotte-chilsung-privacy",
+      "sourceUrl": "https://company.lottechilsung.co.kr/kor/util/privacy/view.do?guide=14",
+      "affiliate": "Lotte Chilsung Beverage",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2015년 03월 17일 ; 시행일자 : 2026년 02월 12일 ; 시행일자 : 2025년 10월 22일 ; 시행일자 : 2025년 6월 30일",
+      "contentHash": "649fa54564a02d4c3525dc1f9b85cd6f3147c2200781222bbcaa90abbb9e3ff8"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "id": "lotte.privacy.S18.hr_corporate.01",
+  "docType": "privacy",
+  "sectionId": "S18",
+  "domainGroup": "hr_corporate",
+  "sourceCaptureIds": [
+    "lotte-recruit-privacy"
+  ],
+  "sourceSites": [
+    "recruit.lotte.co.kr"
+  ],
+  "policyVersionOrDate": "2026. 09. 08부터 적용",
+  "layout": "legacy_article",
+  "text": "제N조 개인정보 보호책임자\n회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고 개인정보 처리와 관련한 정보주체의 불만 처리 및 피해 구제를 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.\n- 개인정보 보호책임자: {{officerContact}}\n- 개인정보 보호 담당부서: {{deptContact}}\n- 채용 관련 문의: {{deptContact}}",
+  "variables": [
+    {
+      "name": "officerContact",
+      "slotId": "privacy.S18_officer",
+      "description": "Privacy officer: role/title and functional e-mail (no personal name in reusable text)"
+    },
+    {
+      "name": "deptContact",
+      "slotId": "privacy.S18_dept",
+      "description": "Responsible department: name and functional e-mail"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S18-001",
+    "R-S18-002",
+    "R-S18-003"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S18-004",
+      "level": "should",
+      "note": "책임자와 부서를 모두 표기하는 것이 권장되나 원문 일부는 부서만 표기."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-12"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotte-recruit-privacy",
+      "sourceUrl": "https://recruit.lotte.co.kr/about/personalPolicy27",
+      "affiliate": "Lotte Group recruiting site",
+      "businessGroup": "hr_corporate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026. 09. 08부터 적용 ; ver 9.1 ; ver 9.0 ; ver 8.9",
+      "contentHash": "bea4c6ae916cd20a0fe393a2c59f45a88fcf71f0485597054be67d5bc3354c48"
+    }
+  ]
+}

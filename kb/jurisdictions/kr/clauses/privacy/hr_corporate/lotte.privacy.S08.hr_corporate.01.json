@@ -1,0 +1,49 @@
+{
+  "id": "lotte.privacy.S08.hr_corporate.01",
+  "docType": "privacy",
+  "sectionId": "S08",
+  "domainGroup": "hr_corporate",
+  "sourceCaptureIds": [
+    "lotte-recruit-privacy"
+  ],
+  "sourceSites": [
+    "recruit.lotte.co.kr"
+  ],
+  "policyVersionOrDate": "2026. 09. 08부터 적용",
+  "layout": "legacy_article",
+  "text": "제N조 개인정보 추가적인 이용·제공 판단 기준\n회사는 「개인정보 보호법」에 따라 정보주체의 동의 없이 개인정보를 추가로 이용·제공하는 경우 다음을 고려합니다.\n1. 당초 수집 목적과 관련성이 있는지 여부\n2. 수집 정황 또는 처리 관행에 비추어 예측 가능성이 있는지 여부\n3. 정보주체의 이익을 부당하게 침해하는지 여부\n4. 가명처리 또는 암호화 등 안전성 확보에 필요한 조치를 하였는지 여부\n\n{{additionalUseTable}}",
+  "variables": [
+    {
+      "name": "additionalUseTable",
+      "slotId": "privacy.S08_additionalUse",
+      "description": "Ongoing additional uses or provisions without consent"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.additionalUseOngoing",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S08-001",
+    "R-S08-002"
+  ],
+  "gapsVsGuideline": [],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-recruit-privacy",
+      "sourceUrl": "https://recruit.lotte.co.kr/about/personalPolicy27",
+      "affiliate": "Lotte Group recruiting site",
+      "businessGroup": "hr_corporate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026. 09. 08부터 적용 ; ver 9.1 ; ver 9.0 ; ver 8.9",
+      "contentHash": "bea4c6ae916cd20a0fe393a2c59f45a88fcf71f0485597054be67d5bc3354c48"
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "manifestVersion": "0.1.0",
+  "kbVersion": "0.1.0",
+  "guideline": "2026.4",
+  "rulePacks": [
+    {
+      "id": "privacy-2026.04",
+      "version": "privacy-2026.04",
+      "sha256": "d2cddbc0e2c1915be6ee08f974af60f7d0705e19a338b50873373b8fa8fe6c79"
+    },
+    {
+      "id": "terms-kftc-10023",
+      "version": "terms-kftc-10023",
+      "sha256": "9044d7ba2913d76ecd6d932824e58eef2d7ae7f8d1182b30eb9b9d7e627f64ae"
+    }
+  ],
+  "lawSnapshot": {
+    "id": "law-2026-09-29",
+    "note": "Ids copied from statutes/law-targets.json (Row 3 spike, verified 2026-09-29). Only laws with a verified MST are listed; guideline pages are tracked under pages[].",
+    "laws": [
+      {
+        "name": "개인정보 보호법",
+        "target": "law",
+        "id": "011357/MST283839",
+        "effective": "2026-09-11"
+      },
+      {
+        "name": "개인정보 보호법 시행령",
+        "target": "law",
+        "id": "011468/MST289537",
+        "effective": "2026-09-11"
+      },
+      {
+        "name": "약관의 규제에 관한 법률",
+        "target": "law",
+        "id": "000667/MST260021",
+        "effective": "2024-08-07"
+      },
+      {
+        "name": "전자상거래 등에서의 소비자보호에 관한 법률",
+        "target": "law",
+        "id": "009318/MST282793",
+        "effective": "2026-07-21"
+      },
+      {
+        "name": "정보통신망 이용촉진 및 정보보호 등에 관한 법률",
+        "target": "law",
+        "id": "000030/MST283843",
+        "effective": "2026-09-11"
+      },
+      {
+        "name": "표준 개인정보 보호지침",
+        "target": "admrul",
+        "id": "2100000257592",
+        "effective": "2025-04-11"
+      },
+      {
+        "name": "개인정보의 안전성 확보조치 기준",
+        "target": "admrul",
+        "id": "2100000281400",
+        "effective": "2026-07-01"
+      }
+    ]
+  },
+  "clauseLib": {
+    "version": "0.1.0",
+    "capturedAt": "2026-09-30T00:00:00.000Z",
+    "builtAt": "2026-09-29T22:10:31.360Z",
+    "sites": [
+      "https://company.himart.co.kr/policy/privacy",
+      "https://company.himart.co.kr/policy/terms",
+      "https://company.lottechilsung.co.kr/kor/util/privacy/view.do?guide=14",
+      "https://company.lottechilsung.co.kr/kor/util/terms/contentsid/567/index.do",
+      "https://company.lottemart.com/privacy/media.asp",
+      "https://company.lottemart.com/privacy/privacy.asp",
+      "https://company.lottemart.com/privacy/term.asp",
+      "https://m.lpoint.com/app/center/LWDD100300.do?prvGrpId=A07&prvSeq=275",
+      "https://members.lpoint.com/resources/html/privacy/iframe_1000_C1_ko.html",
+      "https://members.lpoint.com/resources/html/privacy/iframe_1009_C0_ko.html",
+      "https://recruit.lotte.co.kr/about/personalPolicy27",
+      "https://recruit.lotte.co.kr/about/termOfPolicy",
+      "https://www.7-eleven.co.kr/util/policyPrivacy.asp",
+      "https://www.7-eleven.co.kr/util/videoPolicy.asp",
+      "https://www.charlottetheater.co.kr/etc/terms.asp",
+      "https://www.e-himart.co.kr/app/terms/privacy?stonType=PC",
+      "https://www.lotte.co.kr/privacy/agree.do",
+      "https://www.lottecastle.co.kr/castleMember/sign-up/terms/index.do",
+      "https://www.lottecastle.co.kr/movie/index.do",
+      "https://www.lottecastle.co.kr/privacy/index.do",
+      "https://www.lotteglogis.com/home/policy/location",
+      "https://www.lotteglogis.com/home/policy/privacy",
+      "https://www.lotteglogis.com/home/policy/service",
+      "https://www.lotteglogis.com/home/policy/video",
+      "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "https://www.lotteinnovate.com/ko/tos/privacycctv",
+      "https://www.lottemembers.com/",
+      "https://www.lotterentacar.net/kor/footer/footerPolicyNew.do?mnCd=FN0901",
+      "https://www.lotterentacar.net/kor/footer/footerTermsNew.do?mnCd=MK0903",
+      "https://www.lotteshopping.com/etc/operate",
+      "https://www.lotteshopping.com/etc/personalinfo",
+      "https://www.lotteshopping.com/etc/terms",
+      "https://www.lottewellfood.com/policy/privacy",
+      "https://www.lottewellfood.com/policy/use",
+      "https://www.lottewellfood.com/policy/video"
+    ],
+    "vettedClauses": 0,
+    "count": 153,
+    "captureIndexSha256": "1255bad8f7b787439e1b232489dca372f3c51d91b6613b263caa2a0c59a138b7"
+  },
+  "houseStyle": {
+    "version": "0.0.0-candidate",
+    "status": "candidate",
+    "candidates": 19,
+    "file": "house-style/lotte-innovate.candidates.json"
+  },
+  "pages": []
+}

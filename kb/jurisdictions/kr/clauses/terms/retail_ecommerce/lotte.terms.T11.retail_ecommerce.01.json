@@ -1,0 +1,56 @@
+{
+  "id": "lotte.terms.T11.retail_ecommerce.01",
+  "docType": "terms",
+  "sectionId": "T11",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-himart-terms"
+  ],
+  "sourceSites": [
+    "company.himart.co.kr"
+  ],
+  "policyVersionOrDate": "2025.08.29부터 적용",
+  "layout": "legacy_article",
+  "text": "제N조 (회원의 ID 및 비밀번호에 대한 의무)\n1. 아이디와 비밀번호에 관한 관리책임은 회원에게 있으며 이를 제3자가 이용하도록 하여서는 안 됩니다.\n2. 회원은 아이디 및 비밀번호가 도용되거나 제3자가 사용하고 있음을 인지한 경우에는 이를 즉시 회사에 통지하고 회사의 안내에 따라야 합니다.\n3. 회사는 회원의 관리 소홀이 아닌 사유로 발생한 손해에 대하여 책임을 부담합니다.",
+  "variables": [],
+  "conditions": [
+    {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "gate.membership",
+          "op": "truthy"
+        }
+      ]
+    }
+  ],
+  "coversElements": [
+    "R-T11-002"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T11-004",
+      "level": "must",
+      "note": "3항으로 위험 부담 배분을 균형 있게 표현하도록 유지 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 3,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-himart-terms",
+      "sourceUrl": "https://company.himart.co.kr/policy/terms",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025.08.29부터 적용",
+      "contentHash": "59e7cc599d744e3fda2d9afad802786922cbd67b51afa876bf2f615a625db01f"
+    }
+  ]
+}

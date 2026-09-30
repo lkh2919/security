@@ -1,0 +1,56 @@
+{
+  "id": "lotte.privacy.S02.hr_corporate.01",
+  "docType": "privacy",
+  "sectionId": "S02",
+  "domainGroup": "hr_corporate",
+  "sourceCaptureIds": [
+    "lotte-recruit-privacy"
+  ],
+  "sourceSites": [
+    "recruit.lotte.co.kr"
+  ],
+  "policyVersionOrDate": "2026. 09. 08부터 적용",
+  "layout": "legacy_article",
+  "text": "1. 홈페이지 회원 가입\n- 회원 가입을 위한 본인 확인과 개인 식별, 부정 이용 및 비인가 사용 방지, 안내사항 전달\n2. 입사 지원 및 인재 DB\n- 입사지원서 본인 확인과 개인 식별, 합격자 통보 및 안내사항 전달, 지원자 대상 설문조사, 서류·면접 전형 등의 근거 자료, 채용 적합성 판단 및 인재 풀 활용, 자기소개서 표절률 확인, 불만 처리 등 민원 처리\n{%if gate.sensitiveData%}\n- 관계 법령에 따른 우선채용 대상 자격 확인 및 장애인 고용 관련 법령상 의무 이행\n{%endif%}\n3. 인적성 진단 플랫폼 이용\n- 진단 시 본인 확인과 응시자 식별, 감독 및 사후 확인, 통계 분석과 결과 처리\n4. 평판 조회 (경력직 지원자)\n- 채용 절차상의 평판 조회, 채용 적합성 판단\n5. 1:1 문의\n- 문의 시 지원 현황 식별 및 답변\n\n{{purposeTable}}",
+  "variables": [
+    {
+      "name": "purposeTable",
+      "slotId": "privacy.S02_purposes",
+      "description": "Purposes per service or task, rendered as a list or table"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "privacy.S02_purposes",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S02-001",
+    "R-S02-002",
+    "R-S02-005"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S02-003",
+      "level": "must",
+      "note": "동의 항목과 목적 문구가 일치하는지 초안 단계에서 대조 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "채용 전형 단계별 목적(가입-지원-진단-평판-문의). 민감정보 목적은 gate.sensitiveData로 감쌌다.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-recruit-privacy",
+      "sourceUrl": "https://recruit.lotte.co.kr/about/personalPolicy27",
+      "affiliate": "Lotte Group recruiting site",
+      "businessGroup": "hr_corporate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026. 09. 08부터 적용 ; ver 9.1 ; ver 9.0 ; ver 8.9",
+      "contentHash": "bea4c6ae916cd20a0fe393a2c59f45a88fcf71f0485597054be67d5bc3354c48"
+    }
+  ]
+}

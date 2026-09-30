@@ -1,0 +1,349 @@
+{
+  "id": "T14",
+  "packVersion": "terms-kftc-10023",
+  "title": {
+    "ko": "책임의 제한(면책)",
+    "en": "Limitation of liability"
+  },
+  "stdTermsRef": {
+    "doc": "kftc-10023-2015-06-26",
+    "articles": "제4조④, 제5조②, 제13조②, 제21조",
+    "raw": "kb/_sources/terms/kftc-10023-2015-06-26.txt"
+  },
+  "attribution": "KFTC, 전자상거래(인터넷사이버몰) 표준약관 제10023호 (2015. 6. 26. 개정) and statutes via law.go.kr (paraphrased)",
+  "classification": "recommended",
+  "module": "core",
+  "handling": "clause+lexicon",
+  "applicability": {
+    "when": {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        }
+      ]
+    },
+    "notApplicableWhen": {
+      "slot": "terms.applicable",
+      "op": "eq",
+      "value": false
+    }
+  },
+  "slots": [
+    "terms.liabilityPosture"
+  ],
+  "rules": [
+    {
+      "ruleId": "R-T14-001",
+      "sectionId": "T14",
+      "level": "must",
+      "element": "no exclusion for intent/gross negligence",
+      "statement": "No clause may exclude legal liability for intent or gross negligence of the operator, its agents or employees.",
+      "legalRefs": [
+        "ARTC:7[1]"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!match(doc, lex.U-ARTC7-01) && !match(doc, lex.U-ARTC7-02)"
+      },
+      "sourceSpan": "ARTC 제7조제1호",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T14-002",
+      "sectionId": "T14",
+      "level": "must",
+      "element": "no unjustified caps or risk shift",
+      "statement": "No limitation of damages or shifting of operator risks to customers without substantial reason.",
+      "legalRefs": [
+        "ARTC:7[2]"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!match(doc, lex.U-ARTC7-03) && !match(doc, lex.U-ARTC7-04) && !match(doc, lex.U-ARTC7-05)"
+      },
+      "sourceSpan": "ARTC 제7조제2호",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T14-003",
+      "sectionId": "T14",
+      "level": "must",
+      "element": "no warranty exclusion",
+      "statement": "No exclusion or limitation of warranty liability, or of responsibility for samples and quality/performance representations, without substantial reason.",
+      "legalRefs": [
+        "ARTC:7[3]",
+        "ARTC:7[4]"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!match(doc, lex.U-ARTC7-07)"
+      },
+      "sourceSpan": "ARTC 제7조제3호·제4호",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T14-004",
+      "sectionId": "T14",
+      "level": "should",
+      "element": "fault-based phrasing",
+      "statement": "Phrase limitations as: the operator is not liable where it proves no intent or negligence (std pattern), rather than absolute exclusions.",
+      "legalRefs": [
+        "STD10023:4(4)",
+        "STD10023:5(2)",
+        "STD10023:13(2)"
+      ],
+      "check": {
+        "kind": "llm",
+        "expr": "all(liabilityClauses, c => mentions(c, ['고의|과실','입증']))"
+      },
+      "sourceSpan": "STD10023 제4조④, 제5조②, 제13조②",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T14-005",
+      "sectionId": "T14",
+      "level": "should",
+      "element": "linked-site disclaimer conditions",
+      "statement": "A linking site may disclaim warranty for goods sold independently by a linked site only if that is stated on the initial screen or a pop-up at the time of linking.",
+      "legalRefs": [
+        "STD10023:21(2)"
+      ],
+      "check": {
+        "kind": "llm"
+      },
+      "sourceSpan": "STD10023 제21조②",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T14-006",
+      "sectionId": "T14",
+      "level": "must",
+      "element": "no excessive liquidated damages",
+      "statement": "No unreasonably heavy damages or penalties imposed on users.",
+      "legalRefs": [
+        "ARTC:8"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!match(doc, lex.U-ARTC8-01)"
+      },
+      "sourceSpan": "ARTC 제8조",
+      "verifiedAt": "2026-09-29"
+    }
+  ],
+  "unfairPatterns": [
+    {
+      "lexiconId": "U-ARTC7-01",
+      "pattern": "(\\uC5B4\\uB5A0\\uD55C|\\uC77C\\uCCB4\\uC758?|\\uBAA8\\uB4E0)\\s*(\\uCC45\\uC784|\\uC190\\uD574|\\uBC30\\uC0C1)[^.]{0,25}(\\uC9C0\\uC9C0\\s*\\uC54A|\\uBD80\\uB2F4\\uD558\\uC9C0\\s*\\uC54A|\\uBA74\\uC81C|\\uBA74\\uCC45)",
+      "statuteRef": [
+        "ARTC:7[1]",
+        "ARTC:7[2]"
+      ],
+      "severity": "blocker"
+    },
+    {
+      "lexiconId": "U-ARTC7-02",
+      "pattern": "(\\uACE0\\uC758|\\uC911\\uB300\\uD55C\\s*\\uACFC\\uC2E4|\\uC911\\uACFC\\uC2E4)[^.]{0,20}(\\uACBD\\uC6B0\\uC5D0\\uB3C4|\\uC788\\uB354\\uB77C\\uB3C4|\\uBD88\\uAD6C\\uD558\\uACE0)[^.]{0,30}(\\uCC45\\uC784|\\uBC30\\uC0C1)",
+      "statuteRef": [
+        "ARTC:7[1]"
+      ],
+      "severity": "blocker"
+    },
+    {
+      "lexiconId": "U-ARTC7-03",
+      "pattern": "(\\uC190\\uD574\\s*\\uBC30\\uC0C1|\\uBC30\\uC0C1\\s*\\uCC45\\uC784|\\uBC30\\uC0C1\\uC561)[^.]{0,30}(\\uD55C\\uB3C4|\\uC0C1\\uD55C|\\uCD5C\\uB300|\\uCD08\\uACFC\\uD558\\uC9C0\\s*\\uC54A)",
+      "statuteRef": [
+        "ARTC:7[2]"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ARTC7-04",
+      "pattern": "(\\uBAA8\\uB4E0|\\uC77C\\uCCB4\\uC758?)\\s*(\\uCC45\\uC784|\\uC190\\uD574)[^.]{0,15}(\\uC774\\uC6A9\\uC790|\\uD68C\\uC6D0|\\uACE0\\uAC1D)(\\uC5D0\\uAC8C|\\uC774|\\uAC00)\\s*(\\uC788|\\uBD80\\uB2F4|\\uADC0\\uC18D)",
+      "statuteRef": [
+        "ARTC:7[2]"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ARTC7-05",
+      "pattern": "\\uBB34\\uB8CC[^.]{0,30}(\\uCC45\\uC784|\\uBC30\\uC0C1)[^.]{0,15}(\\uC54A|\\uC5C6)",
+      "statuteRef": [
+        "ARTC:7[2]"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ARTC7-06",
+      "pattern": "(\\uD574\\uD0B9|\\uC7A5\\uC560|\\uC815\\uC804|\\uD1B5\\uC2E0\\s*\\uB450\\uC808|\\uC11C\\uBC84)[^.]{0,40}(\\uCC45\\uC784|\\uBC30\\uC0C1)[^.]{0,15}(\\uC9C0\\uC9C0\\s*\\uC54A|\\uC5C6|\\uBA74\\uC81C|\\uBA74\\uCC45)",
+      "statuteRef": [
+        "ARTC:7[1]",
+        "ARTC:7[2]",
+        "STD10023:5(2)"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ARTC7-07",
+      "pattern": "(\\uD488\\uC9C8|\\uC131\\uB2A5|\\uC815\\uD655\\uC131|\\uC2E0\\uB8B0\\uC131|\\uD558\\uC790)[^.]{0,30}(\\uBCF4\\uC99D\\uD558\\uC9C0\\s*\\uC54A|\\uBCF4\\uC7A5\\uD558\\uC9C0\\s*\\uC54A|\\uCC45\\uC784\\uC9C0\\uC9C0\\s*\\uC54A)",
+      "statuteRef": [
+        "ARTC:7[3]",
+        "ARTC:7[4]"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ARTC8-01",
+      "pattern": "(\\uC704\\uC57D\\uAE08|\\uC190\\uD574\\s*\\uBC30\\uC0C1\\s*\\uC608\\uC815\\uC561|\\uC9C0\\uC5F0\\s*\\uC190\\uD574\\uAE08)[^.]{0,30}\\d+\\s*(\\uBC30|%|\\uD37C\\uC13C\\uD2B8|\\uD560)",
+      "statuteRef": [
+        "ARTC:8"
+      ],
+      "severity": "minor"
+    },
+    {
+      "lexiconId": "U-ARTC14-03",
+      "pattern": "(\\uC774\\uC6A9\\uC790|\\uD68C\\uC6D0|\\uACE0\\uAC1D|\\uC18C\\uBE44\\uC790)[^.]{0,10}(\\uC774|\\uAC00|\\uAED8\\uC11C)\\s*(\\uC785\\uC99D|\\uC99D\\uBA85)(\\uD558\\uC5EC\\uC57C|\\uD574\\uC57C|\\uD560\\s*\\uCC45\\uC784)",
+      "statuteRef": [
+        "ARTC:14[2]",
+        "ECA:17(5)"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-GEN-01",
+      "pattern": "\\uCC45\\uC784\\uC744?\\s*(\\uC9C0\\uC9C0|\\uBD80\\uB2F4\\uD558\\uC9C0)\\s*(\\uC54A|\\uC544\\uB2C8)",
+      "statuteRef": [
+        "ARTC:7[1]",
+        "ARTC:7[2]"
+      ],
+      "severity": "info"
+    }
+  ],
+  "goodPatterns": [
+    "No standalone blanket disclaimer; each limitation sits next to its duty and is fault-based.",
+    "Force-majeure clause limited to events beyond control, without excluding intent/gross negligence."
+  ],
+  "commonDefects": [
+    {
+      "id": "D-T14-01",
+      "severity": "blocker",
+      "defect": "\"회사는 서비스 이용과 관련하여 어떠한 책임도 지지 않습니다\".",
+      "seedCandidate": true
+    },
+    {
+      "id": "D-T14-02",
+      "severity": "major",
+      "defect": "Damages capped at fees paid with no stated reason."
+    }
+  ],
+  "extractionHints": [
+    "liability posture from legal team",
+    "marketplace / linked-site model"
+  ],
+  "interviewNodes": [
+    "Q-T14-18"
+  ],
+  "interviewHints": [
+    "Ask liability posture (Q-T14-18) and whether the service is a marketplace intermediary (proposed slot terms.marketplaceIntermediary)."
+  ],
+  "legalRefs": {
+    "ARTC:14[2]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "14",
+      "item": "2",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제14조 제2호",
+      "lawGoKr": true
+    },
+    "ARTC:7[1]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "7",
+      "item": "1",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제7조 제1호",
+      "lawGoKr": true
+    },
+    "ARTC:7[2]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "7",
+      "item": "2",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제7조 제2호",
+      "lawGoKr": true
+    },
+    "ARTC:7[3]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "7",
+      "item": "3",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제7조 제3호",
+      "lawGoKr": true
+    },
+    "ARTC:7[4]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "7",
+      "item": "4",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제7조 제4호",
+      "lawGoKr": true
+    },
+    "ARTC:8": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "8",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제8조",
+      "lawGoKr": true
+    },
+    "ECA:17(5)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "5",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제17조 제5항",
+      "lawGoKr": true
+    },
+    "STD10023:13(2)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "13",
+      "paragraph": "2",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제13조 제2항",
+      "lawGoKr": false
+    },
+    "STD10023:21(2)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "21",
+      "paragraph": "2",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제21조 제2항",
+      "lawGoKr": false
+    },
+    "STD10023:4(4)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "4",
+      "paragraph": "4",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제4조 제4항",
+      "lawGoKr": false
+    },
+    "STD10023:5(2)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "5",
+      "paragraph": "2",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제5조 제2항",
+      "lawGoKr": false
+    }
+  },
+  "needsVerification": [
+    {
+      "id": "NV-T14-01",
+      "note": "Intermediary disclaimers (ECA 20 notice of not being a party) were not read in Row 4b; add a conditional rule after verification."
+    }
+  ],
+  "missingSlots": [
+    "terms.marketplaceIntermediary",
+    "terms.customerType"
+  ]
+}

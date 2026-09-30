@@ -1,0 +1,78 @@
+[
+  {
+    "claim": "2a. A 2026 amendment of the Personal Information Protection Act (announced ~March 2026) takes effect 2026-09-11 with a turnover-based penalty surcharge up to 10%.",
+    "verdict": "VERIFIED",
+    "sources": [
+      {"url": "https://law.go.kr/DRF/lawService.do?OC=test&target=law&MST=283839&type=XML", "fetched": "2026-09-29"},
+      {"url": "https://law.go.kr/DRF/lawSearch.do?OC=test&target=eflaw&type=XML&LID=011357&nw=1,2,3&display=100&sort=efdes", "fetched": "2026-09-29"},
+      {"url": "https://law.go.kr/DRF/lawService.do?OC=test&target=law&MST=289537&type=XML", "fetched": "2026-09-29"}
+    ],
+    "notes": "Act No. 21445 promulgated 2026-03-10; 부칙 art.1: effective 6 months after promulgation (2026-09-11), except 32-2(1) proviso and 75(2)15 on 2027-07-01. New Art. 64-2(2) allows up to 10% of total turnover only for: repeat intentional/grossly negligent breach within 3 years; intentional/gross-negligence breach affecting 10M+ persons; leak after non-compliance with a corrective order. The general cap in 64-2(1) is 3% (unchanged). Decree No. 36671 (promulgated 2026-09-10) effective 2026-09-11 adds mitigation for prevention investment (up to 40% of base amount) and 'leak possibility' notice. Decree No. 36340 (2026-05-19) changed the revenue base. 'Announced around March 2026' is consistent with the promulgation date 2026-03-10; the National Assembly passage date was not checked (UNVERIFIED). News pages were not used."
+  },
+  {
+    "claim": "2b. KFTC standard terms 'No. 10023' exists; also which standard terms exist for internet/online services with current numbers and revision dates.",
+    "verdict": "VERIFIED",
+    "sources": [
+      {"url": "https://www.ftc.go.kr/www/selectBbsNttView.do?key=202&bordCd=201&nttSn=11139", "fetched": "2026-09-29"},
+      {"url": "https://www.ftc.go.kr/www/selectBbsNttList.do?bordCd=201&key=202", "fetched": "2026-09-29"}
+    ],
+    "notes": "제10023호 = 전자상거래 표준약관 (dept 약관심사과, board registration 2014-09-23, attachment '2015_6._26._개정 (전자상거래 표준약관).hwp' => last revision 2015-06-26; no newer version on board). Other online-relevant items on the 99-row list: 제10069호 온라인게임 표준약관 (revised 2024-02-23), 제10078호 모바일게임 표준약관 (revised 2024-02-23), 제10074/10075/10076호 해외구매 표준약관 (2016-10-25), 제10028호 전자금융거래기본약관 (2017-01-25), 제10054호 전자보험거래 표준약관 (2007-06-01), 제10073호 신유형 상품권 표준약관 (revised 2025-09-11). No standalone 'internet site terms of use' standard terms appears on the list. The earlier name '인터넷 사이버몰 이용표준약관' / enactment date 2010-12-17 came from a search snippet of an old ftc.go.kr URL that now redirects to the homepage: UNVERIFIED."
+  },
+  {
+    "claim": "2c. Data portability right (Art. 35-2) effective 2025-03-13.",
+    "verdict": "VERIFIED",
+    "sources": [
+      {"url": "https://law.go.kr/DRF/lawService.do?OC=test&target=law&MST=248613&type=XML", "fetched": "2026-09-29"},
+      {"url": "https://law.go.kr/DRF/lawService.do?OC=test&target=law&MST=269291&type=XML", "fetched": "2026-09-29"},
+      {"url": "https://law.go.kr/DRF/lawSearch.do?OC=test&target=eflaw&type=XML&LID=011357&nw=1,2,3&display=100&sort=efdes", "fetched": "2026-09-29"}
+    ],
+    "notes": "Act No. 19234 (2023-03-14) 부칙 art.1(2): Art. 35-2 effective on a date set by decree within 1-2 years of promulgation; Decree No. 35343 (2025-02-25) 부칙 art.1(2): that date is 2025-03-13. eflaw list has a version row with 시행일자 20250313. Article title today: '개인정보의 전송 요구'. Scope widened by Decree No. 36121 (effective 2026-08-20; one item 1 year after promulgation, derived 2027-02-20 UNVERIFIED)."
+  },
+  {
+    "claim": "2d. Automated-decision objection right (Art. 37-2) effective 2024-03-15.",
+    "verdict": "VERIFIED",
+    "sources": [
+      {"url": "https://law.go.kr/DRF/lawService.do?OC=test&target=law&MST=248613&type=XML", "fetched": "2026-09-29"},
+      {"url": "https://law.go.kr/DRF/lawSearch.do?OC=test&target=eflaw&type=XML&LID=011357&nw=1,2,3&display=100&sort=efdes", "fetched": "2026-09-29"}
+    ],
+    "notes": "Act No. 19234 부칙 art.1(1): 37-2 (with 11-2, 31, 35-3, 39-7 etc.) effective 1 year after promulgation on 2023-03-14 = 2024-03-15; eflaw list row 시행일자 20240315. Article title today: '자동화된 결정에 대한 정보주체의 권리 등'."
+  },
+  {
+    "claim": "Current PIPC privacy-policy drafting guideline edition is 2026.4 (posted April 2026) and nothing newer exists.",
+    "verdict": "VERIFIED",
+    "sources": [
+      {"url": "https://www.pipc.go.kr/np/cop/bbs/selectBoardArticle.do?bbsId=BS217&mCode=G010030000&nttId=12018", "fetched": "2026-09-29"},
+      {"url": "https://www.privacy.go.kr/front/bbs/bbsView.do?bbsNo=BBSMSTR_000000000049&bbscttNo=20885", "fetched": "2026-09-29"},
+      {"url": "https://www.pipc.go.kr/np/cop/bbs/selectBoardList.do?bbsId=BS217&mCode=G010030000&schTypeCd=3", "fetched": "2026-09-29"}
+    ],
+    "notes": "pipc.go.kr: '개인정보 처리방침 작성지침(2026.4. 개정)', 2026-04-23, nttId 12018, file '2026 개인정보 처리방침 작성지침.pdf' (11,451,612 bytes). privacy.go.kr: '2026 개인정보 처리방침 작성지침', 2026-04-24, bbscttNo 20885. No newer edition on either first list page as of 2026-09-29."
+  },
+  {
+    "claim": "Content of the 2026.4 guideline: new generative-AI appendix, two-type on-device processing rule, categorised recipients/processors ('taxi drivers').",
+    "verdict": "UNVERIFIED",
+    "sources": [
+      {"url": "https://view.asiae.co.kr/article/2026042411045620559", "fetched": "2026-09-29"},
+      {"url": "https://www.korea.kr/briefing/pressReleaseView.do?newsId=156685279&call_from=rsslink", "fetched": "2026-09-29"}
+    ],
+    "notes": "Seen only in search-result summaries from non-listed domains (asiae.co.kr, korea.kr). The PDF was not downloaded. Confirm against the PDF the team already holds. The korea.kr press-release link surfaced by the search is titled about the earlier revision (mobile app / under-14 topics), so it may belong to the 2025 edition."
+  },
+  {
+    "claim": "Standard guideline 「표준 개인정보 보호지침」 and 「개인정보의 안전성 확보조치 기준」 are available through the law.go.kr API (admrul).",
+    "verdict": "VERIFIED",
+    "sources": [
+      {"url": "https://law.go.kr/DRF/lawSearch.do?OC=test&target=admrul&type=XML&query=%ED%91%9C%EC%A4%80%20%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%20%EB%B3%B4%ED%98%B8%EC%A7%80%EC%B9%A8", "fetched": "2026-09-29"},
+      {"url": "https://law.go.kr/DRF/lawSearch.do?OC=test&target=admrul&type=XML&query=%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%EC%9D%98%20%EC%95%88%EC%A0%84%EC%84%B1%20%ED%99%95%EB%B3%B4%EC%A1%B0%EC%B9%98%20%EA%B8%B0%EC%A4%80", "fetched": "2026-09-29"}
+    ],
+    "notes": "표준 개인정보 보호지침: 고시 제2025-4호, 발령 2025-04-11, admrul ID 2100000257592, 일부개정. 개인정보의 안전성 확보조치 기준: 고시 제2026-9호, 시행 2026-07-01, admrul ID 2100000281400, 일부개정. '개인정보 처리방침 작성지침' is NOT in the admrul API (0 hits): it is a web-only PIPC guide."
+  },
+  {
+    "claim": "OC key registration requires account, approved server IP address and domain; OC string format and quotas.",
+    "verdict": "UNVERIFIED",
+    "sources": [
+      {"url": "https://open.law.go.kr/LSO/information/guide.do", "fetched": "2026-09-29"},
+      {"url": "https://open.law.go.kr/LSO/usrJoin.do", "fetched": "2026-09-29"},
+      {"url": "https://law.go.kr/DRF/lawSearch.do?OC=zzznotregistered&target=law&type=XML&display=1", "fetched": "2026-09-29"}
+    ],
+    "notes": "Verified: account = e-mail ID, name, password, phone, organisation; approval after application (1-2 days); unregistered OC gets an HTTP 200 error body asking to register the exact server IP and domain. UNVERIFIED (login-gated pages /LSO/openApi/cuAskList.do, /LSO/usr/usrOcInfoMod.do): exact form fields, whether OC equals the e-mail ID, and numeric quotas. Whether OC=test is permitted for production is also UNVERIFIED."
+  }
+]

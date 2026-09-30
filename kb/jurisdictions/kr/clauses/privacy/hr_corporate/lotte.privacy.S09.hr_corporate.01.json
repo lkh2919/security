@@ -1,0 +1,55 @@
+{
+  "id": "lotte.privacy.S09.hr_corporate.01",
+  "docType": "privacy",
+  "sectionId": "S09",
+  "domainGroup": "hr_corporate",
+  "sourceCaptureIds": [
+    "lotte-recruit-privacy"
+  ],
+  "sourceSites": [
+    "recruit.lotte.co.kr"
+  ],
+  "policyVersionOrDate": "2026. 09. 08부터 적용",
+  "layout": "legacy_article",
+  "text": "① 회사는 원활한 개인정보 업무 처리를 위하여 다음과 같이 개인정보 처리업무를 위탁하고 있습니다.\n{{processorTable}}\n- 위탁받는 자(수탁자):\n- 위탁하는 업무의 내용: 채용 사이트 유지보수, 지원 정보의 채용 적합성 분석, 인적성 진단 시행 및 운영, 본인 확인 등\n② 회사는 위탁계약 체결 시 「개인정보 보호법」 제26조에 따라 위탁 업무 수행 목적 외 개인정보 처리 금지, 기술적·관리적 보호조치, 재위탁 제한, 수탁자에 대한 관리·감독, 손해배상 등 책임에 관한 사항을 계약서 등 문서에 명시하고 수탁자가 개인정보를 안전하게 처리하는지를 감독합니다.\n③ 위탁 업무의 내용이나 수탁자가 변경될 경우에는 개인정보 처리방침을 통하여 공개하겠습니다.",
+  "variables": [
+    {
+      "name": "processorTable",
+      "slotId": "privacy.S09_processors",
+      "description": "Processors and outsourced tasks"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.outsourcing",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S09-001",
+    "R-S09-002"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S09-004",
+      "level": "may",
+      "note": "조건부 유형화 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "위탁 항목에 채용 적합성 분석이 있어 자동화 결정 여부(S17)와 함께 검토 필요.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-recruit-privacy",
+      "sourceUrl": "https://recruit.lotte.co.kr/about/personalPolicy27",
+      "affiliate": "Lotte Group recruiting site",
+      "businessGroup": "hr_corporate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026. 09. 08부터 적용 ; ver 9.1 ; ver 9.0 ; ver 8.9",
+      "contentHash": "bea4c6ae916cd20a0fe393a2c59f45a88fcf71f0485597054be67d5bc3354c48"
+    }
+  ]
+}

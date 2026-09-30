@@ -1,0 +1,36 @@
+{
+  "id": "S20",
+  "packVersion": "privacy-2026.04",
+  "title": { "ko": "정보주체의 권익침해에 대한 구제방법", "en": "Remedies for infringement" },
+  "guidelineRef": { "doc": "pipc-guideline-2026-04", "part": "III", "section": 20, "pages": "75", "lines": "2634-2668" },
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "recommended",
+  "catalogClass": "R",
+  "handling": "clause",
+  "applicability": { "when": { "not": { "slot": "privacy.S20_includeRemedies", "op": "eq", "value": false } }, "ifNot": "omit" },
+  "rules": [
+    { "ruleId": "R-S20-001", "sectionId": "S20", "level": "should", "element": "remedy bodies and contacts", "statement": "List contacts and guidance for specialist bodies under PIPA (privacy infringement report center, dispute mediation committee) and investigative agencies.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "count(section.S20.bodies) >= 3" }, "sourceSpan": "L2636-2639", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S20-002", "sectionId": "S20", "level": "must", "element": "current contacts", "statement": "If included, keep body names and contacts current; outdated contacts confuse data subjects.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "every(section.S20.bodies, b => b.contact == kb.remedyBodies[b.id].contact)" }, "sourceSpan": "L2640-2642", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S20-003", "sectionId": "S20", "level": "should", "element": "escalation path", "statement": "Explain how to seek further remedy when the processor's own handling is unsatisfactory.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L2644-2646", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S20-004", "sectionId": "S20", "level": "may", "element": "merge with S18", "statement": "May be written inside S18.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L2648-2651", "verifiedAt": "2026-09-29" }
+  ],
+  "remedyBodies": {
+    "note": "Contacts as printed in the guideline (2026.4). Freshness watcher re-checks before each release.",
+    "asOf": "pipc-guideline-2026-04 p75 L2659-2661",
+    "bodies": [
+      { "id": "kopico", "name": "개인정보 분쟁조정위원회", "contact": "(국번없이) 1833-6972", "web": "www.kopico.go.kr" },
+      { "id": "kisa118", "name": "개인정보침해 신고센터", "contact": "(국번없이) 118", "web": "privacy.kisa.or.kr" },
+      { "id": "police", "name": "경찰청", "contact": "(국번없이) 182", "web": "ecrm.police.go.kr" }
+    ]
+  },
+  "goodPatterns": ["Short lead sentence plus a numbered list of the three bodies with phone and web address."],
+  "commonDefects": [
+    { "id": "D-S20-01", "severity": "minor", "defect": "Body contacts missing or outdated.", "seedCandidate": true }
+  ],
+  "extractionHints": ["usually a default; ask only whether to include"],
+  "interviewNodes": ["Q-S20-01", "Q-S18-02"],
+  "legalRefs": {},
+  "needsVerification": [
+    { "id": "NV-S20-01", "note": "Remedy-body contacts are guideline-printed values, not verified against the bodies' own sites; kb-curator freshness check should confirm." }
+  ]
+}

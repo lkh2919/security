@@ -1,0 +1,37 @@
+{
+  "id": "S02",
+  "packVersion": "privacy-2026.04",
+  "title": { "ko": "개인정보의 처리 목적", "en": "Processing purposes" },
+  "guidelineRef": { "doc": "pipc-guideline-2026-04", "part": "III", "section": 2, "pages": "21-23", "lines": "577-654" },
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "mandatory",
+  "catalogClass": "M",
+  "handling": "llm",
+  "applicability": { "when": { "all": [] } },
+  "rules": [
+    { "ruleId": "R-S02-001", "sectionId": "S02", "level": "must", "element": "purposes stated", "statement": "State the purposes for which personal data is processed (processing includes collection, storage, use, provision, destruction and similar acts).", "legalRefs": ["PIPA:30(1)1", "PIPA:2(2)"], "check": { "kind": "deterministic", "expr": "count(section.S02.purposes) >= 1" }, "sourceSpan": "L579-585", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S02-002", "sectionId": "S02", "level": "must", "element": "specific, no vague terms", "statement": "Each purpose is specific and clear; do not use open-ended wording such as \"~등\".", "legalRefs": [], "check": { "kind": "deterministic", "expr": "!match(section.S02.text, lex.vague)" }, "sourceSpan": "L586-587", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S02-003", "sectionId": "S02", "level": "must", "element": "consistent with consent notice", "statement": "For consent-based processing, purposes match what was notified when consent was obtained.", "legalRefs": [], "check": { "kind": "llm", "expr": "compare(section.S02, slot(privacy.S02_purposes).consentNoticeText)" }, "sourceSpan": "L591-593", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S02-004", "sectionId": "S02", "level": "must", "element": "no-consent purposes predictable", "statement": "For processing without consent, state purposes clearly enough that the data subject can reasonably expect them.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L594-596", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S02-005", "sectionId": "S02", "level": "may", "element": "per-service split", "statement": "Where several services exist, purposes may be grouped per service.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L588-589", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S02-006", "sectionId": "S02", "level": "may", "element": "integrated table", "statement": "Purposes may be merged with items (S03) and retention (S05) in one table, but then every element required by S03 and S05 must still be present.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "if(section.S02.integrated) requireAll(S03.must, S05.must)" }, "sourceSpan": "L598-603", "verifiedAt": "2026-09-29" }
+  ],
+  "goodPatterns": [
+    "One numbered entry per task (e.g. member management, delivery of goods, service analysis, new-service development), each with a sentence listing concrete sub-purposes.",
+    "Lead-in states data is not used beyond these purposes and that a purpose change triggers separate consent or other required steps under PIPA Art. 18.",
+    "Integrated table columns: legal basis, purpose, items, retention."
+  ],
+  "commonDefects": [
+    { "id": "D-S02-01", "severity": "major", "defect": "Purpose headings ending in \"등\" or bundling unrelated tasks (e.g. sign-up and service development etc.).", "seedCandidate": true },
+    { "id": "D-S02-02", "severity": "major", "defect": "Purpose in policy differs from the purpose shown on the consent screen." },
+    { "id": "D-S02-03", "severity": "minor", "defect": "Marketing purpose hidden inside a general 'service provision' purpose." }
+  ],
+  "extractionHints": ["\"~하려고 수집\", \"~에 사용\", feature names", "consent-screen wording quoted by the speaker", "marketing, analytics, recommendation, fraud prevention", "watch for \"등\" and \"서비스 개선\" without detail"],
+  "interviewNodes": ["Q-P-04", "Q-P-05", "Q-A1-50", "Q-S02-01", "Q-S02-02", "Q-S02-03", "Q-S02-30", "Q-S02-40", "Q-S02-60"],
+  "legalRefs": {
+    "PIPA:30(1)1": { "law": "개인정보 보호법", "article": "30", "paragraph": "1", "item": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p21 L579", "lawGoKr": false },
+    "PIPA:2(2)": { "law": "개인정보 보호법", "article": "2", "item": "2", "verifiedBy": "pipc-guideline-2026-04", "at": "p21 L582-585", "lawGoKr": false },
+    "PIPA:18": { "law": "개인정보 보호법", "article": "18", "verifiedBy": "pipc-guideline-2026-04", "at": "p22 L610 (example)", "lawGoKr": false }
+  },
+  "needsVerification": []
+}

@@ -1,0 +1,52 @@
+{
+  "id": "lotte.privacy.S11.it_services.01",
+  "docType": "privacy",
+  "sectionId": "S11",
+  "domainGroup": "it_services",
+  "sourceCaptureIds": [
+    "lotteinnovate-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteinnovate.com"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 6월 25일",
+  "layout": "guideline_numbered",
+  "text": "회사는 개인정보의 안전성 확보를 위해 다음과 같은 조치를 취하고 있습니다.\n\n가. 관리적 조치\n- 개인정보를 취급하는 직원을 지정하고 담당자에 한정하여 최소화하며, 담당자에 대한 수시 교육을 통하여 개인정보 처리방침의 준수를 강조합니다.\n나. 기술적 조치\n- 해킹이나 컴퓨터 바이러스 등에 의한 개인정보 유출 및 훼손을 막기 위하여 보안프로그램을 설치하고 주기적으로 갱신·점검하며, 외부로부터 접근이 통제된 구역에 시스템을 설치하고 기술적·물리적으로 감시 및 차단합니다.\n다. 물리적 조치\n- 개인정보를 보관하고 있는 물리적 보관 장소를 별도로 두고 출입통제 절차를 수립·운영합니다.\n\n{{securityMeasures}}",
+  "variables": [
+    {
+      "name": "securityMeasures",
+      "slotId": "privacy.S11_measures",
+      "description": "Managerial, technical and physical safeguards actually implemented"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S11-001",
+    "R-S11-002"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "암호화, 접근기록 보관 등 고시 항목별 구체 조치 서술이 얕음. 초안 시 securityMeasures 슬롯으로 보강."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-02"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotteinnovate-privacy",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 6월 25일 ; 시행일자 : 2026년 6월 25일 ; 공고일자 : 2025년 9월 18일 ; 시행일자 : 2025년 9월 18일",
+      "contentHash": "ed631cda902e7824593df708a5399a8fe8e4516efd4252d5cb9ce0f65f4f7b7d"
+    }
+  ]
+}

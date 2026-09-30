@@ -1,0 +1,51 @@
+{
+  "id": "lotte.privacy.S10.logistics.01",
+  "docType": "privacy",
+  "sectionId": "S10",
+  "domainGroup": "logistics",
+  "sourceCaptureIds": [
+    "lotte-global-logis-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteglogis.com"
+  ],
+  "policyVersionOrDate": "v3.9",
+  "layout": "guideline_numbered",
+  "text": "5. 개인정보의 국외 이전에 관한 사항\n{%if gate.overseasTransfer%}\n{{overseasTable}}\n(표 열) 이전받는 자(법인명) / 이전 국가 / 이전 일시 및 방법 / 이전 항목 / 이용 목적 및 보유·이용 기간 / 이전 근거 / 거부 방법 및 효과\n{%endif%}\n{%if not gate.overseasTransfer%}\n회사는 정보주체의 개인정보를 국외로 이전하지 않습니다.\n{%endif%}",
+  "variables": [
+    {
+      "name": "overseasTable",
+      "slotId": "privacy.S10_overseas",
+      "description": "Overseas transfers: items, country, timing and method, recipient, purpose and period, legal basis"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S10-001",
+    "R-S10-003",
+    "R-S10-005"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S10-004",
+      "level": "must",
+      "note": "전체 국가 표기 확인 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-global-logis-privacy",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/privacy",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "v3.9 ; v3.8 ; v3.7 ; v3.6",
+      "contentHash": "410069f0b4dfeea3eac1b789a4a0b07900230a4fbfafecb6ae19f2c3f2fe8114"
+    }
+  ]
+}

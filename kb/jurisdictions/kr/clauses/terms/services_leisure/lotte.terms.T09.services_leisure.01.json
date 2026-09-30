@@ -1,0 +1,86 @@
+{
+  "id": "lotte.terms.T09.services_leisure.01",
+  "docType": "terms",
+  "sectionId": "T09",
+  "domainGroup": "services_leisure",
+  "sourceCaptureIds": [
+    "lotte-rental-terms"
+  ],
+  "sourceSites": [
+    "www.lotterentacar.net"
+  ],
+  "policyVersionOrDate": "시행일자 : 2020/01/16",
+  "layout": "legacy_article",
+  "text": "제N조 (예약 신청)\n이용자는 회사가 정한 절차에 따라 이용 기간, 지점, 서비스 유형 등을 선택하고 예약을 신청합니다. 회사는 신청 전에 이용 요금, 취소·환불 조건 등 중요한 사항을 알기 쉽게 제공합니다.\n제N조 (예약의 성립)\n예약은 회사가 예약 확인을 이용자에게 통지한 시점에 성립합니다. 회사는 신청 내용에 허위·오기가 있는 경우 등 구체적 사유가 있는 때에 한하여 예약을 승낙하지 않을 수 있습니다.\n제N조 (대금 결제)\n대금은 {{paymentMethods}}로 결제할 수 있으며 회사는 결제 방법에 따른 별도 수수료를 부과하지 않습니다.\n제N조 (예약 확인 통지 및 이용자의 예약 취소)\n이용자는 예약 확인 통지를 받은 후 {{refundPolicy}}에 따라 예약을 취소할 수 있습니다.",
+  "variables": [
+    {
+      "name": "paymentMethods",
+      "slotId": "terms.paymentMethods",
+      "description": "Accepted payment methods"
+    },
+    {
+      "name": "refundPolicy",
+      "slotId": "terms.refundPolicy",
+      "description": "Refund and return terms per item type"
+    }
+  ],
+  "conditions": [
+    {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "terms.paid",
+          "op": "truthy"
+        }
+      ]
+    }
+  ],
+  "coversElements": [
+    "R-T09-001",
+    "R-T09-002",
+    "R-T09-004",
+    "R-T09-005",
+    "R-T09-006"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T09-003",
+      "level": "must",
+      "note": "미성년자 예약 제한 문구는 확인되지 않음."
+    },
+    {
+      "ruleId": "R-T09-007",
+      "level": "must",
+      "note": "이용 개시 기준의 공급 시기 정의 부분적."
+    },
+    {
+      "ruleId": "R-T09-008",
+      "level": "must",
+      "note": "환급 기한 명시 필요."
+    },
+    {
+      "ruleId": "R-T09-009",
+      "level": "must",
+      "note": "구독형 조항 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 2,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-rental-terms",
+      "sourceUrl": "https://www.lotterentacar.net/kor/footer/footerTermsNew.do?mnCd=MK0903",
+      "affiliate": "Lotte Rental",
+      "businessGroup": "services_leisure",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2020/01/16 ; 2020년 1월 16일부터 시행",
+      "contentHash": "53373e281b85b33a258cd270a4541695a574adb432e972f917c03c87daee5600"
+    }
+  ]
+}

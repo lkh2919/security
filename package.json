@@ -1,0 +1,20 @@
+{
+  "name": "privacy-agent",
+  "version": "0.1.0",
+  "description": "Privacy Policy and Terms Drafting Agent — Phase 1 harness and core library",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "bun run -r build",
+    "test": "bun run --filter '*' test",
+    "lint": "bun run -r lint",
+    "typecheck": "bun x tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/bun": "latest"
+  }
+}

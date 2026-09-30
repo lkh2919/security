@@ -1,0 +1,53 @@
+{
+  "id": "lotte.privacy.S03.logistics.01",
+  "docType": "privacy",
+  "sectionId": "S03",
+  "domainGroup": "logistics",
+  "sourceCaptureIds": [
+    "lotte-global-logis-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteglogis.com"
+  ],
+  "policyVersionOrDate": "v3.9",
+  "layout": "guideline_numbered",
+  "text": "회사는 「개인정보 보호법」에 따라 서비스 제공을 위해 필요 최소한의 범위에서 개인정보를 수집·이용합니다.\n\n1) 정보주체의 동의를 받지 않고 처리하는 개인정보 항목\n(표) 법적 근거 / 구분 / 처리 목적 / 수집 항목 / 보유 및 이용기간\n\n2) 정보주체의 동의를 받아 처리하는 개인정보 항목\n(표) 구분 / 처리 목적 / 수집 항목 / 보유 및 이용기간\n\n3) 정보주체 이외로부터 제공받는 개인정보\n- 송화인이 입력한 수화인의 이름, 연락처, 주소 등 배송에 필요한 정보\n\n{{itemsTable}}\n{{receivedItems}}",
+  "variables": [
+    {
+      "name": "itemsTable",
+      "slotId": "privacy.S03_items",
+      "description": "Items per purpose with legal basis and retention, rendered as tables"
+    },
+    {
+      "name": "receivedItems",
+      "slotId": "privacy.S03_receivedItems",
+      "description": "Items received from other parties (partners, social login, affiliates)"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S03-001",
+    "R-S03-003",
+    "R-S03-004",
+    "R-S03-006"
+  ],
+  "gapsVsGuideline": [],
+  "vetted": false,
+  "vettingNotes": "수화인 정보가 송화인으로부터 제공되는 물류 업종 고유 항목.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-06"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotte-global-logis-privacy",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/privacy",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "v3.9 ; v3.8 ; v3.7 ; v3.6",
+      "contentHash": "410069f0b4dfeea3eac1b789a4a0b07900230a4fbfafecb6ae19f2c3f2fe8114"
+    }
+  ]
+}

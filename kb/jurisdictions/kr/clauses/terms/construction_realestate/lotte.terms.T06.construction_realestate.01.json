@@ -1,0 +1,69 @@
+{
+  "id": "lotte.terms.T06.construction_realestate.01",
+  "docType": "terms",
+  "sectionId": "T06",
+  "domainGroup": "construction_realestate",
+  "sourceCaptureIds": [
+    "lotte-castle-terms"
+  ],
+  "sourceSites": [
+    "www.lottecastle.co.kr"
+  ],
+  "policyVersionOrDate": "2019년 5월 27일부터 시행",
+  "layout": "legacy_article",
+  "text": "회원가입 약관\n1. 만 {{minAge}}세 이상의 이용자는 회사가 정한 절차에 따라 회원 가입을 신청할 수 있습니다.\n2. 회원 가입 시 본인 확인을 위하여 필요한 최소한의 정보를 입력하며, 허위 정보를 입력한 경우 회원 자격이 제한될 수 있습니다.\n3. 회사는 가입 신청자가 {{membershipRules}}에 해당하지 않는 한 회원으로 승낙합니다.\n4. 회원 정보에 변경이 있는 경우 회원은 지체 없이 수정하여야 합니다.",
+  "variables": [
+    {
+      "name": "minAge",
+      "slotId": "terms.minAge",
+      "description": "Minimum age for joining without a guardian"
+    },
+    {
+      "name": "membershipRules",
+      "slotId": "terms.membershipRules",
+      "description": "Membership application rules and grounds for refusal"
+    }
+  ],
+  "conditions": [
+    {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "gate.membership",
+          "op": "truthy"
+        }
+      ]
+    }
+  ],
+  "coversElements": [
+    "R-T06-001",
+    "R-T06-003",
+    "R-T06-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T06-002",
+      "level": "must",
+      "note": "성립 시점 명시 부족."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-castle-terms",
+      "sourceUrl": "https://www.lottecastle.co.kr/castleMember/sign-up/terms/index.do",
+      "affiliate": "Lotte E&C (Lotte Castle brand)",
+      "businessGroup": "construction_realestate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2019년 5월 27일부터 시행",
+      "contentHash": "5c1dc63a7a3aa13d0d09b69bec0cf886dde9d2f4182e847927a1175b037bea32"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "id": "lotte.privacy.S24.it_services.01",
+  "docType": "privacy",
+  "sectionId": "S24",
+  "domainGroup": "it_services",
+  "sourceCaptureIds": [
+    "lotteinnovate-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteinnovate.com"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 6월 25일",
+  "layout": "guideline_numbered",
+  "text": "11. 개인정보 처리방침의 변경\n이 개인정보 처리방침은 {{effectiveDate}}부터 적용됩니다. 법령이나 회사 정책의 변경에 따라 내용이 변경되는 경우 {{noticeMethod}}를 통하여 공지합니다.\n\n- 공고일자: {{announceDate}}\n- 시행일자: {{effectiveDate}}\n- 버전번호: {{versionNumber}}\n\n개인정보 처리방침 신·구 대조표\n{{changeSummaryTable}}\n이전 버전: {{priorVersions}}",
+  "variables": [
+    {
+      "name": "effectiveDate",
+      "slotId": "privacy.S24_effectiveDate",
+      "description": "Effective date of this version"
+    },
+    {
+      "name": "noticeMethod",
+      "slotId": "privacy.S24_noticeMethod",
+      "description": "Where and how change notices are given"
+    },
+    {
+      "name": "announceDate",
+      "description": "Announcement date of this version"
+    },
+    {
+      "name": "versionNumber",
+      "description": "Version number printed on the policy"
+    },
+    {
+      "name": "changeSummaryTable",
+      "slotId": "privacy.S24_priorVersions",
+      "description": "Old/new comparison table of changed clauses"
+    },
+    {
+      "name": "priorVersions",
+      "slotId": "privacy.S24_priorVersions",
+      "description": "Prior versions with application periods"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S24-001",
+    "R-S24-002",
+    "R-S24-003",
+    "R-S24-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S24-005",
+      "level": "may",
+      "note": "경미 변경 묶음 고지는 원문에 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-10",
+    "H-11"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotteinnovate-privacy",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 6월 25일 ; 시행일자 : 2026년 6월 25일 ; 공고일자 : 2025년 9월 18일 ; 시행일자 : 2025년 9월 18일",
+      "contentHash": "ed631cda902e7824593df708a5399a8fe8e4516efd4252d5cb9ce0f65f4f7b7d"
+    }
+  ]
+}

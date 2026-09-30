@@ -1,0 +1,50 @@
+{
+  "id": "lotte.privacy.S17.cross_group.01",
+  "docType": "privacy",
+  "sectionId": "S17",
+  "domainGroup": "cross_group",
+  "sourceCaptureIds": [
+    "seven-eleven-privacy"
+  ],
+  "sourceSites": [
+    "www.7-eleven.co.kr"
+  ],
+  "policyVersionOrDate": "공고일자 : 2010년 12월 03일",
+  "layout": "guideline_numbered",
+  "text": "회사는 자동화된 결정(인공지능 기술을 적용한 완전히 자동화된 시스템으로 개인정보를 처리하여 이루어지는 결정)을 수행하지 않으므로, 이에 대한 거부 또는 설명 요구 권리가 발생하지 않습니다.",
+  "variables": [],
+  "conditions": [
+    {
+      "not": {
+        "slot": "gate.automatedDecision",
+        "op": "truthy"
+      }
+    }
+  ],
+  "coversElements": [
+    "R-S17-001"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "자동화된 결정이 있는 경우 S17-002~006 요건은 이 clause로 충족되지 않으며 LLM 초안 대상."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "코퍼스에는 '자동화된 결정 없음' 문구와 권리 문단 속 언급만 있고, 실제 수행 시의 설명 조항은 없음.",
+  "frequency": 1,
+  "frequencyBase": 15,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "seven-eleven-privacy",
+      "sourceUrl": "https://www.7-eleven.co.kr/util/policyPrivacy.asp",
+      "affiliate": "Korea Seven (7-Eleven)",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2010년 12월 03일 ; 개정일자 : 2026년 07월 08일 ; 시행일자 : 2026년 07월 15일 ; 2026년 07월 15일 시행",
+      "contentHash": "6af655aff980d52c4d64c8ebea85ef5d24994e94e40fdd6bd45bb3ee912cd2f0"
+    }
+  ]
+}

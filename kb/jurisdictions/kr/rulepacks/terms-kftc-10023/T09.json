@@ -1,0 +1,500 @@
+{
+  "id": "T09",
+  "packVersion": "terms-kftc-10023",
+  "title": {
+    "ko": "구매신청·계약의 성립·지급방법·재화 등의 공급",
+    "en": "Order, contract formation, payment and supply"
+  },
+  "stdTermsRef": {
+    "doc": "kftc-10023-2015-06-26",
+    "articles": "제9조~제14조",
+    "raw": "kb/_sources/terms/kftc-10023-2015-06-26.txt"
+  },
+  "attribution": "KFTC, 전자상거래(인터넷사이버몰) 표준약관 제10023호 (2015. 6. 26. 개정) and statutes via law.go.kr (paraphrased)",
+  "classification": "conditional",
+  "module": "commerce",
+  "handling": "llm",
+  "applicability": {
+    "when": {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "terms.paid",
+          "op": "truthy"
+        }
+      ]
+    },
+    "notApplicableWhen": {
+      "slot": "terms.applicable",
+      "op": "eq",
+      "value": false
+    }
+  },
+  "slots": [
+    "terms.paid",
+    "terms.paymentMethods",
+    "terms.contractFormation",
+    "terms.subscription"
+  ],
+  "rules": [
+    {
+      "ruleId": "R-T09-001",
+      "sectionId": "T09",
+      "level": "must",
+      "element": "order flow with confirmation",
+      "statement": "Describe the order steps: selection, recipient details, confirmation of terms, withdrawal-restricted items and cost burdens (shipping, installation), consent/confirmation click, payment choice; the user can check and correct the order before the charge.",
+      "legalRefs": [
+        "STD10023:9(1)",
+        "ECA:7",
+        "ECA:14(2)"
+      ],
+      "check": {
+        "kind": "llm",
+        "expr": "covers(section.T09, ['약관','청약철회 제한','배송비','결제방법'])"
+      },
+      "sourceSpan": "STD10023 제9조①; ECA 제7조, 제14조제2항",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T09-002",
+      "sectionId": "T09",
+      "level": "must",
+      "element": "pre-contract information",
+      "statement": "Provide before contract: supplier identity, goods and price with payment method and timing, supply method and time, withdrawal deadline/method/effect, exchange/return/refund conditions, complaint and dispute handling, and how to view the terms.",
+      "legalRefs": [
+        "ECA:13(2)"
+      ],
+      "check": {
+        "kind": "llm"
+      },
+      "sourceSpan": "ECA 제13조제2항",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T09-003",
+      "sectionId": "T09",
+      "level": "must",
+      "element": "refusal grounds and minors",
+      "statement": "Order acceptance may be refused only on listed grounds (false/missing entries, minors buying youth-restricted goods, significant technical hindrance); when contracting with minors notify the cancellation right absent legal-representative consent.",
+      "legalRefs": [
+        "STD10023:10(1)",
+        "ECA:13(3)"
+      ],
+      "check": {
+        "kind": "llm"
+      },
+      "sourceSpan": "STD10023 제10조①; ECA 제13조제3항",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T09-004",
+      "sectionId": "T09",
+      "level": "must",
+      "element": "formation and receipt confirmation",
+      "statement": "Confirm receipt of the order and availability promptly; the contract is formed when the acceptance (receipt confirmation) reaches the user, and the acceptance includes order confirmation, availability and correction/cancellation information.",
+      "legalRefs": [
+        "ECA:14(1)",
+        "STD10023:10(2)",
+        "STD10023:10(3)",
+        "STD10023:12(1)"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "mentions(section.T09, ['수신확인','성립'])"
+      },
+      "sourceSpan": "ECA 제14조제1항; STD10023 제10조②③, 제12조①",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T09-005",
+      "sectionId": "T09",
+      "level": "should",
+      "element": "payment methods, no surcharge",
+      "statement": "List available payment methods and do not add fees to the price because of the payment method chosen.",
+      "legalRefs": [
+        "STD10023:11"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "nonEmpty(slot(terms.paymentMethods)) && !match(section.T09, lex.U-STD11-01)"
+      },
+      "sourceSpan": "STD10023 제11조",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T09-006",
+      "sectionId": "T09",
+      "level": "must",
+      "element": "change/cancel before shipment",
+      "statement": "After receipt confirmation the user may request change or cancellation for mismatched intent; before shipment the operator processes it without delay; after payment the withdrawal rules apply.",
+      "legalRefs": [
+        "STD10023:12(2)",
+        "ECA:14(2)"
+      ],
+      "check": {
+        "kind": "llm"
+      },
+      "sourceSpan": "STD10023 제12조②",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T09-007",
+      "sectionId": "T09",
+      "level": "must",
+      "element": "supply timing and delivery terms",
+      "statement": "Unless otherwise agreed take supply steps within 7 days of the order, or within 3 business days of (pre)payment; let users track progress; state delivery means, cost bearer and period per means, and compensate delay beyond the agreed period unless no fault is proven.",
+      "legalRefs": [
+        "ECA:15(1)",
+        "ECA:15(3)",
+        "STD10023:13(1)",
+        "STD10023:13(2)"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "mentions(section.T09, ['7일','3영업일'])"
+      },
+      "sourceSpan": "ECA 제15조제1항·제3항; STD10023 제13조",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T09-008",
+      "sectionId": "T09",
+      "level": "must",
+      "element": "refund when unavailable",
+      "statement": "If ordered goods cannot be supplied (e.g. sold out), notify the reason without delay and refund any prepayment within 3 business days of payment.",
+      "legalRefs": [
+        "ECA:15(2)",
+        "STD10023:14"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "mentions(section.T09, ['품절|공급.*곤란','3영업일'])"
+      },
+      "sourceSpan": "ECA 제15조제2항; STD10023 제14조",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T09-009",
+      "sectionId": "T09",
+      "level": "must",
+      "element": "subscription price increase / free-to-paid",
+      "statement": "For recurring payments, obtain the consumer's consent before a price increase or conversion from free to paid (date, before/after price, payment method) and notify how to cancel and its effect.",
+      "legalRefs": [
+        "ECA:13(6)"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!slot(terms.subscription) || mentions(section.T09, ['정기결제','동의','해지'])"
+      },
+      "sourceSpan": "ECA 제13조제6항",
+      "verifiedAt": "2026-09-29",
+      "effectiveFrom": "2025-02-14",
+      "effectiveStatus": "in_force",
+      "effectiveNote": "Law No. 20302 (2024-02-13) 부칙 제1조·제2조; applies to increases/conversions after that date (derived date)"
+    },
+    {
+      "ruleId": "R-T09-010",
+      "sectionId": "T09",
+      "level": "should",
+      "element": "no pre-ticked add-ons",
+      "statement": "Do not present add-on purchase or sign-up options pre-selected during the order flow.",
+      "legalRefs": [
+        "ECA:21-2(1)2"
+      ],
+      "check": {
+        "kind": "llm"
+      },
+      "sourceSpan": "ECA 제21조의2제1항제2호",
+      "verifiedAt": "2026-09-29",
+      "effectiveFrom": "2025-02-14",
+      "effectiveStatus": "in_force",
+      "effectiveNote": "Law No. 20302 (2024-02-13) 부칙 제1조: one year after promulgation (derived date)"
+    }
+  ],
+  "unfairPatterns": [
+    {
+      "lexiconId": "U-ARTC7-07",
+      "pattern": "(\\uD488\\uC9C8|\\uC131\\uB2A5|\\uC815\\uD655\\uC131|\\uC2E0\\uB8B0\\uC131|\\uD558\\uC790)[^.]{0,30}(\\uBCF4\\uC99D\\uD558\\uC9C0\\s*\\uC54A|\\uBCF4\\uC7A5\\uD558\\uC9C0\\s*\\uC54A|\\uCC45\\uC784\\uC9C0\\uC9C0\\s*\\uC54A)",
+      "statuteRef": [
+        "ARTC:7[3]",
+        "ARTC:7[4]"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ARTC9-03",
+      "pattern": "\\uC790\\uB3D9\\s*(\\uC73C\\uB85C)?[^.]{0,15}(\\uC5F0\\uC7A5|\\uAC31\\uC2E0|\\uACB0\\uC81C|\\uC804\\uD658)",
+      "statuteRef": [
+        "ARTC:9[6]",
+        "ECA:13(6)"
+      ],
+      "severity": "info"
+    },
+    {
+      "lexiconId": "U-ARTC11-01",
+      "pattern": "(\\uC0C1\\uACC4|\\uD56D\\uBCC0)[^.]{0,20}(\\uD560\\s*\\uC218\\s*\\uC5C6|\\uD3EC\\uAE30|\\uC81C\\uD55C)",
+      "statuteRef": [
+        "ARTC:11[1]"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-STD11-01",
+      "pattern": "(\\uACB0\\uC81C|\\uCE74\\uB4DC|\\uC9C0\\uAE09)\\s*\\uC218\\uC218\\uB8CC[^.]{0,20}(\\uBD80\\uACFC|\\uCD94\\uAC00|\\uC774\\uC6A9\\uC790\\s*\\uBD80\\uB2F4|\\uD68C\\uC6D0\\s*\\uBD80\\uB2F4)",
+      "statuteRef": [
+        "STD10023:11"
+      ],
+      "severity": "minor"
+    }
+  ],
+  "goodPatterns": [
+    "Order steps numbered as in std 9조①; separate paragraphs for formation (10조), payment (11조), receipt confirmation (12조), supply (13조), refund on unavailability (14조).",
+    "Personal-data sharing for orders is NOT restated here; refer to the privacy policy (T13)."
+  ],
+  "commonDefects": [
+    {
+      "id": "D-T09-01",
+      "severity": "major",
+      "defect": "No supply period or refund-on-unavailability timeline.",
+      "seedCandidate": true
+    },
+    {
+      "id": "D-T09-02",
+      "severity": "major",
+      "defect": "Subscription auto-converts to paid without consent wording."
+    },
+    {
+      "id": "D-T09-03",
+      "severity": "major",
+      "defect": "Copies std 9조②③ consent wording for third-party provision/outsourcing that conflicts with the privacy policy."
+    }
+  ],
+  "extractionHints": [
+    "checkout steps",
+    "payment methods",
+    "delivery carriers and periods",
+    "subscription / free trial"
+  ],
+  "interviewNodes": [
+    "Q-T09-09",
+    "Q-T09-10",
+    "Q-T09-11",
+    "Q-T10-13"
+  ],
+  "interviewHints": [
+    "Paid? (Q-T09-09), payment methods (Q-T09-10), formation (Q-T09-11).",
+    "Proposed: goods types, delivery policy, buyer protection (escrow/insurance), marketplace intermediary status."
+  ],
+  "legalRefs": {
+    "ARTC:11[1]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "11",
+      "item": "1",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제11조 제1호",
+      "lawGoKr": true
+    },
+    "ARTC:7[3]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "7",
+      "item": "3",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제7조 제3호",
+      "lawGoKr": true
+    },
+    "ARTC:7[4]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "7",
+      "item": "4",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제7조 제4호",
+      "lawGoKr": true
+    },
+    "ARTC:9[6]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "9",
+      "item": "6",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제9조 제6호",
+      "lawGoKr": true
+    },
+    "ECA:13(2)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "13",
+      "paragraph": "2",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제13조 제2항",
+      "lawGoKr": true
+    },
+    "ECA:13(3)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "13",
+      "paragraph": "3",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제13조 제3항",
+      "lawGoKr": true
+    },
+    "ECA:13(6)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "13",
+      "paragraph": "6",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제13조 제6항",
+      "lawGoKr": true
+    },
+    "ECA:14(1)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "14",
+      "paragraph": "1",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제14조 제1항",
+      "lawGoKr": true
+    },
+    "ECA:14(2)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "14",
+      "paragraph": "2",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제14조 제2항",
+      "lawGoKr": true
+    },
+    "ECA:15(1)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "15",
+      "paragraph": "1",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제15조 제1항",
+      "lawGoKr": true
+    },
+    "ECA:15(2)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "15",
+      "paragraph": "2",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제15조 제2항",
+      "lawGoKr": true
+    },
+    "ECA:15(3)": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "15",
+      "paragraph": "3",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제15조 제3항",
+      "lawGoKr": true
+    },
+    "ECA:21-2(1)2": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "21-2",
+      "paragraph": "1",
+      "item": "2",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제21조의2 제1항 제2호",
+      "lawGoKr": true
+    },
+    "ECA:7": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "7",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제7조",
+      "lawGoKr": true
+    },
+    "STD10023:10(1)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "10",
+      "paragraph": "1",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제10조 제1항",
+      "lawGoKr": false
+    },
+    "STD10023:10(2)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "10",
+      "paragraph": "2",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제10조 제2항",
+      "lawGoKr": false
+    },
+    "STD10023:10(3)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "10",
+      "paragraph": "3",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제10조 제3항",
+      "lawGoKr": false
+    },
+    "STD10023:11": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "11",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제11조",
+      "lawGoKr": false
+    },
+    "STD10023:12(1)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "12",
+      "paragraph": "1",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제12조 제1항",
+      "lawGoKr": false
+    },
+    "STD10023:12(2)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "12",
+      "paragraph": "2",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제12조 제2항",
+      "lawGoKr": false
+    },
+    "STD10023:13(1)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "13",
+      "paragraph": "1",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제13조 제1항",
+      "lawGoKr": false
+    },
+    "STD10023:13(2)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "13",
+      "paragraph": "2",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제13조 제2항",
+      "lawGoKr": false
+    },
+    "STD10023:14": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "14",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제14조",
+      "lawGoKr": false
+    },
+    "STD10023:9(1)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "9",
+      "paragraph": "1",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제9조 제1항",
+      "lawGoKr": false
+    }
+  },
+  "needsVerification": [
+    {
+      "id": "NV-T09-01",
+      "note": "ECA 13(2)10 (escrow/consumer-damage insurance choice for prepaid mail-order sales) and ECA 20-20-5 (intermediary duties) were not analysed; add rules if terms.marketplaceIntermediary or prepaid sales apply."
+    },
+    {
+      "id": "NV-T09-02",
+      "note": "ECA amendment effective 2027-01-21 (Law 21312): reason text mentions C2C intermediary duties, foreign-operator domestic agent, review-deletion policy disclosure; article text not diffed."
+    }
+  ],
+  "missingSlots": [
+    "terms.goodsTypes",
+    "terms.deliveryPolicy",
+    "terms.marketplaceIntermediary",
+    "terms.buyerProtection",
+    "terms.minorPurchase"
+  ]
+}

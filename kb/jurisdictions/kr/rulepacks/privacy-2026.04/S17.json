@@ -1,0 +1,41 @@
+{
+  "id": "S17",
+  "packVersion": "privacy-2026.04",
+  "title": { "ko": "자동화된 결정에 관한 사항", "en": "Automated decisions" },
+  "guidelineRef": { "doc": "pipc-guideline-2026-04", "part": "III", "section": 17, "pages": "67-71", "lines": "2334-2543" },
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "conditional",
+  "catalogClass": "C",
+  "handling": "llm+manual_flag",
+  "applicability": { "when": { "slot": "gate.automatedDecision", "op": "truthy" }, "ifNot": "not_processed_statement_allowed" },
+  "effectiveFrom": "2024-03-15",
+  "effectiveStatus": "in_force",
+  "effectiveNote": "PIPA 37-2 (rights regarding automated decisions) in force from 2024-03-15 (Act 19234 addendum 1(1)).",
+  "source": "spike-report.md §2d; https://law.go.kr/DRF/lawSearch.do?OC=test&target=eflaw&type=XML&LID=011357&nw=1,2,3&display=100&sort=efdes (fetched 2026-09-29)",
+  "rules": [
+    { "ruleId": "R-S17-001", "sectionId": "S17", "level": "must", "element": "fact, purpose, scope of subjects", "statement": "State that automated decisions are made (fully automated systems, including AI), their specific purpose, and which data subjects are affected, so they know they can exercise rights.", "legalRefs": ["PIPA:37-2"], "check": { "kind": "deterministic", "expr": "exists(section.S17.fact) && exists(section.S17.purpose) && exists(section.S17.scope)" }, "sourceSpan": "L2336-2356", "verifiedAt": "2026-09-29", "effectiveFrom": "2024-03-15", "effectiveStatus": "in_force" },
+    { "ruleId": "R-S17-002", "sectionId": "S17", "level": "must", "element": "main data types and relation", "statement": "State the main types of personal data used and how they relate to the decision; types may be given instead of every item.", "legalRefs": ["PIPA:37-2"], "check": { "kind": "llm" }, "sourceSpan": "L2345, L2358-2361", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S17-003", "sectionId": "S17", "level": "must", "element": "considerations and procedure", "statement": "State what the data subject should know about the decision process and the procedure by which the main data is processed.", "legalRefs": ["PIPA:37-2"], "check": { "kind": "llm" }, "sourceSpan": "L2346, L2363-2366", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S17-004", "sectionId": "S17", "level": "must", "element": "sensitive or child data", "statement": "If sensitive data or data of children under 14 is processed in the decision, state the purpose and specific items in advance (or state that none is processed).", "legalRefs": ["PIPA:37-2"], "check": { "kind": "deterministic", "expr": "exists(section.S17.sensitiveOrChild)" }, "sourceSpan": "L2347-2349, L2368-2371", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S17-005", "sectionId": "S17", "level": "must", "element": "refusal and explanation requests", "statement": "State that the data subject may refuse or request an explanation (and review), and the method and procedure.", "legalRefs": ["PIPA:37-2"], "check": { "kind": "deterministic", "expr": "exists(section.S17.requestMethod) && exists(section.S17.requestProcedure)" }, "sourceSpan": "L2350, L2373-2376", "verifiedAt": "2026-09-29", "effectiveFrom": "2024-03-15", "effectiveStatus": "in_force" },
+    { "ruleId": "R-S17-006", "sectionId": "S17", "level": "should", "element": "plain, visual explanation", "statement": "Use standardized terms and visual aids (diagrams, charts, video) for AI-based processing.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L2379-2382", "verifiedAt": "2026-09-29" }
+  ],
+  "goodPatterns": [
+    "Five headed blocks in the order of the checklist (fact/purpose/scope; data types and weight in the decision; process and considerations; sensitive/child data; refusal, explanation and review requests with department, contact and procedure).",
+    "Examples in the guideline: AI hiring with stage weights; AI detection of improper welfare payments with a step flow."
+  ],
+  "commonDefects": [
+    { "id": "D-S17-01", "severity": "major", "defect": "Automated rejection or sanction exists but no S17 section.", "seedCandidate": true },
+    { "id": "D-S17-02", "severity": "major", "defect": "No method or procedure to refuse or request explanation." },
+    { "id": "D-S17-03", "severity": "minor", "defect": "Data types listed without their relation to the decision." }
+  ],
+  "manualReview": "Whether a decision is 'fully automated' and whether refusal is excluded (consent, contract notice, statute) is a legal judgment; always emit a manual_review note.",
+  "extractionHints": ["\"자동으로 탈락/거절/정지\", \"사람 검토 없이\", \"AI 심사\", \"스코어\"", "hiring, credit, fraud, eligibility, sanctions", "appeal/review process"],
+  "interviewNodes": ["Q-S03-06", "Q-S17-01", "Q-S17-50", "Q-S17-51", "Q-S17-52", "Q-S17-53"],
+  "legalRefs": {
+    "PIPA:37-2": { "law": "개인정보 보호법", "article": "37-2", "verifiedBy": "pipc-guideline-2026-04", "at": "p67 L2341", "lawGoKr": true, "lawGoKrSource": "spike-report.md §2d (fetched 2026-09-29)" }
+  },
+  "needsVerification": [
+    { "id": "NV-S17-01", "note": "Reply deadlines (10 days refusal, 30 days action) and refusal exclusions appear only in the guideline examples; the governing decree article is not cited in the guideline." }
+  ]
+}

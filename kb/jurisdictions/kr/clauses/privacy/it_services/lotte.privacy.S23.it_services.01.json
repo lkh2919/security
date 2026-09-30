@@ -1,0 +1,55 @@
+{
+  "id": "lotte.privacy.S23.it_services.01",
+  "docType": "privacy",
+  "sectionId": "S23",
+  "domainGroup": "it_services",
+  "sourceCaptureIds": [
+    "lotteinnovate-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteinnovate.com"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 6월 25일",
+  "layout": "guideline_numbered",
+  "text": "### 개인정보 보호 자율 조치\n회사는 법령상 의무 이외에 다음과 같이 자율적으로 정한 개인정보 처리 기준과 보호 조치를 적용합니다.\n{%if privacy.S23_voluntary%}\n{{voluntaryMeasures}}\n{%endif%}\n회사는 위 사항이 실제로 이행되는 범위에서만 기재하며, 이행하지 않는 사항은 기재하지 않습니다.",
+  "variables": [
+    {
+      "name": "voluntaryMeasures",
+      "slotId": "privacy.S23_voluntary",
+      "description": "Voluntary protection measures the operator actually applies"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "privacy.S23_voluntary",
+      "op": "exists"
+    }
+  ],
+  "coversElements": [
+    "R-S23-001",
+    "R-S23-003"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S23-002",
+      "level": "should",
+      "note": "AI 학습 데이터 기준은 원문에 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "요약 카드는 법정 절이 아니라 자율 안내. 사실과 다른 자율 조치 표기 금지(S23-003).",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotteinnovate-privacy",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 6월 25일 ; 시행일자 : 2026년 6월 25일 ; 공고일자 : 2025년 9월 18일 ; 시행일자 : 2025년 9월 18일",
+      "contentHash": "ed631cda902e7824593df708a5399a8fe8e4516efd4252d5cb9ce0f65f4f7b7d"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "id": "lotte.terms.T01.cross_group.01",
+  "docType": "terms",
+  "sectionId": "T01",
+  "domainGroup": "cross_group",
+  "sourceCaptureIds": [
+    "lotte-recruit-terms",
+    "lotte-wellfood-terms"
+  ],
+  "sourceSites": [
+    "recruit.lotte.co.kr",
+    "www.lottewellfood.com"
+  ],
+  "policyVersionOrDate": "2015년 4월 20일부터 시행",
+  "layout": "legacy_article",
+  "text": "이 약관은 {{operatorName}}(이하 \"회사\")가 운영하는 {{serviceName}}(이하 \"서비스\")에서 제공하는 서비스와 관련하여 회사와 이용자 사이의 권리, 의무 및 책임 사항, 그 밖에 필요한 사항을 규정함을 목적으로 합니다.",
+  "variables": [
+    {
+      "name": "operatorName",
+      "slotId": "profile.orgNameRef",
+      "description": "Operator legal name (defined once as 회사)"
+    },
+    {
+      "name": "serviceName",
+      "slotId": "profile.serviceNames",
+      "description": "Service or site name(s) covered by the document"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "terms.applicable",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-T01-001",
+    "R-T01-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T01-002",
+      "level": "must",
+      "note": "쉬운 우리말·강조 표시는 문서 레이아웃 단계에서 충족."
+    },
+    {
+      "ruleId": "R-T01-003",
+      "level": "should",
+      "note": "표준약관과 다른 조항 표시는 원문에 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 2,
+  "frequencyBase": 13,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-recruit-terms",
+      "sourceUrl": "https://recruit.lotte.co.kr/about/termOfPolicy",
+      "affiliate": "Lotte Group recruiting site",
+      "businessGroup": "hr_corporate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": null,
+      "contentHash": "830691c6eefc2b3070bf23d81f762b1389acf724a5cc0012f21ac82ee84aae37"
+    },
+    {
+      "captureId": "lotte-wellfood-terms",
+      "sourceUrl": "https://www.lottewellfood.com/policy/use",
+      "affiliate": "Lotte Wellfood",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2015년 4월 20일부터 시행",
+      "contentHash": "27c92d094aaa5850a438e3164fbdad5b21326d87f3fff9ac3ad9e1a05889ecbf"
+    }
+  ]
+}

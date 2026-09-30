@@ -1,0 +1,204 @@
+{
+  "id": "T12",
+  "packVersion": "terms-kftc-10023",
+  "title": {
+    "ko": "게시물 및 저작권의 귀속·이용제한",
+    "en": "Posts, IP and copyright"
+  },
+  "stdTermsRef": {
+    "doc": "kftc-10023-2015-06-26",
+    "articles": "제22조",
+    "raw": "kb/_sources/terms/kftc-10023-2015-06-26.txt"
+  },
+  "attribution": "KFTC, 전자상거래(인터넷사이버몰) 표준약관 제10023호 (2015. 6. 26. 개정) and statutes via law.go.kr (paraphrased)",
+  "classification": "conditional",
+  "module": "community",
+  "handling": "llm",
+  "applicability": {
+    "when": {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "terms.ugc",
+          "op": "truthy"
+        }
+      ]
+    },
+    "notApplicableWhen": {
+      "slot": "terms.applicable",
+      "op": "eq",
+      "value": false
+    }
+  },
+  "slots": [
+    "terms.ugc",
+    "terms.ipPolicy"
+  ],
+  "rules": [
+    {
+      "ruleId": "R-T12-001",
+      "sectionId": "T12",
+      "level": "must",
+      "element": "operator works",
+      "statement": "Copyright and other IP in works created by the operator belong to the operator; users may not reproduce, transmit, publish or distribute them for profit or let third parties do so without prior consent.",
+      "legalRefs": [
+        "STD10023:22(1)",
+        "STD10023:22(2)"
+      ],
+      "check": {
+        "kind": "llm"
+      },
+      "sourceSpan": "STD10023 제22조①②",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T12-002",
+      "sectionId": "T12",
+      "level": "must",
+      "element": "use of user-owned copyright",
+      "statement": "Where the operator uses copyright belonging to a user under agreement, it notifies that user.",
+      "legalRefs": [
+        "STD10023:22(3)"
+      ],
+      "check": {
+        "kind": "llm"
+      },
+      "sourceSpan": "STD10023 제22조③",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T12-003",
+      "sectionId": "T12",
+      "level": "should",
+      "element": "UGC stays with the user; scoped licence",
+      "statement": "User posts remain the user's copyright; any licence to the operator states purpose, media, duration and ending on deletion/withdrawal. Avoid assignment or perpetual irrevocable licences.",
+      "legalRefs": [
+        "ARTC:6(2)1"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!match(section.T12, lex.U-ARTC6-02)"
+      },
+      "sourceSpan": "ARTC 제6조제2항제1호 (general clause; std 10023 has no UGC article)",
+      "verifiedAt": "2026-09-29",
+      "needsVerification": true
+    },
+    {
+      "ruleId": "R-T12-004",
+      "sectionId": "T12",
+      "level": "should",
+      "element": "post removal procedure",
+      "statement": "State grounds and procedure for hiding/deleting posts (notice, objection) instead of unrestricted discretion.",
+      "legalRefs": [
+        "ARTC:10[1]"
+      ],
+      "check": {
+        "kind": "llm"
+      },
+      "sourceSpan": "ARTC 제10조제1호",
+      "verifiedAt": "2026-09-29",
+      "needsVerification": true
+    }
+  ],
+  "unfairPatterns": [
+    {
+      "lexiconId": "U-ARTC6-02",
+      "pattern": "(\\uAC8C\\uC2DC\\uBB3C|\\uCF58\\uD150\\uCE20|\\uC800\\uC791\\uBB3C)[^.]{0,30}(\\uC800\\uC791\\uAD8C|\\uC9C0\\uC801\\uC7AC\\uC0B0\\uAD8C)[^.]{0,15}(\\uD68C\\uC0AC\\uC5D0\\s*\\uADC0\\uC18D|\\uD68C\\uC0AC\\uC5D0\\uAC8C\\s*\\uC591\\uB3C4|\\uD68C\\uC0AC\\uB85C\\s*\\uC774\\uC804)",
+      "statuteRef": [
+        "ARTC:6(2)1"
+      ],
+      "severity": "major"
+    },
+    {
+      "lexiconId": "U-ARTC6-03",
+      "pattern": "(\\uC601\\uAD6C\\uC801|\\uBB34\\uAE30\\uD55C|\\uCDE8\\uC18C\\s*\\uBD88\\uAC00\\uB2A5|\\uCCA0\\uD68C\\s*\\uBD88\\uAC00\\uB2A5)[^.]{0,20}(\\uC774\\uC6A9|\\uC0AC\\uC6A9)\\s*(\\uAD8C|\\uD5C8\\uB77D|\\uB77C\\uC774\\uC120\\uC2A4)",
+      "statuteRef": [
+        "ARTC:6(2)1"
+      ],
+      "severity": "minor"
+    }
+  ],
+  "goodPatterns": [
+    "Operator works vs user posts separated; licence scope table (purpose | media | duration | end)."
+  ],
+  "commonDefects": [
+    {
+      "id": "D-T12-01",
+      "severity": "major",
+      "defect": "User posts' copyright assigned to the operator.",
+      "seedCandidate": true
+    },
+    {
+      "id": "D-T12-02",
+      "severity": "minor",
+      "defect": "Operator may delete posts at its discretion without grounds or notice."
+    }
+  ],
+  "extractionHints": [
+    "boards, reviews, comments",
+    "reuse of reviews in marketing"
+  ],
+  "interviewNodes": [
+    "Q-T12-15",
+    "Q-T12-16"
+  ],
+  "interviewHints": [
+    "UGC? (Q-T12-15) and IP policy (Q-T12-16), incl. marketing reuse of reviews."
+  ],
+  "legalRefs": {
+    "ARTC:10[1]": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "10",
+      "item": "1",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제10조 제1호",
+      "lawGoKr": true
+    },
+    "ARTC:6(2)1": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "6",
+      "paragraph": "2",
+      "item": "1",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제6조 제2항 제1호",
+      "lawGoKr": true
+    },
+    "STD10023:22(1)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "22",
+      "paragraph": "1",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제22조 제1항",
+      "lawGoKr": false
+    },
+    "STD10023:22(2)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "22",
+      "paragraph": "2",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제22조 제2항",
+      "lawGoKr": false
+    },
+    "STD10023:22(3)": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "22",
+      "paragraph": "3",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제22조 제3항",
+      "lawGoKr": false
+    }
+  },
+  "needsVerification": [
+    {
+      "id": "NV-T12-01",
+      "note": "UGC rules rest on the ARTC general clause only; KFTC 10023 has no UGC article. Consider cross-checking KFTC online-game standard terms (제10069호) before promoting R-T12-003/004 to must."
+    },
+    {
+      "id": "NV-T12-02",
+      "note": "ECA amendment effective 2027-01-21 adds review-deletion policy disclosure for platforms (reason text only); add a dated rule after reading the article."
+    }
+  ]
+}

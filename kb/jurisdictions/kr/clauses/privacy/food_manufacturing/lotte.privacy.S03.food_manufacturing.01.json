@@ -1,0 +1,54 @@
+{
+  "id": "lotte.privacy.S03.food_manufacturing.01",
+  "docType": "privacy",
+  "sectionId": "S03",
+  "domainGroup": "food_manufacturing",
+  "sourceCaptureIds": [
+    "lotte-wellfood-privacy"
+  ],
+  "sourceSites": [
+    "www.lottewellfood.com"
+  ],
+  "policyVersionOrDate": "시행일자: 2026년 8월 10일",
+  "layout": "guideline_numbered",
+  "text": "회사는 이용자의 연계정보(CI)를 다음과 같이 처리합니다.\n- 처리 목적: 본인 확인 및 이용자 부정행위 방지\n- 보유 기간: 목적 달성에 필요한 최소한의 기간\n- 보관 방법: 안전성 확보조치를 적용하여 관리합니다.\n\n{{receivedItems}}",
+  "variables": [
+    {
+      "name": "receivedItems",
+      "slotId": "privacy.S03_receivedItems",
+      "description": "Items received from other parties (partners, social login, affiliates)"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S03-006"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S03-001",
+      "level": "must",
+      "note": "연계정보 항목의 세부 명시는 슬롯 값에 의존."
+    },
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "연계정보는 본인확인기관이 발급하는 식별값으로, 처리 근거 조항을 초안에서 특정해야 함."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "식품 계열 사이트에서 관찰된 연계정보 단락.",
+  "frequency": 1,
+  "frequencyBase": 2,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-wellfood-privacy",
+      "sourceUrl": "https://www.lottewellfood.com/policy/privacy",
+      "affiliate": "Lotte Wellfood",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자: 2026년 8월 10일 ; v.2.22 ; v.2.21 ; v.2.20",
+      "contentHash": "072b5887741bb5bb109ac2c6d576162ef430c18da9c328d1f8a3d22cd4d8aa94"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "id": "lotte.terms.T10.retail_ecommerce.02",
+  "docType": "terms",
+  "sectionId": "T10",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-himart-terms"
+  ],
+  "sourceSites": [
+    "company.himart.co.kr"
+  ],
+  "policyVersionOrDate": "2025.08.29부터 적용",
+  "layout": "legacy_article",
+  "text": "제N조 (청약철회 등의 효과)\n1. 회사는 이용자로부터 재화 등을 반환받은 경우 3영업일 이내에 이미 지급받은 재화 등의 대금을 환급합니다. 이 경우 회사가 이용자에게 재화 등의 환급을 지연한 때에는 그 지연기간에 대하여 「전자상거래 등에서의 소비자보호에 관한 법률 시행령」이 정하는 지연이자율을 곱하여 산정한 지연이자를 지급합니다.\n2. 회사는 위 대금을 환급함에 있어서 이용자가 신용카드 또는 전자화폐 등의 결제수단으로 재화 등의 대금을 지급한 때에는 지체 없이 당해 결제수단을 제공한 사업자로 하여금 재화 등의 대금의 청구를 정지 또는 취소하도록 요청합니다.\n3. 청약철회 등의 경우 공급받은 재화 등의 반환에 필요한 비용은 이용자가 부담합니다. 회사는 이용자에게 청약철회 등을 이유로 위약금 또는 손해배상을 청구하지 않습니다. 다만 재화 등의 내용이 표시·광고 내용과 다르거나 계약내용과 다르게 이행되어 청약철회 등을 하는 경우 재화 등의 반환에 필요한 비용은 회사가 부담합니다.\n4. 이용자가 재화 등을 제공받을 때 발송비를 부담한 경우에 회사는 청약철회 시 그 비용을 누가 부담하는지를 이용자가 알기 쉽도록 명확하게 표시합니다.\n{{refundPolicy}}",
+  "variables": [
+    {
+      "name": "refundPolicy",
+      "slotId": "terms.refundPolicy",
+      "description": "Refund and return terms per item type"
+    }
+  ],
+  "conditions": [
+    {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "terms.paid",
+          "op": "truthy"
+        }
+      ]
+    }
+  ],
+  "coversElements": [
+    "R-T10-004",
+    "R-T10-005",
+    "R-T10-006",
+    "R-T10-007"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T10-009",
+      "level": "should",
+      "note": "소비자 귀책 손해배상 상한 명시 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "지연이자율과 환급 기한(3영업일)은 시행령 현행과 대조 필요.",
+  "frequency": 1,
+  "frequencyBase": 3,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-himart-terms",
+      "sourceUrl": "https://company.himart.co.kr/policy/terms",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025.08.29부터 적용",
+      "contentHash": "59e7cc599d744e3fda2d9afad802786922cbd67b51afa876bf2f615a625db01f"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "id": "lotte.privacy.S07.cross_group.02",
+  "docType": "privacy",
+  "sectionId": "S07",
+  "domainGroup": "cross_group",
+  "sourceCaptureIds": [
+    "lotte-chilsung-privacy",
+    "lpoint-privacy"
+  ],
+  "sourceSites": [
+    "company.lottechilsung.co.kr",
+    "m.lpoint.com"
+  ],
+  "policyVersionOrDate": "시행일자 : 2015년 03월 17일 / 시행일자 : 2016. 7. 1",
+  "layout": "guideline_numbered",
+  "text": "회사는 다음의 경우에는 정보주체의 동의 없이 개인정보를 제3자에게 제공할 수 있습니다.\n- 법령에 특별한 규정이 있거나 법령상 의무를 준수하기 위하여 불가피한 경우\n- 수사기관이 법령에 정해진 절차와 방법에 따라 요구한 경우\n- 정보주체 또는 그 법정대리인이 의사표시를 할 수 없는 상태에 있거나 주소불명 등으로 사전 동의를 받을 수 없는 경우로서 명백히 정보주체 또는 제3자의 급박한 생명, 신체, 재산의 이익을 위하여 필요하다고 인정되는 경우\n\n{{thirdPartyTable}}",
+  "variables": [
+    {
+      "name": "thirdPartyTable",
+      "slotId": "privacy.S07_thirdParties",
+      "description": "Recipients with purpose, items, and recipient retention period"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.thirdPartyProvision",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S07-002"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "법적 근거를 조문 단위로 명시하는 방식은 원문에서 드묾. 초안 시 조문 인용 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 2,
+  "frequencyBase": 15,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-chilsung-privacy",
+      "sourceUrl": "https://company.lottechilsung.co.kr/kor/util/privacy/view.do?guide=14",
+      "affiliate": "Lotte Chilsung Beverage",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2015년 03월 17일 ; 시행일자 : 2026년 02월 12일 ; 시행일자 : 2025년 10월 22일 ; 시행일자 : 2025년 6월 30일",
+      "contentHash": "649fa54564a02d4c3525dc1f9b85cd6f3147c2200781222bbcaa90abbb9e3ff8"
+    },
+    {
+      "captureId": "lpoint-privacy",
+      "sourceUrl": "https://m.lpoint.com/app/center/LWDD100300.do?prvGrpId=A07&prvSeq=275",
+      "affiliate": "Lotte Members (L.POINT)",
+      "businessGroup": "loyalty_membership",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2016. 7. 1 ; 시행일자 : 2016. 7. 11 ; 시행일자 : 2016. 7. 27 ; 시행일자 : 2016. 8. 16",
+      "contentHash": "a3869dc06869e39c3abf2222dfe62b26930acf7f5f4cbc576c3a8b7f6382a962"
+    }
+  ]
+}

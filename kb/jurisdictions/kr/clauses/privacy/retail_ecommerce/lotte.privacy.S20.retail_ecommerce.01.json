@@ -1,0 +1,79 @@
+{
+  "id": "lotte.privacy.S20.retail_ecommerce.01",
+  "docType": "privacy",
+  "sectionId": "S20",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-mart-privacy",
+    "seven-eleven-privacy",
+    "lotte-himart-privacy",
+    "lotte-himart-mall-privacy"
+  ],
+  "sourceSites": [
+    "company.lottemart.com",
+    "www.7-eleven.co.kr",
+    "company.himart.co.kr",
+    "www.e-himart.co.kr"
+  ],
+  "policyVersionOrDate": "시행일자 : 2026-07-09 / 공고일자 : 2010년 12월 03일 / 2026.03.30부터 적용 / 2026.07.10부터 적용",
+  "layout": "guideline_numbered",
+  "text": "정보주체는 개인정보 침해로 인한 구제를 받기 위하여 개인정보 분쟁조정위원회, 한국인터넷진흥원 개인정보침해신고센터 등에 분쟁 해결이나 상담 등을 신청할 수 있습니다. 자세한 사항은 각 기관의 누리집을 참고하시기 바랍니다.\n- 개인정보 분쟁조정위원회: www.kopico.go.kr (국번 없이 1833-6972)\n- 개인정보침해신고센터: privacy.kisa.or.kr (국번 없이 118)\n- 대검찰청 사이버범죄수사단: www.spo.go.kr (국번 없이 1301)\n- 경찰청 사이버수사국: ecrm.police.go.kr (국번 없이 182)",
+  "variables": [],
+  "conditions": [],
+  "coversElements": [
+    "R-S20-001",
+    "R-S20-003"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S20-002",
+      "level": "must",
+      "note": "명칭·번호 현행 확인 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 4,
+  "frequencyBase": 5,
+  "houseStyleTags": [
+    "H-16"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotte-mart-privacy",
+      "sourceUrl": "https://company.lottemart.com/privacy/privacy.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2026-07-09 ; 2026년 7월 9일부터 적용 ; V13.5 ; V13.4",
+      "contentHash": "590a26db8498b8c4c8e6207f1d0ae882474ee75a92941b51e9a6ef52435f4d4d"
+    },
+    {
+      "captureId": "seven-eleven-privacy",
+      "sourceUrl": "https://www.7-eleven.co.kr/util/policyPrivacy.asp",
+      "affiliate": "Korea Seven (7-Eleven)",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2010년 12월 03일 ; 개정일자 : 2026년 07월 08일 ; 시행일자 : 2026년 07월 15일 ; 2026년 07월 15일 시행",
+      "contentHash": "6af655aff980d52c4d64c8ebea85ef5d24994e94e40fdd6bd45bb3ee912cd2f0"
+    },
+    {
+      "captureId": "lotte-himart-privacy",
+      "sourceUrl": "https://company.himart.co.kr/policy/privacy",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.03.30부터 적용",
+      "contentHash": "83b3b5e65b8d770cc4afbb51379c4a472ed07128a7c60d2bdb141a316d91a5cf"
+    },
+    {
+      "captureId": "lotte-himart-mall-privacy",
+      "sourceUrl": "https://www.e-himart.co.kr/app/terms/privacy?stonType=PC",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.07.10부터 적용 ; VER 9.6 ; VER 9.5 ; VER 9.4",
+      "contentHash": "df3adf5a2e5bbb423c88ecf061c24e22d7647dc3a22eb6a5e468e6ad54c2b3b7"
+    }
+  ]
+}

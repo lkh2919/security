@@ -1,0 +1,81 @@
+{
+  "id": "lotte.terms.T06.retail_ecommerce.01",
+  "docType": "terms",
+  "sectionId": "T06",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-mart-terms",
+    "lotte-himart-terms"
+  ],
+  "sourceSites": [
+    "company.lottemart.com",
+    "company.himart.co.kr"
+  ],
+  "policyVersionOrDate": "2025년 10월 1일부터 적용 / 2025.08.29부터 적용",
+  "layout": "legacy_article",
+  "text": "제6조 (회원가입)\n1. 이용자는 회사가 정한 가입 양식에 따라 회원정보를 기입한 후 이 약관에 동의한다는 의사표시를 함으로써 회원가입을 신청합니다.\n2. 회사는 회원으로 가입할 것을 신청한 이용자 중 다음 각 호에 해당하지 않는 한 회원으로 등록합니다: {{membershipRules}}\n3. 회원가입계약의 성립 시기는 회사의 승낙이 회원에게 도달한 시점으로 합니다.\n4. 회원은 등록 사항에 변경이 있는 경우 상당한 기간 이내에 회원정보 수정 등의 방법으로 그 변경 사항을 알려야 합니다.\n{%if terms.minAge%}\n5. 만 {{minAge}}세 미만 이용자의 회원 가입에는 법정대리인의 동의가 필요합니다.\n{%endif%}",
+  "variables": [
+    {
+      "name": "membershipRules",
+      "slotId": "terms.membershipRules",
+      "description": "Membership application rules and grounds for refusal"
+    },
+    {
+      "name": "minAge",
+      "slotId": "terms.minAge",
+      "description": "Minimum age for joining without a guardian"
+    }
+  ],
+  "conditions": [
+    {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "gate.membership",
+          "op": "truthy"
+        }
+      ]
+    }
+  ],
+  "coversElements": [
+    "R-T06-001",
+    "R-T06-002",
+    "R-T06-003",
+    "R-T06-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T06-001",
+      "level": "must",
+      "note": "거절 사유가 포괄적일 수 있어 구체적 열거 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 2,
+  "frequencyBase": 3,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-mart-terms",
+      "sourceUrl": "https://company.lottemart.com/privacy/term.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025년 10월 1일부터 적용 ; 2025년 5월 29일부터 적용",
+      "contentHash": "5ac1c0c774222ff77be14ea0dff78529b128683e67b2095cb40543a80246eaed"
+    },
+    {
+      "captureId": "lotte-himart-terms",
+      "sourceUrl": "https://company.himart.co.kr/policy/terms",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025.08.29부터 적용",
+      "contentHash": "59e7cc599d744e3fda2d9afad802786922cbd67b51afa876bf2f615a625db01f"
+    }
+  ]
+}

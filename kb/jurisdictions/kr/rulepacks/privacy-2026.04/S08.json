@@ -1,0 +1,36 @@
+{
+  "id": "S08",
+  "packVersion": "privacy-2026.04",
+  "title": { "ko": "추가적인 이용·제공이 지속적으로 발생 시 판단 기준", "en": "Criteria for ongoing additional use or provision" },
+  "guidelineRef": { "doc": "pipc-guideline-2026-04", "part": "III", "section": 8, "pages": "40-41", "lines": "1253-1324" },
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "conditional",
+  "catalogClass": "C",
+  "handling": "llm",
+  "applicability": { "when": { "slot": "gate.additionalUseOngoing", "op": "truthy" }, "ifNot": "omit_or_not_processed_statement" },
+  "rules": [
+    { "ruleId": "R-S08-001", "sectionId": "S08", "level": "must", "element": "details of ongoing additional use", "statement": "Where use or provision without consent, within a scope reasonably related to the original purpose, occurs continuously, state: recipient, items, purpose of use/provision, recipient's retention period.", "legalRefs": ["PIPA:15(3)", "PIPA:17(4)", "DEC:14-2(2)"], "check": { "kind": "deterministic", "expr": "every(section.S08.rows, r => r.recipient && r.items && r.purpose && r.retention)" }, "sourceSpan": "L1255-1265", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S08-002", "sectionId": "S08", "level": "must", "element": "judgment criteria", "statement": "Publish the processor's own judgment criteria for the four considerations: relation to the original purpose; predictability given collection context or practice; no undue harm to the data subject's interests; pseudonymization, encryption or other safety measures.", "legalRefs": ["DEC:14-2(1)", "DEC:14-2(2)"], "check": { "kind": "llm", "expr": "covers(section.S08.criteria, ['relation','predictability','no_undue_harm','safeguards'])" }, "sourceSpan": "L1266, L1272-1286", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S08-003", "sectionId": "S08", "level": "may", "element": "details via link", "statement": "The body may carry the criteria while current details are kept on a separate linked page.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "if(section.S08.detailsLinked) hasLink(section.S08)" }, "sourceSpan": "L1268-1270", "verifiedAt": "2026-09-29" }
+  ],
+  "goodPatterns": [
+    "Lead-in: additional use/provision without consent may occur under PIPA 15(3) or 17(4), considering Decree 14-2.",
+    "Table: recipient | items | purpose | recipient's retention (or a 'view current list' link).",
+    "Four short bullets, one per consideration, each tied to the concrete service (e.g. ride-hailing: related to original purpose; users expect it; needed for the requested service; safe-number masking)."
+  ],
+  "commonDefects": [
+    { "id": "D-S08-01", "severity": "major", "defect": "Cites 15(3)/17(4) but gives no criteria, or copies the four statutory headings without service-specific judgment.", "seedCandidate": true },
+    { "id": "D-S08-02", "severity": "major", "defect": "Uses this section to cover processing that actually needs consent (e.g. marketing to affiliates)." }
+  ],
+  "extractionHints": ["\"동의 없이 추가로\", \"당초 목적과 관련\"", "AI training on service data without consent (see A1 (5))", "ongoing sharing with drivers, merchants, partners"],
+  "interviewNodes": ["Q-S08-01", "Q-S08-02", "Q-S08-03", "Q-A1-52"],
+  "legalRefs": {
+    "PIPA:15(3)": { "law": "개인정보 보호법", "article": "15", "paragraph": "3", "verifiedBy": "pipc-guideline-2026-04", "at": "p40 L1255-1257", "lawGoKr": false },
+    "PIPA:17(4)": { "law": "개인정보 보호법", "article": "17", "paragraph": "4", "verifiedBy": "pipc-guideline-2026-04", "at": "p40 L1257", "lawGoKr": false },
+    "DEC:14-2(1)": { "law": "개인정보 보호법 시행령", "article": "14-2", "paragraph": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p40 L1266", "lawGoKr": false },
+    "DEC:14-2(2)": { "law": "개인정보 보호법 시행령", "article": "14-2", "paragraph": "2", "verifiedBy": "pipc-guideline-2026-04", "at": "p40 L1258", "lawGoKr": false }
+  },
+  "needsVerification": [
+    { "id": "NV-S08-01", "note": "Whether a given use is 'reasonably related' is a legal judgment; C1 must mark R-S08-002 needs_manual_review when evidence is thin." }
+  ]
+}

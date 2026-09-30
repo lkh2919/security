@@ -1,0 +1,1 @@
+{"formVersion":"infosec-2026.1","serviceName":"쇼핑나우","description":"온라인 쇼핑 앱","slots":{"gate.membership":true,"terms.minAge":14},"담당자":"박지훈","flows":[{"name":"회원가입","dataItems":["이름","이메일","휴대폰번호"],"purposes":["회원 식별"],"recipients":["없음"],"retention":"탈퇴 후 5년"}]}

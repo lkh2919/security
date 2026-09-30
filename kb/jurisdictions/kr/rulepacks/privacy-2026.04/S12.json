@@ -1,0 +1,33 @@
+{
+  "id": "S12",
+  "packVersion": "privacy-2026.04",
+  "title": { "ko": "민감정보의 공개 가능성 및 비공개를 선택하는 방법", "en": "Sensitive-data disclosure risk and opt-out" },
+  "guidelineRef": { "doc": "pipc-guideline-2026-04", "part": "III", "section": 12, "pages": "50-51", "lines": "1609-1667" },
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "conditional",
+  "catalogClass": "C",
+  "handling": "llm",
+  "applicability": { "when": { "slot": "gate.sensitivePublicExposure", "op": "truthy" }, "ifNot": "not_processed_statement_allowed" },
+  "rules": [
+    { "ruleId": "R-S12-001", "sectionId": "S12", "level": "must", "element": "disclosure possibility", "statement": "If information made public while providing goods or services may include sensitive data, state that it may be disclosed, naming the sensitive items as clearly as possible.", "legalRefs": ["PIPA:30(1)3-3", "PIPA:23(3)"], "check": { "kind": "deterministic", "expr": "every(section.S12.rows, r => r.service && r.items && r.exposure)" }, "sourceSpan": "L1611-1617", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S12-002", "sectionId": "S12", "level": "must", "element": "how to choose non-disclosure", "statement": "Give the concrete procedure and menu path to choose non-disclosure.", "legalRefs": ["PIPA:30(1)3-3"], "check": { "kind": "deterministic", "expr": "every(section.S12.rows, r => r.optOutMethod)" }, "sourceSpan": "L1617-1618", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S12-003", "sectionId": "S12", "level": "may", "element": "public-by-design exception", "statement": "Services built on public communication (open boards, SNS) where users know their own input is public may omit this section.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L1620-1622", "verifiedAt": "2026-09-29" }
+  ],
+  "riskSignals": ["user-created folders or lists public by default", "health or fitness records with a share or public feature", "real-time body metrics shown to other members", "SNS fields such as sexual orientation or political views visible to non-members"],
+  "goodPatterns": ["Table: service | sensitive items | how disclosure can happen | how to choose non-disclosure (warning pop-up with a link, plus menu path)."],
+  "commonDefects": [
+    { "id": "D-S12-01", "severity": "major", "defect": "Health/fitness app shares metrics publicly but the policy has no S12 section." },
+    { "id": "D-S12-02", "severity": "minor", "defect": "Opt-out described vaguely ('설정에서 변경') without a path." }
+  ],
+  "extractionHints": ["\"공개\", \"공유\", \"기본값 공개\", \"다른 회원이 볼 수\"", "health, heart rate, body fat, sexual life, beliefs, political views", "privacy toggle menu names"],
+  "interviewNodes": ["Q-S03-06", "Q-S12-01", "Q-S12-02"],
+  "legalRefs": {
+    "PIPA:30(1)3-3": { "law": "개인정보 보호법", "article": "30", "paragraph": "1", "item": "3-3", "verifiedBy": "pipc-guideline-2026-04", "at": "p50 L1611", "lawGoKr": false },
+    "PIPA:23(3)": { "law": "개인정보 보호법", "article": "23", "paragraph": "3", "verifiedBy": "pipc-guideline-2026-04", "at": "p13 L358", "lawGoKr": false },
+    "PIPA:23(1)": { "law": "개인정보 보호법", "article": "23", "paragraph": "1", "note": "scope of sensitive data, with Decree 18", "verifiedBy": "pipc-guideline-2026-04", "at": "p50 L1624", "lawGoKr": false },
+    "DEC:18": { "law": "개인정보 보호법 시행령", "article": "18", "verifiedBy": "pipc-guideline-2026-04", "at": "p50 L1624", "lawGoKr": false }
+  },
+  "needsVerification": [
+    { "id": "NV-S12-01", "note": "Full list of sensitive-data categories (PIPA 23(1), Decree 18) is not reproduced in the guideline; do not enumerate it in clauses." }
+  ]
+}

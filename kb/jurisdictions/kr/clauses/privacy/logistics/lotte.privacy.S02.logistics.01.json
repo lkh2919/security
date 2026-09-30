@@ -1,0 +1,50 @@
+{
+  "id": "lotte.privacy.S02.logistics.01",
+  "docType": "privacy",
+  "sectionId": "S02",
+  "domainGroup": "logistics",
+  "sourceCaptureIds": [
+    "lotte-global-logis-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteglogis.com"
+  ],
+  "policyVersionOrDate": "v3.9",
+  "layout": "guideline_numbered",
+  "text": "회사는 「개인정보 보호법」에 따라 서비스 제공에 필요한 최소한의 범위에서 개인정보를 수집·이용합니다. 구분별 처리 목적은 다음과 같습니다.\n\n- 택배·운송 서비스: 송화인·수화인 확인, 운송장 발행, 집화·배송, 배송 조회, 사고·분실 처리와 보상\n- 회원 서비스: 본인 확인, 예약 및 조회, 이용 내역 관리\n- 고객 문의: 문의 접수 및 답변, 불만·분쟁 처리\n- 결제 서비스: 운임 결제, 환불, 현금영수증 발급\n\n{{purposeTable}}",
+  "variables": [
+    {
+      "name": "purposeTable",
+      "slotId": "privacy.S02_purposes",
+      "description": "Purposes per service or task, rendered as a list or table"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S02-001",
+    "R-S02-005"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S02-002",
+      "level": "must",
+      "note": "서비스별 목적은 구체적이나 수화인(비회원) 정보의 출처와 목적은 S03 절에서 별도 확인 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "수화인 등 제3자 정보를 다루는 물류 업종 목적 패턴.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-global-logis-privacy",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/privacy",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "v3.9 ; v3.8 ; v3.7 ; v3.6",
+      "contentHash": "410069f0b4dfeea3eac1b789a4a0b07900230a4fbfafecb6ae19f2c3f2fe8114"
+    }
+  ]
+}

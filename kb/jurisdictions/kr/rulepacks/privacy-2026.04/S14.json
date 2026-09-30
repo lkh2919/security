@@ -1,0 +1,39 @@
+{
+  "id": "S14",
+  "packVersion": "privacy-2026.04",
+  "title": { "ko": "개인정보 자동 수집 장치의 설치·운영 및 거부에 관한 사항", "en": "Automatic collection devices" },
+  "guidelineRef": { "doc": "pipc-guideline-2026-04", "part": "III", "section": 14, "pages": "54-61", "lines": "1760-2129", "related": "Appendices 6-8 (browser and mobile opt-out steps)" },
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "conditional",
+  "catalogClass": "C",
+  "handling": "clause",
+  "applicability": { "when": { "slot": "gate.autoCollection", "op": "truthy" }, "ifNot": "not_processed_statement_allowed" },
+  "rules": [
+    { "ruleId": "R-S14-001", "sectionId": "S14", "level": "must", "element": "device basics", "statement": "When cookies or similar technologies are installed on own web/app, explain the concept, purpose of use, how data is collected, and how to refuse, plus the personal data processed through them.", "legalRefs": ["PIPA:30(1)7"], "check": { "kind": "deterministic", "expr": "has(section.S14, ['concept','purpose','collectionMethod','refusal'])" }, "sourceSpan": "L1764-1772", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S14-002", "sectionId": "S14", "level": "must", "element": "refusal steps", "statement": "Give concrete refusal steps for the web browsers and mobile environments actually used (see appendices for current browser steps).", "legalRefs": [], "check": { "kind": "deterministic", "expr": "exists(section.S14.refusal.steps)" }, "sourceSpan": "L1785-1792", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S14-003", "sectionId": "S14", "level": "must", "element": "identified behavioral data", "statement": "If behavioral data is processed identifying the data subject, state: legal basis, items, collection method, purpose, retention, and refusal method; if provided to third parties: legal basis, recipient, items, recipient's purpose and retention.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "if(slot(gate.behavioralIdentified)) every(section.S14.behavioral.identified, r => r.legalBasis && r.items && r.method && r.purpose && r.retention && r.optOut)" }, "sourceSpan": "L1794-1812", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S14-004", "sectionId": "S14", "level": "may", "element": "placement of identified behavioral data", "statement": "Identified behavioral processing may be written in S03/S07 (marked as behavioral data), but the collection method and refusal method via devices must still appear here.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L1799-1804, L1814-1815", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S14-005", "sectionId": "S14", "level": "should", "element": "non-identified behavioral data", "statement": "If behavioral data is processed for targeted ads without identifying the subject, say so and state items, method, purpose, retention, refusal; for provision: recipient, items, recipient's purpose and retention.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "if(slot(gate.behavioralNonIdentified)) exists(section.S14.behavioral.nonIdentified)" }, "sourceSpan": "L1954-1967", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S14-006", "sectionId": "S14", "level": "should", "element": "both modes", "statement": "When both identified and non-identified processing occur (e.g. members vs non-members), describe both.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L1969-1973", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S14-007", "sectionId": "S14", "level": "must", "element": "collection on third-party sites", "statement": "If own devices placed on third-party web/apps collect behavioral data identifying individuals, disclose it; where those sites change often, the site type may be given.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L1976-1981", "verifiedAt": "2026-09-29" }
+  ],
+  "goodPatterns": [
+    "Blocks: installed devices (cookie explanation and refusal steps) → behavioral data collection table → provision to ad partners table → collection via tools on other sites (with site-list link) → minimal, non-sensitive behavioral data statement → children and targeted ads statement → browser and ad-ID opt-out steps → contact for questions and objections.",
+    "Ad-ID opt-out: Android and iOS steps with a note that menus vary by OS version."
+  ],
+  "commonDefects": [
+    { "id": "D-S14-01", "severity": "major", "defect": "Cookie section says only 'you can refuse cookies' without steps or purposes.", "seedCandidate": true },
+    { "id": "D-S14-02", "severity": "major", "defect": "Identified behavioral profiling for ads without legal basis or retention." },
+    { "id": "D-S14-03", "severity": "minor", "defect": "App uses ad IDs but only browser cookie steps are given." },
+    { "id": "D-S14-04", "severity": "minor", "defect": "Outdated browser (e.g. discontinued) instructions." }
+  ],
+  "extractionHints": ["cookie, pixel, tag, SDK, ADID/IDFA, analytics tool names", "\"맞춤형 광고\", \"리타게팅\", \"추천\"", "login-linked vs anonymous tracking", "ad partners receiving usage history"],
+  "interviewNodes": ["Q-S14-01", "Q-S14-02", "Q-S14-03", "Q-S14-04", "Q-S14-60", "Q-S14-61", "Q-S14-62", "Q-S14-83"],
+  "legalRefs": {
+    "PIPA:30(1)7": { "law": "개인정보 보호법", "article": "30", "paragraph": "1", "item": "7", "verifiedBy": "pipc-guideline-2026-04", "at": "p14 L367", "lawGoKr": false }
+  },
+  "references": ["PIPC policy on online behavioral data for targeted ads (2024.1), cited at L2244"],
+  "needsVerification": [
+    { "id": "NV-S14-01", "note": "Browser menu paths change frequently; the drafter must take steps from a maintained clause, not from this pack. The legal basis for identified behavioral data (consent in the examples) is example-level only." }
+  ]
+}

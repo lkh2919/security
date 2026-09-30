@@ -1,0 +1,38 @@
+{
+  "id": "S01",
+  "packVersion": "privacy-2026.04",
+  "title": { "ko": "제목 및 서문", "en": "Title and preamble" },
+  "guidelineRef": { "doc": "pipc-guideline-2026-04", "part": "III", "section": 1, "pages": "20", "lines": "546-576", "related": "Part II-3/4 (pp.16-18, L463-539)" },
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "mandatory",
+  "catalogClass": "M",
+  "handling": "clause",
+  "applicability": { "when": { "all": [] } },
+  "rules": [
+    { "ruleId": "R-S01-001", "sectionId": "S01", "level": "must", "element": "standard title", "statement": "Use the standardized name \"개인정보 처리방침\" at the top of the document and distinguish it from other notices.", "legalRefs": ["STDG:20(1)"], "check": { "kind": "deterministic", "expr": "match(doc.title, /개인정보 처리방침/)" }, "sourceSpan": "L548, L530-533", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S01-002", "sectionId": "S01", "level": "should", "element": "processor name in title", "statement": "Put the processor's name in the title so the data subject can identify who is responsible.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "contains(doc.title, slot(profile.orgNameRef))" }, "sourceSpan": "L550-551", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S01-003", "sectionId": "S01", "level": "should", "element": "preamble purpose", "statement": "Preamble states why the policy is established and published, with the processor's name as the grammatical subject.", "legalRefs": ["PIPA:30(1)"], "check": { "kind": "llm" }, "sourceSpan": "L556-561", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S01-004", "sectionId": "S01", "level": "should", "element": "service scope", "statement": "Name the services the policy covers when the company name alone does not make this clear; for many services list all names or a lead name plus a linked detail page.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "allIn(slot(profile.serviceNames), section.S01.text) || hasLink(section.S01, 'service-list')" }, "sourceSpan": "L562-567", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S01-005", "sectionId": "S01", "level": "should", "element": "table of contents", "statement": "Order the document as title, preamble, body; show a table of contents with in-page links at the start of the body.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "exists(doc.toc) && doc.toc.linked" }, "sourceSpan": "L465-470", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S01-006", "sectionId": "S01", "level": "must", "element": "plain, item-separated wording", "statement": "Separate each statutory item explicitly and write in plain, specific terms; explain legal or technical terms.", "legalRefs": ["STDG:18(1)"], "check": { "kind": "llm" }, "sourceSpan": "L290-302, L387-389", "verifiedAt": "2026-09-29" }
+  ],
+  "goodPatterns": [
+    "Title pattern: <processor name> + standard name.",
+    "Preamble: processor complies with PIPA and related laws, and publishes the policy under PIPA Art. 30 to explain procedures and handle complaints quickly.",
+    "Foreign operators subject to PIPA write the policy in Korean."
+  ],
+  "commonDefects": [
+    { "id": "D-S01-01", "severity": "major", "defect": "Non-standard title (e.g. 개인정보 보호정책, 개인정보 취급방침).", "seedCandidate": true },
+    { "id": "D-S01-02", "severity": "minor", "defect": "Preamble omits which services the policy applies to when several brands exist." },
+    { "id": "D-S01-03", "severity": "minor", "defect": "No table of contents or links for a long policy." }
+  ],
+  "publicationNotes": "Online: post continuously; reachable without login from the first web/app screen; app: within 3 steps recommended (L487-495). Offline alternatives per Decree 31(3) (L515-528). Rendering is out of scope for the drafter but feeds the operator checklist.",
+  "extractionHints": ["legal entity name", "brand or service names", "web domain and app names", "\"이 방침은 ○○ 서비스에 적용\""],
+  "interviewNodes": ["Q-P-01", "Q-P-02", "Q-P-03", "Q-T13-17"],
+  "legalRefs": {
+    "STDG:20(1)": { "law": "표준 개인정보 보호지침", "article": "20", "paragraph": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p18 L530", "lawGoKr": false },
+    "STDG:18(1)": { "law": "표준 개인정보 보호지침", "article": "18", "paragraph": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p13 L387", "lawGoKr": false },
+    "PIPA:30(1)": { "law": "개인정보 보호법", "article": "30", "paragraph": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p13 L349", "lawGoKr": false }
+  },
+  "needsVerification": []
+}

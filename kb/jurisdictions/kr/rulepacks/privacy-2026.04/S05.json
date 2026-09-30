@@ -1,0 +1,65 @@
+{
+  "id": "S05",
+  "packVersion": "privacy-2026.04",
+  "title": {"ko":"개인정보의 처리 및 보유 기간","en":"Processing and retention period"},
+  "guidelineRef": {"doc":"pipc-guideline-2026-04","part":"III","section":5,"pages":"31-34","lines":"933-1091"},
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "mandatory",
+  "catalogClass": "M",
+  "handling": "llm+statute_table",
+  "applicability": {"when":{"all":[]}},
+  "rules": [
+    {"ruleId":"R-S05-001","sectionId":"S05","level":"must","element":"retention per basis","statement":"State the retention period agreed with the data subject, the period needed for the contract, or the period set by law.","legalRefs":["PIPA:30(1)2"],"check":{"kind":"deterministic","expr":"every(section.S05.rows, r => r.period && r.basis in ['consent','contract','statute'])"},"sourceSpan":"L935-941","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S05-002","sectionId":"S05","level":"must","element":"consistent with consent notice","statement":"For consent-based processing, the period matches the one notified at consent.","legalRefs":[],"check":{"kind":"llm","expr":"compare(section.S05, consentNotice.retention)"},"sourceSpan":"L943-944","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S05-003","sectionId":"S05","level":"must","element":"statutory basis and period","statement":"Where another law sets a retention period, state the statute (name and article) and the period.","legalRefs":[],"check":{"kind":"deterministic","expr":"every(rows.where(basis=='statute'), r => r.citationId && r.period)"},"sourceSpan":"L946-947","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S05-004","sectionId":"S05","level":"should","element":"items kept under statute","statement":"List the items kept under each statutory retention.","legalRefs":[],"check":{"kind":"deterministic","expr":"every(rows.where(basis=='statute'), r => r.items)"},"sourceSpan":"L946-947, L981","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S05-005","sectionId":"S05","level":"must","element":"concrete period per task","statement":"Give a concrete period for each task listed in S02; avoid abstract periods such as \"목적 달성 시\". If a period cannot be fixed, state the criteria that determine it.","legalRefs":[],"check":{"kind":"deterministic","expr":"joinCover(S02.tasks, S05.rows) && !match(S05.periods, lex.vagueRetention)"},"sourceSpan":"L949-954","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S05-006","sectionId":"S05","level":"should","element":"extension exceptions","statement":"State exceptions that extend retention (e.g. ongoing investigation, unsettled claims) with their end point.","legalRefs":[],"check":{"kind":"llm"},"sourceSpan":"L963-966","verifiedAt":"2026-09-29"},
+    {"ruleId":"R-S05-007","sectionId":"S05","level":"must","element":"HR statutory retention from verified table","statement":"For internal HR systems, statutory retention rows cite only entries from statutes/retention-periods.json (statute, article, period, start point). A record type or period outside that table is kept as the operator's answer and flagged needs_manual_review; the drafter never invents a period.","legalRefs":[],"check":{"kind":"deterministic","expr":"every(rows.where(basis=='statute' && module=='internal_hr'), r => r.citationId in retentionTable || r.flag=='needs_manual_review')"},"sourceSpan":"n/a (statute table; HR periods are not in the 2026.4 guideline)","verifiedAt":"2026-09-30","beyondGuideline":true}
+  ],
+  "statuteHints": [
+    {"citationId":"ECA-DEC:6(1)2","record":"계약 또는 청약철회 등에 관한 기록","period":"5년","appliesIf":"b2c_commerce","verifiedBy":"pipc-guideline-2026-04","at":"p31 L969","lawGoKr":false},
+    {"citationId":"ECA-DEC:6(1)3","record":"대금결제 및 재화 등의 공급에 관한 기록","period":"5년","appliesIf":"b2c_commerce","verifiedBy":"pipc-guideline-2026-04","at":"p32 L973","lawGoKr":false},
+    {"citationId":"ECA-DEC:6(1)4","record":"소비자의 불만 또는 분쟁처리에 관한 기록","period":"3년","appliesIf":"b2c_commerce","verifiedBy":"pipc-guideline-2026-04","at":"p32 L976","lawGoKr":false},
+    {"citationId":"ECA-DEC:6(1)1","record":"표시·광고에 관한 기록","period":"6개월","appliesIf":"b2c_commerce","verifiedBy":"pipc-guideline-2026-04","at":"p32 L979","lawGoKr":false},
+    {"citationId":"CPPA:15-2(2)","record":"통신사실확인자료(로그기록, 접속지 추적자료)","period":"3개월","appliesIf":"online service","verifiedBy":"pipc-guideline-2026-04","at":"p32 L994-995","lawGoKr":false},
+    {"citationId":"LSA:42","retentionId":"KR-RET-LSA-01","record":"근로자 명부","period":"3년","appliesIf":"internal_hr"},
+    {"citationId":"LSA:42+DEC:22(1)1","retentionId":"KR-RET-LSA-02","record":"근로계약서","period":"3년","appliesIf":"internal_hr"},
+    {"citationId":"LSA:42+DEC:22(1)2","retentionId":"KR-RET-LSA-03","record":"임금대장","period":"3년","appliesIf":"internal_hr"},
+    {"citationId":"LSA:42+DEC:22(1)3","retentionId":"KR-RET-LSA-04","record":"임금의 결정·지급방법과 임금계산의 기초에 관한 서류","period":"3년","appliesIf":"internal_hr"},
+    {"citationId":"LSA:42+DEC:22(1)4","retentionId":"KR-RET-LSA-05","record":"고용·해고·퇴직에 관한 서류","period":"3년","appliesIf":"internal_hr"},
+    {"citationId":"LSA:42+DEC:22(1)5","retentionId":"KR-RET-LSA-06","record":"승급·감급에 관한 서류","period":"3년","appliesIf":"internal_hr"},
+    {"citationId":"LSA:42+DEC:22(1)6","retentionId":"KR-RET-LSA-07","record":"휴가에 관한 서류","period":"3년","appliesIf":"internal_hr"},
+    {"citationId":"LSA:42+DEC:22(1)8","retentionId":"KR-RET-LSA-08","record":"근로시간 등에 관한 서면 합의 서류(법 제51조, 제52조, 제53조, 제55조, 제57조, 제58조, 제59조, 제62조 등)","period":"3년","appliesIf":"internal_hr"},
+    {"citationId":"LSA:42+DEC:22(1)9","retentionId":"KR-RET-LSA-09","record":"연소자의 증명에 관한 서류","period":"3년","appliesIf":"internal_hr"},
+    {"citationId":"NTBA:85-3(2)","retentionId":"KR-RET-NTBA-01","record":"세법에 따른 장부 및 증거서류(예: 급여 지급·원천징수 관련 장부와 증빙)","period":"5년(역외거래는 7년)","appliesIf":"internal_hr | b2c_commerce"},
+    {"citationId":"OSHA:164(1)7+RULE:241(2)","retentionId":"KR-RET-OSHA-01","record":"건강진단 결과표 및 근로자가 제출한 건강진단 결과 증명서류(전산입력 자료 포함)","period":"5년(고용노동부장관이 고시하는 물질을 취급하는 근로자는 30년)","appliesIf":"internal_hr"},
+    {"citationId":"OSHA:164(1)4","retentionId":"KR-RET-OSHA-02","record":"산업재해의 발생 원인 등 기록(법 제57조제2항)","period":"3년","appliesIf":"internal_hr"},
+    {"citationId":"OSHA:164(1)1","retentionId":"KR-RET-OSHA-03","record":"안전보건관리책임자·안전관리자·보건관리자·안전보건관리담당자·산업보건의 선임에 관한 서류","period":"3년","appliesIf":"internal_hr"},
+    {"citationId":"HIRE:11(3)+DEC:3-4","retentionId":"KR-RET-HIRE-01","record":"채용서류(불합격 등 채용이 확정되지 않은 구직자의 서류)","period":"반환 청구기간 동안 보관(채용 여부 확정일 이후 14일부터 180일까지의 범위에서 회사가 정한 기간), 기간이 지나거나 반환하지 않은 서류는 개인정보 보호법에 따라 파기","appliesIf":"internal_hr"},
+    {"citationId":"SAFE:5(3)","retentionId":"KR-RET-SAFE-01","record":"개인정보처리시스템 접근 권한 부여·변경·말소 내역","period":"최소 3년","appliesIf":"all"},
+    {"citationId":"SAFE:8(1)","retentionId":"KR-RET-SAFE-02","record":"개인정보처리시스템 접속기록(취급자 접속기록, 정보주체 제외)","period":"1년 이상(5만 명 이상 처리 시스템, 고유식별정보·민감정보 처리 시스템, 기간통신사업자는 2년 이상)","appliesIf":"all"}
+  ],
+  "goodPatterns": ["Lead-in: data is kept within the statutory period, the contract period, or the period consented to.","Numbered per task: e.g. membership until withdrawal, with extension until an investigation ends or debts are settled; goods/services until delivery and payment settlement, plus statutory e-commerce records.","Statutory records table: record type | detailed items | period | statute article."],
+  "commonDefects": [
+    {"id":"D-S05-01","severity":"major","defect":"Abstract period such as \"목적 달성 시까지\" with no concrete end.","seedCandidate":true},
+    {"id":"D-S05-02","severity":"major","defect":"Period differs from the consent screen (e.g. screen says deletion on withdrawal, policy says 3 months).","seedCandidate":true},
+    {"id":"D-S05-03","severity":"blocker","defect":"Statutory retention claimed without naming the statute or with a wrong article.","seedCandidate":true},
+    {"id":"D-S05-04","severity":"major","defect":"Some S02 tasks have no retention entry."}
+  ],
+  "extractionHints": ["\"탈퇴 시까지\", \"~년 보관\", \"~일 후 파기\"","statute names (전자상거래법, 통신비밀보호법 …) and record types","\"분쟁\", \"미정산\", \"수사\" exceptions","consent-screen retention wording"],
+  "interviewNodes": ["Q-S02-02","Q-S05-01","Q-S05-02","Q-S05-03","Q-S05-20","Q-S05-21","Q-S05-30","Q-S05-31","Q-S05-40","Q-S02-60","Q-A1-51","Q-S05-41"],
+  "legalRefs": {
+    "PIPA:30(1)2": {"law":"개인정보 보호법","article":"30","paragraph":"1","item":"2","verifiedBy":"pipc-guideline-2026-04","at":"p31 L935","lawGoKr":false},
+    "ECA-DEC:6(1)1": {"law":"전자상거래 등에서의 소비자보호에 관한 법률 시행령","article":"6","paragraph":"1","item":"1","verifiedBy":"pipc-guideline-2026-04","at":"p32 L979","lawGoKr":false},
+    "ECA-DEC:6(1)2": {"law":"전자상거래 등에서의 소비자보호에 관한 법률 시행령","article":"6","paragraph":"1","item":"2","verifiedBy":"pipc-guideline-2026-04","at":"p31 L969","lawGoKr":false},
+    "ECA-DEC:6(1)3": {"law":"전자상거래 등에서의 소비자보호에 관한 법률 시행령","article":"6","paragraph":"1","item":"3","verifiedBy":"pipc-guideline-2026-04","at":"p32 L973","lawGoKr":false},
+    "ECA-DEC:6(1)4": {"law":"전자상거래 등에서의 소비자보호에 관한 법률 시행령","article":"6","paragraph":"1","item":"4","verifiedBy":"pipc-guideline-2026-04","at":"p32 L976","lawGoKr":false},
+    "CPPA:15-2(2)": {"law":"통신비밀보호법","article":"15-2","paragraph":"2","verifiedBy":"pipc-guideline-2026-04","at":"p32 L995","lawGoKr":false}
+  },
+  "needsVerification": [
+    {"id":"NV-S05-01","note":"statuteHints come from guideline examples only. The spike lists an e-commerce Act/decree change effective 2027-01-21 (content not read): re-check ECA decree Art. 6 periods before that date."},
+    {"id":"NV-S05-02","note":"HR/labor and tax retention periods are not in the guideline; internal_hr answers must carry user-supplied statute citations, flagged for legal review.","status":"resolved","resolvedAt":"2026-09-30","resolution":"Partly resolved: verified HR/tax/OSHA/hiring periods now in statutes/retention-periods.json (R-S05-007). Records outside that table still need user-supplied citations and legal review."}
+  ],
+  "statuteHintsNote": "Hints with retentionId are law.go.kr-verified entries; statute, article, start point, caveats and sources are in ../../statutes/retention-periods.json (Row 4c, 2026-09-30). The others come from guideline examples."
+}

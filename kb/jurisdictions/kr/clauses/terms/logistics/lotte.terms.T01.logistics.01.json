@@ -1,0 +1,54 @@
+{
+  "id": "lotte.terms.T01.logistics.01",
+  "docType": "terms",
+  "sectionId": "T01",
+  "domainGroup": "logistics",
+  "sourceCaptureIds": [
+    "lotte-global-logis-terms-parcel-service"
+  ],
+  "sourceSites": [
+    "www.lotteglogis.com"
+  ],
+  "policyVersionOrDate": "시행일 : 2020년 6월 5일",
+  "layout": "legacy_article",
+  "text": "제1조 (목적)\n이 약관은 {{operatorName}}(이하 \"사업자\")가 제공하는 택배 서비스에 관하여 사업자와 고객 사이의 권리, 의무 및 책임 사항을 정함을 목적으로 합니다.",
+  "variables": [
+    {
+      "name": "operatorName",
+      "slotId": "profile.orgNameRef",
+      "description": "Operator legal name (defined once as 회사)"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "terms.applicable",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-T01-001"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T01-004",
+      "level": "should",
+      "note": "거래 채널 범위 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "표준 택배약관 계통이라 KFTC 전자상거래 표준약관 프레임과 다르지만 T01 목적 조항에는 대응한다.",
+  "frequency": 1,
+  "frequencyBase": 2,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-global-logis-terms-parcel-service",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/service",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일 : 2020년 6월 5일",
+      "contentHash": "b1e9b3279664b85623f0ced70947b59042fec99889200a4f94cd9666f7981024"
+    }
+  ]
+}

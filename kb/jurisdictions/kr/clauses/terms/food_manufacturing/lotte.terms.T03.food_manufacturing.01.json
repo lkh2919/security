@@ -1,0 +1,81 @@
+{
+  "id": "lotte.terms.T03.food_manufacturing.01",
+  "docType": "terms",
+  "sectionId": "T03",
+  "domainGroup": "food_manufacturing",
+  "sourceCaptureIds": [
+    "lotte-wellfood-terms",
+    "lotte-chilsung-terms"
+  ],
+  "sourceSites": [
+    "www.lottewellfood.com",
+    "company.lottechilsung.co.kr"
+  ],
+  "policyVersionOrDate": "2015년 4월 20일부터 시행 / 2015년 04월 20일부터 시행",
+  "layout": "legacy_article",
+  "text": "제3조 (약관의 명시와 개정)\n1. 회사는 이 약관의 내용을 이용자가 쉽게 알 수 있도록 서비스 초기 화면 또는 연결 화면에 게시합니다.\n2. 회사는 관련 법령을 위배하지 않는 범위에서 이 약관을 개정할 수 있으며, 개정하는 경우 적용일자와 개정 사유를 밝혀 적용일자 {{noticeDaysBefore}}일 전부터 공지합니다.\n3. 이용자가 개정약관에 동의하지 않는 경우 이용 계약을 해지할 수 있습니다.",
+  "variables": [
+    {
+      "name": "noticeDaysBefore",
+      "slotId": "terms.noticePeriodDays",
+      "description": "Days of advance notice before a change takes effect"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "terms.applicable",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-T03-001",
+    "R-T03-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T03-002",
+      "level": "must",
+      "note": "중요 내용 확인 절차 없음."
+    },
+    {
+      "ruleId": "R-T03-005",
+      "level": "must",
+      "note": "묵시 동의 사전 고지 문구 불명확."
+    },
+    {
+      "ruleId": "R-T03-006",
+      "level": "should",
+      "note": "불소급 문장 없음."
+    },
+    {
+      "ruleId": "R-T03-007",
+      "level": "may",
+      "note": "약관 외 준칙 문장 부분적."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 2,
+  "frequencyBase": 2,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-wellfood-terms",
+      "sourceUrl": "https://www.lottewellfood.com/policy/use",
+      "affiliate": "Lotte Wellfood",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2015년 4월 20일부터 시행",
+      "contentHash": "27c92d094aaa5850a438e3164fbdad5b21326d87f3fff9ac3ad9e1a05889ecbf"
+    },
+    {
+      "captureId": "lotte-chilsung-terms",
+      "sourceUrl": "https://company.lottechilsung.co.kr/kor/util/terms/contentsid/567/index.do",
+      "affiliate": "Lotte Chilsung Beverage",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2015년 04월 20일부터 시행",
+      "contentHash": "0042aa51bf8696d3c2ea0c3ddc8949134723a7521527e2810c3adafab69f4408"
+    }
+  ]
+}

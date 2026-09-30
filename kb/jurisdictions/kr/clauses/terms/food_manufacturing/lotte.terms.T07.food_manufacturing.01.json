@@ -1,0 +1,68 @@
+{
+  "id": "lotte.terms.T07.food_manufacturing.01",
+  "docType": "terms",
+  "sectionId": "T07",
+  "domainGroup": "food_manufacturing",
+  "sourceCaptureIds": [
+    "lotte-wellfood-terms",
+    "lotte-chilsung-terms"
+  ],
+  "sourceSites": [
+    "www.lottewellfood.com",
+    "company.lottechilsung.co.kr"
+  ],
+  "policyVersionOrDate": "2015년 4월 20일부터 시행 / 2015년 04월 20일부터 시행",
+  "layout": "legacy_article",
+  "text": "제N조 (회원탈퇴 및 자격상실 등)\n1. 회원은 언제든지 회사에 탈퇴를 요청할 수 있으며 회사는 즉시 처리합니다.\n2. 회원이 허위 정보 등록, 타인의 정보 도용, 법령 위반 행위 등에 해당하는 경우 회사는 회원 자격을 제한하거나 상실시킬 수 있습니다.\n3. 회사가 회원 자격을 상실시키는 경우 회원에게 소명 기회를 부여합니다.",
+  "variables": [],
+  "conditions": [
+    {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        },
+        {
+          "slot": "gate.membership",
+          "op": "truthy"
+        }
+      ]
+    }
+  ],
+  "coversElements": [
+    "R-T07-001",
+    "R-T07-002"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T07-003",
+      "level": "must",
+      "note": "소명 기간과 절차 세부 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 2,
+  "frequencyBase": 2,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-wellfood-terms",
+      "sourceUrl": "https://www.lottewellfood.com/policy/use",
+      "affiliate": "Lotte Wellfood",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2015년 4월 20일부터 시행",
+      "contentHash": "27c92d094aaa5850a438e3164fbdad5b21326d87f3fff9ac3ad9e1a05889ecbf"
+    },
+    {
+      "captureId": "lotte-chilsung-terms",
+      "sourceUrl": "https://company.lottechilsung.co.kr/kor/util/terms/contentsid/567/index.do",
+      "affiliate": "Lotte Chilsung Beverage",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2015년 04월 20일부터 시행",
+      "contentHash": "0042aa51bf8696d3c2ea0c3ddc8949134723a7521527e2810c3adafab69f4408"
+    }
+  ]
+}

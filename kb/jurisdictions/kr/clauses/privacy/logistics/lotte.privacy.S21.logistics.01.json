@@ -1,0 +1,66 @@
+{
+  "id": "lotte.privacy.S21.logistics.01",
+  "docType": "privacy",
+  "sectionId": "S21",
+  "domainGroup": "logistics",
+  "sourceCaptureIds": [
+    "lotte-global-logis-privacy-cctv"
+  ],
+  "sourceSites": [
+    "www.lotteglogis.com"
+  ],
+  "policyVersionOrDate": "v1.2",
+  "layout": "guideline_numbered",
+  "text": "회사는 「개인정보 보호법」 제25조 제1항에 따라 다음과 같은 목적으로 고정형 영상정보처리기기를 설치·운영합니다.\n- 설치 목적: 물류센터·사업장의 화재 및 범죄 예방, 시설물 및 화물 안전 관리\n- 설치 현황: {{cctvTable}}\n- 관리책임자 및 접근 권한자: {{cctvManager}}\n- 촬영 시간, 보관 기간, 보관 장소 및 처리 방법: {{cctvRetention}}\n- 확인 방법 및 정보주체 권리: {{requestDept}}에 요청서를 제출하여 열람 등을 요구할 수 있습니다.\n- 안전성 확보 조치: 접근 통제, 접속 기록 보관",
+  "variables": [
+    {
+      "name": "cctvTable",
+      "slotId": "privacy.S21_cctvFixed",
+      "description": "Fixed video devices: facility, count, location and coverage"
+    },
+    {
+      "name": "cctvManager",
+      "slotId": "privacy.S21_cctvFixed",
+      "description": "Video management officer and authorized access holders (role and department only)"
+    },
+    {
+      "name": "cctvRetention",
+      "slotId": "privacy.S21_cctvFixed",
+      "description": "Recording hours, retention days, storage place and method"
+    },
+    {
+      "name": "requestDept",
+      "slotId": "privacy.S16_requestDept",
+      "description": "Department receiving access requests (role and functional e-mail only)"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.cctvFixed",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S21-001",
+    "R-S21-002"
+  ],
+  "gapsVsGuideline": [],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-13"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotte-global-logis-privacy-cctv",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/video",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "v1.2 ; v1.1 ; v1.0",
+      "contentHash": "914723d70cc51a4eb8f9f97115d9f08325340f3186a553763e7a64f1cef8b96d"
+    }
+  ]
+}

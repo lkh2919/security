@@ -1,0 +1,60 @@
+{
+  "id": "lotte.terms.T02.retail_ecommerce.01",
+  "docType": "terms",
+  "sectionId": "T02",
+  "domainGroup": "retail_ecommerce",
+  "sourceCaptureIds": [
+    "lotte-himart-terms"
+  ],
+  "sourceSites": [
+    "company.himart.co.kr"
+  ],
+  "policyVersionOrDate": "2025.08.29부터 적용",
+  "layout": "legacy_article",
+  "text": "제2조 (정의)\n1. \"몰\"이란 회사가 재화 또는 용역을 이용자에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 재화 등을 거래할 수 있도록 설정한 가상의 영업장을 말하며, 아울러 사이버몰을 운영하는 사업자의 의미로도 사용합니다.\n2. \"이용자\"란 몰에 접속하여 이 약관에 따라 몰이 제공하는 서비스를 받는 회원 및 비회원을 말합니다.\n3. \"회원\"이란 몰에 회원 등록을 한 자로서 계속적으로 몰이 제공하는 서비스를 이용할 수 있는 자를 말합니다.\n4. \"비회원\"이란 회원에 가입하지 않고 몰이 제공하는 서비스를 이용하는 자를 말합니다.\n{%if terms.paid%}\n5. \"포인트\"란 회사가 정한 기준에 따라 적립되고 사용되는 혜택으로서 {{pointPolicy}}를 말합니다.\n{%endif%}\n{{termsDefinitions}}",
+  "variables": [
+    {
+      "name": "pointPolicy",
+      "description": "Point/mileage rules (no matching interview slot yet)"
+    },
+    {
+      "name": "termsDefinitions",
+      "slotId": "terms.definitions",
+      "description": "Defined terms of the terms document"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "terms.applicable",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-T02-001",
+    "R-T02-002",
+    "R-T02-003"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "포인트 정의는 별도 슬롯이 없어 pointPolicy 변수로 대체."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 3,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-himart-terms",
+      "sourceUrl": "https://company.himart.co.kr/policy/terms",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2025.08.29부터 적용",
+      "contentHash": "59e7cc599d744e3fda2d9afad802786922cbd67b51afa876bf2f615a625db01f"
+    }
+  ]
+}

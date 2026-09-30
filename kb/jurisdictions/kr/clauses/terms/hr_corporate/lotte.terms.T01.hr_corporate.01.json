@@ -1,0 +1,53 @@
+{
+  "id": "lotte.terms.T01.hr_corporate.01",
+  "docType": "terms",
+  "sectionId": "T01",
+  "domainGroup": "hr_corporate",
+  "sourceCaptureIds": [
+    "lotte-recruit-terms"
+  ],
+  "sourceSites": [
+    "recruit.lotte.co.kr"
+  ],
+  "policyVersionOrDate": null,
+  "layout": "legacy_article",
+  "text": "제1조 (목적)\n이 약관은 {{operatorName}}(이하 \"회사\")가 운영하는 {{serviceName}}에서 회원에게 제공하는 채용 관련 서비스의 이용과 관련하여 회사와 회원 사이의 권리, 의무 및 책임 사항과 서비스 이용 조건 및 절차를 규정함을 목적으로 합니다.",
+  "variables": [
+    {
+      "name": "operatorName",
+      "slotId": "profile.orgNameRef",
+      "description": "Operator legal name (defined once as 회사)"
+    },
+    {
+      "name": "serviceName",
+      "slotId": "profile.serviceNames",
+      "description": "Service or site name(s) covered by the document"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "terms.applicable",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-T01-001"
+  ],
+  "gapsVsGuideline": [],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-recruit-terms",
+      "sourceUrl": "https://recruit.lotte.co.kr/about/termOfPolicy",
+      "affiliate": "Lotte Group recruiting site",
+      "businessGroup": "hr_corporate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": null,
+      "contentHash": "830691c6eefc2b3070bf23d81f762b1389acf724a5cc0012f21ac82ee84aae37"
+    }
+  ]
+}

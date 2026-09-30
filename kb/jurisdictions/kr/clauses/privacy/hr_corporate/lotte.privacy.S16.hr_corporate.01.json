@@ -1,0 +1,61 @@
+{
+  "id": "lotte.privacy.S16.hr_corporate.01",
+  "docType": "privacy",
+  "sectionId": "S16",
+  "domainGroup": "hr_corporate",
+  "sourceCaptureIds": [
+    "lotte-recruit-privacy"
+  ],
+  "sourceSites": [
+    "recruit.lotte.co.kr"
+  ],
+  "policyVersionOrDate": "2026. 09. 08부터 적용",
+  "layout": "legacy_article",
+  "text": "제N조 개인정보 열람 청구\n정보주체는 「개인정보 보호법」 제35조에 따른 개인정보의 열람을 {{requestDept}}에 요구할 수 있으며, 회사는 정보주체의 개인정보 열람 청구가 신속하게 처리되도록 노력합니다.\n- 접수 부서: {{requestDept}}\n- 접수 방법: {{rightsChannels}}\n- 처리 기한: 요구를 받은 날부터 10일 이내(열람을 제한하거나 거절하는 경우 그 사유를 통지)",
+  "variables": [
+    {
+      "name": "requestDept",
+      "slotId": "privacy.S16_requestDept",
+      "description": "Department receiving access requests (role and functional e-mail only)"
+    },
+    {
+      "name": "rightsChannels",
+      "slotId": "privacy.S16_rightsChannels",
+      "description": "Channels to exercise rights (written, phone, e-mail, fax, online)"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S16-001",
+    "R-S16-003",
+    "R-S16-004"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S16-005",
+      "level": "must",
+      "note": "전송요구권 없음."
+    },
+    {
+      "ruleId": "R-S16-006",
+      "level": "should",
+      "note": "열람 제한 사유 안내 미흡."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-recruit-privacy",
+      "sourceUrl": "https://recruit.lotte.co.kr/about/personalPolicy27",
+      "affiliate": "Lotte Group recruiting site",
+      "businessGroup": "hr_corporate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026. 09. 08부터 적용 ; ver 9.1 ; ver 9.0 ; ver 8.9",
+      "contentHash": "bea4c6ae916cd20a0fe393a2c59f45a88fcf71f0485597054be67d5bc3354c48"
+    }
+  ]
+}

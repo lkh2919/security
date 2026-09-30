@@ -1,0 +1,67 @@
+{
+  "version": "1.0.0",
+  "run": "Row 4c, privacy-domain-expert, 2026-09-30. law.go.kr Open API (DRF lawService/lawSearch, target law|eflaw|admrul). Source URLs have the OC parameter removed; raw texts are saved under kb/_sources/statutes/ (git-ignored) with _fetchlog.json.",
+  "pendingVerificationChanges": "None. No verdict in pending-verification.json changed in this run; new facts are recorded here and in retention-periods.json.",
+  "claims": [
+    {
+      "id": "V4C-01",
+      "claim": "Act 21445 (promulgated 2026-03-10, effective 2026-09-11) does not change the mandatory contents of a privacy policy.",
+      "verdict": "VERIFIED",
+      "detail": "PIPA Art. 30 in the current text (MST 283839) has article-change flag N and the same items 1-8 as the prior text (MST 270351); item 6 still reads: officer's name, or the name and contact of the department handling privacy work and complaints. Decree Art. 31 (policy items and publication) is unchanged between Decree 36121 (MST 283503) and Decree 36671 (MST 289537).",
+      "sources": [
+        {"url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=283839", "fetched": "2026-09-30"},
+        {"url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=270351", "fetched": "2026-09-30"},
+        {"url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=289537", "fetched": "2026-09-30"},
+        {"url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=283503", "fetched": "2026-09-30"}
+      ],
+      "usedIn": ["S18.lawUpdate2026"]
+    },
+    {
+      "id": "V4C-02",
+      "claim": "Act 21445 content relevant to the officer section: new Art. 30-3; Art. 31(3) new; Art. 31(4) duties expanded; Decree 32(3)-(4).",
+      "verdict": "VERIFIED",
+      "detail": "Art. 30-3 (new, 사업주 또는 대표자의 책임): the owner or representative is the final responsible person and must provide staff and budget. Art. 31(1): officer oversees processing and protection; proviso lets processors meeting decree criteria skip designation; 31(2): then the owner or representative is the officer (unchanged). Art. 31(3) (신설 2026.3.10): processors meeting decree criteria need a board resolution (corporations) to designate, change or remove the officer and must report it to PIPC. Art. 31(4): nine duties, adding staff and budget management and reporting to the owner/representative and board. Decree 32(1): small businesses (소상공인) are exempt from designation. Decree 32(3): revenue over KRW 180B plus 50k+ sensitive or unique-ID subjects or 1M+ subjects; universities with 20k+ students; tertiary hospitals; public system operators. Decree 32(4): report within 6 months, extendable by up to 1 year. The amendment reason (제개정이유) also lists mandatory certification (32-2(1) proviso, 2027-07-01), breach notice extended to forgery/alteration/damage and possible leaks (Art. 34), and the 10% surcharge (64-2(2)).",
+      "sources": [
+        {"url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=283839", "fetched": "2026-09-30"},
+        {"url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=289537", "fetched": "2026-09-30"}
+      ],
+      "usedIn": ["R-S18-005", "R-S18-006", "R-S18-007", "Q-S18-03"]
+    },
+    {
+      "id": "V4C-03",
+      "claim": "Act 21910 PIPA 28-12(5): purpose and type of AI-development reuse must be in the privacy policy; effective 2027-03-09.",
+      "verdict": "VERIFIED",
+      "detail": "Text: a processor that uses personal data after PIPC deliberation and resolution under 28-12(1)-(2) must include the purpose and type of that use in the Art. 30 privacy policy ([본조신설 2026.9.8]). eflaw list: MST 289415, 공포 2026-09-08, 법률 제21910호, 시행 2027-03-09 (시행예정).",
+      "sources": [
+        {"url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=289415", "fetched": "2026-09-30"},
+        {"url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&LID=011357&nw=1%2C2%2C3&display=100&sort=efdes", "fetched": "2026-09-30"}
+      ],
+      "usedIn": ["R-A1-011", "Q-A1-57"]
+    },
+    {
+      "id": "V4C-04",
+      "claim": "Safety-measures notice number: guideline cites 제2025-9호; the spike found 제2026-9호.",
+      "verdict": "VERIFIED (both exist; 제2026-9호 is current)",
+      "detail": "admrul history for '개인정보의 안전성 확보조치 기준': 제2025-9호 일부개정, 발령·시행 2025-10-31 (부칙: 4(1)12-13, 5(1), 5(6), 6(2), 8(1)-(2) one year after issue); 제2026-9호 일부개정, 발령·시행 2026-07-01, 현행 (부칙: 15조5호 and 18조 from 2027-01-01), admrul ID 2100000281400. The 2026.4 guideline cited the notice current at its issue; it is now superseded. The measure-level diff between the two notices was not done.",
+      "sources": [
+        {"url": "https://www.law.go.kr/DRF/lawService.do?target=admrul&type=XML&ID=2100000281400", "fetched": "2026-09-30"},
+        {"url": "https://www.law.go.kr/DRF/lawSearch.do?target=admrul&type=XML&query=%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%EC%9D%98%20%EC%95%88%EC%A0%84%EC%84%B1%20%ED%99%95%EB%B3%B4%EC%A1%B0%EC%B9%98%20%EA%B8%B0%EC%A4%80&nw=2&display=50", "fetched": "2026-09-30"}
+      ],
+      "usedIn": ["S06.references", "S11.references", "NV-S06-01", "NV-S11-01"]
+    },
+    {
+      "id": "V4C-05",
+      "claim": "HR and related statutory retention periods.",
+      "verdict": "VERIFIED (16 entries)",
+      "detail": "See retention-periods.json: 근로기준법 42 + 시행령 22 (3 years, start points per 22(2)); 국세기본법 85-3(2) (5 years, offshore 7); 산업안전보건법 164(1) (3 years) and 시행규칙 241(1)-(2) (5 or 30 years); 채용절차법 11(3)-(4), 시행령 3-4 (14 to 180 days, then destroy; scope Art. 3: 30+ workers); 안전성 확보조치 기준 5(3), 8(1).",
+      "sources": "per entry in retention-periods.json",
+      "usedIn": ["S05.statuteHints", "R-S05-007", "Q-S05-41", "intake IS-03"]
+    }
+  ],
+  "unverified": [
+    "보험료징수법 record-keeping period (decree not read).",
+    "소득세법 payroll-specific retention (not read; general 국세기본법 rule used).",
+    "Whether the consolidated 안전성 확보조치 기준 text shows 8(1) wording in force before 2026-10-31.",
+    "National Assembly passage date of Act 21445 (carried over from pending-verification 2a)."
+  ]
+}

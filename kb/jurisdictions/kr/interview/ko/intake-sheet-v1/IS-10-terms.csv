@@ -1,0 +1,15 @@
+﻿항목,답,고를 수 있는 값,예시,필드 ID
+유료 상품이나 서비스를 파나요?,,예 / 아니오 / 모름,예,IS-10.paid
+파는 상품 종류(모두 고르기),,실물 상품 / 서비스(용역) / 디지털 콘텐츠 / 정기 구독 / 티켓·예약,"실물 상품, 디지털 콘텐츠",IS-10.goodsTypes
+주된 고객,,개인 소비자 / 사업자 / 둘 다,개인 소비자,IS-10.customerType
+비회원 구매가 되나요?,,예 / 아니오 / 모름,예,IS-10.nonMemberPurchase
+미성년자(만 19세 미만)도 유료 결제를 할 수 있나요?,,예 / 아니오 / 모름,아니오,IS-10.minorPurchase
+포인트·마일리지·충전금이 있나요?,,예 / 아니오 / 모름,예,IS-10.pointsMileage
+다른 판매자 상품을 중개하나요(오픈마켓)?,,예 / 아니오 / 모름,아니오,IS-10.marketplaceIntermediary
+구매자 보호 수단,,에스크로(결제대금예치) / 소비자피해보상보험 / 선불 결제 아님,에스크로,IS-10.buyerProtection
+공정위 표준약관을 쓰거나 표준약관 표지를 붙이나요?,,예 / 아니오 / 모름,아니오,IS-10.usesStdTerms
+약관 변경 사전 공지(일),,,7,IS-10.noticePeriodDays
+불리한 약관 변경 사전 공지(일),,,30,IS-10.unfavourableChangeNoticeDays
+"사업자 정보(상호, 대표자 직함, 주소, 대표 전화, 공용 이메일, 사업자등록번호, 통신판매업 신고번호)",,,○○ 주식회사 / 대표이사 / 서울시 … / 1500-0000 / help@example.com / 000-00-00000 / 제0000-서울○○-0000호,IS-10.businessIdentity
+불만·피해 보상 접수 창구,,,"고객센터 1500-0000, 1:1 문의",IS-10.complaintChannel
+처리방침 게시 주소(URL),,,https://example.com/privacy,IS-10.privacyPolicyUrl

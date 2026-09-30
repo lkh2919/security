@@ -1,0 +1,75 @@
+{
+  "id": "lotte.terms.T15.food_manufacturing.01",
+  "docType": "terms",
+  "sectionId": "T15",
+  "domainGroup": "food_manufacturing",
+  "sourceCaptureIds": [
+    "lotte-wellfood-terms",
+    "lotte-chilsung-terms"
+  ],
+  "sourceSites": [
+    "www.lottewellfood.com",
+    "company.lottechilsung.co.kr"
+  ],
+  "policyVersionOrDate": "2015년 4월 20일부터 시행 / 2015년 04월 20일부터 시행",
+  "layout": "legacy_article",
+  "text": "제N조 (관할법원)\n서비스 이용과 관련하여 회사와 이용자 사이에 분쟁이 발생한 경우 민사소송법상의 관할법원에 소송을 제기합니다. {{disputeVenue}}",
+  "variables": [
+    {
+      "name": "disputeVenue",
+      "slotId": "terms.disputeVenue",
+      "description": "Competent court for disputes"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "terms.applicable",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-T15-003"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-T15-004",
+      "level": "should",
+      "note": "준거법 조항 없음."
+    },
+    {
+      "ruleId": "R-T15-001",
+      "level": "must",
+      "note": "불만 처리 절차 조항 없음."
+    },
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "이용자 주소지 관할을 우선하는 표준 문구가 아님. vetting 시 확인."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 2,
+  "frequencyBase": 2,
+  "houseStyleTags": [],
+  "provenance": [
+    {
+      "captureId": "lotte-wellfood-terms",
+      "sourceUrl": "https://www.lottewellfood.com/policy/use",
+      "affiliate": "Lotte Wellfood",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2015년 4월 20일부터 시행",
+      "contentHash": "27c92d094aaa5850a438e3164fbdad5b21326d87f3fff9ac3ad9e1a05889ecbf"
+    },
+    {
+      "captureId": "lotte-chilsung-terms",
+      "sourceUrl": "https://company.lottechilsung.co.kr/kor/util/terms/contentsid/567/index.do",
+      "affiliate": "Lotte Chilsung Beverage",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2015년 04월 20일부터 시행",
+      "contentHash": "0042aa51bf8696d3c2ea0c3ddc8949134723a7521527e2810c3adafab69f4408"
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "id": "lotte.privacy.S10.cross_group.01",
+  "docType": "privacy",
+  "sectionId": "S10",
+  "domainGroup": "cross_group",
+  "sourceCaptureIds": [
+    "lotteinnovate-privacy",
+    "lotte-mart-privacy",
+    "lotte-himart-mall-privacy",
+    "lotte-rental-privacy",
+    "lotte-global-logis-privacy",
+    "lotte-wellfood-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteinnovate.com",
+    "company.lottemart.com",
+    "www.e-himart.co.kr",
+    "www.lotterentacar.net",
+    "www.lotteglogis.com",
+    "www.lottewellfood.com"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 6월 25일 / 시행일자 : 2026-07-09 / 2026.07.10부터 적용 / 개정일자 : 2020/09/25",
+  "layout": "guideline_numbered",
+  "text": "회사는 다음과 같이 개인정보를 국외로 이전하고 있습니다.\n{%if gate.overseasTransfer%}\n\n가. 이전되는 개인정보 항목: {{overseasTable}}\n나. 개인정보가 이전되는 국가:\n다. 이전 일시 및 이전 방법:\n라. 개인정보를 이전받는 자(법인명, 담당 부서 및 업무용 연락처):\n마. 이전받는 자의 개인정보 이용 목적 및 보유·이용 기간:\n바. 국외 이전의 근거: 「개인정보 보호법」 제28조의8 제1항의 해당 호\n사. 개인정보의 이전을 거부하는 방법, 절차 및 거부의 효과: {{overseasRefusal}}\n{%endif%}\n{%if not gate.overseasTransfer%}\n회사는 개인정보를 국외로 이전하지 않습니다.\n{%endif%}",
+  "variables": [
+    {
+      "name": "overseasTable",
+      "slotId": "privacy.S10_overseas",
+      "description": "Overseas transfers: items, country, timing and method, recipient, purpose and period, legal basis"
+    },
+    {
+      "name": "overseasRefusal",
+      "slotId": "privacy.S10_refusal",
+      "description": "How to refuse overseas transfer and the effect of refusing"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S10-001",
+    "R-S10-003",
+    "R-S10-005"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S10-004",
+      "level": "must",
+      "note": "클라우드 이용 시 모든 이전 국가 표기 요건은 슬롯 값 점검 필요."
+    },
+    {
+      "ruleId": "R-S10-006",
+      "level": "may",
+      "note": "S07/S09와의 통합 표시는 원문에 없음."
+    },
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "이전받는 자의 담당자 개인 이름은 삭제하고 부서·업무용 연락처만 남김."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "Not vetted. Awaiting privacy-domain-expert review against the current rule pack.",
+  "frequency": 6,
+  "frequencyBase": 15,
+  "houseStyleTags": [
+    "H-08"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotteinnovate-privacy",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 6월 25일 ; 시행일자 : 2026년 6월 25일 ; 공고일자 : 2025년 9월 18일 ; 시행일자 : 2025년 9월 18일",
+      "contentHash": "ed631cda902e7824593df708a5399a8fe8e4516efd4252d5cb9ce0f65f4f7b7d"
+    },
+    {
+      "captureId": "lotte-mart-privacy",
+      "sourceUrl": "https://company.lottemart.com/privacy/privacy.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2026-07-09 ; 2026년 7월 9일부터 적용 ; V13.5 ; V13.4",
+      "contentHash": "590a26db8498b8c4c8e6207f1d0ae882474ee75a92941b51e9a6ef52435f4d4d"
+    },
+    {
+      "captureId": "lotte-himart-mall-privacy",
+      "sourceUrl": "https://www.e-himart.co.kr/app/terms/privacy?stonType=PC",
+      "affiliate": "Lotte Himart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "2026.07.10부터 적용 ; VER 9.6 ; VER 9.5 ; VER 9.4",
+      "contentHash": "df3adf5a2e5bbb423c88ecf061c24e22d7647dc3a22eb6a5e468e6ad54c2b3b7"
+    },
+    {
+      "captureId": "lotte-rental-privacy",
+      "sourceUrl": "https://www.lotterentacar.net/kor/footer/footerPolicyNew.do?mnCd=FN0901",
+      "affiliate": "Lotte Rental",
+      "businessGroup": "services_leisure",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "개정일자 : 2020/09/25 ; 시행일자 : 2020/12/03 ; 공고일자 : 2020년 11월 26일 ; 시행일자 : 2020년 12월 3일",
+      "contentHash": "2b508985e7e91f23cd36385ed033257a8a1eaad82396f7d75f2aa981c5ee8ba7"
+    },
+    {
+      "captureId": "lotte-global-logis-privacy",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/privacy",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "v3.9 ; v3.8 ; v3.7 ; v3.6",
+      "contentHash": "410069f0b4dfeea3eac1b789a4a0b07900230a4fbfafecb6ae19f2c3f2fe8114"
+    },
+    {
+      "captureId": "lotte-wellfood-privacy",
+      "sourceUrl": "https://www.lottewellfood.com/policy/privacy",
+      "affiliate": "Lotte Wellfood",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자: 2026년 8월 10일 ; v.2.22 ; v.2.21 ; v.2.20",
+      "contentHash": "072b5887741bb5bb109ac2c6d576162ef430c18da9c328d1f8a3d22cd4d8aa94"
+    }
+  ]
+}

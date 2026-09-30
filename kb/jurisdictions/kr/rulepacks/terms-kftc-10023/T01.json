@@ -1,0 +1,191 @@
+{
+  "id": "T01",
+  "packVersion": "terms-kftc-10023",
+  "title": {
+    "ko": "목적",
+    "en": "Purpose and scope"
+  },
+  "stdTermsRef": {
+    "doc": "kftc-10023-2015-06-26",
+    "articles": "제1조",
+    "raw": "kb/_sources/terms/kftc-10023-2015-06-26.txt"
+  },
+  "attribution": "KFTC, 전자상거래(인터넷사이버몰) 표준약관 제10023호 (2015. 6. 26. 개정) and statutes via law.go.kr (paraphrased)",
+  "classification": "mandatory",
+  "module": "core",
+  "handling": "clause",
+  "applicability": {
+    "when": {
+      "all": [
+        {
+          "slot": "terms.applicable",
+          "op": "truthy"
+        }
+      ]
+    },
+    "notApplicableWhen": {
+      "slot": "terms.applicable",
+      "op": "eq",
+      "value": false
+    }
+  },
+  "slots": [
+    "terms.applicable",
+    "profile.orgNameRef",
+    "profile.serviceNames",
+    "profile.channels"
+  ],
+  "rules": [
+    {
+      "ruleId": "R-T01-001",
+      "sectionId": "T01",
+      "level": "must",
+      "element": "parties and object",
+      "statement": "Name the operator and the service (site/app) and state that the terms govern the rights, duties and responsibilities between the operator and users in using the service.",
+      "legalRefs": [
+        "STD10023:1"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "present(placeholder.orgNameRef) && present(profile.serviceNames) && match(section.T01, /목적/)"
+      },
+      "sourceSpan": "STD10023 제1조",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T01-002",
+      "sectionId": "T01",
+      "level": "must",
+      "element": "plain Korean, emphasis",
+      "statement": "Write the terms in Korean with standardized, systematic wording and make important content (withdrawal, refund, liability, fees) visually distinct (bold, colour, size).",
+      "legalRefs": [
+        "ARTC:3(1)"
+      ],
+      "check": {
+        "kind": "llm",
+        "expr": "styleCheck(doc.importantClauses, emphasis)"
+      },
+      "sourceSpan": "ARTC 제3조제1항",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T01-003",
+      "sectionId": "T01",
+      "level": "should",
+      "element": "standard-terms deviations",
+      "statement": "If the terms claim to follow a KFTC standard terms form, list the main points that differ from it in an easy-to-see way; never show the standard-terms mark when content deviates (deviating less-favourable content is void).",
+      "legalRefs": [
+        "ARTC:19-3(6)",
+        "ARTC:19-3(8)",
+        "ARTC:19-3(9)"
+      ],
+      "check": {
+        "kind": "deterministic",
+        "expr": "!match(doc, lex.U-ARTC19-3-01) || exists(section.T01.deviationList)"
+      },
+      "sourceSpan": "ARTC 제19조의3제6항·제8항·제9항",
+      "verifiedAt": "2026-09-29"
+    },
+    {
+      "ruleId": "R-T01-004",
+      "sectionId": "T01",
+      "level": "should",
+      "element": "channel scope",
+      "statement": "State that the terms also apply to mobile, app and other channels of the same service insofar as their nature allows.",
+      "legalRefs": [
+        "STD10023:1"
+      ],
+      "check": {
+        "kind": "llm"
+      },
+      "sourceSpan": "STD10023 제1조 note",
+      "verifiedAt": "2026-09-29"
+    }
+  ],
+  "unfairPatterns": [
+    {
+      "lexiconId": "U-ARTC19-3-01",
+      "pattern": "\\uD45C\\uC900\\uC57D\\uAD00",
+      "statuteRef": [
+        "ARTC:19-3(6)",
+        "ARTC:19-3(8)",
+        "ARTC:19-3(9)"
+      ],
+      "severity": "info"
+    }
+  ],
+  "goodPatterns": [
+    "One sentence: operator X, service Y, rights/duties/responsibilities between operator and users.",
+    "A short scope note extending the terms to app and other channels."
+  ],
+  "commonDefects": [
+    {
+      "id": "D-T01-01",
+      "severity": "major",
+      "defect": "Purpose clause omits the operator or service name, or names a different legal entity than the privacy policy.",
+      "seedCandidate": true
+    },
+    {
+      "id": "D-T01-02",
+      "severity": "minor",
+      "defect": "Claims conformity with KFTC standard terms while deviating, without a deviation list."
+    }
+  ],
+  "extractionHints": [
+    "legal entity name, brand/service names",
+    "\"표준약관\" claims",
+    "app vs web channels"
+  ],
+  "interviewNodes": [
+    "Q-T01-01"
+  ],
+  "interviewHints": [
+    "Confirm terms are in scope (Q-T01-01); internal HR/groupware -> not_applicable.",
+    "Ask whether the operator wants to display the KFTC standard-terms mark (proposed slot terms.usesStdTerms)."
+  ],
+  "legalRefs": {
+    "ARTC:19-3(6)": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "19-3",
+      "paragraph": "6",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제19조의3 제6항",
+      "lawGoKr": true
+    },
+    "ARTC:19-3(8)": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "19-3",
+      "paragraph": "8",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제19조의3 제8항",
+      "lawGoKr": true
+    },
+    "ARTC:19-3(9)": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "19-3",
+      "paragraph": "9",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제19조의3 제9항",
+      "lawGoKr": true
+    },
+    "ARTC:3(1)": {
+      "law": "약관의 규제에 관한 법률",
+      "article": "3",
+      "paragraph": "1",
+      "verifiedBy": "lawgokr-artc-MST260021",
+      "at": "제3조 제1항",
+      "lawGoKr": true
+    },
+    "STD10023:1": {
+      "law": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "article": "1",
+      "verifiedBy": "kftc-10023-2015-06-26",
+      "at": "제1조",
+      "lawGoKr": false
+    }
+  },
+  "needsVerification": [],
+  "missingSlots": [
+    "terms.usesStdTerms"
+  ]
+}

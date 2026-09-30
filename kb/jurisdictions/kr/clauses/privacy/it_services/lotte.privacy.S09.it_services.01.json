@@ -1,0 +1,57 @@
+{
+  "id": "lotte.privacy.S09.it_services.01",
+  "docType": "privacy",
+  "sectionId": "S09",
+  "domainGroup": "it_services",
+  "sourceCaptureIds": [
+    "lotteinnovate-privacy"
+  ],
+  "sourceSites": [
+    "www.lotteinnovate.com"
+  ],
+  "policyVersionOrDate": "공고일자 : 2026년 6월 25일",
+  "layout": "guideline_numbered",
+  "text": "회사는 이용자에게 다양한 서비스를 제공하는 데에 반드시 필요한 업무 중 일부를 외부 업체로 하여금 수행하도록 개인정보를 위탁하고 있으며, 위탁받은 업체가 개인정보 보호 관계 법령을 위반하지 않도록 관리·감독하고 있습니다.\n{%if gate.outsourcing%}\n\n{{processorTable}}\n\n(표 열) 수탁업체 / 위탁업무 내용\n{%endif%}",
+  "variables": [
+    {
+      "name": "processorTable",
+      "slotId": "privacy.S09_processors",
+      "description": "Processors and outsourced tasks"
+    }
+  ],
+  "conditions": [],
+  "coversElements": [
+    "R-S09-001",
+    "R-S09-002"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": "R-S09-006",
+      "level": "may",
+      "note": "국외 수탁자를 포함하는 경우 국외이전 절 연계 문장이 없음."
+    },
+    {
+      "ruleId": "R-S09-004",
+      "level": "may",
+      "note": "조건부 유형화 방식 없음."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "원문의 수탁자 명칭·업무는 제거하고 표 슬롯으로 치환. 법 제26조 계약 요건 문장은 원문에 없음.",
+  "frequency": 1,
+  "frequencyBase": 1,
+  "houseStyleTags": [
+    "H-07"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotteinnovate-privacy",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacyPolicy",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2026년 6월 25일 ; 시행일자 : 2026년 6월 25일 ; 공고일자 : 2025년 9월 18일 ; 시행일자 : 2025년 9월 18일",
+      "contentHash": "ed631cda902e7824593df708a5399a8fe8e4516efd4252d5cb9ce0f65f4f7b7d"
+    }
+  ]
+}

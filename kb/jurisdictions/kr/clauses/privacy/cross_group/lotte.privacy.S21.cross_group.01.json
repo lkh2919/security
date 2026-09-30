@@ -1,0 +1,135 @@
+{
+  "id": "lotte.privacy.S21.cross_group.01",
+  "docType": "privacy",
+  "sectionId": "S21",
+  "domainGroup": "cross_group",
+  "sourceCaptureIds": [
+    "lotteinnovate-privacy-cctv",
+    "lotte-department-store-privacy-cctv",
+    "lotte-mart-privacy-cctv",
+    "seven-eleven-privacy-cctv",
+    "lotte-castle-privacy-cctv",
+    "lotte-global-logis-privacy-cctv",
+    "lotte-wellfood-privacy-cctv"
+  ],
+  "sourceSites": [
+    "www.lotteinnovate.com",
+    "www.lotteshopping.com",
+    "company.lottemart.com",
+    "www.7-eleven.co.kr",
+    "www.lottecastle.co.kr",
+    "www.lotteglogis.com",
+    "www.lottewellfood.com"
+  ],
+  "policyVersionOrDate": "공고일자:2026년 01월 09일 / 공고일자 : 2025년 11월 12일 / 시행일자 : 2026년 2월 27일 / 공고일자 : 2023년 10월 04일",
+  "layout": "guideline_numbered",
+  "text": "6. 정보주체의 권리와 행사 방법\n- 정보주체는 개인영상정보에 관하여 열람, 존재 확인, 삭제를 요구할 수 있습니다. 다만 타인의 사생활 침해 우려 등 법령이 정한 사유가 있는 경우 요구가 제한될 수 있습니다.\n- 요구는 {{requestDept}}에 서면, 전자우편 등으로 하실 수 있으며 회사는 요구를 받은 날부터 10일 이내에 필요한 조치를 하고 그 결과를 알려드립니다.\n7. 영상정보 처리의 위탁\n{%if gate.outsourcing%}\n회사는 영상정보처리기기의 설치·운영을 위탁하는 경우 위탁 받는 자와 위탁 업무 내용을 다음과 같이 알려드립니다. {{processorTable}}\n{%endif%}\n8. 개인영상정보의 안전성 확보 조치\n- 관리적 조치: 관리 계획 수립과 접근 권한 최소화, 담당자 교육\n- 기술적 조치: 접근 통제와 접속 기록 보관, 저장 영상의 암호화 또는 이에 상응하는 조치\n- 물리적 조치: 관제실·저장 장치의 출입 통제\n9. 개인영상정보 처리방침의 변경\n- 이 방침이 변경되는 경우 {{noticeMethod}}를 통하여 변경 사항을 알리고, 버전과 시행일을 표기합니다.",
+  "variables": [
+    {
+      "name": "requestDept",
+      "slotId": "privacy.S16_requestDept",
+      "description": "Department receiving access requests (role and functional e-mail only)"
+    },
+    {
+      "name": "processorTable",
+      "slotId": "privacy.S09_processors",
+      "description": "Processors and outsourced tasks"
+    },
+    {
+      "name": "noticeMethod",
+      "slotId": "privacy.S24_noticeMethod",
+      "description": "Where and how change notices are given"
+    }
+  ],
+  "conditions": [
+    {
+      "slot": "gate.cctvFixed",
+      "op": "truthy"
+    }
+  ],
+  "coversElements": [
+    "R-S21-001",
+    "R-S21-002",
+    "R-S21-003"
+  ],
+  "gapsVsGuideline": [
+    {
+      "ruleId": null,
+      "level": null,
+      "note": "점검하는 영상 열람 절차의 세부(10일 이내 등)는 Decree와 대조 필요."
+    }
+  ],
+  "vetted": false,
+  "vettingNotes": "고정형 CCTV 방침 후반부(권리·위탁·안전조치·변경)의 공통 패턴.",
+  "frequency": 7,
+  "frequencyBase": 7,
+  "houseStyleTags": [
+    "H-13",
+    "H-18"
+  ],
+  "provenance": [
+    {
+      "captureId": "lotteinnovate-privacy-cctv",
+      "sourceUrl": "https://www.lotteinnovate.com/ko/tos/privacycctv",
+      "affiliate": "Lotte Innovate",
+      "businessGroup": "it_services",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자:2026년 01월 09일 ; 시행일자:2026년 01월 16일",
+      "contentHash": "7f1fee553e64c5159093fa1d4ce226bbf4b7f435dc970984cb2a83e46c83d256"
+    },
+    {
+      "captureId": "lotte-department-store-privacy-cctv",
+      "sourceUrl": "https://www.lotteshopping.com/etc/operate",
+      "affiliate": "Lotte Department Store",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2025년 11월 12일 ; 시행일자 : 2025년 11월 19일",
+      "contentHash": "d08761bd383c0481838a150c780adbd61cc126e6547d202d81024a4566f78bde"
+    },
+    {
+      "captureId": "lotte-mart-privacy-cctv",
+      "sourceUrl": "https://company.lottemart.com/privacy/media.asp",
+      "affiliate": "Lotte Mart",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2026년 2월 27일",
+      "contentHash": "72c62318353565e5b7c404558221bf5962ffa004bd4b61f305bf0bc3b86868f1"
+    },
+    {
+      "captureId": "seven-eleven-privacy-cctv",
+      "sourceUrl": "https://www.7-eleven.co.kr/util/videoPolicy.asp",
+      "affiliate": "Korea Seven (7-Eleven)",
+      "businessGroup": "retail_ecommerce",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "공고일자 : 2023년 10월 04일 ; 개정일자 : 2026년 04월 10일 ; 시행일자 : 2026년 04월 24일 ; 2026년 04월 24일 시행",
+      "contentHash": "0b0e3508b0701b7b848e71855e1020b2f2176ee17a89d8a2cc2f538936b270e4"
+    },
+    {
+      "captureId": "lotte-castle-privacy-cctv",
+      "sourceUrl": "https://www.lottecastle.co.kr/movie/index.do",
+      "affiliate": "Lotte E&C (Lotte Castle brand)",
+      "businessGroup": "construction_realestate",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "시행일자 : 2025년 06월 26일 ; 2025년 06월 26일 시행",
+      "contentHash": "efcad73579ab3ed90aafb079c2b88d1bf21e3769eb7d390901e04c9d1c55aae3"
+    },
+    {
+      "captureId": "lotte-global-logis-privacy-cctv",
+      "sourceUrl": "https://www.lotteglogis.com/home/policy/video",
+      "affiliate": "Lotte Global Logistics",
+      "businessGroup": "logistics",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "v1.2 ; v1.1 ; v1.0",
+      "contentHash": "914723d70cc51a4eb8f9f97115d9f08325340f3186a553763e7a64f1cef8b96d"
+    },
+    {
+      "captureId": "lotte-wellfood-privacy-cctv",
+      "sourceUrl": "https://www.lottewellfood.com/policy/video",
+      "affiliate": "Lotte Wellfood",
+      "businessGroup": "food_manufacturing",
+      "captureDate": "2026-09-29",
+      "policyVersionOrEffectiveDate": "v. 1.0 ; v. 2.1 ; v. 2.0 ; v. 1.9",
+      "contentHash": "d4b787df0966493158fa14273f5f38a3acaaa0f9439c862ced9564ce70060604"
+    }
+  ]
+}

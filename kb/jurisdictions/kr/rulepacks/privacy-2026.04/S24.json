@@ -1,0 +1,41 @@
+{
+  "id": "S24",
+  "packVersion": "privacy-2026.04",
+  "title": { "ko": "개인정보 처리방침의 변경에 관한 사항", "en": "Policy changes (versioned change notice)" },
+  "guidelineRef": { "doc": "pipc-guideline-2026-04", "part": "III", "section": 24, "pages": "83-85", "lines": "2914-3022", "related": "Part II-1(5), II-4 (L335-338, L504-507)" },
+  "attribution": "PIPC, Privacy Policy Drafting Guideline, 2026.4 (paraphrased)",
+  "classification": "mandatory",
+  "catalogClass": "M",
+  "handling": "clause",
+  "applicability": { "when": { "all": [] } },
+  "rules": [
+    { "ruleId": "R-S24-001", "sectionId": "S24", "level": "must", "element": "change and effective dates, changed content", "statement": "When the policy changes, continuously publish the change and effective dates and the changed content.", "legalRefs": ["PIPA:30(2)", "DEC:31(2)"], "check": { "kind": "deterministic", "expr": "exists(section.S24.effectiveDate)" }, "sourceSpan": "L2916-2918, L504-507", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S24-002", "sectionId": "S24", "level": "must", "element": "prior versions with application periods", "statement": "Publish earlier versions together with the current one so each version's application period can be checked (web: list of periods linking to each version; offline: record the history and keep earlier versions for viewing or provision on request).", "legalRefs": [], "check": { "kind": "deterministic", "expr": "if(slot(privacy.S24_priorVersions).length) every(section.S24.versions, v => v.from && v.to && (v.link || v.offlineArchive))" }, "sourceSpan": "L2920-2927", "verifiedAt": "2026-09-29", "new2026": true },
+    { "ruleId": "R-S24-003", "sectionId": "S24", "level": "should", "element": "change notice", "statement": "Announce changes by easily noticed means such as a notice board post or pop-up.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L2929-2931, L504-507", "verifiedAt": "2026-09-29", "new2026": true },
+    { "ruleId": "R-S24-004", "sectionId": "S24", "level": "must", "element": "comparison table for major changes", "statement": "For changes with significant impact on rights (e.g. items processed, purposes), give a separate before/after comparison (대조표 or similar) before or at the time of revision.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "if(change.major) exists(notice.comparisonTable) && notice.date <= change.effectiveDate" }, "sourceSpan": "L2933-2936", "verifiedAt": "2026-09-29", "new2026": true },
+    { "ruleId": "R-S24-005", "sectionId": "S24", "level": "may", "element": "batched minor changes", "statement": "Frequently changing, low-impact items (e.g. lists of processors or sub-processors for the same task) may be announced in batches over a reasonable period (e.g. 4 weeks); each list entry must still show the start and end of the outsourcing.", "legalRefs": [], "check": { "kind": "deterministic", "expr": "if(notice.batched) every(notice.rows, r => r.start && (r.end || r.ongoing)) && notice.windowDays <= 28" }, "sourceSpan": "L2938-2944", "verifiedAt": "2026-09-29", "new2026": true }
+  ],
+  "changes2026": {
+    "summary": "2026.4 improved the change-notice method (revision history L27-30). The guideline does not itemize which sub-rules are new; new2026 flags mark the change-notice rules as a group.",
+    "items": ["version list with application periods and links", "before/after comparison table for rights-affecting changes, before or at revision", "batched notice for minor list changes over a reasonable window (example 4 weeks) with start/end dates", "notice via board or pop-up recommended"]
+  },
+  "noticeTemplates": {
+    "standard": ["title: change notice", "effective date", "main changes summary", "before/after comparison", "contact department", "link to full policy"],
+    "batched": ["title: change notice", "batch window (from-to, e.g. 4 weeks)", "effective date per change", "table: before | after | task | effective date", "contact department", "link to full policy"]
+  },
+  "goodPatterns": ["Clause 1: this policy applies from <date>. Clause 2: earlier versions listed as '<from> ~ <to> 적용' each linked."],
+  "commonDefects": [
+    { "id": "D-S24-01", "severity": "major", "defect": "Earlier versions not viewable or listed without application periods.", "seedCandidate": true },
+    { "id": "D-S24-02", "severity": "major", "defect": "Purpose or item changes announced without a comparison table, or only after taking effect." },
+    { "id": "D-S24-03", "severity": "minor", "defect": "Batched processor-change notice lacks start/end dates." }
+  ],
+  "extractionHints": ["effective date, previous version dates", "notice board, pop-up, e-mail notice", "processor list changes frequency"],
+  "interviewNodes": ["Q-S24-01", "Q-S24-02", "Q-S24-03", "Q-P-03", "Q-S09-04"],
+  "legalRefs": {
+    "PIPA:30(2)": { "law": "개인정보 보호법", "article": "30", "paragraph": "2", "verifiedBy": "pipc-guideline-2026-04", "at": "p14 L371", "lawGoKr": false },
+    "DEC:31(2)": { "law": "개인정보 보호법 시행령", "article": "31", "paragraph": "2", "verifiedBy": "pipc-guideline-2026-04", "at": "p18 L515", "lawGoKr": false }
+  },
+  "needsVerification": [
+    { "id": "NV-S24-01", "note": "R-S24-004 'must' reflects the guideline wording (하여야 함) but no statute is cited for the comparison table; legal review to confirm severity for the rubric." }
+  ]
+}
