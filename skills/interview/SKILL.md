@@ -10,7 +10,7 @@ last_reviewed: 2026-09-29
 status: active
 scope: project
 owner: pm
-prerequisites: Bun runtime; privacy-agent CLI (planned); interview template at kb/jurisdictions/kr/interview/
+prerequisites: Bun runtime; `scripts/run-pipeline.ts` (needs ANTHROPIC_API_KEY); interview template at kb/jurisdictions/kr/interview/
 relates_to:
   - skill: privacy-docs
     type: follows
@@ -26,7 +26,7 @@ metadata:
 
 ## Overview
 
-Sub-skill of `privacy-docs`. Maps to the planned CLI subcommand `privacy-agent interview`.
+Sub-skill of `privacy-docs`. Entry point: see the CLI status line below.
 Design: R3 (R1, R2, C1, R3), R4.3 (fact ledger), R4.4 (Interview Template), R7 (human turn).
 
 ## When to Use
@@ -37,7 +37,7 @@ Design: R3 (R1, R2, C1, R3), R4.3 (fact ledger), R4.4 (Interview Template), R7 (
 
 ## Prerequisites
 
-- CLI status: PLANNED (design R15 rows 7, 9, 10). Until built, produce the script and gap list by hand from `kb/jurisdictions/kr/interview/` and say so.
+- Entry point: `bun scripts/run-pipeline.ts start --transcript t.txt --form f.md`. It stops at `awaiting_answers` and prints the must-level questions (max 2 rounds, 10 questions each); answers go back with `answer --run <id> --answers a.json`. Mock-tested end to end; not yet run live.
 - Interview Template exists with `version` and `rulePackVersions`.
 
 ## Procedure

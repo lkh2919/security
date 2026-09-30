@@ -10,7 +10,7 @@ last_reviewed: 2026-09-29
 status: active
 scope: project
 owner: pm
-prerequisites: Bun runtime; privacy-agent CLI (planned); rubric and must-rule digest from privacy-domain-expert
+prerequisites: Bun runtime; `scripts/run-pipeline.ts` (needs ANTHROPIC_API_KEY); rubric and must-rule digest from privacy-domain-expert
 relates_to:
   - skill: draft
     type: follows
@@ -27,7 +27,7 @@ metadata:
 
 ## Overview
 
-Sub-skill of `privacy-docs`. Maps to the planned CLI subcommand `privacy-agent audit`.
+Sub-skill of `privacy-docs`. Entry point: see the CLI status line below.
 Design: R6 (rubric, C2, R7, pass/fail, iteration cap), R3 (R7 row), R17 (acceptance).
 
 ## When to Use
@@ -37,7 +37,7 @@ Design: R6 (rubric, C2, R7, pass/fail, iteration cap), R3 (R7 row), R17 (accepta
 
 ## Prerequisites
 
-- CLI status: PLANNED (design R15 row 11). Until built, an audit request is answered with the rubric checklist applied manually and labelled "manual, not the isolated auditor".
+- Entry point: the audit runs inside the pipeline (C2 then the isolated R7 auditor, redraft of flagged sections only, max 3 iterations, escalation with a DRAFT banner). Standalone audit of an external draft is not built; answer such a request with the rubric checklist applied manually and label it "manual, not the isolated auditor".
 - Auditor prompts live in `packages/core/prompts/audit/`; drafter prompts must not import them.
 
 ## Procedure
