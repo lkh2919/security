@@ -93,10 +93,12 @@ describe("C2", () => {
     expect(failed(run(privacyAst([table("한빛택배")], ["S09"])))).not.toContain("safety.vague_recipients");
   });
 
-  test("the disclaimer block is required", () => {
+  test("the disclaimer is supplied by the renderer unless an AST note is required", () => {
     const ast = privacyAst();
     const noDisc = { ...ast, sections: ast.sections.map((s) => ({ ...s, blocks: s.blocks.filter((b) => !(b.t === "note" && b.kind === "disclaimer")) })) };
-    expect(failed(run(noDisc))).toEqual(["safety.disclaimer"]);
+    expect(failed(run(noDisc))).toEqual([]);
+    expect(failed(run(noDisc, { disclaimerByRenderer: false }))).toEqual(["safety.disclaimer"]);
+    expect(failed(run(ast, { disclaimerByRenderer: false }))).toEqual([]);
   });
 
   test("terms: a blanket liability exclusion hits the unfair-clause lexicon as a blocker (seeded defect D6)", () => {
