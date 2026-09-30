@@ -41,7 +41,7 @@ export function sanitizeText(text: string): string {
 
 /** Collapses newlines so one segment / label can never forge another segment header. */
 export function oneLine(s: string): string {
-  return s.replace(/\s*[\r\n  ]+\s*/g, " ");
+  return s.replace(/\s*[\r\n\u2028\u2029]+\s*/g, " ");
 }
 
 /** Placeholder-shaped input must not collide with real placeholders: `{{` -> `{ {`, `}}` -> `} }`. */
