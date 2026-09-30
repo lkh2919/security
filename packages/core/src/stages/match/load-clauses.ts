@@ -32,7 +32,19 @@ export function loadClauseLibrary(krDir: string, registry?: SlotRegistry): Claus
   const skipped: { id: string; reason: string }[] = [];
   const files = ["privacy", "terms"].flatMap((d) => walk(join(clausesDir, d))).filter((f) => f.endsWith(".json")).sort();
   for (const f of files) {
-    const file = KbClauseFileSchema.parse(JSON.parse(readFileSync(f, "utf8")));
+    let raw: unknown;
+    try {
+      raw = JSON.parse(readFileSync(f, "utf8"));
+    } catch (e) {
+      skipped.push({ id: f.slice(clausesDir.length + 1), reason: `not valid JSON: ${(e as Error).message.slice(0, 80)}` });
+      continue;
+    }
+    const parsed = KbClauseFileSchema.safeParse(raw);
+    if (!parsed.success) {
+      skipped.push({ id: f.slice(clausesDir.length + 1), reason: `schema: ${parsed.error.issues.slice(0, 2).map((i) => `${i.path.join(".")}: ${i.message}`).join("; ")}` });
+      continue;
+    }
+    const file = parsed.data;
     const problems = kbClauseProblems(file, registry);
     if (problems.length) {
       skipped.push({ id: file.id, reason: problems.join("; ") });

@@ -42,10 +42,14 @@ const summary = (ast: DocAST): string[] =>
 
 export function buildAuditEnvelope(input: EnvelopeInput): AuditEnvelope {
   const { ast } = input;
-  // Must rules of the sections the document actually contains: the compressed digest, not the whole pack.
-  const mustRuleDigest = ast.sections
-    .filter((s) => s.status !== "not_applicable")
-    .flatMap((s) => (input.ruleSections.get(s.id)?.rules ?? []).filter((r) => r.level === "must").map((r) => ({ ruleId: r.ruleId, sectionId: r.sectionId, statement: r.statement, legalRefs: [...r.legalRefs] })));
+  // Must rules of every item that applies to this document (not only the sections that were drafted), so the auditor can
+  // raise a blocking finding for a section the drafter left out.
+  const prefix = ast.docType === "privacy" ? /^(S\d{2}|A1|X1)$/ : /^T\d{2}$/;
+  const applicable = new Set([
+    ...ast.sections.filter((s) => s.status !== "not_applicable").map((s) => s.id),
+    ...Object.entries(input.applicability.items).filter(([id, it]) => prefix.test(id) && (it.state === "yes" || it.state === "unknown")).map(([id]) => id),
+  ]);
+  const mustRuleDigest = [...applicable].sort().flatMap((id) => (input.ruleSections.get(id)?.rules ?? []).filter((r) => r.level === "must").map((r) => ({ ruleId: r.ruleId, sectionId: r.sectionId, statement: r.statement, legalRefs: [...r.legalRefs] })));
   const approved = input.houseStyle.rules.filter((r) => r.status === "approved" && (r.scope === ast.docType || r.scope === "both"));
   const otherSummaries = input.other ? summary(input.other.ast) : [];
   return AuditEnvelopeSchema.parse({

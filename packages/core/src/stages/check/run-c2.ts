@@ -101,6 +101,7 @@ function* units(ast: DocAST): Generator<{ path: string; sectionId: string; text:
 }
 
 export function runC2(input: C2Input): CheckResults {
+  counter = 0; // finding ids restart per call so equal inputs give equal results (and equal envelope hashes)
   const { docType } = input;
   const outcomes: CheckResults["checks"] = [];
   const add = (checkId: string, category: CheckResults["checks"][number]["category"], findings: Finding[]): void => {
@@ -185,7 +186,14 @@ export function runC2(input: C2Input): CheckResults {
   const docText = [...units(ast)].map((u) => u.text).join("\n");
   for (const r of input.houseStyle?.rules ?? []) {
     if (r.status !== "approved" || r.checkType !== "regex" || !r.pattern || (r.scope !== docType && r.scope !== "both")) continue;
-    const hit = new RegExp(r.pattern, "mu").test(docText);
+    let re: RegExp;
+    try {
+      re = new RegExp(r.pattern, "mu");
+    } catch {
+      style.push(finding({ ruleId: r.id, docType, sectionId: "-", severity: "major", message: `House-style rule ${r.id} has an invalid pattern and cannot be checked.`, fixHint: "Fix the pattern in the house-style file.", astPath: "$", quote: "" }));
+      continue;
+    }
+    const hit = re.test(docText);
     const violated = r.patternMode === "forbid" ? hit : !hit;
     if (violated) style.push(finding({ ruleId: r.id, docType, sectionId: "-", severity: "minor", message: `House-style rule ${r.id} is violated: ${r.rule}`, fixHint: r.rule, astPath: "$", quote: "" }));
   }
@@ -230,4 +238,41 @@ export function runC2(input: C2Input): CheckResults {
   }
 
   return CheckResultsSchema.parse({ runId: input.runId, docType, passed: outcomes.every((c) => c.passed), checks: outcomes });
+}
+
+/**
+ * Cross-document facts as the document STATES them (text carrying the slotRef, and the stated minimum age in T06), and as the
+ * ledger records them. The check compares the two: a document that says something else than the ledger is inconsistent.
+ */
+export function statedFacts(ast: DocAST): Record<string, string> {
+  const facts: Record<string, string> = {};
+  for (const sec of ast.sections) {
+    for (const block of sec.blocks) {
+      const runs: Inline[] = block.t === "para" || block.t === "note" ? block.runs : block.t === "list" ? block.items.flat() : block.rows.flat(2);
+      for (const r of runs) {
+        if (r.t === "text" && r.slotRef === "profile.orgNameRef" && !("org" in facts)) facts["org"] = r.text.trim();
+        if (r.t === "text" && r.slotRef === "terms.minAge" && !("minAge" in facts)) facts["minAge"] = r.text.replace(/\D/g, "");
+      }
+      if (sec.id === "T06" && !("minAge" in facts)) {
+        const text = runs.map(inlineText).join("");
+        const m = /만\s*(\d{1,2})\s*세\s*이상/.exec(text);
+        if (m) facts["minAge"] = m[1]!;
+      }
+    }
+  }
+  return facts;
+}
+
+export function ledgerFacts(ledger: Pick<FactLedger, "slots">): Record<string, string> {
+  const facts: Record<string, string> = {};
+  const org = ledger.slots["profile.orgNameRef"];
+  if (org?.status === "filled" && typeof org.value === "string") facts["org"] = org.value.trim();
+  const age = ledger.slots["terms.minAge"];
+  if (age?.status === "filled" && (typeof age.value === "number" || typeof age.value === "string")) facts["minAge"] = String(age.value).replace(/\D/g, "");
+  return facts;
+}
+
+/** `crossFacts` input for C2: what the document states versus what the ledger records. */
+export function crossFactsFor(ast: DocAST, ledger: Pick<FactLedger, "slots">): NonNullable<C2Input["crossFacts"]> {
+  return { own: statedFacts(ast), other: ledgerFacts(ledger) };
 }

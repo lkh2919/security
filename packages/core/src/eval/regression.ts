@@ -17,7 +17,7 @@ import { DefectSpecSchema, type DefectSpec } from "../contracts/rubric";
 import type { LlmClient, TokenUsage } from "../llm/client";
 import { TextFileSttAdapter } from "../adapters/stt";
 import { buildAuditEnvelope, loadRubric, runAudit } from "../stages/audit";
-import { citationsFromRulePacks, runC2, type LexiconEntry } from "../stages/check";
+import { citationsFromRulePacks, crossFactsFor, runC2, statedFacts, type LexiconEntry } from "../stages/check";
 import { krPaths, loadKrKnowledge, runCoverage } from "../stages/coverage";
 import { loadRuleSections, draftDocument, type DraftResult } from "../stages/draft";
 import { runExtract } from "../stages/extract";
@@ -76,6 +76,8 @@ export interface RegressionResult {
   readonly defects: readonly { id: string; detected: boolean }[];
   readonly metrics: GateMetrics;
   readonly failures: readonly GateFailure[];
+  /** Metrics that could not be measured in this run (for example no seeded defect ran). A passing gate with entries here is incomplete. */
+  readonly unmeasured: readonly string[];
   readonly usage: TokenUsage;
 }
 
@@ -198,8 +200,8 @@ export async function runGoldenRegression(deps: RegressionDeps, opts: Regression
       if (!base || !ast) continue; // base case not part of this run
       const mutated = applyDefect(ast, spec);
       const transcript = transcripts.get(spec.baseCase)!;
-      const c2 = runC2({ runId, docType, ast: mutated, ledger: base.ledger, applicability: base.applicability, rulePackItems: kb.rulePackItems, transcript, citations, houseStyle, lexicon });
-      const other = spec.docType === "cross" && base.docs.privacy ? { ast: base.docs.privacy, facts: { minAge: String(base.ledger.slots["terms.minAge"]?.value ?? "") } } : null;
+      const c2 = runC2({ runId, docType, ast: mutated, ledger: base.ledger, applicability: base.applicability, rulePackItems: kb.rulePackItems, transcript, citations, houseStyle, lexicon, crossFacts: crossFactsFor(mutated, base.ledger) });
+      const other = docType === "terms" && base.docs.privacy ? { ast: base.docs.privacy, facts: statedFacts(base.docs.privacy) } : null;
       const envelope = buildAuditEnvelope({ ast: mutated, ledger: base.ledger, transcript, formSlots: base.formSlots, applicability: base.applicability, ruleSections, houseStyle, c2Results: c2, other });
       const audited = await runAudit({ llm: deps.auditLlm }, { runId, iteration: 1, envelope, rubric });
       usage = addU(usage, audited.usage);
@@ -222,5 +224,6 @@ export async function runGoldenRegression(deps: RegressionDeps, opts: Regression
     minSimilarity: all.minSim,
     clauseFirstRatio: clauseFirstRatio(new Array(all.clauseSections).fill(""), new Array(all.llmSections).fill("")),
   };
-  return { cases: outcomes, defects: defectResults, metrics, failures: evaluateGate(metrics), usage };
+  const unmeasured = [...(specsForRecall === 0 ? ["defectRecall"] : []), ...(opts.ledgerSource === "expected" ? ["slotRecall", "slotPrecision"] : []), ...(runs < 2 ? ["stability"] : [])];
+  return { cases: outcomes, defects: defectResults, metrics, failures: evaluateGate(metrics), unmeasured, usage };
 }
