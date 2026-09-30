@@ -1,4 +1,4 @@
-# Handoff — privacy-agent (snapshot 2026-10-01)
+# Handoff — privacy-agent (snapshot 2026-10-01, updated after the cloud session)
 
 Read this first when you continue this project in a new session (local or cloud).
 
@@ -59,7 +59,7 @@ independent audit before rendering MD/HTML/DOCX plus a Reviewer Sheet for the In
 | 11 | Drafters R5P/R5T (clause-first), C2 checker, R7 isolated auditor, draft-C2-audit fix loop | done in code with mock-LLM tests (`stages/draft`, `stages/check`, `stages/audit`, `stages/loop`, `prompts/draft-*`, `prompts/audit`). Not yet run against the live API. C2 implements AST-native generic checks; the rule packs' `check.expr` pseudo-DSL is not evaluated (R7 covers those rules). |
 | 13 | Golden-set regression and calibration | harness done and mock-tested (`src/eval`, `scripts/golden-regression.ts`, gate = design R11.2). **Live calibration not run**: needs `ANTHROPIC_API_KEY`; run `bun scripts/golden-regression.ts --cases G1 --runs 1 --no-defects` first, then the full set with `--runs 3`. Max 3 tuning loops per defect class. |
 | 14 | Router skill, README, operator guide, PPTX outline | next |
-| 15 | Final QA, security scan | next |
+| 15 | Final QA, security scan | local part done: `docs/reports/2026-10-01-final-qa.md` (gates green, scan clean except finding 1). Freeze not declared: live regression (3 runs), freshness, clause vetting and house-style approval are open. |
 
 Known state: root tsc and `bun test` are green. Open KB gap (pinned in `test/kb-integrity.test.ts`, `KNOWN_UNBOUND`): 11 clause variables have no interview slot
 (document metadata such as announceDate/versionNumber/tableOfContents, and collectionMethods, siteUrl, pointPolicy, customerCenter). The privacy-domain-expert decides new slots vs renderer-filled metadata.
@@ -71,7 +71,15 @@ Known state: root tsc and `bun test` are green. Open KB gap (pinned in `test/kb-
   Rebuilding clauses from raw captures, re-capturing, or re-reading statutes must run on that PC.
   Everything derived from them (rule packs, clause records, captures index, analyses) is committed.
 
+## What the next session should do first
+
+1. Pull `claude/stoic-darwin-b7yuee` ([PR #1](https://github.com/lkh2919/security/pull/1)); run `bun install`, `bun x tsc --noEmit`, `cd packages/core && bun test` (expect 713 pass).
+2. With `ANTHROPIC_API_KEY` in `.env`: `bun scripts/smoke-extract.ts`, then `bun scripts/golden-regression.ts --cases G1 --runs 1 --no-defects`, then the full set with `--runs 3`. Tune prompts only where a gate metric fails (max 3 loops per defect class).
+3. Human gates: vet clauses (privacy-domain-expert), approve house style (user), review `golden/cases/*/reference/` once the first live drafts exist.
+4. On the original PC: `bun scripts/freshness-check.ts`; decide finding 1 of the QA report (personal data in the capture index).
+
 ## Open items for the user
 
 - Optional: InfoSec-annotated approved policies (for rubric calibration), a sample interview mp3, the InfoSec form.
-- House-style candidates need the user's approval once Row 6b finishes.
+- House-style candidates (19 rules) need the user's approval; until then no house-style rule is enforced.
+- Decide what to do with the named executive and e-mail in `kb/jurisdictions/kr/clauses/_captures/index.json` (QA report finding 1).
