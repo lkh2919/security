@@ -55,7 +55,7 @@ independent audit before rendering MD/HTML/DOCX plus a Reviewer Sheet for the In
 | 10 | Renderer MD/HTML/DOCX + Reviewer Sheet | done |
 | 12 | Law freshness watcher (`scripts/freshness-check.ts`) | done |
 | 9b | R4 clause matcher (`stages/match`: group classification, library loader, ranking, approved-only house style) | done; committed library has 0 vetted clauses, so every section falls back to the rule pack until the privacy-domain-expert vets clauses (`vetted` + `vettedAgainst` in the clause files) |
-| 11 | Drafters R5P/R5T (clause-first), C2 checker, R7 isolated auditor | next |
+| 11 | Drafters R5P/R5T (clause-first), C2 checker, R7 isolated auditor, draft-C2-audit fix loop | done in code with mock-LLM tests (`stages/draft`, `stages/check`, `stages/audit`, `stages/loop`, `prompts/draft-*`, `prompts/audit`). Not yet run against the live API. C2 implements AST-native generic checks; the rule packs' `check.expr` pseudo-DSL is not evaluated (R7 covers those rules). |
 | 13 | Golden-set regression and calibration | next |
 | 14 | Router skill, README, operator guide, PPTX outline | next |
 | 15 | Final QA, security scan | next |
