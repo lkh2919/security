@@ -27,7 +27,7 @@ Design: [`docs/designs/2026-09-29-privacy-policy-agent-team-design.md`](docs/des
 | Intake, extraction, coverage, interview, match, draft, C2, audit, loop, render, orchestrator | done, tested with mock models |
 | Live API runs | **not run yet** (needs `ANTHROPIC_API_KEY`) |
 | Clause library | 153 clauses captured and validated; **none vetted** (vetting is the privacy-domain-expert's work), so drafting falls back to the rule packs |
-| House style | 40-odd candidate rules; **not approved** (the user approves them), so no house-style check is enforced |
+| House style | 19 candidate rules; **not approved** (the user approves them), so no house-style check is enforced |
 | Golden set and regression gate | cases, seeded defects, rubric and harness done; live calibration pending |
 | Law freshness | watcher done; runs only on the original PC (law.go.kr key is IP-bound) |
 
