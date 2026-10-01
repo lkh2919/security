@@ -80,12 +80,16 @@ ambiguous parties; T13 refers to the policy by title without a link; golden G-ca
 What blocks a full G pass now is KB content, not prompts: verified Decree Art.45 ref for S16 (R-S16-006)
 and a verified `statutes/remedy-agencies.json` for S20 (original PC / privacy-domain-expert).
 
-## What only works on the original PC
+## law.go.kr access (updated 2026-10-01)
 
-- law.go.kr calls (freshness watcher, statute fetches): the OC key is bound to the registered IP.
-- Raw sources under `kb/_sources/` (guideline text, Lotte captures, statute texts) are gitignored and not in the repo.
-  Rebuilding clauses from raw captures, re-capturing, or re-reading statutes must run on that PC.
-  Everything derived from them (rule packs, clause records, captures index, analyses) is committed.
+- The cloud environment reaches law.go.kr once `www.law.go.kr` is allowed in the environment's Network access; the
+  OC key then works from the cloud (no IP binding observed). Earlier 403s were the cloud network policy, not the key.
+- The OC key is not in the repository. Set `LAW_GO_KR_OC` as an environment secret (cloud) or in `.env` (local).
+- Freshness run 2026-10-01: DRIFT. Action item: 정보통신망법 amendment 제21988호 (promulgated 2026-09-29, in force
+  2026-10-02) must be reviewed by the privacy-domain-expert. The other warnings are amendments already reflected (PIPA,
+  its Decree, ECA 2026-07-21) and missing manifest stamps (ECA Decree, guideline pages, KFTC pages). Some calls drop
+  through the proxy (socket closed); rerun or retry when a source reports unreachable.
+- Raw sources under `kb/_sources/` are still only on the original PC (gitignored).
 
 ## Live-run findings that need a person (KB or design gaps, not prompt tuning)
 
@@ -93,7 +97,7 @@ and a verified `statutes/remedy-agencies.json` for S20 (original PC / privacy-do
 - **Rule-pack legalRefs carry only article/paragraph/item, not what each item covers.** The drafter sometimes attaches an item-level citation to the wrong element (for example ECA 17(2) item 5). Prompts 1.3.0 tell it to use paragraph-level IDs when unsure; the durable fix is a verified `covers` note per legal ref.
 - **PG / payment provider** is an ambiguous party type by user decision (always manual review, both candidates shown in S07 and S09). The drafter currently writes a manual-review note only; it does not yet draft the two candidate rows. G1 avoids the case (bank transfer only); add a golden case for it.
 - **Rule-pack key notation**: `PIPA:2(2)` was fixed to `PIPA:2[2]` (2026-10-01, manifest re-stamped). A scan of every legal-ref key against its `paragraph`/`item` fields found no other mismatch.
-- **Missing verified ref for agents (S16)**: the agent and power-of-attorney sentence needs the Decree article on 대리인의 범위 (Art. 45); rule R-S16-006 only carries DEC:41(1) (access procedure). law.go.kr is blocked from the cloud session, so this was not added.
+- **S16 agents ref (fixed 2026-10-01)**: R-S16-006 now cites PIPA 38(1), Decree 45(1)/(2) and PIPA 36(1), read on law.go.kr (Decree 제36671호, Act 제21445호, both in force 2026-09-11); manifest re-stamped.
 - **Cross-section consistency** (stage 1 of the 2026-10-01 council plan): terms calls get a `documentOutline` (which sibling article owns which fact slots) and, on fix passes, `relatedSections` (current text of articles a finding names); draft-terms prompt 1.6.0 tells the drafter to restate an owned fact completely or refer to its article. C2 `evidence.repeated_values` flags a period (rejoin waits, terms-change notice) that differs from the ledger or between articles (`stages/check/consistency.ts`).
 - Lexicon `suppress` patterns (20 entries) were added from live drafts; extend them the same way when a lawful sentence is flagged, and keep every `testPositive` flagged (test).
 
