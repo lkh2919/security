@@ -18,7 +18,7 @@ import { DefectSpecSchema, type DefectSpec } from "../contracts/rubric";
 import type { LlmClient, TokenUsage } from "../llm/client";
 import { TextFileSttAdapter } from "../adapters/stt";
 import { buildAuditEnvelope, loadRubric, runAudit } from "../stages/audit";
-import { citationsFromRulePacks, crossFactsFor, runC2, statedFacts, type LexiconEntry } from "../stages/check";
+import { loadCitations, crossFactsFor, runC2, statedFacts, type LexiconEntry } from "../stages/check";
 import { krPaths, loadKrKnowledge, runCoverage } from "../stages/coverage";
 import { loadRuleSections, draftDocument, type DraftResult } from "../stages/draft";
 import { runExtract } from "../stages/extract";
@@ -103,7 +103,7 @@ export async function runGoldenRegression(deps: RegressionDeps, opts: Regression
   const rubric = loadRubric(kr);
   const library = loadClauseLibrary(kr, kb.registry);
   const ruleSections = loadRuleSections(join(kr, "rulepacks"));
-  const citations = citationsFromRulePacks(join(kr, "rulepacks"));
+  const citations = loadCitations(kr);
   const houseStyle: HouseStyleFile = HouseStyleFileSchema.parse(JSON.parse(readFileSync(join(kr, "house-style", "lotte-innovate.candidates.json"), "utf8")));
   const lexicon = (JSON.parse(readFileSync(join(kr, "rulepacks", "terms-kftc-10023", "unfair-clause-lexicon.json"), "utf8")) as { entries: LexiconEntry[] }).entries;
   const mandatory = kb.rulePackItems.filter((i) => i.classification === "mandatory").map((i) => i.id);

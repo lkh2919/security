@@ -206,3 +206,37 @@ describe("regression gate honesty", () => {
     expect(r.unmeasured).toEqual(["defectRecall", "slotRecall", "slotPrecision", "stability"]);
   });
 });
+
+describe("live-run tuning (loop 2)", () => {
+  test("an organization name embedded in a longer run counts as the same value", () => {
+    const { ledger, applicability } = g1();
+    const ast = { docType: "privacy", meta, sections: [{ ...sec("S01", "x"), blocks: [{ t: "para", runs: [{ t: "text", text: "주식회사 쇼핑나우 개인정보 처리방침", slotRef: "profile.orgNameRef" }] }] }], warnings: [] } as DocAST;
+    const r = runC2({ runId: RUN_ID, docType: "privacy", ast, ledger, applicability, rulePackItems: [], transcript: { ...maskedTranscript, runId: RUN_ID }, citations, crossFacts: crossFactsFor(ast, ledger) });
+    expect(r.checks.find((c) => c.checkId === "cross_doc.values_equal")!.passed).toBe(true);
+    const other = { ...ast, sections: [{ ...sec("S01", "x"), blocks: [{ t: "para", runs: [{ t: "text", text: "다른회사 개인정보 처리방침", slotRef: "profile.orgNameRef" }] }] }] } as DocAST;
+    const bad = runC2({ runId: RUN_ID, docType: "privacy", ast: other, ledger, applicability, rulePackItems: [], transcript: { ...maskedTranscript, runId: RUN_ID }, citations, crossFacts: crossFactsFor(other, ledger) });
+    expect(bad.checks.find((c) => c.checkId === "cross_doc.values_equal")!.findings.map((f) => f.ruleId)).toEqual(["X-01"]);
+  });
+
+  test("the citation table includes the verified retention statutes, so a statutory retention row can cite its article", async () => {
+    const { loadCitations } = await import("../src/stages/check");
+    const table = loadCitations(KR);
+    expect(table.some((c) => c.citationId === "NTBA:85-3(2)")).toBe(true);
+    expect(table.some((c) => c.citationId === "PIPA:30(1)1")).toBe(true);
+    expect(new Set(table.map((c) => c.citationId)).size).toBe(table.length);
+  });
+
+  test("each rule in the drafter payload carries the citations that support exactly that rule; fact citation ids are allowed", async () => {
+    const { draftDocument } = await import("../src/stages/draft");
+    const { loadCitations } = await import("../src/stages/check");
+    const { ledger, applicability } = g1();
+    const withRetention: FactLedger = { ...ledger, slots: { ...ledger.slots, "privacy.S05_retention": { status: "filled", value: [{ target: "주문·결제 기록", period: "5년", basis: "statute", citationId: "NTBA:85-3(2)" }], confidence: 1, evidence: [{ source: "user_confirmed", ref: "t", quote: "" }] } } };
+    const { selection } = await runMatch({ runId: RUN_ID, ledger: withRetention, applicability, library, houseStyle });
+    const calls: StructuredCallRequest[] = [];
+    const llm = new MockLlmClient({ fixtures: { R5P: (req: StructuredCallRequest) => { calls.push(req); return { status: "drafted", missingFacts: [], blocks: [{ t: "para", runs: [{ t: "text", text: "x" }] }] }; } } });
+    await draftDocument({ llm }, { docType: "privacy", runId: RUN_ID, effectiveDate: "2026-10-01", lawSnapshotId: "s", rulePackVersion: kb.rulePackVersion, ledger: withRetention, applicability, selection, library, ruleSections, houseStyle, citations: loadCitations(KR) });
+    const s05 = calls.map((c) => JSON.parse(body(c)) as { section: { id: string }; rules: { ruleId: string; cite: string[] }[]; allowedCitations: string[] }).find((p) => p.section.id === "S05")!;
+    expect(s05.rules.find((r) => r.ruleId === "R-S05-001")!.cite).toEqual(["PIPA:30(1)2"]);
+    expect(s05.allowedCitations).toContain("NTBA:85-3(2)");
+  });
+});

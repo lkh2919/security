@@ -30,3 +30,22 @@ export function citationsFromRulePacks(rulePacksDir: string): Citation[] {
   }
   return CitationTableSchema.parse([...byId.values()].sort((a, b) => (a.citationId < b.citationId ? -1 : 1)));
 }
+
+/** Citations for the verified statutory retention table (`statutes/retention-periods.json`): `citationId` as written there. */
+export function citationsFromRetention(retentionFile: string): Citation[] {
+  if (!existsSync(retentionFile)) return [];
+  const t = JSON.parse(readFileSync(retentionFile, "utf8")) as { entries: { statute: string; article: string; paragraph?: string; citationId: string; verifiedBy: { fetched: string }[] }[] };
+  const byId = new Map<string, Citation>();
+  for (const e of t.entries) {
+    if (byId.has(e.citationId) || /[+]/.test(e.citationId)) continue; // combined forms are not single citations
+    byId.set(e.citationId, { citationId: e.citationId, law: e.statute, article: e.article, title: `${e.statute} ${e.article}`, sourceId: "retention-periods", verifiedAt: e.verifiedBy[0]?.fetched ?? "2026-09-30" });
+  }
+  return [...byId.values()];
+}
+
+/** Rule-pack legal refs plus the retention table, deduplicated: the table C2 resolves `cite` inlines against. */
+export function loadCitations(krDir: string): Citation[] {
+  const merged = new Map<string, Citation>();
+  for (const c of [...citationsFromRulePacks(join(krDir, "rulepacks")), ...citationsFromRetention(join(krDir, "statutes", "retention-periods.json"))]) if (!merged.has(c.citationId)) merged.set(c.citationId, c);
+  return CitationTableSchema.parse([...merged.values()].sort((a, b) => (a.citationId < b.citationId ? -1 : 1)));
+}

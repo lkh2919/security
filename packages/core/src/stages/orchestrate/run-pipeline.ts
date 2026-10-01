@@ -33,7 +33,7 @@ import { runCachedStage } from "../../pipeline/run-stage";
 import { RunStore } from "../../pipeline/run-store";
 import { StageCache } from "../../pipeline/stage-cache";
 import { loadRubric } from "../audit";
-import { citationsFromRulePacks, statedFacts, type LexiconEntry } from "../check";
+import { loadCitations, statedFacts, type LexiconEntry } from "../check";
 import { krPaths, loadKrKnowledge, runCoverage, type KrKnowledge } from "../coverage";
 import { loadRuleSections } from "../draft";
 import { runExtract } from "../extract";
@@ -209,7 +209,7 @@ async function finishRun(deps: PipelineDeps, store: RunStore, kb: Kb, ledger: Fa
   const meta = await store.readArtifact("intake", { schema: MetaArtifact });
   const { maskedTranscript, formSlots } = await store.readArtifact("mask", { schema: MaskArtifact });
   const ruleSections = loadRuleSections(join(kr, "rulepacks"));
-  const citations = citationsFromRulePacks(join(kr, "rulepacks"));
+  const citations = loadCitations(kr);
   const houseStyle = HouseStyleFileSchema.parse(JSON.parse(readFileSync(join(kr, "house-style", existsApproved(kr) ? "lotte-innovate.json" : "lotte-innovate.candidates.json"), "utf8")));
   const lexicon = (JSON.parse(readFileSync(join(kr, "rulepacks", "terms-kftc-10023", "unfair-clause-lexicon.json"), "utf8")) as { entries: LexiconEntry[] }).entries;
   const library = loadClauseLibrary(kr, knowledge.registry);

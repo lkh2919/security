@@ -152,6 +152,10 @@ describe("unfair-clause lexicon", () => {
     expect(flagged("U-ARTC9-01", "앞 항의 제2호부터 제5호까지에 해당하는 경우에도, 회사가 청약철회가 제한된다는 사실을 표시하지 않았다면 이용자의 청약철회 등은 제한되지 않습니다.")).toBe(false);
     expect(flagged("U-ARTC12-01", "공지 후 거부 의사를 표시하지 않으면 동의한 것으로 본다는 내용을 다른 공지와 구분하여 명확하게 별도로 알린 경우에 한하여 동의한 것으로 봅니다.")).toBe(false);
     expect(flagged("U-ECA18-02", "회사는 청약철회를 이유로 위약금을 청구하지 않습니다.")).toBe(false);
+    // wording variants seen in live drafts
+    expect(flagged("U-ARTC9-01", "회사의 주소 변경 등으로 제1항의 기간 안에 청약철회를 할 수 없었던 경우에는 그 사실을 안 날부터 청약철회 기간을 계산합니다.")).toBe(false);
+    expect(flagged("U-ARTC9-01", "이 약관의 내용은 법률이 보장하는 청약철회 기간을 줄이거나 청약철회에 조건을 붙이는 것으로 해석되지 않습니다.")).toBe(false);
+    expect(flagged("U-ARTC12-01", "개정 약관을 알리면서 기간 안에 의사표시를 하지 않으면 동의한 것으로 본다는 내용을 별도로 분명하게 알렸는데도 거부하지 않으면 동의한 것으로 봅니다.")).toBe(false);
   });
 
   test("real violations next to similar wording are still flagged", () => {

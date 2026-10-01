@@ -126,7 +126,12 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
   const prevById = new Map((input.previous?.sections ?? []).map((s) => [s.id, s]));
   const findingsBy = (id: string): Finding[] => (input.fixFindings ?? []).filter((f) => f.sectionId === id);
   const approvedStyle = input.houseStyle.rules.filter((r) => r.status === "approved" && (r.scope === docType || r.scope === "both"));
-  const allowedFor = (rs: RuleSection): string[] => Object.keys(rs.legalRefs).filter((k) => input.citations.some((c) => c.citationId === k)).sort();
+  const citable = new Set(input.citations.map((c) => c.citationId));
+  const allowedFor = (rs: RuleSection, facts: Record<string, JsonValue>): string[] => {
+    // The section's verified legal refs, plus any citationId the confirmed facts carry (statutory retention rows).
+    const fromFacts = [...JSON.stringify(facts).matchAll(/"citationId":"([^"]+)"/g)].map((m) => m[1]!);
+    return [...new Set([...Object.keys(rs.legalRefs), ...fromFacts])].filter((k) => citable.has(k)).sort();
+  };
   const libById = new Map(input.library.clauses.map((c) => [c.record.clauseId, c]));
   const missingFacts: { sectionId: string; text: string }[] = [];
   const llmSections: string[] = [];
@@ -197,14 +202,15 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
       .filter((c) => c.coverage !== "none" && libById.has(c.clauseId))
       .slice(0, 2)
       .map((c) => ({ clauseId: c.clauseId, body: libById.get(c.clauseId)!.record.body }));
+    const facts = factsForSection(input.ledger, docType, id);
     const payload = {
       section: { id, title, classification, handling: rs.handling },
-      rules: rs.rules.filter((r) => r.level !== "may").map((r) => ({ ruleId: r.ruleId, level: r.level, statement: r.statement })),
+      rules: rs.rules.filter((r) => r.level !== "may").map((r) => ({ ruleId: r.ruleId, level: r.level, statement: r.statement, cite: r.legalRefs.filter((c) => citable.has(c)) })),
       document: { effectiveDate: input.effectiveDate },
-      facts: factsForSection(input.ledger, docType, id),
+      facts,
       clauseExamples: examples,
       styleRules: approvedStyle.map((r) => ({ id: r.id, rule: r.rule })),
-      allowedCitations: allowedFor(rs),
+      allowedCitations: allowedFor(rs, facts),
       fixFindings: findingsBy(id).map((f) => ({ ruleId: f.ruleId, severity: f.severity, message: f.message, quote: f.evidence.quote, fixHint: f.fixHint })),
     };
     const res = await deps.llm.callStructured({

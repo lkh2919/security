@@ -235,7 +235,11 @@ export function runC2(input: C2Input): CheckResults {
     const cross: Finding[] = [];
     const { own, other } = input.crossFacts;
     for (const key of Object.keys(own).filter((k) => k in other).sort()) {
-      if (own[key]!.trim() !== other[key]!.trim()) cross.push(finding({ ruleId: key === "org" ? "X-01" : key === "minAge" ? "X-02" : `X-${key}`, docType, sectionId: "-", severity: "major", message: `Cross-document value "${key}" differs: "${own[key]}" vs "${other[key]}".`, fixHint: "Use one value in both documents.", astPath: "$", quote: `${own[key]} | ${other[key]}` }));
+      const a = own[key]!.trim();
+      const b = other[key]!.trim();
+      // A name may be embedded in a longer run ("<org> 개인정보 처리방침"): containment counts as the same value.
+      const same = a === b || (key === "org" && (a.includes(b) || b.includes(a)));
+      if (!same) cross.push(finding({ ruleId: key === "org" ? "X-01" : key === "minAge" ? "X-02" : `X-${key}`, docType, sectionId: "-", severity: "major", message: `Cross-document value "${key}" differs: "${own[key]}" vs "${other[key]}".`, fixHint: "Use one value in both documents.", astPath: "$", quote: `${own[key]} | ${other[key]}` }));
     }
     add("cross_doc.values_equal", "cross_doc", cross);
   }

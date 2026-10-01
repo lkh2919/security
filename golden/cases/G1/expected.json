@@ -28,7 +28,7 @@
     "gate.cctvMobile": false,
     "gate.genAI": false,
     "gate.locationInfo": false,
-    "privacy.S20_includeRemedies": true,
+    "privacy.S20_includeRemedies": false,
     "profile.serviceTypes": [
       "b2c_commerce"
     ],
@@ -136,7 +136,10 @@
       {
         "name": "쿠키",
         "type": "웹 쿠키",
-        "purpose": "로그인 유지와 이용 환경 설정"
+        "purpose": "로그인 유지와 이용 환경 설정",
+        "items": "쿠키 식별값, 접속 환경 정보",
+        "retention": "로그아웃 또는 브라우저 종료 시까지(로그인 유지 쿠키는 30일)",
+        "refusal": "웹 브라우저 설정 메뉴에서 쿠키 저장을 차단하거나 삭제할 수 있습니다(예: 크롬 설정 > 개인정보 및 보안 > 쿠키). 쿠키를 차단하면 로그인 유지가 되지 않을 수 있습니다."
       }
     ],
     "privacy.S16_rightsChannels": [
@@ -163,7 +166,7 @@
       "앱 푸시",
       "이메일"
     ],
-    "terms.membershipRules": "이메일 주소로 가입하며 만 14세 이상만 가입할 수 있습니다.",
+    "terms.membershipRules": "이메일 주소로 가입하며 만 14세 이상만 가입할 수 있습니다. 회원 탈퇴 후 재가입은 탈퇴일부터 7일이 지나면 가능합니다.",
     "terms.suspensionCases": "시스템 점검이나 천재지변 등 불가항력으로 서비스 제공이 어려운 경우 일시 중단할 수 있습니다.",
     "terms.paymentMethods": [
       "신용·체크카드",
@@ -186,7 +189,7 @@
     "terms.disputeVenue": "민사소송법에 따른 관할법원",
     "terms.usesStdTerms": false,
     "terms.nonMemberPurchase": false,
-    "terms.businessIdentity": "상호 주식회사 쇼핑나우, 대표자 홍길동, 주소 서울특별시 강남구 (예시), 연락처 02-000-0000, 이메일 privacy@example.com",
+    "terms.businessIdentity": "상호 주식회사 쇼핑나우, 대표자 홍길동, 사업장 주소 서울특별시 강남구 가상로 1, 고객 불만 처리 주소 서울특별시 강남구 가상로 1 고객지원팀, 사업자등록번호 000-00-00000, 통신판매업 신고번호 제0000-서울강남-00000호, 연락처 02-000-0000, 이메일 privacy@example.com",
     "terms.pointsMileage": false,
     "terms.minorPurchase": false,
     "terms.goodsTypes": [
@@ -200,7 +203,35 @@
       }
     ],
     "terms.marketplaceIntermediary": false,
-    "terms.complaintChannel": "고객센터 02-000-0000, help@example.com"
+    "terms.complaintChannel": "고객센터 02-000-0000, help@example.com",
+    "privacy.S09_ambiguousPartyTypes": [
+      "none"
+    ],
+    "privacy.S09_roleAssessment": [
+      {
+        "party": "한빛택배",
+        "partyType": "택배사",
+        "taskForUs": "상품 배송",
+        "ownPurposeUse": "no",
+        "items": "배송지 주소, 수령인 휴대폰번호",
+        "overseas": "no"
+      },
+      {
+        "party": "메시지허브",
+        "partyType": "문자 발송 대행",
+        "taskForUs": "주문 안내 문자 발송",
+        "ownPurposeUse": "no",
+        "items": "수령인 휴대폰번호",
+        "overseas": "no"
+      }
+    ],
+    "privacy.S03_generatedItems": [
+      {
+        "task": "서비스 이용",
+        "items": "접속 로그, 쿠키",
+        "legalBasis": "계약의 이행"
+      }
+    ]
   },
   "applicability": {
     "documents": {
@@ -230,7 +261,7 @@
       "S19": "no",
       "S21": "no",
       "S22": "no",
-      "S20": "yes",
+      "S20": "no",
       "S23": "no",
       "A1": "no",
       "X1": "no",
