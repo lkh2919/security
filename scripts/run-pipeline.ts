@@ -1,12 +1,12 @@
 /**
  * Runs the privacy-policy / terms pipeline with the REAL API (design R7).
  *
- *   bun scripts/run-pipeline.ts start  --transcript interview.txt --form form.md [--masking basic] [--run-id ID] [--runs-dir runs]
- *   bun scripts/run-pipeline.ts answer --run ID --answers answers.json [--runs-dir runs]
+ *   bun scripts/run-pipeline.ts start  --transcript interview.txt --form form.md [--masking basic] [--run-id ID] [--runs-dir runs] [--llm claude-code]
+ *   bun scripts/run-pipeline.ts answer --run ID --answers answers.json [--runs-dir runs] [--llm claude-code]
  *
  * `start` stops at `awaiting_answers` when must-level facts are missing and prints the questions
  * (also saved as runs/<ID>/*-interview.q<round>.json); `answer` folds an AnswerSet in and continues.
- * Outputs land in runs/<ID>/output/ (MD, HTML, DOCX, Reviewer Sheet). Skipped (exit 0) without ANTHROPIC_API_KEY.
+ * Outputs land in runs/<ID>/output/ (MD, HTML, DOCX, Reviewer Sheet). Backend: ANTHROPIC_API_KEY (API) or `--llm claude-code` (Claude Code login, no API key); skipped (exit 0) with neither.
  * Masking is off by default (user decision 2026-09-30); pass `--masking basic` to mask before any model call.
  * Never prints the key, transcript text or vault values.
  */
@@ -14,13 +14,8 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { TextFileSttAdapter } from "../packages/core/src/adapters/stt";
 import { AnswerSetSchema } from "../packages/core/src/contracts/question-set";
-import { AnthropicLlmClient } from "../packages/core/src/llm/anthropic-client";
+import { createBackendClient, resolveBackend } from "../packages/core/src/llm/factory";
 import { continueRun, startRun, type PipelineOutcome } from "../packages/core/src/stages/orchestrate";
-
-if (!process.env.ANTHROPIC_API_KEY) {
-  console.log("skipped: ANTHROPIC_API_KEY is not set");
-  process.exit(0);
-}
 
 const [command, ...rest] = process.argv.slice(2);
 const opt = (name: string): string | undefined => {
@@ -37,8 +32,13 @@ const need = (name: string): string => {
 };
 const root = join(import.meta.dir, "..");
 const runsRoot = join(root, opt("runs-dir") ?? "runs");
-const llm = new AnthropicLlmClient();
-const deps = { llm, runsRoot, root };
+const backend = resolveBackend(opt("llm"));
+if (!backend) {
+  console.log("skipped: no model backend (set ANTHROPIC_API_KEY, or pass --llm claude-code to use your Claude Code login)");
+  process.exit(0);
+}
+const backendClient = createBackendClient(backend);
+const deps = { llm: backendClient.client, runsRoot, root };
 
 function report(o: PipelineOutcome): void {
   if (o.status === "awaiting_answers") {
@@ -69,6 +69,7 @@ if (command === "start") {
   process.exit(2);
 }
 for (const stage of ["R2", "R3", "R4-fallback", "R5P", "R5T", "R7"] as const) {
-  const t = llm.totals(stage);
-  if (t.calls) console.log(stage, JSON.stringify(t));
+  const line = backendClient.usageLine(stage);
+  if (line) console.log(stage, line);
 }
+backendClient.close();
