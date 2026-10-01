@@ -253,6 +253,8 @@ describe("live-run tuning (loop 4)", () => {
     expect(failedIds(terms([{ t: "para", runs: [{ t: "text", text: "회원이 행위를 반복하거나  이내에 사유를 해소하지 않는 경우", strong: true }] }]))).toContain("structure.blank_values");
     expect(failedIds(terms([{ t: "para", runs: [{ t: "text", text: "공serv 양속에 반하는 행위", strong: true }] }]))).toContain("structure.blank_values");
     expect(failedIds(terms([{ t: "para", runs: [{ t: "text", text: "○○일 이내에 환급합니다.", strong: true }] }]))).toContain("structure.blank_values");
+    expect(failedIds(terms([{ t: "para", runs: [{ t: "text", text: "1. 공급자의 신원(terms.businessIdentity)", strong: true }] }]))).toContain("structure.blank_values");
+    expect(failedIds(terms([{ t: "para", runs: [{ t: "text", text: "금지하거나 공serve양속에 반하는 행위", strong: true }] }]))).toContain("structure.blank_values");
     expect(failedIds(terms([{ t: "para", runs: [{ t: "text", text: "상품을 받은 날부터 7일 이내에 청약철회를 할 수 있습니다. PG사와 앱 푸시는 괜찮습니다.", strong: true }] }]))).not.toContain("structure.blank_values");
   });
 

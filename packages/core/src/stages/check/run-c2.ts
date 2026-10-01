@@ -133,6 +133,8 @@ export function runC2(input: C2Input): CheckResults {
   for (const u of units(ast)) {
     const blank = /\S\s{2,}(이내|일|개월|년|원|회|%)/u.test(u.text) || /[○◯]{1,3}\s*(일|개월|년|원|회|%)|\(\s*\)|\[\s*\]/u.test(u.text);
     const garbled = /[가-힣][a-z]{2,}(?=[\s가-힣])/u.test(u.text);
+    const slotKey = /\b(profile|gate|privacy|terms)\.[A-Za-z][A-Za-z0-9_]*\b/.test(u.text);
+    if (slotKey) blanks.push(finding({ ruleId: "C2-BLANK", docType, sectionId: u.sectionId, severity: "major", message: "An internal slot id appears in reader-facing text.", fixHint: "Write the fact itself, or a manual-review note naming what is missing; never the slot id.", astPath: u.path, quote: u.text }));
     if (blank || garbled) blanks.push(finding({ ruleId: "C2-BLANK", docType, sectionId: u.sectionId, severity: blank ? "major" : "minor", message: blank ? "A value is missing in the middle of a sentence (blank placeholder)." : "Garbled text: Latin letters inside a Korean word.", fixHint: blank ? "State the value from the facts, or drop it and add a manual-review note naming the missing value." : "Rewrite the word.", astPath: u.path, quote: u.text }));
   }
   add("structure.blank_values", "structure", blanks);

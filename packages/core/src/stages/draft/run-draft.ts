@@ -163,9 +163,10 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
       return null;
     }
     if (item.state === "unknown") {
+      // Slot ids go to the Reviewer Sheet (missingFacts), never into reader-facing text.
       const what = conflictNote(input.ledger, item.basisSlots);
-      missingFacts.push({ sectionId: id, text: `${title}: 적용 여부가 확인되지 않았습니다.` });
-      return finish("manual_review", [note("manual_review", `${title}: 적용 여부를 확인해야 합니다.${what.length ? ` (${what.join(", ")})` : ""}`)]);
+      missingFacts.push({ sectionId: id, text: `${title}: 적용 여부가 확인되지 않았습니다.${what.length ? ` (${what.join(", ")})` : ""}` });
+      return finish("manual_review", [note("manual_review", `${title}: 적용 여부를 확인해야 합니다. 관련 질문의 답변이 비어 있거나 서로 맞지 않습니다.`)]);
     }
 
     if (WARN_ONLY.has(id)) {
