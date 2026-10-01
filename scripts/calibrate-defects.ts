@@ -38,6 +38,7 @@ const result = await runDefectCalibration(
 console.log(`base drafts: ${draftsDir ?? "(none saved, all generated)"}`);
 for (const o of result.outcomes) {
   console.log(`${o.id} ${o.detected ? "FOUND " : "MISSED"} expected ${o.expectedRule}@${o.expectedSection}; auditor in section: ${o.auditorRulesInSection.join(", ") || "-"}; C2 ${o.c2Flagged ? "flagged" : "silent"}; base ${o.baseDraft}`);
+  if (!o.detected) for (const m of o.auditorMessages) console.log(`    ${m}`);
 }
 console.log(`recall ${result.recall.toFixed(3)} (gate >= ${GATE_THRESHOLDS.defectRecall})`);
 for (const stage of ["R5P", "R5T", "R7"] as const) console.log(stage, backendClient.usageLine(stage) ?? "no calls");

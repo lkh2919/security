@@ -42,6 +42,8 @@ export interface DefectOutcome {
   readonly c2Flagged: boolean;
   /** What the auditor reported in the expected section instead (rule ids), for misses. */
   readonly auditorRulesInSection: readonly string[];
+  /** The auditor's messages in the expected section (and cross-document findings), for diagnosing misses. */
+  readonly auditorMessages: readonly string[];
   readonly baseDraft: "saved" | "generated";
 }
 
@@ -127,6 +129,7 @@ export async function runDefectCalibration(deps: { draftLlm: LlmClient; auditLlm
       detected: defectDetected(spec, audited.report),
       c2Flagged: c2.checks.some((x) => x.findings.some((f) => f.sectionId === section)),
       auditorRulesInSection: audited.report.findings.filter((f) => f.sectionId === section).map((f) => `${f.ruleId}/${f.severity}`),
+      auditorMessages: audited.report.findings.filter((f) => f.sectionId === section || f.docType === "cross").map((f) => `${f.ruleId}: ${f.message.slice(0, 240)}`),
       baseDraft: source,
     });
   }
