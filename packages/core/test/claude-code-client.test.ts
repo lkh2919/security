@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { z } from "zod";
 import { ContractError } from "../src/contracts/common";
 import { PiiLeakError } from "../src/llm/client";
-import { ClaudeCodeError, ClaudeCodeLlmClient, MAX_SYSTEM_PROMPT_BYTES, createBackendClient, resolveBackend, type CliRunner } from "../src/llm";
+import { ClaudeCodeError, ClaudeCodeLlmClient, MAX_SYSTEM_PROMPT_BYTES, childEnv, createBackendClient, resolveBackend, type CliRunner } from "../src/llm";
 
 const Out = z.strictObject({ answer: z.string(), n: z.number().int() });
 const request = (user = "masked text", stageId: "R2" | "R5P" | "R7" = "R2") => ({ stageId, system: "static prefix", user, schema: Out, schemaName: "Out", promptVersion: "1.0.0" }) as const;
@@ -152,5 +152,12 @@ describe("backend selection", () => {
     expect(b.backend).toBe("claude-code");
     expect(b.usageLine("R2")).toBeNull();
     b.close();
+  });
+});
+
+describe("childEnv", () => {
+  test("drops credentials the claude child does not need and keeps its login and proxy settings", () => {
+    const env = childEnv({ PATH: "/bin", HOME: "/root", HTTPS_PROXY: "http://p", CLAUDE_CODE_OAUTH_TOKEN: "x", ANTHROPIC_BASE_URL: "u", LAW_GO_KR_OC: "k", ANTHROPIC_API_KEY: "k", GH_TOKEN: "k", AWS_SECRET_ACCESS_KEY: "k", OPENAI_API_KEY: "k", DB_PASSWORD: "k" });
+    expect(Object.keys(env).sort()).toEqual(["ANTHROPIC_BASE_URL", "CLAUDE_CODE_OAUTH_TOKEN", "HOME", "HTTPS_PROXY", "PATH"]);
   });
 });

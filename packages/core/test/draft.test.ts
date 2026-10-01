@@ -147,6 +147,28 @@ describe("draftDocument (terms)", () => {
     expect(without.ast.meta.models.R5T).toContain("sonnet");
   });
 
+  test("each terms call sees which sibling article owns which facts; a fix pass sees the articles its findings name", async () => {
+    const first = await run("terms", "G1");
+    const t06 = first.llm.calls.find((c) => c.user.includes('"section":{"id":"T06"'))!;
+    const outline = (JSON.parse(t06.user.slice(t06.user.indexOf("\n") + 1, t06.user.lastIndexOf("\n"))) as { documentOutline: { id: string; owns: string[] }[] }).documentOutline;
+    expect(outline.map((o) => o.id)).not.toContain("T06");
+    expect(outline.find((o) => o.id === "T07")!.owns).toContain("terms.membershipRules");
+    const finding: Finding = { id: "F1", layer: "llm", ruleId: "R-T06-001", docType: "terms", sectionId: "T06", severity: "major", message: "T06 and T07 state the rejoin wait differently.", evidence: { astPath: "sections[0]", quote: "x" }, fixHint: "Align with T07." };
+    const llm = new MockLlmClient({ fixtures: { R5T: draftFixture } });
+    const { ledger, applicability, selection } = first;
+    await draftDocument({ llm }, { docType: "terms", runId: RUN_ID, effectiveDate: "2026-10-01", lawSnapshotId: "law-2026-09-29", rulePackVersion: kb.rulePackVersion, ledger, applicability, selection, library, ruleSections, houseStyle, citations, previous: first.ast, fixFindings: [finding] });
+    expect(llm.callCount()).toBe(1);
+    const user = llm.calls[0]!.user;
+    const related = (JSON.parse(user.slice(user.indexOf("\n") + 1, user.lastIndexOf("\n"))) as { relatedSections: { id: string; text: string }[] }).relatedSections;
+    expect(related.map((r) => r.id)).toEqual(["T07"]);
+    expect(related[0]!.text).toContain("초안");
+  });
+
+  test("privacy calls carry no document outline", async () => {
+    const r = await run("privacy", "G1");
+    expect(r.llm.calls.every((c) => !c.user.includes("documentOutline"))).toBe(true);
+  });
+
   test("G2 has no terms document: nothing is drafted", async () => {
     const r = await run("terms", "G2");
     expect(r.ast.sections).toEqual([]);

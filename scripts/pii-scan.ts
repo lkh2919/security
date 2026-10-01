@@ -4,8 +4,8 @@
  *   bun scripts/pii-scan.ts --staged   scan staged files (used by .githooks/pre-commit)
  *
  * Flags: Korean mobile numbers other than the placeholder 010-0000-0000, e-mail addresses outside the allowlist,
- * resident-registration-number shapes, and key/token shapes. `packages/core/test/` and `golden/` are synthetic by
- * construction and skipped. Landline numbers of public institutions are not flagged. Real names cannot be detected
+ * resident-registration-number shapes, and key/token shapes. `packages/core/test/` is synthetic by construction and
+ * skipped; golden cases and defects are scanned (their inputs must use the placeholders too), run outputs are not tracked. Landline numbers of public institutions are not flagged. Real names cannot be detected
  * by pattern: replace them with the placeholder name 홍길동 before committing.
  * Enable the hook once per clone: `git config core.hooksPath .githooks`.
  */
@@ -21,7 +21,7 @@ export interface Violation {
   readonly hint: string;
 }
 
-const SKIP = [/^packages\/core\/test\//, /^golden\//, /^bun\.lock$/, /\.(png|jpg|docx|zip)$/i];
+const SKIP = [/^packages\/core\/test\//, /^golden\/runs\//, /^bun\.lock$/, /\.(png|jpg|docx|zip)$/i];
 const EMAIL_OK = /^(privacy|help|git|noreply|security|example|user|name|abc)@(example\.(com|org|net)|lotte\.net|github\.com|abc\.abc|users\.noreply\.github\.com|anthropic\.com)$/i;
 const MOBILE = /\b01[016789][-. ]?\d{3,4}[-. ]?\d{4}\b/g;
 const EMAIL = /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+/g;

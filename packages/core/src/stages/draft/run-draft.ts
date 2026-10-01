@@ -12,7 +12,7 @@
  * `fixFindings`; only sections with findings are redrafted, the rest are copied.
  */
 import { z } from "zod";
-import { BlockSchema, collectCitationIds, collectSlotRefs, type Block, type DocAST, type DocMeta, type SectionAST } from "../../contracts/ast";
+import { BlockSchema, collectCitationIds, collectSlotRefs, type Block, type DocAST, type DocMeta, type Inline, type SectionAST } from "../../contracts/ast";
 import type { ApplicabilityMap } from "../../contracts/applicability";
 import type { Finding } from "../../contracts/audit-report";
 import type { ClauseSelection } from "../../contracts/clause-selection";
@@ -99,6 +99,14 @@ function traceOf(section: Omit<SectionAST, "trace">, rs: RuleSection | undefined
   };
 }
 
+/** Plain text of a section, one line per paragraph, list item and table row. */
+export function sectionText(sec: Pick<SectionAST, "blocks">): string {
+  const line = (runs: readonly Inline[]): string => runs.map((r) => (r.t === "text" || r.t === "link" ? r.text : "")).join("");
+  return sec.blocks
+    .flatMap((b) => (b.t === "para" || b.t === "note" ? [line(b.runs)] : b.t === "list" ? b.items.map(line) : b.rows.map((row) => row.map(line).join(" | "))))
+    .join("\n");
+}
+
 /** Filled ledger values relevant to one section: profile/gate slots, the section's own slots and, for terms, all terms slots. */
 export function factsForSection(ledger: FactLedger, docType: "privacy" | "terms", sectionId: string): Record<string, JsonValue> {
   const own = docType === "privacy" ? `privacy.${sectionId}_` : "terms.";
@@ -139,6 +147,28 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
   let usage = ZERO;
 
   const ids = Object.keys(input.applicability.items).filter((id) => prefix.test(id)).sort();
+
+  // Terms articles are drafted one by one, so each call sees which sibling article owns which facts (cross-article consistency).
+  const outline =
+    docType === "terms"
+      ? ids
+          .filter((id) => !["no", "pending"].includes(input.applicability.items[id]!.state))
+          .map((id) => {
+            const r = input.ruleSections.get(id);
+            const owns = (r?.slots ?? []).filter((sl) => sl.startsWith("terms.") && input.ledger.slots[sl]?.status === "filled");
+            return { id, title: r?.title.ko ?? id, owns };
+          })
+      : [];
+  // On a fix pass, the current text of sibling sections a finding names, so the redraft can align to them.
+  const relatedFor = (id: string): { id: string; title: string; text: string }[] => {
+    if (!input.previous) return [];
+    const named = new Set(findingsBy(id).flatMap((f) => [...`${f.message} ${f.fixHint ?? ""}`.matchAll(/\b(S\d{2}|T\d{2}|A1)\b/g)].map((m) => m[1]!)));
+    named.delete(id);
+    return [...named].sort().flatMap((sid) => {
+      const sec = prevById.get(sid);
+      return sec ? [{ id: sid, title: sec.title, text: sectionText(sec).slice(0, 2000) }] : [];
+    });
+  };
 
   async function one(id: string): Promise<SectionAST | null> {
     const item = input.applicability.items[id]!;
@@ -204,6 +234,7 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
       .slice(0, 2)
       .map((c) => ({ clauseId: c.clauseId, body: libById.get(c.clauseId)!.record.body }));
     const facts = factsForSection(input.ledger, docType, id);
+    const related = relatedFor(id);
     const payload = {
       section: { id, title, classification, handling: rs.handling },
       rules: rs.rules.filter((r) => r.level !== "may").map((r) => ({ ruleId: r.ruleId, level: r.level, statement: r.statement, cite: r.legalRefs.filter((c) => citable.has(c)) })),
@@ -213,6 +244,8 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
       styleRules: approvedStyle.map((r) => ({ id: r.id, rule: r.rule })),
       allowedCitations: allowedFor(rs, facts),
       fixFindings: findingsBy(id).map((f) => ({ ruleId: f.ruleId, severity: f.severity, message: f.message, quote: f.evidence.quote, fixHint: f.fixHint })),
+      ...(docType === "terms" ? { documentOutline: outline.filter((o) => o.id !== id) } : {}),
+      ...(related.length > 0 ? { relatedSections: related } : {}),
     };
     const res = await deps.llm.callStructured({
       stageId,

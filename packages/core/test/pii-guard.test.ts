@@ -22,9 +22,10 @@ describe("PII guard", () => {
     expect(JSON.stringify(v)).not.toContain("1234-5678");
   });
 
-  test("synthetic test and golden data are exempt by design", () => {
+  test("unit-test fixtures and untracked run outputs are exempt; golden cases are scanned", () => {
     expect(scanText("packages/core/test/x.ts", "010-1234-5678")).toEqual([]);
-    expect(scanText("golden/cases/G1/x.txt", "kim@corp.co.kr")).toEqual([]);
+    expect(scanText("golden/runs/x/G1.terms.json", "kim@corp.co.kr")).toEqual([]);
+    expect(scanText("golden/cases/G1/x.txt", "kim@corp.co.kr").map((v) => v.kind)).toEqual(["email"]);
   });
 
   test("every tracked file in the repository is clean", () => {

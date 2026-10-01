@@ -4,7 +4,7 @@
  * Checks (ids are stable, used by the auditor and Reviewer Sheet):
  *   structure : `structure.schema`, `structure.unresolved_syntax`, `structure.empty_sections`,
  *               `structure.mandatory_present`, `structure.conditional_handled`
- *   evidence  : `evidence.slot_refs`, `evidence.transcript_quotes`, `evidence.citations`
+ *   evidence  : `evidence.slot_refs`, `evidence.transcript_quotes`, `evidence.citations`, `evidence.repeated_values`
  *   style     : `style.house_style` (APPROVED regex rules only; candidates are never enforced)
  *   safety    : `safety.unfair_clauses` (terms), `safety.vague_recipients` (S07/S08/S09), `safety.disclaimer`
  *   cross_doc : `cross_doc.values_equal`
@@ -23,6 +23,7 @@ import type { HouseStyleFile } from "../../contracts/house-style";
 import type { MaskedTranscript } from "../../contracts/masked-transcript";
 import type { Citation } from "../../contracts/statutes";
 import type { RulePackItem } from "../coverage/load-kb";
+import { findInconsistencies, ledgerValues, statedValues } from "./consistency";
 
 export interface LexiconEntry {
   readonly id: string;
@@ -251,6 +252,24 @@ export function runC2(input: C2Input): CheckResults {
 
   const hasDisclaimer = input.disclaimerByRenderer !== false || ast.sections.some((s) => s.blocks.some((b) => b.t === "note" && b.kind === "disclaimer"));
   add("safety.disclaimer", "safety", hasDisclaimer ? [] : [finding({ ruleId: "C2-DISCLAIMER", docType, sectionId: "-", severity: "major", message: "The mandatory reference-draft disclaimer block is missing.", fixHint: "Add a disclaimer note block.", astPath: "sections", quote: "" })]);
+
+  // A period stated in two articles (rejoin wait, terms-change notice) must be the same, and match the confirmed facts.
+  const repeated: Finding[] = findInconsistencies(statedValues(ast), ledgerValues(input.ledger, `${docType}.`)).map(({ stated: v, expected, source }) =>
+    finding({
+      ruleId: "C2-CONSISTENCY",
+      docType,
+      sectionId: v.sectionId,
+      severity: "major",
+      message:
+        source === "ledger"
+          ? `${v.label}: this article states ${v.value}, the confirmed facts state ${expected}.`
+          : `${v.label}: this article states ${v.value}, ${source.join(", ")} state${source.length > 1 ? "" : "s"} ${expected}.`,
+      fixHint: source === "ledger" ? `State ${expected} as in the confirmed facts.` : `Use the same value as ${source.join(", ")}, or refer to that article by its title instead of restating it.`,
+      astPath: v.path,
+      quote: v.sentence,
+    }),
+  );
+  add("evidence.repeated_values", "evidence", repeated);
 
   // --- cross-document ----------------------------------------------------------------------------
   if (input.crossFacts) {

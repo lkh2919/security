@@ -101,6 +101,16 @@ describe("C2", () => {
     expect(failed(run(ast, { disclaimerByRenderer: false }))).toEqual([]);
   });
 
+  test("terms: a period that contradicts the confirmed facts fails evidence.repeated_values in that article", () => {
+    const rules = { ...ledger, slots: { ...ledger.slots, "terms.membershipRules": filled("회원 자격을 상실한 사람은 상실일부터 30일이 지나면 다시 가입할 수 있습니다.") } } as FactLedger;
+    const terms: DocAST = { docType: "terms", meta, warnings: [], sections: [sec("T06", [{ t: "para", runs: [{ t: "text", text: "자격을 상실한 날부터 14일이 지나면 다시 가입할 수 있습니다." }] }, disclaimer])] };
+    const r = run(terms, { rulePackItems: [], ledger: rules }, "terms");
+    const f = r.checks.find((c) => c.checkId === "evidence.repeated_values")!.findings;
+    expect(f).toHaveLength(1);
+    expect(f[0]).toMatchObject({ ruleId: "C2-CONSISTENCY", sectionId: "T06", severity: "major" });
+    expect(f[0]!.message).toContain("30일");
+  });
+
   test("terms: a blanket liability exclusion hits the unfair-clause lexicon as a blocker (seeded defect D6)", () => {
     const d6 = JSON.parse(readFileSync(join(ROOT, "golden", "defects", "D6.json"), "utf8")) as { mutation: { defectiveText: string } };
     const terms: DocAST = { docType: "terms", meta, warnings: [], sections: [{ ...sec("T14", [{ t: "para", runs: [{ t: "text", text: d6.mutation.defectiveText }] }, disclaimer]) }] };

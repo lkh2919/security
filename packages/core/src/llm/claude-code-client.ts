@@ -11,6 +11,8 @@
  *  - the user turn goes through stdin, never through argv or the process list;
  *  - the CLI has no server-side refusal fallback; a refusal or error surfaces as an error and callers mark `manual_review`;
  *  - the CLI reports cost on a list-price basis; on a subscription it counts against the plan's limits, not an API bill.
+ *  - the child gets the parent environment minus credentials it does not need (`childEnv`): no law.go.kr key, no API key
+ *    (so a stray `ANTHROPIC_API_KEY` can never turn a subscription run into an API bill), no cloud or GitHub tokens.
  * Prompts and outputs are never logged. Requires the `claude` CLI on PATH and a logged-in Claude Code.
  */
 import { spawn } from "node:child_process";
@@ -67,9 +69,16 @@ export interface ClaudeCodeUsageRecord {
   readonly schemaRetry: boolean;
 }
 
+/** Variables never passed to the `claude` child. Claude Code's own login and proxy settings are kept. */
+const CHILD_ENV_DENY = [/^LAW_GO_KR_OC$/, /^ANTHROPIC_API_KEY$/, /^ANTHROPIC_AUTH_TOKEN$/, /^GH_TOKEN$/, /^GITHUB_TOKEN$/, /^AWS_/, /^CLOUDSDK_AUTH_/, /^GOOGLE_APPLICATION_CREDENTIALS$/, /(^|_)SECRET(_|$)/, /(^|_)PASSWORD(_|$)/, /_API_KEY$/];
+
+export function childEnv(env: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
+  return Object.fromEntries(Object.entries(env).filter(([k]) => !CHILD_ENV_DENY.some((re) => re.test(k))));
+}
+
 const defaultRunner = (bin: string): CliRunner => (args, stdin, { cwd, timeoutMs }) =>
   new Promise((resolve, reject) => {
-    const child = spawn(bin, [...args], { cwd, env: process.env, stdio: ["pipe", "pipe", "pipe"] });
+    const child = spawn(bin, [...args], { cwd, env: childEnv(process.env), stdio: ["pipe", "pipe", "pipe"] });
     let stdout = "";
     let stderr = "";
     const timer = setTimeout(() => child.kill("SIGKILL"), timeoutMs);
