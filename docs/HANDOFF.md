@@ -57,7 +57,7 @@ independent audit before rendering MD/HTML/DOCX plus a Reviewer Sheet for the In
 | O0 | Orchestrator and CLI: `stages/orchestrate` (`startRun`, `continueRun`), `scripts/run-pipeline.ts` | done, mock-tested end to end (interview rounds, resume, render, masking off/basic); live run needs the API key. Freshness stage is marked skipped (run `scripts/freshness-check.ts` on the original PC). |
 | 9b | R4 clause matcher (`stages/match`: group classification, library loader, ranking, approved-only house style) | done; committed library has 0 vetted clauses, so every section falls back to the rule pack until the privacy-domain-expert vets clauses (`vetted` + `vettedAgainst` in the clause files) |
 | 11 | Drafters R5P/R5T (clause-first), C2 checker, R7 isolated auditor, draft-C2-audit fix loop | done in code with mock-LLM tests (`stages/draft`, `stages/check`, `stages/audit`, `stages/loop`, `prompts/draft-*`, `prompts/audit`). Not yet run against the live API. C2 implements AST-native generic checks; the rule packs' `check.expr` pseudo-DSL is not evaluated (R7 covers those rules). |
-| 13 | Golden-set regression and calibration | harness done and mock-tested (`src/eval`, `scripts/golden-regression.ts`, gate = design R11.2). **Live calibration not run**: needs `ANTHROPIC_API_KEY`; run `bun scripts/golden-regression.ts --cases G1 --runs 1 --no-defects` first, then the full set with `--runs 3`. Max 3 tuning loops per defect class. |
+| 13 | Golden-set regression and calibration | harness done. **First live runs on G1 via Claude Code (`--llm claude-code`, no API key)**: blocking findings 19 -> 16 -> 6 over three tuning rounds (traceability 0.57 -> 1.0; deterministic findings 3 -> 0); G1 not yet passing. Other cases, seeded defects (D1-D8), stability (3 runs) and `--source extract` are not yet run live. Cost: about USD 5-6 list price per G1 run (about 40 min). |
 | 14 | Router skill, README, operator guide, PPTX outline | next |
 | 15 | Final QA, security scan | local part done: `docs/reports/2026-10-01-final-qa.md` (gates green, scan clean except finding 1). Freeze not declared: live regression (3 runs), freshness, clause vetting and house-style approval are open. |
 
@@ -71,10 +71,18 @@ Known state: root tsc and `bun test` are green. Open KB gap (pinned in `test/kb-
   Rebuilding clauses from raw captures, re-capturing, or re-reading statutes must run on that PC.
   Everything derived from them (rule packs, clause records, captures index, analyses) is committed.
 
+## Live-run findings that need a person (KB or design gaps, not prompt tuning)
+
+- **Interview Template has no slots** for cookie refusal steps / retention / items (S14), and no KB of statutory remedy agencies (S20: names, phone numbers, URLs). G1 supplies these values by hand; real interviews cannot extract them. The privacy-domain-expert should add slots and a verified `statutes/remedy-agencies.json`.
+- **Rule-pack legalRefs carry only article/paragraph/item, not what each item covers.** The drafter sometimes attaches an item-level citation to the wrong element (for example ECA 17(2) item 5). Prompts 1.3.0 tell it to use paragraph-level IDs when unsure; the durable fix is a verified `covers` note per legal ref.
+- **PG / payment provider** is an ambiguous party type by user decision (always manual review, both candidates shown in S07 and S09). The drafter currently writes a manual-review note only; it does not yet draft the two candidate rows. G1 avoids the case (bank transfer only); add a golden case for it.
+- Lexicon `suppress` patterns (3 entries) were added from live drafts; extend them the same way when a lawful sentence is flagged, and keep every `testPositive` flagged (test).
+
 ## What the next session should do first
 
+0. Backend choice: no API key is needed. `bun scripts/<script> --llm claude-code` runs on the Claude Code login; `--llm api` or `ANTHROPIC_API_KEY` uses the API.
 1. Pull `claude/stoic-darwin-b7yuee` ([PR #2](https://github.com/lkh2919/security/pull/2)); run `bun install`, `bun x tsc --noEmit`, `cd packages/core && bun test` (expect 724 pass).
-2. With `ANTHROPIC_API_KEY` in `.env`: `bun scripts/smoke-extract.ts`, then `bun scripts/golden-regression.ts --cases G1 --runs 1 --no-defects`, then the full set with `--runs 3`. Tune prompts only where a gate metric fails (max 3 loops per defect class).
+2. `bun scripts/smoke-extract.ts --llm claude-code` (passes), then `bun scripts/golden-regression.ts --cases G1 --runs 1 --no-defects`, then the full set with `--runs 3`. Tune prompts only where a gate metric fails (max 3 loops per defect class).
 3. Human gates: vet clauses (privacy-domain-expert), approve house style (user), review `golden/cases/*/reference/` once the first live drafts exist.
 4. On the original PC: `bun scripts/freshness-check.ts`. If `scripts/capture-lotte.ts` / `build-clauses.ts` are rerun, redact the officer contact lines of the capture index again (QA report finding 1).
 
