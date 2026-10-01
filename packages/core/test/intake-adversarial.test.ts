@@ -598,5 +598,5 @@ describe("K. performance", () => {
     const t = Date.now();
     run("a".repeat(40000));
     expect(Date.now() - t).toBeLessThan(300);
-  });
+  }, 60_000); // known gap: it must fail on the 300 ms assertion, not on bun's 5 s default timeout of a slow machine
 });
