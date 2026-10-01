@@ -38,5 +38,5 @@ Rows 1-15 are implemented and tested with mock models (see `docs/HANDOFF.md` for
 1. Live runs: `scripts/smoke-extract.ts`, `scripts/run-pipeline.ts`, then `scripts/golden-regression.ts --runs 3` (design R11.2 gate; max 3 tuning loops per defect class).
 2. Clause vetting (privacy-domain-expert, `opus`): set `vetted` and `vettedAgainst` in clause files; bind the 11 unbound variables to slots or renderer metadata.
 3. House-style approval (the user): candidates in `kb/jurisdictions/kr/house-style/`.
-4. Original PC only: `scripts/freshness-check.ts`; capture-index cleanup (QA finding 1); raw-source rebuilds.
+4. Original PC only: `scripts/freshness-check.ts`; raw-source rebuilds (redact the capture-index officer contacts again if the index is regenerated, QA finding 1).
 5. Freeze (Row 15) only after the live and human gates pass.

@@ -76,10 +76,10 @@ Known state: root tsc and `bun test` are green. Open KB gap (pinned in `test/kb-
 1. Pull `claude/stoic-darwin-b7yuee` ([PR #1](https://github.com/lkh2919/security/pull/1)); run `bun install`, `bun x tsc --noEmit`, `cd packages/core && bun test` (expect 724 pass).
 2. With `ANTHROPIC_API_KEY` in `.env`: `bun scripts/smoke-extract.ts`, then `bun scripts/golden-regression.ts --cases G1 --runs 1 --no-defects`, then the full set with `--runs 3`. Tune prompts only where a gate metric fails (max 3 loops per defect class).
 3. Human gates: vet clauses (privacy-domain-expert), approve house style (user), review `golden/cases/*/reference/` once the first live drafts exist.
-4. On the original PC: `bun scripts/freshness-check.ts`; decide finding 1 of the QA report (personal data in the capture index).
+4. On the original PC: `bun scripts/freshness-check.ts`. If `scripts/capture-lotte.ts` / `build-clauses.ts` are rerun, redact the officer contact lines of the capture index again (QA report finding 1).
 
 ## Open items for the user
 
 - Optional: InfoSec-annotated approved policies (for rubric calibration), a sample interview mp3, the InfoSec form.
 - House-style candidates (19 rules) need the user's approval; until then no house-style rule is enforced.
-- Decide what to do with the named executive and e-mail in `kb/jurisdictions/kr/clauses/_captures/index.json` (QA report finding 1).
+- Done 2026-10-01: personal names, e-mail and phones in the capture index were replaced (QA report finding 1). Do not rebuild the index from raw captures without redacting again.
