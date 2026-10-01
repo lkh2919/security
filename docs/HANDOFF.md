@@ -83,6 +83,7 @@ Known state: root tsc and `bun test` are green. Open KB gap (pinned in `test/kb-
 
 ## What the next session should do first
 
+0. Long live runs: `bun scripts/golden-batch.ts --cases G2,G3,W1` runs one case per process and, on a Claude Code usage limit, sleeps until the reset time and retries (exit 3 with the remaining cases if the wait exceeds `--max-wait-min`, default 110).
 0. Backend choice: no API key is needed. `bun scripts/<script> --llm claude-code` runs on the Claude Code login; `--llm api` or `ANTHROPIC_API_KEY` uses the API.
 1. Pull `claude/stoic-darwin-b7yuee`; `bun install` sets `core.hooksPath` to `.githooks` (PII pre-commit guard) ([PR #2](https://github.com/lkh2919/security/pull/2)); run `bun install`, `bun x tsc --noEmit`, `cd packages/core && bun test` (expect 763 pass).
 2. `bun scripts/smoke-extract.ts --llm claude-code` (passes), then `bun scripts/golden-regression.ts --cases G1 --runs 1 --no-defects`, then the full set with `--runs 3`. Tune prompts only where a gate metric fails (max 3 loops per defect class).
