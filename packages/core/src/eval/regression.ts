@@ -74,6 +74,8 @@ export interface CaseOutcome {
   readonly openFindings: Readonly<Record<string, readonly Finding[]>>;
   /** Verdict per iteration, per document. */
   readonly iterationVerdicts: Readonly<Record<string, readonly string[]>>;
+  /** Final auditor scores and C2 status per document (why a verdict is fail even without blocking findings). */
+  readonly finalScores: Readonly<Record<string, { scores: Record<string, number>; c2Passed: boolean }>>;
 }
 
 export interface RegressionResult {
@@ -150,6 +152,7 @@ export async function runGoldenRegression(deps: RegressionDeps, opts: Regression
     const docs: Record<string, DocAST> = {};
     const openFindings: Record<string, Finding[]> = {};
     const iterationVerdicts: Record<string, string[]> = {};
+    const finalScores: Record<string, { scores: Record<string, number>; c2Passed: boolean }> = {};
     let blocking = 0;
     let escalated = false;
     for (const docType of ["privacy", "terms"] as const) {
@@ -171,6 +174,7 @@ export async function runGoldenRegression(deps: RegressionDeps, opts: Regression
           docs[docType] = res.ast;
           openFindings[docType] = [...res.openFindings];
           iterationVerdicts[docType] = res.iterations.map((i) => i.report.verdict);
+          finalScores[docType] = { scores: { ...res.final.scores }, c2Passed: res.finalC2.passed };
           verdicts[docType] = res.final.verdict;
           escalated = escalated || res.escalated;
           if (isG) blocking += res.openFindings.filter((f) => f.severity === "blocker" || f.severity === "major").length;
@@ -195,7 +199,7 @@ export async function runGoldenRegression(deps: RegressionDeps, opts: Regression
     all.applic.push(accuracy);
     all.blocking += blocking;
     references.set(id, { docs, ledger, applicability, formSlots: intake.formSlots });
-    outcomes.push({ caseId: id, verdicts, applicabilityAccuracy: accuracy, slotRecall: recall, slotPrecision: precision, blockingFindings: blocking, escalated, docs, openFindings, iterationVerdicts });
+    outcomes.push({ caseId: id, verdicts, applicabilityAccuracy: accuracy, slotRecall: recall, slotPrecision: precision, blockingFindings: blocking, escalated, docs, openFindings, iterationVerdicts, finalScores });
   }
 
   // --- auditor calibration on seeded defects ---------------------------------------------------------------------------

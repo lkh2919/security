@@ -5,6 +5,14 @@ import type { RBlock, RDoc, RRun, RSection, RenderOptions } from "./types";
 
 const LAW_NAMES: Readonly<Record<string, string>> = {
   PIPA: "개인정보 보호법",
+  DEC: "개인정보 보호법 시행령",
+  "ECA-DEC": "전자상거래 등에서의 소비자보호에 관한 법률 시행령",
+  STD10023: "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+  STDG: "표준 개인정보 보호지침",
+  CPPA: "통신비밀보호법",
+  NTBA: "국세기본법",
+  SAFE: "개인정보의 안전성 확보조치 기준",
+  LSA: "근로기준법",
   PIPAD: "개인정보 보호법 시행령",
   "PIPA-DECREE": "개인정보 보호법 시행령",
   ECA: "전자상거래 등에서의 소비자보호에 관한 법률",
@@ -13,7 +21,7 @@ const LAW_NAMES: Readonly<Record<string, string>> = {
 };
 
 export const DEFAULT_DISCLAIMER =
-  "이 문서는 AI의 도움으로 작성된 참고용 초안이며 법률 자문이 아닙니다. 게시 및 시행 전에 개인정보 보호책임자와 정보보호실의 검토를 받아야 하며, 최종 책임은 개인정보 보호책임자·정보보호실에 있습니다.";
+  "이 문서는 AI의 도움으로 작성된 참고용 초안이며 법률 자문이 아닙니다. 게시 및 시행 전에 개인정보 보호책임자와 사내 정보보호 검토 부서의 검토를 받아야 하며, 최종 책임은 개인정보 보호책임자와 검토 부서에 있습니다.";
 export const DEFAULT_DRAFT_BANNER = "DRAFT — unresolved findings (미해결 감사 지적사항이 남아 있는 초안입니다)";
 
 const NOTE_LABELS = { info: "안내", manual_review: "확인 필요", freshness: "최신성 안내", disclaimer: "유의사항" } as const;
@@ -28,9 +36,26 @@ export class Collector {
   }
 }
 
+/** Legal-ref key (`PIPA:30(1)1`, `ARTC:7[1]`, `ECA:21-2(1)4`, `NTBA:85-3(2)`) -> `「법령명」 제30조제1항제1호`. */
+export function formatLegalRefKey(id: string): string | undefined {
+  const m = /^([A-Z][A-Z0-9-]*):(\d+)(?:-(\d+))?((?:\(\d+(?:-\d+)?\)|\[\d+(?:-\d+)?\])*)(\d+)?(?:-(\d+))?$/.exec(id);
+  const law = m ? LAW_NAMES[m[1]!] : undefined;
+  if (!m || !law) return undefined;
+  const branch = (b?: string): string => (b ? `의${b}` : "");
+  let out = `제${m[2]}조${branch(m[3])}`;
+  for (const part of m[4]!.match(/\(\d+(?:-\d+)?\)|\[\d+(?:-\d+)?\]/g) ?? []) {
+    const [n, b] = part.slice(1, -1).split("-");
+    out += part.startsWith("(") ? `제${n}항${branch(b)}` : `제${n}호${branch(b)}`;
+  }
+  if (m[5]) out += `제${m[5]}호${branch(m[6])}`;
+  return `「${law}」 ${out}`;
+}
+
 export function formatCitation(id: string, opts: RenderOptions): string | undefined {
   const entry = opts.citations?.[id];
   if (entry) return `「${entry.law}」 ${entry.article}`;
+  const key = formatLegalRefKey(id);
+  if (key) return key;
   const m = /^([A-Z]+(?:-DECREE)?)-(\d+)(?:-(\d+))?$/.exec(id);
   const law = m ? LAW_NAMES[m[1]!] : undefined;
   if (!m || !law) return undefined;
@@ -118,7 +143,10 @@ export function buildDoc(ast: DocAST, opts: RenderOptions, col: Collector): RDoc
     const blocks = s.blocks.map((b) => resolveBlock(b, ctx));
     if (s.status === "manual_review") {
       col.add(`섹션 ${s.id}은(는) 담당자 확인이 필요합니다 (manual_review)`);
-      blocks.unshift({ t: "note", kind: "manual_review", label: NOTE_LABELS.manual_review, runs: [{ kind: "text", text: "이 항목은 자동 작성하지 못했습니다. 담당자가 사실관계를 확인한 뒤 작성해야 합니다." }] });
+      // Only when the section carries no specific manual-review note of its own: a generic banner over drafted text misleads readers.
+      if (!s.blocks.some((b) => b.t === "note" && b.kind === "manual_review")) {
+        blocks.unshift({ t: "note", kind: "manual_review", label: NOTE_LABELS.manual_review, runs: [{ kind: "text", text: "이 항목에는 담당자가 사실관계를 확인해야 하는 내용이 있습니다." }] });
+      }
     }
     sections.push({ id: s.id, anchor: `sec-${s.id}`, heading: headingFor(ast.docType, n, s.title), blocks });
   }
@@ -126,8 +154,12 @@ export function buildDoc(ast: DocAST, opts: RenderOptions, col: Collector): RDoc
 
   const gv = opts.guidelineVersion ?? "2026.4";
   const m = ast.meta;
+  const basis =
+    ast.docType === "privacy"
+      ? { stamp: `작성지침 기준: 개인정보보호위원회 개인정보 처리방침 작성지침 (${gv}.)`, attribution: `출처: 개인정보보호위원회 「개인정보 처리방침 작성지침」(${gv}.)` }
+      : { stamp: "작성 기준: 공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호, 약관의 규제에 관한 법률", attribution: "출처: 공정거래위원회 「전자상거래(인터넷사이버몰) 표준약관」 제10023호" };
   const stamps = [
-    `작성지침 기준: 개인정보보호위원회 개인정보 처리방침 작성지침 (${gv}.)`,
+    basis.stamp,
     `규칙팩 버전: ${m.rulePackVersion}`,
     `조항 라이브러리 버전: ${m.clauseLibVersion}`,
     `하우스 스타일 버전: ${m.houseStyleVersion}`,
@@ -146,7 +178,7 @@ export function buildDoc(ast: DocAST, opts: RenderOptions, col: Collector): RDoc
     sections,
     changeHistory: ch && ch.length > 0 ? { caption: "변경 이력", header: ["시행일", "버전", "변경 내용"], rows: ch.map((e) => [e.date, e.version, e.summary]) } : undefined,
     disclaimer: DEFAULT_DISCLAIMER,
-    attribution: `출처: 개인정보보호위원회 「개인정보 처리방침 작성지침」(${gv}.)`,
+    attribution: basis.attribution,
     stamps,
   };
 }

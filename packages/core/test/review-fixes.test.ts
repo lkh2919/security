@@ -284,3 +284,36 @@ describe("live-run tuning (loop 4)", () => {
     expect(doc).toMatch(/<w:b\/>[\s\S]{0,400}7일 이내/);
   });
 });
+
+describe("rendering fixes from the live run", () => {
+  test("legal-ref keys render as Korean citations", async () => {
+    const { formatLegalRefKey } = await import("../src/stages/render/resolve");
+    expect(formatLegalRefKey("PIPA:30(1)1")).toBe("「개인정보 보호법」 제30조제1항제1호");
+    expect(formatLegalRefKey("ARTC:7[1]")).toBe("「약관의 규제에 관한 법률」 제7조제1호");
+    expect(formatLegalRefKey("ECA:21-2(1)4")).toBe("「전자상거래 등에서의 소비자보호에 관한 법률」 제21조의2제1항제4호");
+    expect(formatLegalRefKey("NTBA:85-3(2)")).toBe("「국세기본법」 제85조의3제2항");
+    expect(formatLegalRefKey("STD10023:15(1)")).toBe("「공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호」 제15조제1항");
+    expect(formatLegalRefKey("XYZ:1")).toBeUndefined();
+  });
+
+  test("markdown bold merges adjacent strong runs and keeps spaces outside the markers", async () => {
+    const { renderMarkdown } = await import("../src/stages/render");
+    const ast = { docType: "terms", meta, warnings: [], sections: [{ ...sec("T10", "x"), blocks: [{ t: "para", runs: [{ t: "text", text: "청약철회는 ", strong: true }, { t: "text", text: "7일 이내", strong: true }, { t: "text", text: " 파기 절차: ", strong: true }, { t: "text", text: "끝" }] }] }] } as DocAST;
+    const md = renderMarkdown(ast);
+    expect(md).toContain("**청약철회는 7일 이내 파기 절차:** 끝");
+    expect(md).not.toContain("****");
+  });
+
+  test("terms carry the KFTC attribution; cites resolve; the generic manual-review banner appears only without a specific note", async () => {
+    const { renderMarkdown } = await import("../src/stages/render");
+    const terms = { docType: "terms", meta, warnings: [], sections: [{ ...sec("T10", "x", "manual_review"), blocks: [{ t: "para", runs: [{ t: "text", text: "청약철회" }, { t: "cite", citationId: "ECA:17(1)" }] }, { t: "note", kind: "manual_review", runs: [{ t: "text", text: "입금 기한 확인 필요" }] }] }] } as DocAST;
+    const md = renderMarkdown(terms);
+    expect(md).toContain("표준약관");
+    expect(md).not.toContain("개인정보 처리방침 작성지침");
+    expect(md).toContain("「전자상거래 등에서의 소비자보호에 관한 법률」 제17조제1항");
+    expect(md).not.toContain("인용 확인 필요");
+    expect(md).not.toContain("사실관계를 확인해야 하는 내용이 있습니다");
+    const bare = { ...terms, sections: [{ ...terms.sections[0]!, blocks: [{ t: "para", runs: [{ t: "text", text: "x" }] }] }] } as DocAST;
+    expect(renderMarkdown(bare)).toContain("사실관계를 확인해야 하는 내용이 있습니다");
+  });
+});
