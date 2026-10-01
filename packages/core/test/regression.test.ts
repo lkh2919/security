@@ -12,9 +12,10 @@ const specs = readdirSync(join(ROOT, "golden", "defects")).filter((f) => /^D\d\.
 
 const body = (req: StructuredCallRequest): string => req.user.slice(req.user.indexOf("\n") + 1, req.user.lastIndexOf("\n"));
 const drafter = (req: StructuredCallRequest): SectionDraft => {
-  const p = JSON.parse(body(req)) as { section: { title: string }; facts: Record<string, unknown> };
+  const p = JSON.parse(body(req)) as { section: { id: string; title: string }; facts: Record<string, unknown> };
   const slot = Object.keys(p.facts)[0];
-  return { status: "drafted", missingFacts: [], blocks: [{ t: "para", runs: [{ t: "text", text: `${p.section.title} 내용입니다.`, ...(slot ? { slotRef: slot } : {}) }] }] };
+  // Like the real prompt asks: the operative withdrawal/refund sentence in T10 is bold.
+  return { status: "drafted", missingFacts: [], blocks: [{ t: "para", runs: [{ t: "text", text: `${p.section.title} 내용입니다.`, ...(slot ? { slotRef: slot } : {}), ...(p.section.id === "T10" ? { strong: true } : {}) }] }] };
 };
 const goodScores = { legal: 5, accuracy: 5, clarity: 5, houseStyle: 5, consistency: 5 };
 /** Mock auditor that "detects" exactly the seeded defects whose text appears in the document (recall is then a property of the harness). */
