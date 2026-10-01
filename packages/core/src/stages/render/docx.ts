@@ -31,7 +31,7 @@ function runsOf(runs: readonly RRun[], extra: { bold?: boolean; size?: number } 
     if (r.kind === "unresolved") return new TextRun({ ...base, bold: true, color: "9C0006", shading: { type: ShadingType.CLEAR, fill: "FFC7CE" } });
     if (r.kind === "cite") return new TextRun({ ...base, italics: true });
     if (r.kind === "link") return new TextRun({ ...base, color: "0B4F9C", underline: {} });
-    return new TextRun(base);
+    return new TextRun(r.strong ? { ...base, bold: true } : base);
   });
 }
 

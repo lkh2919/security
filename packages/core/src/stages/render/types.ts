@@ -37,6 +37,8 @@ export interface RRun {
   readonly text: string;
   readonly kind: RRunKind;
   readonly href?: string;
+  /** Bold emphasis for important content. */
+  readonly strong?: boolean;
 }
 
 export type RBlock =

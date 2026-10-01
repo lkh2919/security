@@ -65,7 +65,7 @@ function textRuns(text: string, ctx: Ctx): RRun[] {
 export function resolveInline(inline: Inline, ctx: Ctx): RRun[] {
   switch (inline.t) {
     case "text":
-      return textRuns(inline.text, ctx);
+      return inline.strong ? textRuns(inline.text, ctx).map((r) => (r.kind === "text" ? { ...r, strong: true } : r)) : textRuns(inline.text, ctx);
     case "placeholder":
       return textRuns(`{{${inline.key}}}`, ctx);
     case "cite": {

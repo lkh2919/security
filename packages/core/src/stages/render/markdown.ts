@@ -10,7 +10,7 @@ function runMd(run: RRun, inTable: boolean): string {
     case "link":
       return /^(https?:|mailto:|#)/.test(run.href ?? "") ? `[${t}](${run.href})` : t;
     default:
-      return t;
+      return run.strong && t.trim() ? `**${t}**` : t;
   }
 }
 

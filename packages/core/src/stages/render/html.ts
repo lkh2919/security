@@ -15,7 +15,7 @@ function runHtml(run: RRun): string {
     case "link":
       return /^(https?:|mailto:|#)/.test(run.href ?? "") ? `<a href="${esc(run.href!)}">${t}</a>` : t;
     default:
-      return t;
+      return run.strong ? `<strong>${t}</strong>` : t;
   }
 }
 

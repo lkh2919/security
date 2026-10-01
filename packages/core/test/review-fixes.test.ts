@@ -240,3 +240,47 @@ describe("live-run tuning (loop 2)", () => {
     expect(s05.allowedCitations).toContain("NTBA:85-3(2)");
   });
 });
+
+describe("live-run tuning (loop 4)", () => {
+  const terms = (blocks: SectionAST["blocks"]): DocAST => ({ docType: "terms", meta, warnings: [], sections: [{ ...sec("T10", "x"), blocks }] }) as DocAST;
+  const c2 = (ast: DocAST) => {
+    const { ledger, applicability } = g1();
+    return runC2({ runId: RUN_ID, docType: ast.docType, ast, ledger, applicability, rulePackItems: [], transcript: { ...maskedTranscript, runId: RUN_ID }, citations });
+  };
+  const failedIds = (ast: DocAST) => c2(ast).checks.filter((c) => !c.passed).map((c) => c.checkId);
+
+  test("a blank value in the middle of a sentence and garbled Latin fragments are caught", () => {
+    expect(failedIds(terms([{ t: "para", runs: [{ t: "text", text: "회원이 행위를 반복하거나  이내에 사유를 해소하지 않는 경우", strong: true }] }]))).toContain("structure.blank_values");
+    expect(failedIds(terms([{ t: "para", runs: [{ t: "text", text: "공serv 양속에 반하는 행위", strong: true }] }]))).toContain("structure.blank_values");
+    expect(failedIds(terms([{ t: "para", runs: [{ t: "text", text: "○○일 이내에 환급합니다.", strong: true }] }]))).toContain("structure.blank_values");
+    expect(failedIds(terms([{ t: "para", runs: [{ t: "text", text: "상품을 받은 날부터 7일 이내에 청약철회를 할 수 있습니다. PG사와 앱 푸시는 괜찮습니다.", strong: true }] }]))).not.toContain("structure.blank_values");
+  });
+
+  test("a drafted T10 needs bold withdrawal or refund text", () => {
+    expect(failedIds(terms([{ t: "para", runs: [{ t: "text", text: "7일 이내에 청약철회를 할 수 있습니다." }] }]))).toContain("style.emphasis");
+    expect(failedIds(terms([{ t: "para", runs: [{ t: "text", text: "7일 이내에 청약철회를 할 수 있습니다.", strong: true }] }]))).not.toContain("style.emphasis");
+  });
+
+  test("strong text renders bold in Markdown, HTML and DOCX", async () => {
+    const { renderMarkdown, renderHtml, renderDocx } = await import("../src/stages/render");
+    const ast = terms([{ t: "para", runs: [{ t: "text", text: "청약철회는 " }, { t: "text", text: "7일 이내", strong: true }, { t: "text", text: "에 할 수 있습니다." }] }]);
+    expect(renderMarkdown(ast)).toContain("**7일 이내**");
+    expect(renderHtml(ast)).toContain("<strong>7일 이내</strong>");
+    const zip = await renderDocx(ast);
+    const { inflateRawSync } = await import("node:zlib");
+    const dv = new DataView(zip.buffer, zip.byteOffset, zip.byteLength);
+    let e = zip.length - 22;
+    while (dv.getUint32(e, true) !== 0x06054b50) e--;
+    let p = dv.getUint32(e + 16, true);
+    let doc = "";
+    for (let i = 0; i < dv.getUint16(e + 10, true); i++) {
+      const nl = dv.getUint16(p + 28, true);
+      const name = new TextDecoder().decode(zip.subarray(p + 46, p + 46 + nl));
+      const lo = dv.getUint32(p + 42, true);
+      const start = lo + 30 + dv.getUint16(lo + 26, true) + dv.getUint16(lo + 28, true);
+      if (name === "word/document.xml") doc = new TextDecoder().decode(inflateRawSync(zip.subarray(start, start + dv.getUint32(p + 20, true))));
+      p += 46 + nl + dv.getUint16(p + 30, true) + dv.getUint16(p + 32, true);
+    }
+    expect(doc).toMatch(/<w:b\/>[\s\S]{0,400}7일 이내/);
+  });
+});

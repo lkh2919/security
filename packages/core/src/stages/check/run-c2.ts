@@ -127,6 +127,16 @@ export function runC2(input: C2Input): CheckResults {
   }
   add("structure.unresolved_syntax", "structure", syntax);
 
+  // A value the drafter left out mid-sentence ("반복하거나  이내에", "○○일", "( )"), or a Latin fragment glued inside a Korean word
+  // ("공serv 양속"): both reach readers as broken text.
+  const blanks: Finding[] = [];
+  for (const u of units(ast)) {
+    const blank = /\S\s{2,}(이내|일|개월|년|원|회|%)/u.test(u.text) || /[○◯]{1,3}\s*(일|개월|년|원|회|%)|\(\s*\)|\[\s*\]/u.test(u.text);
+    const garbled = /[가-힣][a-z]{2,}(?=[\s가-힣])/u.test(u.text);
+    if (blank || garbled) blanks.push(finding({ ruleId: "C2-BLANK", docType, sectionId: u.sectionId, severity: blank ? "major" : "minor", message: blank ? "A value is missing in the middle of a sentence (blank placeholder)." : "Garbled text: Latin letters inside a Korean word.", fixHint: blank ? "State the value from the facts, or drop it and add a manual-review note naming the missing value." : "Rewrite the word.", astPath: u.path, quote: u.text }));
+  }
+  add("structure.blank_values", "structure", blanks);
+
   const empty: Finding[] = [];
   ast.sections.forEach((sec, i) => {
     if ((sec.status === "drafted" || sec.status === "not_processed_statement" || sec.status === "manual_review") && sec.blocks.length === 0) {
@@ -217,6 +227,16 @@ export function runC2(input: C2Input): CheckResults {
     }
   }
   add("safety.unfair_clauses", "safety", unfair);
+
+  // ARTC 3(1) / R-T01-002: withdrawal and refund content must stand out. Checked where it is certain to exist (a drafted T10).
+  const emphasis: Finding[] = [];
+  if (docType === "terms") {
+    const t10 = ast.sections.findIndex((x) => x.id === "T10" && x.status === "drafted");
+    if (t10 >= 0 && ![...locate(ast)].some((l) => l.sectionIndex === t10 && l.inline.t === "text" && l.inline.strong)) {
+      emphasis.push(finding({ ruleId: "R-T01-002", docType, sectionId: "T10", severity: "major", message: "Withdrawal and refund conditions are not visually distinct (no bold text in T10).", fixHint: "Mark the operative withdrawal and refund sentences as strong.", astPath: `sections[${t10}]`, quote: ast.sections[t10]!.title }));
+    }
+  }
+  add("style.emphasis", "style", emphasis);
 
   const vague: Finding[] = [];
   for (const u of units(ast)) {
