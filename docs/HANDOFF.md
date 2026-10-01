@@ -64,6 +64,22 @@ independent audit before rendering MD/HTML/DOCX plus a Reviewer Sheet for the In
 Known state: root tsc and `bun test` are green. Open KB gap (pinned in `test/kb-integrity.test.ts`, `KNOWN_UNBOUND`): 11 clause variables have no interview slot
 (document metadata such as announceDate/versionNumber/tableOfContents, and collectionMethods, siteUrl, pointPolicy, customerCenter). The privacy-domain-expert decides new slots vs renderer-filled metadata.
 
+## Council stage 2 live results (2026-10-01/02, one run each, `--source expected`)
+
+| Case | Privacy | Terms | Open blocker/major |
+|------|---------|-------|--------------------|
+| G1 | fail (2/3/3) | pass_with_warnings (4/4/4) | 1 (S02 access-log purpose; data fixed after the run) |
+| G2 | fail (2/4/3) | n/a | 2: S20 remedy-agency contacts, S16 Decree Art.45 (both KB gaps) |
+| G3 | fail (2/4/3) | pass-level scores (4/4/4) | 1: S16 Decree Art.45 (KB gap) |
+| G1b, G2b | rerun pending on the latest code | | |
+| W1-W4 | warn sections correct | | gate changed: W cases are judged on warn-only bodies, not traceability |
+
+Fixed during stage 2: effective date as a ledger fact in the regression; per-article terms applicability
+(T09/T10 paid, T12 UGC); privacy task facts shared across S02/S03/S05; S07/S09 candidate rows for
+ambiguous parties; T13 refers to the policy by title without a link; golden G-case inputs enriched.
+What blocks a full G pass now is KB content, not prompts: verified Decree Art.45 ref for S16 (R-S16-006)
+and a verified `statutes/remedy-agencies.json` for S20 (original PC / privacy-domain-expert).
+
 ## What only works on the original PC
 
 - law.go.kr calls (freshness watcher, statute fetches): the OC key is bound to the registered IP.
