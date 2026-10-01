@@ -17,14 +17,14 @@ Not releasable to an overseas LLM for real STT interviews yet. Digit-format PII 
 | B1 | Spoken/segmented numbers: `공일공 일이삼사 오육칠팔`, spoken RRN/account/card/bizno/IP/사번, `010 12 34 56 78`, `010 - 1234 - 5678`, `010에 1234에 5678`, `010/1234/5678`, `192 168 0 1`, `영일영 1234 5678`. Gate is blind too. | Blocker | A1-A16, A23 |
 | B2 | Names only masked when context proves them. Bare names (`박민준이에요`, `고객 김민수의`, `김도윤이 담당`), `박 과장`, `김 과장님`, all English names (`John`, `Daniel Kim`, `Mr. Smith`), given names (`서준이가`), spaced names. The gate has no name detection, so they pass silently. Latin speaker label registers only the full string; `John` alone leaks. | Blocker | C5-C13, C19, C22 |
 | B3 | Name known to masker but not replaced (glued title `박민준책임이`, prefix `저희팀박민준`, speaker `한서준 과장` never in body). Gate only checks vault entries, and a name never replaced has none. | Major | C14b, C16, C17, H (gate) |
-| B4 | Spoken/obfuscated email: `골뱅이/닷`, `at/dot`, `[at]`, `(at)`, IDN domain. `user:pw@10.1.1.1` leaves credentials. | Major | B1-B4, B6, B10 |
+| B4 | Spoken/obfuscated email: `골뱅이/닷`, `at/dot`, `[at]`, `(at)`, IDN domain. `user:pw@internal-host` leaves credentials. | Major | B1-B4, B6, B10 |
 | B5 | Invisible/odd characters not stripped by `sanitizeText`: U+00AD, U+3164, U+FE0F, U+034F, tag chars, Unicode dashes (U+2010/2011/2013/2212), Arabic-Indic digits, letter O for zero. Soft hyphen inside an email domain leaves `hong@na` (local part) in output. | Major | E3-E9, E11, E12, E15 |
 | B6 | Internal identifiers/infrastructure: Jira keys, Slack IDs/handles, vehicle plates, passport, Amex 4-6-5, MAC, `-prd`/single-label hosts (`ci-paylab-prd01`, `erpdb01`), internal TLDs outside the list (`.group`, `.lotte`), 번길 addresses partly masked, `판교로 256`. | Major | D1-D5, D11, D13-D15, D21, D28, D29 |
 | B7 | Secrets: API keys/tokens (`sk-ant-...`, `AKIA...`, `ghp_...`), passwords in speech. Only caught by accident when a 10-digit run trips `LONG_NUMBER`. | Major | D22 (accident), D23-D26 |
 | B8 | Numeric JSON form values (`"정산계좌": 110123456789012`) bypass `maskForm` and the gate (only strings are walked). | Major | J numeric form |
 | B9 | Side channels: `PiiResidualError` message embeds the raw form key (`form.fields.<key>`); `TextFileSttAdapter` error echoes the full Windows path (filename may hold a name); `JSON.stringify(IntakeResult)`, `JSON.stringify(masker)` and `masker.patternOptions` (has `knownNames`) serialise raw values. | Minor (footguns) | J, G |
 | B10 | Injection fence: `<`/`>` are neutralised, so the fence cannot be closed and fake system tags stay inert (holds, tested with 8 attacks incl. full-width, ZWSP, `<|im_start|>`). Gap: a newline in a segment or speaker label forges a `[T0099] 인터뷰어:` header line inside the fence. Literal `{{PERSON_1}}` in raw input is kept and collides with real keys. | Minor | I, G |
-| B11 | `findVaultLeaks` (LLM backstop) is exact-string: a re-spelled value (`01073456712` vs `010-7345-6712`) is not caught. | Minor | J |
+| B11 | `findVaultLeaks` (LLM backstop) is exact-string: a re-spelled value (`01000000000` vs `010-0000-0000`) is not caught. | Minor | J |
 | B12 | Quadratic regex cost: 40k-char single segment takes about 1 s, 60k about 2.5 s (EMAIL/URL scans). | Minor | K |
 
 ## Fix recommendations (for the R1 author, routed by PM)
