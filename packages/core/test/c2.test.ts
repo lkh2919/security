@@ -155,6 +155,9 @@ describe("unfair-clause lexicon", () => {
     // wording variants seen in live drafts
     expect(flagged("U-ARTC9-01", "회사의 주소 변경 등으로 제1항의 기간 안에 청약철회를 할 수 없었던 경우에는 그 사실을 안 날부터 청약철회 기간을 계산합니다.")).toBe(false);
     expect(flagged("U-ARTC9-01", "이 약관의 내용은 법률이 보장하는 청약철회 기간을 줄이거나 청약철회에 조건을 붙이는 것으로 해석되지 않습니다.")).toBe(false);
+    expect(flagged("U-ARTC7-06", "회사는 서비스 장애나 해킹을 이유로 책임을 일률적으로 면제하지 않습니다.")).toBe(false);
+    expect(flagged("U-ARTC6-02", "회사가 직접 작성하거나 제작한 서비스 내 콘텐츠와 상표 등 저작물에 대한 저작권은 회사에 귀속됩니다.")).toBe(false);
+    expect(flagged("U-ECA18-01", "반품 상품이 도착한 날부터 3영업일 이내에 환급합니다.")).toBe(false);
     expect(flagged("U-ARTC12-01", "개정 약관을 알리면서 기간 안에 의사표시를 하지 않으면 동의한 것으로 본다는 내용을 별도로 분명하게 알렸는데도 거부하지 않으면 동의한 것으로 봅니다.")).toBe(false);
   });
 
@@ -162,5 +165,7 @@ describe("unfair-clause lexicon", () => {
     expect(flagged("U-ARTC9-01", "전자제품은 개봉 후 환불이 불가합니다.")).toBe(true);
     expect(flagged("U-ARTC12-01", "이용자가 접속하면 변경된 약관에 동의한 것으로 봅니다.")).toBe(true);
     expect(flagged("U-ECA18-02", "청약철회 시 결제금액의 10%를 위약금으로 부과합니다.")).toBe(true);
+    expect(flagged("U-ARTC6-02", "회원이 작성한 게시물의 저작권은 회사에 귀속됩니다.")).toBe(true);
+    expect(flagged("U-ECA18-01", "환불은 반품 확인 후 13영업일 이내에 처리됩니다.")).toBe(true);
   });
 });

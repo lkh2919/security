@@ -204,8 +204,9 @@ export async function continueRun(deps: PipelineDeps, args: { runId: string; ans
   }
 }
 
-async function finishRun(deps: PipelineDeps, store: RunStore, kb: Kb, ledger: FactLedger, applicability: ApplicabilityMap): Promise<PipelineOutcome> {
+async function finishRun(deps: PipelineDeps, store: RunStore, kb: Kb, ledgerIn: FactLedger, applicability: ApplicabilityMap): Promise<PipelineOutcome> {
   const { kr, knowledge } = kb;
+  let ledger = ledgerIn;
   const meta = await store.readArtifact("intake", { schema: MetaArtifact });
   const { maskedTranscript, formSlots } = await store.readArtifact("mask", { schema: MaskArtifact });
   const ruleSections = loadRuleSections(join(kr, "rulepacks"));
@@ -216,6 +217,11 @@ async function finishRun(deps: PipelineDeps, store: RunStore, kb: Kb, ledger: Fa
   const rubric = loadRubric(kr);
 
   await store.markStage("freshness", { status: "skipped" });
+  // The effective date is chosen by whoever runs the pipeline (--effective-date, default today): record it as a confirmed fact so
+  // drafters and the auditor see the same source for it.
+  if (!ledger.slots["privacy.S24_effectiveDate"]) {
+    ledger = { ...ledger, slots: { ...ledger.slots, "privacy.S24_effectiveDate": { status: "filled", value: meta.effectiveDate, confidence: 1, evidence: [{ source: "user_confirmed", ref: "run.effectiveDate", quote: "" }] } } };
+  }
   const match = await runMatch({ runId: store.runId, ledger, applicability, library, houseStyle, llm: deps.llm });
   await store.writeArtifact("match", match.selection, { schema: ClauseSelectionSchema });
   await store.markStage("match", { status: "done", artifact: store.artifactName("match") });

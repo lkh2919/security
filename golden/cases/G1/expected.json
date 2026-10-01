@@ -236,7 +236,8 @@
         "items": "접속 로그, 쿠키",
         "legalBasis": "계약의 이행"
       }
-    ]
+    ],
+    "privacy.S24_effectiveDate": "2026-10-01"
   },
   "applicability": {
     "documents": {

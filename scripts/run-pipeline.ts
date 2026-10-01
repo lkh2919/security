@@ -1,7 +1,7 @@
 /**
  * Runs the privacy-policy / terms pipeline with the REAL API (design R7).
  *
- *   bun scripts/run-pipeline.ts start  --transcript interview.txt --form form.md [--masking basic] [--run-id ID] [--runs-dir runs] [--llm claude-code]
+ *   bun scripts/run-pipeline.ts start  --transcript interview.txt --form form.md [--masking basic] [--run-id ID] [--effective-date YYYY-MM-DD] [--runs-dir runs] [--llm claude-code]
  *   bun scripts/run-pipeline.ts answer --run ID --answers answers.json [--runs-dir runs] [--llm claude-code]
  *
  * `start` stops at `awaiting_answers` when must-level facts are missing and prints the questions
@@ -60,7 +60,12 @@ if (command === "start") {
   }
   const transcript = await new TextFileSttAdapter().transcribe(need("transcript"));
   const form = await readFile(need("form"), "utf8");
-  report(await startRun(deps, { transcript, form, masking, ...(opt("run-id") ? { runId: opt("run-id") } : {}) }));
+  const effectiveDate = opt("effective-date");
+  if (effectiveDate && !/^\d{4}-\d{2}-\d{2}$/.test(effectiveDate)) {
+    console.error("--effective-date must be YYYY-MM-DD");
+    process.exit(2);
+  }
+  report(await startRun(deps, { transcript, form, masking, ...(opt("run-id") ? { runId: opt("run-id") } : {}), ...(effectiveDate ? { effectiveDate } : {}) }));
 } else if (command === "answer") {
   const answers = AnswerSetSchema.parse(JSON.parse(await readFile(need("answers"), "utf8")));
   report(await continueRun(deps, { runId: need("run"), answers }));
