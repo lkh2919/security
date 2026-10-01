@@ -52,6 +52,13 @@ Outputs land in `runs/<runId>/output/`: `privacy-policy.{md,html,docx}`, `terms.
 
 A freshness warning never blocks drafting; it adds a note. Drift in a law or guideline means the affected rule-pack sections need review by the privacy-domain-expert.
 
+## Keeping personal data out of git
+
+- Enable the guard once per clone: `git config core.hooksPath .githooks`. It runs `bun scripts/pii-scan.ts --staged` before every commit and blocks mobile numbers, personal e-mails, resident-registration-number shapes and tokens.
+- `bun scripts/pii-scan.ts` scans every tracked file; the same check runs in the unit tests, so a leak fails `bun test`.
+- Placeholders: name `홍길동`, phone `010-0000-0000`, e-mail `privacy@lotte.net`. Real names cannot be detected by pattern: never commit them. `packages/core/test/` and `golden/` are synthetic by construction and exempt.
+- Raw sources and runs stay out of git (`kb/_sources/`, `runs/`).
+
 ## 6. Decisions only people can make
 
 - **House style**: the candidates in `kb/jurisdictions/kr/house-style/lotte-innovate.candidates.json` are enforced only after the user approves them (approved file `lotte-innovate.json`).
