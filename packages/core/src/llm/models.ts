@@ -37,8 +37,11 @@ export function modelIdFor(alias: ModelAlias): string {
   return MODELS[alias].id;
 }
 
-/** LLM-backed stage identifiers (design R3 roster). `R4-fallback` is the Haiku business-group fallback. */
-export const LLM_STAGE_IDS = ["R2", "R3", "R4-fallback", "R5P", "R5T", "R6", "R7"] as const;
+/**
+ * LLM-backed stage identifiers (design R3 roster). `R4-fallback` is the Haiku business-group fallback.
+ * `M1` is the Policy Monitor judge (DEC-20261002-01): the published-policy check (Mode A) and the amendment-impact call (Mode B).
+ */
+export const LLM_STAGE_IDS = ["R2", "R3", "R4-fallback", "R5P", "R5T", "R6", "R7", "M1"] as const;
 export type LlmStageId = (typeof LLM_STAGE_IDS)[number];
 
 export interface StageModelPolicy {
@@ -83,6 +86,7 @@ export const STAGE_MODEL_POLICIES: Readonly<Record<LlmStageId, StageModelPolicy>
   R5T: policy("R5T", "sonnet", "medium", 6_000, 2_000, "terms drafter, per LLM section"),
   R6: policy("R6", "haiku", null, 4_000, 500, "freshness summary, per change"),
   R7: policy("R7", "opus", "high", 60_000, 6_000, "independent auditor, per document per iteration"),
+  M1: policy("M1", "opus", "high", 30_000, 4_000, "policy monitor judge, per (policy, section); published text only, no ledger"),
 });
 
 export function getStagePolicy(stageId: LlmStageId): StageModelPolicy {

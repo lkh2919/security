@@ -53,7 +53,30 @@ export interface C2Input {
   readonly disclaimerByRenderer?: boolean;
   /** Cross-document values of this document and of the sibling (`org`, `minAge`, ...). Omitted -> check skipped. */
   readonly crossFacts?: { readonly own: Readonly<Record<string, string>>; readonly other: Readonly<Record<string, string>> };
+  /**
+   * `published`: a policy that is already live (Policy Monitor, design M5). There is no ledger, transcript, citation table or house style,
+   * so only the checks that need none of them run: `structure.schema`, `structure.empty_sections`, `structure.mandatory_present`
+   * (mandatory items only, applicability ignored) and `safety.vague_recipients`. The skipped checks are absent from the result, not
+   * reported as passed. `ledger`, `applicability` and `transcript` are then unused (pass empty placeholders). Omitted -> unchanged behaviour.
+   */
+  readonly profile?: "published";
 }
+
+/** Checks the `published` profile does not run (see `C2Input.profile`). */
+export const PUBLISHED_SKIPPED_CHECKS: ReadonlySet<string> = new Set([
+  "structure.unresolved_syntax",
+  "structure.blank_values",
+  "structure.conditional_handled",
+  "evidence.slot_refs",
+  "evidence.transcript_quotes",
+  "evidence.citations",
+  "evidence.repeated_values",
+  "style.house_style",
+  "style.emphasis",
+  "safety.unfair_clauses",
+  "safety.disclaimer",
+  "cross_doc.values_equal",
+]);
 
 interface Located {
   readonly path: string;
@@ -106,8 +129,10 @@ function* units(ast: DocAST): Generator<{ path: string; sectionId: string; text:
 export function runC2(input: C2Input): CheckResults {
   counter = 0; // finding ids restart per call so equal inputs give equal results (and equal envelope hashes)
   const { docType } = input;
+  const published = input.profile === "published";
   const outcomes: CheckResults["checks"] = [];
   const add = (checkId: string, category: CheckResults["checks"][number]["category"], findings: Finding[]): void => {
+    if (published && PUBLISHED_SKIPPED_CHECKS.has(checkId)) return;
     outcomes.push({ checkId, category, passed: findings.length === 0, findings });
   };
 
@@ -152,9 +177,9 @@ export function runC2(input: C2Input): CheckResults {
   const mandatory: Finding[] = [];
   const conditional: Finding[] = [];
   const prefix = docType === "privacy" ? /^(S\d{2}|A1|X1)$/ : /^T\d{2}$/;
-  if (input.applicability.documents[docType].applicable) {
+  if (published || input.applicability.documents[docType].applicable) {
     for (const item of input.rulePackItems.filter((i) => prefix.test(i.id))) {
-      const state = input.applicability.items[item.id]?.state;
+      const state = published ? "yes" : input.applicability.items[item.id]?.state;
       const hit = present.get(item.id);
       const usable = hit && hit.section.status !== "not_applicable" && hit.section.status !== "omitted_recommended";
       if (item.classification === "mandatory" && state === "yes" && !usable) {

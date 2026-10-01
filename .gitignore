@@ -20,6 +20,9 @@ build/
 runs/
 golden/runs/
 
+# Policy Monitor input folder (published policies; contacts inside are personal data)
+watch/
+
 # KB raw sources (internal derivation only)
 kb/_sources/
 

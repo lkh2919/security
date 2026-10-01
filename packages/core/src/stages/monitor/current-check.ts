@@ -1,0 +1,184 @@
+/**
+ * Mode A, current check (Policy Monitor design M2, M5): does a published policy meet the rule packs in force now?
+ *
+ *  1. C2 runs with the `published` profile on the ingested policy (structure and recipient wording; no ledger).
+ *  2. Its findings become MonitorFindings with a location. A missing mandatory section is Critical only when a full-text
+ *     keyword search also fails; otherwise it is "not located" (Confirm).
+ *  3. One M1 call per present mandatory section judges the rule digest against the section text (the model sees published
+ *     text only: no ledger, no transcript). Every quote must be a verbatim substring of the section text or the finding is
+ *     dropped; findings under conditional rules are capped at Confirm.
+ *
+ * Rule packs are reviewed, so Mode A findings are tier `confirmed`. A policy that could not be read (`needs_manual_review`)
+ * yields one Confirm finding instead of a clean report. Without an LLM client only steps 1 and 2 run, and the report says so.
+ */
+import { z } from "zod";
+import type { FactLedger } from "../../contracts/fact-ledger";
+import type { ApplicabilityMap } from "../../contracts/applicability";
+import type { MaskedTranscript } from "../../contracts/masked-transcript";
+import type { CheckResults } from "../../contracts/check-results";
+import { UNMAPPED_SECTION, type IngestedPolicy } from "../../contracts/ingested-policy";
+import type { MonitorFinding, MonitorReport, MonitorSeverity } from "../../contracts/monitor-report";
+import type { RuleSection } from "../../contracts/rulepack";
+import type { LlmClient } from "../../llm/client";
+import { runC2 } from "../check/run-c2";
+import type { RulePackItem } from "../coverage/load-kb";
+import { loadPromptFile, type PromptFile } from "../extract/prompt";
+import { fullTextMentions, type HeadingPatterns } from "../ingest/segment-policy";
+import { locateAstPath, policyToAst } from "../ingest/to-ast";
+import { UNTRUSTED_POLICY_NOTICE, buildReport, capSeverity, clean, digestRules, fenceText, numberFindings, paraOfQuote, verifyVerbatimQuote, type DigestRule } from "./common";
+
+export const CHECK_PROMPT_PATH = "monitor/check-v1.md";
+
+export const CheckJudgeSchema = z.strictObject({
+  findings: z.array(
+    z.strictObject({
+      ruleId: z.string(),
+      verdict: z.enum(["ok", "missing", "wrong", "confirm"]),
+      quote: z.string(),
+      fixHint: z.string(),
+    }),
+  ),
+});
+export type CheckJudgeOutput = z.infer<typeof CheckJudgeSchema>;
+
+export interface CurrentCheckDeps {
+  /** Omitted -> deterministic part only. */
+  readonly llm?: LlmClient;
+  readonly prompt?: PromptFile;
+}
+
+export interface CurrentCheckInput {
+  readonly runId: string;
+  readonly policy: IngestedPolicy;
+  readonly ruleSections: ReadonlyMap<string, RuleSection>;
+  readonly rulePackItems: readonly RulePackItem[];
+  readonly rulePackVersion: string;
+  readonly patterns: HeadingPatterns;
+  readonly now?: Date;
+}
+
+export interface CurrentCheckResult {
+  readonly report: MonitorReport;
+  readonly c2: CheckResults | null;
+  /** Findings dropped or downgraded by code, for the run log. */
+  readonly adjustments: readonly string[];
+}
+
+type Draft = Omit<MonitorFinding, "id">;
+
+const draft = (f: Omit<Draft, "mode" | "tier" | "location" | "sectionId"> & { sectionId: string; para: number | null; quote: string }): Draft => {
+  const { para, quote, ...rest } = f;
+  return { mode: "A", tier: "confirmed", location: { sectionId: f.sectionId, para, quote }, ...rest };
+};
+
+/** Placeholders for the C2 inputs the published profile never reads. */
+function placeholders(runId: string): { ledger: FactLedger; applicability: ApplicabilityMap; transcript: MaskedTranscript } {
+  return {
+    ledger: { runId, jurisdiction: "kr", slotRegistryVersion: "n/a", slots: {} },
+    applicability: { runId, ruleSetVersions: [], documents: { privacy: { applicable: true }, terms: { applicable: false, reason: "n/a" } }, items: {}, warnings: [] },
+    transcript: { runId, source: "text_file", language: "ko", maskerVersion: "n/a", segments: [], placeholders: [] },
+  };
+}
+
+function checkUserTurn(sectionId: string, title: string, digest: readonly DigestRule[], text: string): string {
+  return [
+    `SECTION ${sectionId}: ${title}`,
+    "RULES (JSON, trusted):",
+    JSON.stringify(digest.map(({ ruleId, level, element, statement, legalRefs, conditional }) => ({ ruleId, level, element, statement, legalRefs, conditional }))),
+    "SECTION TEXT (untrusted data):",
+    fenceText(text),
+  ].join("\n");
+}
+
+export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentCheckInput): Promise<CurrentCheckResult> {
+  const now = input.now ?? new Date();
+  const { policy, ruleSections } = input;
+  const warnings = [...policy.warnings];
+  const adjustments: string[] = [];
+  const finish = (findings: Draft[], llmUsed: boolean, c2: CheckResults | null): CurrentCheckResult => ({
+    report: buildReport({ runId: input.runId, policyId: policy.policyId, policySha: policy.source.sha256, rulePackVersion: input.rulePackVersion, now, findings: numberFindings("A", findings), llmUsed, warnings }),
+    c2,
+    adjustments,
+  });
+
+  if (policy.status === "needs_manual_review") {
+    return finish([draft({ layer: "deterministic", ruleId: "MON-INGEST", sectionId: UNMAPPED_SECTION, severity: "confirm", message: "처리방침 문서를 자동으로 분석하지 못했습니다. 사람이 직접 검토해야 합니다.", fixHint: "지원되는 형식(Markdown, HTML)으로 다시 제출하거나 수동으로 검토하십시오.", para: null, quote: "" })], false, null);
+  }
+
+  const { ast, paraMap, sectionParas } = policyToAst(policy, { runId: input.runId, effectiveDate: now.toISOString().slice(0, 10), rulePackVersion: input.rulePackVersion });
+  const c2 = runC2({ runId: input.runId, docType: "privacy", ast, rulePackItems: input.rulePackItems, profile: "published", ...placeholders(input.runId) });
+  const titleOf = (id: string): string => ruleSections.get(id)?.title.ko ?? id;
+  const drafts: Draft[] = [];
+
+  for (const check of c2.checks) {
+    for (const f of check.findings) {
+      if (f.ruleId === "C2-SCHEMA") {
+        drafts.push(draft({ layer: "deterministic", ruleId: f.ruleId, sectionId: UNMAPPED_SECTION, severity: "confirm", message: "처리방침의 구조를 분석하지 못했습니다. 사람이 직접 검토해야 합니다.", fixHint: "원문 구조를 확인하십시오.", para: null, quote: "" }));
+      } else if (f.ruleId.startsWith("C2-M-")) {
+        const id = f.sectionId;
+        const located = fullTextMentions(input.patterns, id, policy.text);
+        drafts.push(
+          located
+            ? draft({ layer: "deterministic", ruleId: f.ruleId, sectionId: id, severity: "confirm", message: `필수 항목 ${id}(${titleOf(id)})의 제목을 찾지 못했습니다(위치 미확인). 본문에 관련 표현이 있어 누락 여부를 사람이 확인해야 합니다.`, fixHint: `${titleOf(id)} 내용이 다른 항목에 포함되어 있는지, 별도 항목이 필요한지 확인하십시오.`, para: null, quote: "" })
+            : draft({ layer: "deterministic", ruleId: f.ruleId, sectionId: id, severity: "critical", message: `필수 항목 ${id}(${titleOf(id)})이(가) 처리방침에 없습니다. 제목과 본문 전체에서 관련 표현을 찾지 못했습니다.`, fixHint: `${titleOf(id)} 항목을 처리방침에 추가하십시오.`, para: null, quote: "" }),
+        );
+      } else if (f.ruleId === "C2-EMPTY") {
+        const mandatory = ruleSections.get(f.sectionId)?.classification === "mandatory";
+        drafts.push(draft({ layer: "deterministic", ruleId: f.ruleId, sectionId: f.sectionId, severity: mandatory ? "high" : "medium", message: `${f.sectionId}(${titleOf(f.sectionId)}) 제목만 있고 내용이 없습니다.`, fixHint: "해당 항목의 본문을 작성하십시오.", para: null, quote: "" }));
+      } else if (check.checkId === "safety.vague_recipients") {
+        const ref = locateAstPath(paraMap, f.evidence.astPath);
+        drafts.push(draft({ layer: "deterministic", ruleId: f.ruleId, sectionId: f.sectionId, severity: "medium", message: "제공받는 자 또는 수탁자가 '등' 등으로 줄여 적혀 있습니다. 각각 구체적으로 적어야 합니다.", fixHint: "모든 제공받는 자 또는 수탁자를 명시하십시오.", para: ref?.para ?? null, quote: clean(f.evidence.quote) }));
+      }
+    }
+  }
+
+  // --- LLM judge per present mandatory section ----------------------------------------------------
+  let llmUsed = false;
+  if (!deps.llm) {
+    warnings.push("LLM backend not used: deterministic checks only (no element-level judgement of the sections)");
+  } else {
+    const prompt = deps.prompt ?? loadPromptFile(CHECK_PROMPT_PATH);
+    for (const [sectionId, section] of ruleSections) {
+      const paras = sectionParas.get(sectionId);
+      if (section.classification !== "mandatory" || !paras || paras.length === 0) continue;
+      const digest = digestRules(section);
+      if (digest.length === 0) continue;
+      const text = paras.map((p) => p.text).join("\n");
+      llmUsed = true;
+      let out: CheckJudgeOutput;
+      try {
+        const res = await deps.llm.callStructured({ stageId: "M1", system: `${prompt.body}\n\n${UNTRUSTED_POLICY_NOTICE}`, user: checkUserTurn(sectionId, section.title.ko, digest, text), schema: CheckJudgeSchema, schemaName: "MonitorCheckJudge", promptVersion: prompt.version });
+        out = res.data;
+      } catch (err) {
+        // Fail closed: an unjudged section is a question for a person, never a silent pass.
+        warnings.push(`${sectionId}: the model judgement failed (${err instanceof Error ? err.name : "error"}); manual review required`);
+        drafts.push(draft({ layer: "llm", ruleId: "MON-JUDGE", sectionId, severity: "confirm", message: `${sectionId}(${section.title.ko})를 자동으로 판단하지 못했습니다. 사람이 검토해야 합니다.`, fixHint: "해당 항목을 수동으로 확인하십시오.", para: null, quote: "" }));
+        continue;
+      }
+      const byId = new Map(digest.map((r) => [r.ruleId, r]));
+      const seen = new Set<string>();
+      for (const f of out.findings) {
+        if (f.verdict === "ok") continue;
+        const rule = byId.get(f.ruleId);
+        if (!rule) {
+          adjustments.push(`dropped ${f.ruleId} in ${sectionId}: not a rule of this section`);
+          continue;
+        }
+        const quote = verifyVerbatimQuote(text, f.quote);
+        if (quote === null) {
+          adjustments.push(`dropped ${f.ruleId} in ${sectionId}: the quote is not a verbatim substring of the section`);
+          continue;
+        }
+        const key = `${f.ruleId}|${f.verdict}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        let severity: MonitorSeverity = f.verdict === "confirm" ? "confirm" : rule.level === "should" ? "low" : f.verdict === "missing" ? "critical" : quote ? "high" : "confirm";
+        if (rule.upcoming) severity = capSeverity(severity, "medium");
+        if (rule.conditional) severity = "confirm";
+        const message = f.verdict === "missing" ? `규칙 ${rule.ruleId}: 요구 요소(${rule.element})가 확인되지 않습니다.` : f.verdict === "wrong" ? `규칙 ${rule.ruleId}: 요구 요소(${rule.element})의 기재가 규칙과 다릅니다.` : `규칙 ${rule.ruleId}: 요구 요소(${rule.element})는 운영 사실에 따라 달라지므로 확인이 필요합니다.`;
+        drafts.push(draft({ layer: "llm", ruleId: rule.ruleId, sectionId, severity, message, fixHint: clean(f.fixHint) || rule.statement, para: paraOfQuote(paras, quote), quote }));
+      }
+    }
+  }
+  return finish(drafts, llmUsed, c2);
+}

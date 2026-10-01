@@ -57,6 +57,7 @@ describe("model registry", () => {
       R5T: ["sonnet", "medium", 6_000, 2_000],
       R6: ["haiku", null, 4_000, 500],
       R7: ["opus", "high", 60_000, 6_000],
+      M1: ["opus", "high", 30_000, 4_000],
     });
   });
 

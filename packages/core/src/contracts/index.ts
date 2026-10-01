@@ -20,3 +20,7 @@ export * from "./freshness-report";
 export * from "./manifest";
 export * from "./rubric";
 export * from "./run-state";
+export * from "./ingested-policy";
+export * from "./amendment-diff";
+export * from "./monitor-report";
+export * from "./watch-registry";
