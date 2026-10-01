@@ -64,7 +64,7 @@ const caps = readJson(join(KR, "clauses/_captures/index.json"));
 const capIds = new Set<string>((caps?.captures ?? []).map((c: any) => c.id));
 const schema = readJson(join(KR, "clauses/schema/clause-record.schema.json"));
 
-const NAMES = ["홍길동", "홍길동", "홍길동", "홍길동", "홍길동", "홍길동", "홍길동", "홍길동", "홍길동"];
+const NAMES = ["김철수", "박영희", "이민수", "최지원", "정하늘", "강도윤", "조서연", "윤재현", "한지민"];
 const PII: [string, RegExp][] = [
   ["email", /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/],
   ["phone", /\b0\d{1,2}-\d{3,4}-\d{4}\b/],
