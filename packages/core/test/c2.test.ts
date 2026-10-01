@@ -135,3 +135,28 @@ describe("citationsFromRulePacks", () => {
     expect(citations.find((c) => c.citationId === "PIPA:30(1)1")?.law).toContain("개인정보");
   });
 });
+
+describe("unfair-clause lexicon", () => {
+  const sentences = (id: string) => lexicon.find((e) => e.id === id)!;
+  const flagged = (id: string, s: string): boolean => {
+    const e = sentences(id);
+    return new RegExp(e.pattern, "u").test(s) && !(e.suppress ?? []).some((p) => new RegExp(p, "u").test(s));
+  };
+
+  test("every testPositive violation is still flagged (suppression never hides the lexicon's own examples)", () => {
+    const raw = JSON.parse(readFileSync(join(KR, "rulepacks", "terms-kftc-10023", "unfair-clause-lexicon.json"), "utf8")) as { entries: (LexiconEntry & { testPositive?: string })[] };
+    for (const e of raw.entries.filter((x) => x.testPositive)) expect(flagged(e.id, e.testPositive!)).toBe(true);
+  });
+
+  test("lawful wording that the notes describe is not flagged", () => {
+    expect(flagged("U-ARTC9-01", "앞 항의 제2호부터 제5호까지에 해당하는 경우에도, 회사가 청약철회가 제한된다는 사실을 표시하지 않았다면 이용자의 청약철회 등은 제한되지 않습니다.")).toBe(false);
+    expect(flagged("U-ARTC12-01", "공지 후 거부 의사를 표시하지 않으면 동의한 것으로 본다는 내용을 다른 공지와 구분하여 명확하게 별도로 알린 경우에 한하여 동의한 것으로 봅니다.")).toBe(false);
+    expect(flagged("U-ECA18-02", "회사는 청약철회를 이유로 위약금을 청구하지 않습니다.")).toBe(false);
+  });
+
+  test("real violations next to similar wording are still flagged", () => {
+    expect(flagged("U-ARTC9-01", "전자제품은 개봉 후 환불이 불가합니다.")).toBe(true);
+    expect(flagged("U-ARTC12-01", "이용자가 접속하면 변경된 약관에 동의한 것으로 봅니다.")).toBe(true);
+    expect(flagged("U-ECA18-02", "청약철회 시 결제금액의 10%를 위약금으로 부과합니다.")).toBe(true);
+  });
+});

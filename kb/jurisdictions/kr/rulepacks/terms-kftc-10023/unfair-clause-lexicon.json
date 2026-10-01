@@ -2,7 +2,7 @@
   "packVersion": "terms-kftc-10023",
   "version": "1.0.0",
   "generated": "2026-09-29",
-  "usage": "C2 deterministic pass: compile each pattern with new RegExp(pattern, 'u'), match per sentence (split on '.', '다.' boundaries), then apply falsePositiveNotes suppressions; severity 'info' and check 'llm' entries only route text to the R7 LLM layer. testPositive is a synthetic self-test string that must match.",
+  "usage": "C2 deterministic pass: compile each pattern with new RegExp(pattern, 'u'), match per sentence (split on '.', '다.' boundaries), then apply falsePositiveNotes suppressions; severity 'info' and check 'llm' entries only route text to the R7 LLM layer. testPositive is a synthetic self-test string that must match. Entries with `suppress` (regex sources) are not flagged when the SAME sentence also matches a suppress pattern: these encode the lawful wording that falsePositiveNotes describes (compliant exceptions, separate-notice deemed consent, negated penalties). testPositive strings must never be suppressed.",
   "lawCodes": {
     "ARTC": "약관의 규제에 관한 법률",
     "ECA": "전자상거래 등에서의 소비자보호에 관한 법률",
@@ -147,7 +147,15 @@
       ],
       "explanation_ko": "법률에 따른 고객의 해제권(청약철회권)을 배제·제한하는 조항은 무효이며, 전자상거래법 제17조~제19조보다 소비자에게 불리한 약정은 효력이 없습니다.",
       "falsePositiveNotes": "Lawful exceptions of ECA 17(2) (damage by consumer, value loss by use or time, opened copyable packaging, started digital content/service) are allowed ONLY if the 17(6) measures (clear marking, trial) are taken. Suppress when the sentence cites those grounds, but still require R-T10-002.",
-      "testPositive": "구매 후에는 환불이 불가합니다."
+      "testPositive": "구매 후에는 환불이 불가합니다.",
+      "suppress": [
+        "표시하지\\s*않",
+        "시험\\s*사용",
+        "제한되지\\s*않",
+        "제한할\\s*수\\s*없",
+        "효력이\\s*없",
+        "(멸실|훼손|가치가?\\s*현저|복제가\\s*가능|사용\\s*개시|포장을\\s*훼손)"
+      ]
     },
     {
       "id": "U-ARTC9-02",
@@ -288,7 +296,11 @@
       ],
       "explanation_ko": "일정한 작위·부작위로 고객의 의사표시가 있는 것으로 보는 조항은, 상당한 기한 내 의사표시가 없으면 그렇게 본다는 뜻을 명확하게 따로 고지하지 않은 한 무효입니다.",
       "falsePositiveNotes": "Acceptable when the terms require separate, explicit notice with a reasonable deadline (std 3④: 7 days, 30 days for unfavourable changes). Cross-check R-T03-004/005.",
-      "testPositive": "이의를 제기하지 않으면 개정약관에 동의한 것으로 봅니다."
+      "testPositive": "이의를 제기하지 않으면 개정약관에 동의한 것으로 봅니다.",
+      "suppress": [
+        "(별도로|따로|구분하여)[^.]{0,30}(알린|알리|고지|통지)",
+        "명확(하게)?\\s*(별도로|따로)"
+      ]
     },
     {
       "id": "U-ARTC12-02",
@@ -472,7 +484,13 @@
       ],
       "explanation_ko": "청약철회를 이유로 소비자에게 위약금이나 손해배상을 청구할 수 없습니다(반품 비용은 소비자 부담 가능).",
       "falsePositiveNotes": "Return shipping cost borne by the consumer is lawful; the pattern targets penalties and fees. Also matches protective sentences ('위약금을 청구하지 않습니다'): suppress on negation.",
-      "testPositive": "청약철회 시 위약금 10%를 부과합니다."
+      "testPositive": "청약철회 시 위약금 10%를 부과합니다.",
+      "suppress": [
+        "(청구|부과)하지\\s*않",
+        "(청구|부과)할\\s*수\\s*없",
+        "효력이\\s*없",
+        "불리하게\\s*적용되지\\s*않"
+      ]
     },
     {
       "id": "U-ECA21-2-01",

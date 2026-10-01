@@ -142,7 +142,7 @@ describe("draftDocument (terms)", () => {
     const t13 = withUrl.ast.sections.find((s) => s.id === "T13")!;
     expect(t13.status).toBe("drafted");
     expect(JSON.stringify(t13.blocks)).toContain("https://shop.example.com/privacy");
-    const without = await run("terms", "G1");
+    const without = await run("terms", "G1", library, undefined, { "terms.privacyPolicyUrl": "needs_manual_review" });
     expect(status(without.ast, "T13")).toBe("manual_review");
     expect(without.ast.meta.models.R5T).toContain("sonnet");
   });

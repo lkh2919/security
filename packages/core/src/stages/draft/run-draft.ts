@@ -88,10 +88,10 @@ const add = (a: TokenUsage, b: TokenUsage): TokenUsage => ({
 const text = (t: string, slotRef?: string): { t: "text"; text: string; slotRef?: string } => ({ t: "text", text: t, ...(slotRef ? { slotRef } : {}) });
 const note = (kind: "manual_review" | "info", t: string): Block => ({ t: "note", kind, runs: [text(t)] });
 
-function traceOf(section: Omit<SectionAST, "trace">, rs: RuleSection | undefined, clauseRefs: string[], styleRefs: string[]): SectionAST["trace"] {
+function traceOf(section: Omit<SectionAST, "trace">, rs: RuleSection | undefined, clauseRefs: string[], styleRefs: string[], extraSlotRefs: string[] = []): SectionAST["trace"] {
   const tmp = { ...section, trace: { slotRefs: [], clauseRefs: [], ruleRefs: [], styleRefs: [], citationIds: [] } } as SectionAST;
   return {
-    slotRefs: collectSlotRefs(tmp),
+    slotRefs: [...new Set([...collectSlotRefs(tmp), ...extraSlotRefs])].sort(),
     clauseRefs,
     ruleRefs: (rs?.rules ?? []).filter((r) => r.level === "must").map((r) => r.ruleId),
     styleRefs,
@@ -147,9 +147,9 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
     if (input.previous && prev && !flagged.has(id)) return prev; // fix loop: untouched sections are copied
 
     const styleRefs = input.selection.sections[id]?.styleRefs ?? approvedStyle.map((r) => r.id);
-    const finish = (status: SectionAST["status"], blocks: Block[], clauseRefs: string[] = []): SectionAST => {
+    const finish = (status: SectionAST["status"], blocks: Block[], clauseRefs: string[] = [], extraSlotRefs: string[] = []): SectionAST => {
       const base = { id, title, status, blocks };
-      return { ...base, trace: traceOf(base, rs, clauseRefs, styleRefs) };
+      return { ...base, trace: traceOf(base, rs, clauseRefs, styleRefs, extraSlotRefs) };
     };
 
     if (item.state === "no") {
@@ -171,7 +171,7 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
     if (docType === "terms" && id === "T13") {
       const url = input.ledger.slots["terms.privacyPolicyUrl"];
       if (url?.status === "filled" && typeof url.value === "string") {
-        return finish("drafted", [{ t: "para", runs: [text("회사는 이용자의 개인정보를 보호하기 위하여 「개인정보 보호법」 등 관련 법령을 준수하며, 개인정보의 처리에 관한 사항은 "), { t: "link", text: "개인정보 처리방침", href: url.value }, text("에 따릅니다.")] }]);
+        return finish("drafted", [{ t: "para", runs: [text("회사는 이용자의 개인정보를 보호하기 위하여 「개인정보 보호법」 등 관련 법령을 준수하며, 개인정보의 처리에 관한 사항은 "), { t: "link", text: "개인정보 처리방침", href: url.value }, text("에 따릅니다.")] }], [], ["terms.privacyPolicyUrl"]);
       }
       missingFacts.push({ sectionId: id, text: "개인정보 처리방침 링크(terms.privacyPolicyUrl)가 필요합니다." });
       return finish("manual_review", [note("manual_review", "개인정보 처리방침 링크가 확인되지 않았습니다. 링크를 확인한 뒤 작성해야 합니다.")]);
@@ -200,6 +200,7 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
     const payload = {
       section: { id, title, classification, handling: rs.handling },
       rules: rs.rules.filter((r) => r.level !== "may").map((r) => ({ ruleId: r.ruleId, level: r.level, statement: r.statement })),
+      document: { effectiveDate: input.effectiveDate },
       facts: factsForSection(input.ledger, docType, id),
       clauseExamples: examples,
       styleRules: approvedStyle.map((r) => ({ id: r.id, rule: r.rule })),

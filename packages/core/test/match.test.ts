@@ -38,7 +38,8 @@ const vettedLibrary: ClauseLibrary = {
 describe("business group", () => {
   test("rules: free text first, then service types", () => {
     const g = golden("G1").ledger;
-    expect(classifyGroupByRule(g)).toEqual({ group: "retail_ecommerce", method: "rule", basis: "serviceTypes" });
+    expect(classifyGroupByRule(g)).toEqual({ group: "retail_ecommerce", method: "rule", basis: "serviceNames" }); // "쇼핑나우" says shopping
+    expect(classifyGroupByRule({ slots: { "profile.serviceTypes": g.slots["profile.serviceTypes"]! } })).toEqual({ group: "retail_ecommerce", method: "rule", basis: "serviceTypes" });
     expect(classifyGroupByRule(withSlots(g, { "profile.businessGroup": "그룹 지주회사 홀딩스" }))?.group).toBe("group_holding");
     expect(classifyGroupByRule(withSlots(g, { "profile.serviceNames": ["클라우드 플랫폼"] }))?.group).toBe("it_services");
     expect(classifyGroupByRule(golden("G2").ledger)?.group).toBe("hr_corporate");

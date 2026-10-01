@@ -32,6 +32,8 @@ export interface LexiconEntry {
   readonly check?: string;
   readonly statuteRef?: readonly string[];
   readonly explanation_ko?: string;
+  /** Regex sources: a sentence that matches `pattern` AND one of these is lawful wording and is not flagged. */
+  readonly suppress?: readonly string[];
 }
 
 export interface C2Input {
@@ -205,10 +207,11 @@ export function runC2(input: C2Input): CheckResults {
     for (const entry of input.lexicon ?? []) {
       if (entry.severity === "info" || entry.check === "llm") continue; // routed to R7
       const re = new RegExp(entry.pattern, "u");
+      const suppress = (entry.suppress ?? []).map((p) => new RegExp(p, "u"));
       for (const u of units(ast)) {
         if (entry.sections && !entry.sections.includes(u.sectionId)) continue;
         for (const sentence of u.text.split(/(?<=[.다])\s+/)) {
-          if (re.test(sentence)) unfair.push(finding({ ruleId: entry.id, docType, sectionId: u.sectionId, severity: entry.severity, message: `Unfair-clause pattern ${entry.id} matched${entry.statuteRef?.length ? ` (${entry.statuteRef.join(", ")})` : ""}.`, fixHint: entry.explanation_ko ?? "Rewrite the clause so it does not exclude or shift liability without a substantial reason.", astPath: u.path, quote: sentence }));
+          if (re.test(sentence) && !suppress.some((x) => x.test(sentence))) unfair.push(finding({ ruleId: entry.id, docType, sectionId: u.sectionId, severity: entry.severity, message: `Unfair-clause pattern ${entry.id} matched${entry.statuteRef?.length ? ` (${entry.statuteRef.join(", ")})` : ""}.`, fixHint: entry.explanation_ko ?? "Rewrite the clause so it does not exclude or shift liability without a substantial reason.", astPath: u.path, quote: sentence }));
         }
       }
     }
