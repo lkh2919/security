@@ -87,6 +87,11 @@
         "task": "앱 오류 분석",
         "purpose": "앱 오류 분석과 서비스 안정화",
         "service": "쇼핑나우"
+      },
+      {
+        "task": "서비스 이용",
+        "purpose": "부정 이용 방지",
+        "service": "쇼핑나우"
       }
     ],
     "privacy.S03_items": [

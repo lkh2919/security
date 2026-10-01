@@ -20,7 +20,7 @@ import { TextFileSttAdapter } from "../adapters/stt";
 import { buildAuditEnvelope, loadRubric, runAudit } from "../stages/audit";
 import { loadCitations, crossFactsFor, runC2, statedFacts, type LexiconEntry } from "../stages/check";
 import { krPaths, loadKrKnowledge, runCoverage } from "../stages/coverage";
-import { loadRuleSections, draftDocument, type DraftResult } from "../stages/draft";
+import { loadRuleSections, draftDocument, WARN_ONLY, type DraftResult } from "../stages/draft";
 import { runExtract } from "../stages/extract";
 import { runIntake } from "../stages/intake";
 import { runDocumentLoop } from "../stages/loop";
@@ -37,6 +37,7 @@ import {
   slotScores,
   stability,
   traceability,
+  warnOnlyBodies,
   unsupportedClaims,
   type ExpectedCase,
   type GateFailure,
@@ -118,7 +119,7 @@ export async function runGoldenRegression(deps: RegressionDeps, opts: Regression
 
   let usage = ZERO;
   const outcomes: CaseOutcome[] = [];
-  const all = { mandatory: [] as number[], trace: [] as number[], cites: [] as number[], unsupported: 0, recall: [] as number[], precision: [] as number[], applic: [] as number[], blocking: 0, sameStructure: true, minSim: 1, clauseSections: 0, llmSections: 0 };
+  const all = { mandatory: [] as number[], trace: [] as number[], cites: [] as number[], unsupported: 0, recall: [] as number[], precision: [] as number[], applic: [] as number[], blocking: 0, warnBodies: 0, sameStructure: true, minSim: 1, clauseSections: 0, llmSections: 0 };
   const references = new Map<string, { docs: Record<string, DocAST>; ledger: FactLedger; applicability: ReturnType<typeof runCoverage>["applicability"]; formSlots: FormSlots }>();
   const transcripts = new Map<string, ReturnType<typeof runIntake>["maskedTranscript"]>();
 
@@ -183,7 +184,9 @@ export async function runGoldenRegression(deps: RegressionDeps, opts: Regression
           escalated = escalated || res.escalated;
           if (isG) blocking += res.openFindings.filter((f) => f.severity === "blocker" || f.severity === "major").length;
           all.mandatory.push(mandatoryCoverage(res.ast, applicability, mandatory.filter((m) => (docType === "privacy" ? /^(S\d{2}|A1|X1)$/ : /^T\d{2}$/).test(m))));
-          all.trace.push(traceability(res.ast));
+          // Traceability is a G-case gate: W cases are sparse by design and are judged on warnings and warn-only bodies.
+          if (isG) all.trace.push(traceability(res.ast));
+          else all.warnBodies += warnOnlyBodies(res.ast, WARN_ONLY);
           all.cites.push(citationValidity(res.ast, res.finalC2));
           all.unsupported += unsupportedClaims(res.finalC2);
         }
@@ -237,6 +240,7 @@ export async function runGoldenRegression(deps: RegressionDeps, opts: Regression
     slotPrecision: mean(all.precision),
     defectRecall: specsForRecall === 0 ? 1 : defectResults.filter((d) => d.detected).length / specsForRecall,
     blockingFindings: all.blocking,
+    warnOnlyBodies: all.warnBodies,
     sameStructure: all.sameStructure,
     minSimilarity: all.minSim,
     clauseFirstRatio: clauseFirstRatio(new Array(all.clauseSections).fill(""), new Array(all.llmSections).fill("")),

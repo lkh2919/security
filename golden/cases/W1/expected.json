@@ -29,7 +29,10 @@
     "gate.genAI": false,
     "gate.locationInfo": false,
     "privacy.S20_includeRemedies": true,
-    "terms.applicable": true
+    "terms.applicable": true,
+    "profile.serviceNames": [
+      "아이배움"
+    ]
   },
   "applicability": {
     "documents": {

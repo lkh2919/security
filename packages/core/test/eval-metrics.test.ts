@@ -19,6 +19,7 @@ import {
   textSimilarity,
   traceability,
   unsupportedClaims,
+  warnOnlyBodies,
   type GateMetrics,
 } from "../src/eval";
 import { RUN_ID, applicability, factLedger, policyAst } from "./fixtures";
@@ -109,5 +110,14 @@ describe("seeded defects", () => {
     expect(defectDetected(d, { findings: [{ ...finding, sectionId: "S99" }] })).toBe(false);
     expect(defectDetected(d, { findings: [{ ...finding, ruleId: "R-S01-001" }] })).toBe(false);
     expect(defectRecall(defects.map((x, i) => ({ spec: x, detected: i < 7 })))).toBe(7 / 8);
+  });
+});
+
+describe("W cases: warn-only sections carry no body", () => {
+  test("a warn-only section with a paragraph counts; notes-only does not; the gate fails on any", () => {
+    const sec = (id: string, t: "para" | "note") => ({ id, title: id, status: "manual_review" as const, blocks: [t === "para" ? { t: "para" as const, runs: [{ t: "text" as const, text: "본문" }] } : { t: "note" as const, kind: "manual_review" as const, runs: [{ t: "text" as const, text: "검토" }] }], trace: { slotRefs: [], clauseRefs: [], ruleRefs: [], styleRefs: [], citationIds: [] } });
+    const ast = { ...policyAst, sections: [sec("S04", "para"), sec("A1", "note"), sec("S02", "para")] } as DocAST;
+    expect(warnOnlyBodies(ast, new Set(["S04", "A1"]))).toBe(1);
+    expect(evaluateGate({ ...passing, warnOnlyBodies: 1 }).map((f) => f.metric)).toEqual(["warnOnlyBodies"]);
   });
 });

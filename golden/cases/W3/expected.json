@@ -29,7 +29,10 @@
     "gate.genAI": true,
     "gate.locationInfo": false,
     "privacy.S20_includeRemedies": true,
-    "terms.applicable": true
+    "terms.applicable": true,
+    "profile.serviceNames": [
+      "말벗AI"
+    ]
   },
   "applicability": {
     "documents": {

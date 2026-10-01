@@ -29,7 +29,10 @@
     "gate.genAI": false,
     "gate.locationInfo": true,
     "privacy.S20_includeRemedies": true,
-    "terms.applicable": true
+    "terms.applicable": true,
+    "profile.serviceNames": [
+      "길안내플러스"
+    ]
   },
   "applicability": {
     "documents": {

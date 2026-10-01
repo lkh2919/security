@@ -130,6 +130,8 @@ export interface GateMetrics {
   readonly defectRecall: number;
   /** Blocker + major findings on the final report of every G case. */
   readonly blockingFindings: number;
+  /** W cases (design R11.1: "correct warn, no fabricated body"): warn-only sections that carry anything but notes. Optional for older reports. */
+  readonly warnOnlyBodies?: number;
   readonly sameStructure: boolean;
   readonly minSimilarity: number;
   readonly clauseFirstRatio: number;
@@ -174,6 +176,7 @@ export function evaluateGate(m: GateMetrics): GateFailure[] {
   min("defectRecall", m.defectRecall, t.defectRecall);
   min("minSimilarity", m.minSimilarity, t.minSimilarity);
   if (m.unsupportedClaims > t.unsupportedClaims) fails.push({ metric: "unsupportedClaims", value: m.unsupportedClaims, threshold: `<= ${t.unsupportedClaims}` });
+  if ((m.warnOnlyBodies ?? 0) > 0) fails.push({ metric: "warnOnlyBodies", value: m.warnOnlyBodies!, threshold: "<= 0" });
   if (m.blockingFindings > t.blockingFindings) fails.push({ metric: "blockingFindings", value: m.blockingFindings, threshold: `<= ${t.blockingFindings}` });
   if (!m.sameStructure) fails.push({ metric: "sameStructure", value: false, threshold: "same sections and table rows across runs" });
   for (const k of ["costDelta", "latencyDelta"] as const) {
@@ -181,4 +184,9 @@ export function evaluateGate(m: GateMetrics): GateFailure[] {
     if (v !== undefined && v > t.costRegression) fails.push({ metric: k, value: v, threshold: `<= ${t.costRegression}` });
   }
   return fails;
+}
+
+/** Warn-only sections (S04, S21, S22, A1, X1) that contain a body block instead of manual-review notes only. */
+export function warnOnlyBodies(ast: DocAST, warnOnly: ReadonlySet<string>): number {
+  return ast.sections.filter((s) => warnOnly.has(s.id) && s.blocks.some((b) => b.t !== "note")).length;
 }

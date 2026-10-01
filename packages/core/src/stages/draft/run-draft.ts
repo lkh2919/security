@@ -30,7 +30,8 @@ import { renderClause } from "./render-clause";
 
 export const DRAFT_PROMPT_PATHS = { privacy: "draft-privacy/v1.md", terms: "draft-terms/v1.md" } as const;
 export const DRAFT_CONCURRENCY = 4;
-const WARN_ONLY = new Set(["S04", "S21", "S22", "A1", "X1"]);
+/** Special types that are never drafted, only flagged (design R11.1 W cases). */
+export const WARN_ONLY: ReadonlySet<string> = new Set(["S04", "S21", "S22", "A1", "X1"]);
 
 const NOT_PROCESSED: Readonly<Record<string, string>> = {
   S07: "회사는 이용자의 개인정보를 제3자에게 제공하지 않습니다.",
@@ -229,8 +230,12 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
       if (url?.status === "filled" && typeof url.value === "string") {
         return finish("drafted", [{ t: "para", runs: [text("회사는 이용자의 개인정보를 보호하기 위하여 「개인정보 보호법」 등 관련 법령을 준수하며, 개인정보의 처리에 관한 사항은 "), { t: "link", text: "개인정보 처리방침", href: url.value }, text("에 따릅니다.")] }], [], ["terms.privacyPolicyUrl"]);
       }
+      // Without the link the article still points to the policy by its title (R-T13-001); only the link stays open.
       missingFacts.push({ sectionId: id, text: "개인정보 처리방침 링크(terms.privacyPolicyUrl)가 필요합니다." });
-      return finish("manual_review", [note("manual_review", "개인정보 처리방침 링크가 확인되지 않았습니다. 링크를 확인한 뒤 작성해야 합니다.")]);
+      return finish("manual_review", [
+        { t: "para", runs: [text("회사는 이용자의 개인정보를 보호하기 위하여 「개인정보 보호법」 등 관련 법령을 준수하며, 개인정보의 처리에 관한 사항은 회사의 「개인정보 처리방침」에 따릅니다.")] },
+        note("manual_review", "개인정보 처리방침의 게시 위치(링크)가 확인되지 않았습니다. 링크를 확인해 이 조항에 넣어야 합니다."),
+      ]);
     }
 
     // Clause-first (only when the section is not being fixed by findings: fixes need an LLM edit).
