@@ -106,6 +106,14 @@ describe("C2", () => {
     expect(failed(run(ast))).not.toContain("evidence.slot_refs");
   });
 
+  test("terms: unfair-clause patterns ignore manual-review notes", () => {
+    const text = "환급이 늦어진 경우의 지연이자율이 확인되지 않아 이율 없이 작성했습니다.";
+    const asNote: DocAST = { docType: "terms", meta, warnings: [], sections: [sec("T10", [{ t: "note", kind: "manual_review", runs: [{ t: "text", text }] }, disclaimer])] };
+    expect(failed(run(asNote, { rulePackItems: [] }, "terms"))).not.toContain("safety.unfair_clauses");
+    const asPara: DocAST = { docType: "terms", meta, warnings: [], sections: [sec("T10", [{ t: "para", runs: [{ t: "text", text: "청약철회는 할 수 없습니다." }] }, disclaimer])] };
+    expect(failed(run(asPara, { rulePackItems: [] }, "terms"))).toContain("safety.unfair_clauses");
+  });
+
   test("terms: a period that contradicts the confirmed facts fails evidence.repeated_values in that article", () => {
     const rules = { ...ledger, slots: { ...ledger.slots, "terms.membershipRules": filled("회원 자격을 상실한 사람은 상실일부터 30일이 지나면 다시 가입할 수 있습니다.") } } as FactLedger;
     const terms: DocAST = { docType: "terms", meta, warnings: [], sections: [sec("T06", [{ t: "para", runs: [{ t: "text", text: "자격을 상실한 날부터 14일이 지나면 다시 가입할 수 있습니다." }] }, disclaimer])] };

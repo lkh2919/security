@@ -89,14 +89,14 @@ function finding(f: Omit<Finding, "id" | "layer" | "evidence"> & { astPath: stri
 }
 
 /** Sentences/cells as checked units: one per paragraph, list item and table cell. */
-function* units(ast: DocAST): Generator<{ path: string; sectionId: string; text: string; cellIndex?: number }> {
+function* units(ast: DocAST): Generator<{ path: string; sectionId: string; text: string; cellIndex?: number; isNote?: boolean }> {
   for (let s = 0; s < ast.sections.length; s++) {
     const sec = ast.sections[s]!;
     for (let b = 0; b < sec.blocks.length; b++) {
       const block = sec.blocks[b]!;
       const base = `sections[${s}].blocks[${b}]`;
       const join = (runs: readonly Inline[]): string => runs.map(inlineText).join("");
-      if (block.t === "para" || block.t === "note") yield { path: `${base}.runs`, sectionId: sec.id, text: join(block.runs) };
+      if (block.t === "para" || block.t === "note") yield { path: `${base}.runs`, sectionId: sec.id, text: join(block.runs), ...(block.t === "note" ? { isNote: true } : {}) };
       else if (block.t === "list") for (let i = 0; i < block.items.length; i++) yield { path: `${base}.items[${i}]`, sectionId: sec.id, text: join(block.items[i]!) };
       else for (let r = 0; r < block.rows.length; r++) for (let c = 0; c < block.rows[r]!.length; c++) yield { path: `${base}.rows[${r}][${c}]`, sectionId: sec.id, text: join(block.rows[r]![c]!), cellIndex: c };
     }
@@ -223,6 +223,7 @@ export function runC2(input: C2Input): CheckResults {
       const re = new RegExp(entry.pattern, "u");
       const suppress = (entry.suppress ?? []).map((p) => new RegExp(p, "u"));
       for (const u of units(ast)) {
+        if (u.isNote) continue; // manual-review and disclaimer notes are reviewer text, not clauses
         if (entry.sections && !entry.sections.includes(u.sectionId)) continue;
         for (const sentence of u.text.split(/(?<=[.다])\s+/)) {
           if (re.test(sentence) && !suppress.some((x) => x.test(sentence))) unfair.push(finding({ ruleId: entry.id, docType, sectionId: u.sectionId, severity: entry.severity, message: `Unfair-clause pattern ${entry.id} matched${entry.statuteRef?.length ? ` (${entry.statuteRef.join(", ")})` : ""}.`, fixHint: entry.explanation_ko ?? "Rewrite the clause so it does not exclude or shift liability without a substantial reason.", astPath: u.path, quote: sentence }));

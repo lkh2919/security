@@ -71,7 +71,8 @@ Known state: root tsc and `bun test` are green. Open KB gap (pinned in `test/kb-
 | G1 | fail (2/3/3) | pass_with_warnings (4/4/4) | 1 (S02 access-log purpose; data fixed after the run) |
 | G2 | fail (2/4/3) | n/a | 2: S20 remedy-agency contacts, S16 Decree Art.45 (both KB gaps) |
 | G3 | fail (2/4/3) | pass-level scores (4/4/4) | 1: S16 Decree Art.45 (KB gap) |
-| G1b, G2b | rerun pending on the latest code | | |
+| G2b | fail (3/4/3) | n/a | 0 — **gate passed** (candidate rows for the ambiguous payroll party) |
+| G1b | fail (2/3/3) | fail (3/3/3) | 3: S16 (run started before the Decree 45 fix), T10 lexicon hit on a manual-review note (fixed: notes are skipped), T09 citation precision (needs `covers` notes) |
 | W1-W4 | warn sections correct | | gate changed: W cases are judged on warn-only bodies, not traceability |
 
 Fixed during stage 2: effective date as a ledger fact in the regression; per-article terms applicability
