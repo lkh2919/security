@@ -9,6 +9,7 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import type { DocAST } from "../contracts/ast";
+import type { Finding } from "../contracts/audit-report";
 import { createFactLedgerSchema, type FactLedger, type SlotEntry } from "../contracts/fact-ledger";
 import type { FormSlots } from "../contracts/form-slots";
 import type { HouseStyleFile } from "../contracts/house-style";
@@ -69,6 +70,10 @@ export interface CaseOutcome {
   readonly blockingFindings: number;
   readonly escalated: boolean;
   readonly docs: Readonly<Record<string, DocAST>>;
+  /** Findings still open at the end of each document's loop (C2 and auditor), for diagnosis. */
+  readonly openFindings: Readonly<Record<string, readonly Finding[]>>;
+  /** Verdict per iteration, per document. */
+  readonly iterationVerdicts: Readonly<Record<string, readonly string[]>>;
 }
 
 export interface RegressionResult {
@@ -143,6 +148,8 @@ export async function runGoldenRegression(deps: RegressionDeps, opts: Regression
     // --- documents ---------------------------------------------------------------------------------------------------
     const verdicts: Record<string, string> = {};
     const docs: Record<string, DocAST> = {};
+    const openFindings: Record<string, Finding[]> = {};
+    const iterationVerdicts: Record<string, string[]> = {};
     let blocking = 0;
     let escalated = false;
     for (const docType of ["privacy", "terms"] as const) {
@@ -162,6 +169,8 @@ export async function runGoldenRegression(deps: RegressionDeps, opts: Regression
         asts.push(res.ast);
         if (r === 0) {
           docs[docType] = res.ast;
+          openFindings[docType] = [...res.openFindings];
+          iterationVerdicts[docType] = res.iterations.map((i) => i.report.verdict);
           verdicts[docType] = res.final.verdict;
           escalated = escalated || res.escalated;
           if (isG) blocking += res.openFindings.filter((f) => f.severity === "blocker" || f.severity === "major").length;
@@ -186,7 +195,7 @@ export async function runGoldenRegression(deps: RegressionDeps, opts: Regression
     all.applic.push(accuracy);
     all.blocking += blocking;
     references.set(id, { docs, ledger, applicability, formSlots: intake.formSlots });
-    outcomes.push({ caseId: id, verdicts, applicabilityAccuracy: accuracy, slotRecall: recall, slotPrecision: precision, blockingFindings: blocking, escalated, docs });
+    outcomes.push({ caseId: id, verdicts, applicabilityAccuracy: accuracy, slotRecall: recall, slotPrecision: precision, blockingFindings: blocking, escalated, docs, openFindings, iterationVerdicts });
   }
 
   // --- auditor calibration on seeded defects ---------------------------------------------------------------------------

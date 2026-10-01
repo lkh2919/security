@@ -46,7 +46,10 @@ backendClient.close();
 
 await mkdir(join(root, "golden", "runs"), { recursive: true });
 const stamp = new Date().toISOString().replace(/[:.]/g, "-");
-await writeFile(join(root, "golden", "runs", `${stamp}.json`), JSON.stringify({ source, runs, cases: cases ?? "all", metrics: result.metrics, failures: result.failures, unmeasured: result.unmeasured, defects: result.defects, verdicts: result.cases.map((c) => ({ caseId: c.caseId, verdicts: c.verdicts, escalated: c.escalated })) }, null, 2));
+await writeFile(join(root, "golden", "runs", `${stamp}.json`), JSON.stringify({ source, runs, cases: cases ?? "all", metrics: result.metrics, failures: result.failures, unmeasured: result.unmeasured, defects: result.defects, verdicts: result.cases.map((c) => ({ caseId: c.caseId, verdicts: c.verdicts, escalated: c.escalated, iterationVerdicts: c.iterationVerdicts, openFindings: c.openFindings })) }, null, 2));
+// Drafts for diagnosis (synthetic inputs only; the folder is gitignored).
+await mkdir(join(root, "golden", "runs", stamp), { recursive: true });
+for (const c of result.cases) for (const [doc, ast] of Object.entries(c.docs)) await writeFile(join(root, "golden", "runs", stamp, `${c.caseId}.${doc}.json`), JSON.stringify(ast, null, 2));
 
 if (result.failures.length) {
   console.error("GATE FAILED:");
