@@ -173,6 +173,7 @@ export function runC2(input: C2Input): CheckResults {
   const refs: Finding[] = [];
   for (const l of locate(ast)) {
     if (l.inline.t !== "text" || !l.inline.slotRef) continue;
+    if (l.inline.slotRef === "document.effectiveDate") continue; // the payload's `document.effectiveDate`: the operator's confirmed date (meta)
     const e = input.ledger.slots[l.inline.slotRef];
     if (!e || (e.status !== "filled" && e.status !== "not_applicable")) {
       refs.push(finding({ ruleId: "C2-SLOTREF", docType, sectionId: l.sectionId, severity: "major", message: `slotRef ${l.inline.slotRef} is not a filled slot in the fact ledger.`, fixHint: "Ask the missing question or mark the statement for manual review.", astPath: l.path, quote: l.inline.text }));

@@ -101,6 +101,11 @@ describe("C2", () => {
     expect(failed(run(ast, { disclaimerByRenderer: false }))).toEqual([]);
   });
 
+  test("slotRef document.effectiveDate (the operator's date in the draft payload) is accepted", () => {
+    const ast = privacyAst([sec("S24", [{ t: "para", runs: [{ t: "text", text: "2026-10-01", slotRef: "document.effectiveDate" }] }])], ["S24"]);
+    expect(failed(run(ast))).not.toContain("evidence.slot_refs");
+  });
+
   test("terms: a period that contradicts the confirmed facts fails evidence.repeated_values in that article", () => {
     const rules = { ...ledger, slots: { ...ledger.slots, "terms.membershipRules": filled("회원 자격을 상실한 사람은 상실일부터 30일이 지나면 다시 가입할 수 있습니다.") } } as FactLedger;
     const terms: DocAST = { docType: "terms", meta, warnings: [], sections: [sec("T06", [{ t: "para", runs: [{ t: "text", text: "자격을 상실한 날부터 14일이 지나면 다시 가입할 수 있습니다." }] }, disclaimer])] };

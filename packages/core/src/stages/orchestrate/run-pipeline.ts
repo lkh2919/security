@@ -219,9 +219,7 @@ async function finishRun(deps: PipelineDeps, store: RunStore, kb: Kb, ledgerIn: 
   await store.markStage("freshness", { status: "skipped" });
   // The effective date is chosen by whoever runs the pipeline (--effective-date, default today): record it as a confirmed fact so
   // drafters and the auditor see the same source for it.
-  if (!ledger.slots["privacy.S24_effectiveDate"]) {
-    ledger = { ...ledger, slots: { ...ledger.slots, "privacy.S24_effectiveDate": { status: "filled", value: meta.effectiveDate, confidence: 1, evidence: [{ source: "user_confirmed", ref: "run.effectiveDate", quote: "" }] } } };
-  }
+  ledger = withEffectiveDate(ledger, meta.effectiveDate);
   const match = await runMatch({ runId: store.runId, ledger, applicability, library, houseStyle, llm: deps.llm });
   await store.writeArtifact("match", match.selection, { schema: ClauseSelectionSchema });
   await store.markStage("match", { status: "done", artifact: store.artifactName("match") });
@@ -296,4 +294,10 @@ function existsApproved(kr: string): boolean {
   } catch {
     return false;
   }
+}
+
+/** Records the operator-chosen effective date as the confirmed fact `privacy.S24_effectiveDate` unless the ledger already has one. */
+export function withEffectiveDate(ledger: FactLedger, effectiveDate: string): FactLedger {
+  if (ledger.slots["privacy.S24_effectiveDate"]) return ledger;
+  return { ...ledger, slots: { ...ledger.slots, "privacy.S24_effectiveDate": { status: "filled", value: effectiveDate, confidence: 1, evidence: [{ source: "user_confirmed", ref: "run.effectiveDate", quote: "" }] } } };
 }

@@ -26,6 +26,7 @@ import { runIntake } from "../stages/intake";
 import { runDocumentLoop } from "../stages/loop";
 import { loadClauseLibrary, runMatch } from "../stages/match";
 import { applyDefect } from "./defects";
+import { withEffectiveDate } from "../stages/orchestrate/run-pipeline";
 import {
   applicabilityAccuracy,
   citationValidity,
@@ -41,6 +42,8 @@ import {
   type GateFailure,
   type GateMetrics,
 } from "./metrics";
+
+const EFFECTIVE_DATE = "2026-10-01";
 
 export interface RegressionDeps {
   /** R2 (extraction) client; only used with `ledgerSource: "extract"`. */
@@ -143,6 +146,7 @@ export async function runGoldenRegression(deps: RegressionDeps, opts: Regression
       ledger = createFactLedgerSchema(kb.registry).parse({ runId, jurisdiction: "kr", slotRegistryVersion: kb.registry.version, slots });
     }
     const { recall, precision } = slotScores(expected.slots, ledger);
+    ledger = withEffectiveDate(ledger, EFFECTIVE_DATE); // as the orchestrator does: the run's effective date is a confirmed fact
     const { applicability } = runCoverage({ runId, ledger, template: kb.template, rulePackItems: kb.rulePackItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: kb.termsPackAvailable });
     const accuracy = applicabilityAccuracy(expected.applicability, applicability);
     const { selection } = await runMatch({ runId, ledger, applicability, library, houseStyle, llm: deps.matchLlm });
@@ -162,7 +166,7 @@ export async function runGoldenRegression(deps: RegressionDeps, opts: Regression
         const res = await runDocumentLoop(
           { draft: { llm: deps.draftLlm }, audit: { llm: deps.auditLlm } },
           {
-            draft: { docType, runId, effectiveDate: "2026-10-01", lawSnapshotId: "law-2026-09-29", rulePackVersion: kb.rulePackVersion, ledger, applicability, selection, library, ruleSections, houseStyle, citations },
+            draft: { docType, runId, effectiveDate: EFFECTIVE_DATE, lawSnapshotId: "law-2026-09-29", rulePackVersion: kb.rulePackVersion, ledger, applicability, selection, library, ruleSections, houseStyle, citations },
             c2: { ledger, applicability, rulePackItems: kb.rulePackItems, transcript: intake.maskedTranscript, citations, houseStyle, lexicon },
             envelope: { ledger, transcript: intake.maskedTranscript, formSlots: intake.formSlots, applicability, ruleSections, houseStyle },
             rubric,
@@ -189,7 +193,7 @@ export async function runGoldenRegression(deps: RegressionDeps, opts: Regression
       all.minSim = Math.min(all.minSim, st.minSimilarity);
     }
     // clause-first ratio on a fresh draft of the first applicable document (cheap with the LLM mocked or cached)
-    const probe: DraftResult = await draftDocument({ llm: deps.draftLlm }, { docType: "privacy", runId, effectiveDate: "2026-10-01", lawSnapshotId: "law-2026-09-29", rulePackVersion: kb.rulePackVersion, ledger, applicability, selection, library, ruleSections, houseStyle, citations });
+    const probe: DraftResult = await draftDocument({ llm: deps.draftLlm }, { docType: "privacy", runId, effectiveDate: EFFECTIVE_DATE, lawSnapshotId: "law-2026-09-29", rulePackVersion: kb.rulePackVersion, ledger, applicability, selection, library, ruleSections, houseStyle, citations });
     usage = addU(usage, probe.usage);
     all.clauseSections += probe.clauseSections.length;
     all.llmSections += probe.llmSections.length;

@@ -35,11 +35,98 @@
     "terms.applicable": false,
     "privacy.S05_hrStatutoryRecords": [
       {
-        "record": "근로자 명부, 근태 기록",
+        "record": "근로자 명부",
         "statute": "근로기준법",
         "years": 3,
-        "entryId": "KR-RET-LSA-02"
+        "entryId": "KR-RET-LSA-01"
       }
+    ],
+    "profile.orgNameRef": "주식회사 워크솔루션",
+    "profile.serviceNames": [
+      "워크허브"
+    ],
+    "profile.dataSubjectGroups": [
+      "임직원"
+    ],
+    "privacy.S02_purposes": [
+      {
+        "task": "인사 관리",
+        "purpose": "임직원 식별과 인사 기록 관리",
+        "service": "워크허브"
+      },
+      {
+        "task": "근태",
+        "purpose": "근태 관리",
+        "service": "워크허브"
+      },
+      {
+        "task": "전자결재·메일",
+        "purpose": "전자결재와 사내 메일 제공",
+        "service": "워크허브"
+      }
+    ],
+    "privacy.S03_items": [
+      {
+        "task": "인사 관리",
+        "items": "사번, 이름, 부서",
+        "required": "필수",
+        "basisType": "no_consent",
+        "legalBasis": "근로계약의 이행 및 법령상 의무 준수",
+        "category": "일반"
+      },
+      {
+        "task": "근태",
+        "items": "사번, 출퇴근 시각",
+        "required": "필수",
+        "basisType": "no_consent",
+        "legalBasis": "근로계약의 이행",
+        "category": "일반"
+      },
+      {
+        "task": "전자결재·메일",
+        "items": "전자결재 문서, 메일",
+        "required": "필수",
+        "basisType": "no_consent",
+        "legalBasis": "근로계약의 이행",
+        "category": "일반"
+      }
+    ],
+    "privacy.S05_retention": [
+      {
+        "target": "근로자 명부(사번, 이름, 부서)",
+        "period": "퇴직한 날부터 3년",
+        "basis": "statute",
+        "citationId": "LSA:42"
+      },
+      {
+        "target": "근태 기록(출퇴근 시각)",
+        "period": "기록한 날부터 3년",
+        "basis": "contract"
+      },
+      {
+        "target": "전자결재 문서, 메일",
+        "period": "퇴직할 때까지",
+        "basis": "contract"
+      }
+    ],
+    "privacy.S06_destruction": "보관기간이 끝나면 인사팀이 파기 대상을 선정하고 개인정보 보호책임자의 승인을 받아 파기합니다. 전자적 파일은 복구할 수 없는 방법으로 삭제하고 종이 문서는 분쇄합니다.",
+    "privacy.S11_measures": [
+      "내부관리계획 수립·시행",
+      "접근 권한 관리",
+      "접속기록 1년 보관",
+      "개인정보 암호화",
+      "전산실 출입통제"
+    ],
+    "privacy.S16_rightsChannels": [
+      "워크허브 '내 정보' 메뉴",
+      "인사팀 이메일"
+    ],
+    "privacy.S16_selfServicePaths": "워크허브 > 내 정보",
+    "privacy.S16_requestDept": "인사팀 (help@example.com, 02-000-0001)",
+    "privacy.S18_officer": "개인정보 보호책임자: 정보보호팀장 (privacy@example.com, 02-000-0000)",
+    "privacy.S18_dept": "인사팀 (help@example.com, 02-000-0001)",
+    "privacy.S24_noticeMethod": [
+      "사내 게시판 공지"
     ]
   },
   "applicability": {
@@ -103,5 +190,5 @@
     "이용약관에 동의"
   ],
   "expectedVerdict": "pass",
-  "notes": "Terms document is reported not_applicable with a reason; S05 cites only retention-periods.json entries (R-S05-007)."
+  "notes": "Terms document is reported not_applicable with a reason; S05 cites only retention-periods.json entries (R-S05-007). Enriched 2026-10-01 (council stage 2): the transcript now states the legal basis, destruction, safeguards, rights channels and contacts, as G1 does, so a pass is reachable; the statutory row points at KR-RET-LSA-01 (근로자 명부)."
 }
