@@ -39,7 +39,7 @@ function g1() {
   const expected = JSON.parse(readFileSync(join(ROOT, "golden", "cases", "G1", "expected.json"), "utf8")) as { slots: Record<string, unknown> };
   const slots = Object.fromEntries(Object.entries(expected.slots).map(([k, v]) => [k, { status: "filled", value: v, confidence: 1, evidence: [{ source: "user_confirmed", ref: "g", quote: "" }] } as SlotEntry]));
   const ledger: FactLedger = createFactLedgerSchema(kb.registry).parse({ runId: RUN_ID, jurisdiction: "kr", slotRegistryVersion: kb.registry.version, slots });
-  const { applicability } = runCoverage({ runId: RUN_ID, ledger, template: kb.template, rulePackItems: kb.rulePackItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: true });
+  const { applicability } = runCoverage({ runId: RUN_ID, ledger, template: kb.template, rulePackItems: kb.rulePackItems, termsItems: kb.termsItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: true });
   return { ledger, applicability };
 }
 const sec = (id: string, text: string, status: SectionAST["status"] = "drafted"): SectionAST => ({ id, title: id, status, blocks: [{ t: "para", runs: [{ t: "text", text }] }], trace: { slotRefs: [], clauseRefs: [], ruleRefs: [], styleRefs: [], citationIds: [] } });

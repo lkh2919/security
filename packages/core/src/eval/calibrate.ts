@@ -90,7 +90,7 @@ export async function runDefectCalibration(deps: { draftLlm: LlmClient; auditLlm
       slots[k] = v === "needs_manual_review" ? { status: "needs_manual_review", value: null, confidence: 0, evidence: [] } : { status: "filled", value: v as never, confidence: 1, evidence: [{ source: "user_confirmed", ref: `golden:${caseId}`, quote: "" }] };
     }
     const ledger: FactLedger = createFactLedgerSchema(kb.registry).parse({ runId, jurisdiction: "kr", slotRegistryVersion: kb.registry.version, slots });
-    const { applicability } = runCoverage({ runId, ledger, template: kb.template, rulePackItems: kb.rulePackItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: kb.termsPackAvailable });
+    const { applicability } = runCoverage({ runId, ledger, template: kb.template, rulePackItems: kb.rulePackItems, termsItems: kb.termsItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: kb.termsPackAvailable });
     const { selection } = await runMatch({ runId, ledger, applicability, library, houseStyle });
     return { intake, ledger, applicability, selection, docs: new Map<string, { ast: DocAST; source: "saved" | "generated" }>() };
   }

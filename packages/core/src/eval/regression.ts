@@ -147,7 +147,7 @@ export async function runGoldenRegression(deps: RegressionDeps, opts: Regression
     }
     const { recall, precision } = slotScores(expected.slots, ledger);
     ledger = withEffectiveDate(ledger, EFFECTIVE_DATE); // as the orchestrator does: the run's effective date is a confirmed fact
-    const { applicability } = runCoverage({ runId, ledger, template: kb.template, rulePackItems: kb.rulePackItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: kb.termsPackAvailable });
+    const { applicability } = runCoverage({ runId, ledger, template: kb.template, rulePackItems: kb.rulePackItems, termsItems: kb.termsItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: kb.termsPackAvailable });
     const accuracy = applicabilityAccuracy(expected.applicability, applicability);
     const { selection } = await runMatch({ runId, ledger, applicability, library, houseStyle, llm: deps.matchLlm });
 

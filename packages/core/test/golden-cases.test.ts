@@ -83,6 +83,7 @@ describe("golden set", () => {
           ledger: ledgerFrom(expected.slots),
           template: kb.template,
           rulePackItems: kb.rulePackItems,
+          termsItems: kb.termsItems,
           rulePackVersion: kb.rulePackVersion,
           termsPackAvailable: kb.termsPackAvailable,
         });

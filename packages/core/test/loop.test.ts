@@ -43,7 +43,7 @@ async function setup(mode: "fixable" | "stubborn") {
   const expected = JSON.parse(readFileSync(join(ROOT, "golden", "cases", "G1", "expected.json"), "utf8")) as { slots: Record<string, unknown> };
   const slots = Object.fromEntries(Object.entries(expected.slots).map(([k, v]) => [k, { status: "filled", value: v, confidence: 1, evidence: [{ source: "user_confirmed", ref: "g", quote: "" }] } as SlotEntry]));
   const ledger: FactLedger = createFactLedgerSchema(kb.registry).parse({ runId: RUN_ID, jurisdiction: "kr", slotRegistryVersion: kb.registry.version, slots });
-  const { applicability } = runCoverage({ runId: RUN_ID, ledger, template: kb.template, rulePackItems: kb.rulePackItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: true });
+  const { applicability } = runCoverage({ runId: RUN_ID, ledger, template: kb.template, rulePackItems: kb.rulePackItems, termsItems: kb.termsItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: true });
   const { selection } = await runMatch({ runId: RUN_ID, ledger, applicability, library, houseStyle });
   const transcript = { ...maskedTranscript, runId: RUN_ID };
   const drafterLlm = new MockLlmClient({ fixtures: { R5P: mode === "fixable" ? drafter : (req: StructuredCallRequest) => ({ ...drafter(req), blocks: [{ t: "para" as const, runs: [{ t: "text" as const, text: payload(req).section.id === "S09" ? "수탁자: 새벽로지스" : "내용입니다." }] }] }) } });

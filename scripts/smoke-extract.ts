@@ -49,6 +49,7 @@ const cov = runCoverage({
   ledger: extract.ledger,
   template: kb.template,
   rulePackItems: kb.rulePackItems,
+  termsItems: kb.termsItems,
   rulePackVersion: kb.rulePackVersion,
   termsPackAvailable: kb.termsPackAvailable,
 });

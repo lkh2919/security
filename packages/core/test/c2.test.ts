@@ -20,7 +20,7 @@ const filled = (value: unknown): SlotEntry => ({ status: "filled", value: value 
 function g1(): { ledger: FactLedger; applicability: C2Input["applicability"] } {
   const expected = JSON.parse(readFileSync(join(ROOT, "golden", "cases", "G1", "expected.json"), "utf8")) as { slots: Record<string, unknown> };
   const ledger = createFactLedgerSchema(kb.registry).parse({ runId: RUN_ID, jurisdiction: "kr", slotRegistryVersion: kb.registry.version, slots: Object.fromEntries(Object.entries(expected.slots).map(([k, v]) => [k, filled(v)])) });
-  const { applicability } = runCoverage({ runId: RUN_ID, ledger, template: kb.template, rulePackItems: kb.rulePackItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: true });
+  const { applicability } = runCoverage({ runId: RUN_ID, ledger, template: kb.template, rulePackItems: kb.rulePackItems, termsItems: kb.termsItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: true });
   return { ledger, applicability };
 }
 const { ledger, applicability } = g1();

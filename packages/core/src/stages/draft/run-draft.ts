@@ -110,11 +110,19 @@ export function sectionText(sec: Pick<SectionAST, "blocks">): string {
 /** Filled ledger values relevant to one section: profile/gate slots, the section's own slots and, for terms, all terms slots. */
 export function factsForSection(ledger: FactLedger, docType: "privacy" | "terms", sectionId: string): Record<string, JsonValue> {
   const own = docType === "privacy" ? `privacy.${sectionId}_` : "terms.";
-  const extra = sectionId === "S05" ? ["privacy.S02_purposes", "privacy.S03_items", "privacy.S05_"] : [];
+  // The purpose, item and retention sections describe the same processing tasks: each sees the others' task lists, so a task
+  // named in one (an overseas processor, a statutory record, generated logs) gets its purpose, basis and period in the others.
+  const TASK_FACTS = ["privacy.S02_purposes", "privacy.S03_", "privacy.S05_retention", "privacy.S05_hrStatutoryRecords"];
+  const extra: Record<string, string[]> = {
+    S02: [...TASK_FACTS, "privacy.S09_processors", "privacy.S10_overseas", "privacy.S14_devices"],
+    S03: TASK_FACTS,
+    S05: ["privacy.S02_purposes", "privacy.S03_items", "privacy.S03_generatedItems", "privacy.S05_"],
+  };
+  const extras = extra[sectionId] ?? [];
   const out: Record<string, JsonValue> = {};
   for (const [id, e] of Object.entries(ledger.slots).sort(([a], [b]) => (a < b ? -1 : 1))) {
     if (e.status !== "filled" || e.value === null) continue;
-    if (id.startsWith("profile.") || id.startsWith("gate.") || id.startsWith(own) || extra.some((p) => id.startsWith(p))) out[id] = e.value;
+    if (id.startsWith("profile.") || id.startsWith("gate.") || id.startsWith(own) || extras.some((p) => id.startsWith(p))) out[id] = e.value;
   }
   return out;
 }

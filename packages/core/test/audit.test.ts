@@ -35,7 +35,7 @@ async function setup() {
   const expected = JSON.parse(readFileSync(join(ROOT, "golden", "cases", "G1", "expected.json"), "utf8")) as { slots: Record<string, unknown> };
   const slots = Object.fromEntries(Object.entries(expected.slots).map(([k, v]) => [k, { status: "filled", value: v, confidence: 1, evidence: [{ source: "user_confirmed", ref: "g", quote: "" }] } as SlotEntry]));
   const ledger: FactLedger = createFactLedgerSchema(kb.registry).parse({ runId: RUN_ID, jurisdiction: "kr", slotRegistryVersion: kb.registry.version, slots });
-  const { applicability } = runCoverage({ runId: RUN_ID, ledger, template: kb.template, rulePackItems: kb.rulePackItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: true });
+  const { applicability } = runCoverage({ runId: RUN_ID, ledger, template: kb.template, rulePackItems: kb.rulePackItems, termsItems: kb.termsItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: true });
   const { selection } = await runMatch({ runId: RUN_ID, ledger, applicability, library, houseStyle });
   const { ast } = await draftDocument({ llm: new MockLlmClient({ fixtures: { R5P: drafter } }) }, { docType: "privacy", runId: RUN_ID, effectiveDate: "2026-10-01", lawSnapshotId: "snap", rulePackVersion: kb.rulePackVersion, ledger, applicability, selection, library, ruleSections, houseStyle, citations });
   const transcript = { ...maskedTranscript, runId: RUN_ID };

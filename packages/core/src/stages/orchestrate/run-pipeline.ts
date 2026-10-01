@@ -84,7 +84,7 @@ function loadKb(root: string): Kb {
 
 function coverageFor(runId: string, ledger: FactLedger, kb: Kb, round: 0 | 1 | 2): { applicability: ApplicabilityMap; gapList: GapList } {
   const k = kb.knowledge;
-  return runCoverage({ runId, ledger, template: k.template, rulePackItems: k.rulePackItems, rulePackVersion: k.rulePackVersion, termsPackAvailable: k.termsPackAvailable, round });
+  return runCoverage({ runId, ledger, template: k.template, rulePackItems: k.rulePackItems, termsItems: k.termsItems, rulePackVersion: k.rulePackVersion, termsPackAvailable: k.termsPackAvailable, round });
 }
 
 const mustGaps = (g: GapList): number => g.gaps.filter((x) => x.priority === "must").length;

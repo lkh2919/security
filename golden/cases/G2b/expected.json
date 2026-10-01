@@ -120,6 +120,12 @@
         "target": "전자결재 문서, 메일",
         "period": "퇴직할 때까지",
         "basis": "contract"
+      },
+      {
+        "target": "급여 계좌",
+        "period": "퇴직한 날부터 3년",
+        "basis": "statute",
+        "citationId": "LSA:42+DEC:22(1)2"
       }
     ],
     "privacy.S06_destruction": "보관기간이 끝나면 인사팀이 파기 대상을 선정하고 개인정보 보호책임자의 승인을 받아 파기합니다. 전자적 파일은 복구할 수 없는 방법으로 삭제하고 종이 문서는 분쇄합니다.",
