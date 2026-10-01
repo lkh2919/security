@@ -82,6 +82,10 @@ and a verified `statutes/remedy-agencies.json` for S20 (original PC / privacy-do
 
 ## law.go.kr access (updated 2026-10-01)
 
+- 2026-10-02: the user set the cloud environment's internet access to unrestricted. Official sources (law.go.kr,
+  pipc.go.kr, privacy.go.kr, kftc.go.kr, remedy-agency sites) can be fetched from cloud sessions; work listed below as
+  "original PC only" is now limited to the raw files under `kb/_sources/`.
+
 - The cloud environment reaches law.go.kr once `www.law.go.kr` is allowed in the environment's Network access; the
   OC key then works from the cloud (no IP binding observed). Earlier 403s were the cloud network policy, not the key.
 - The OC key is not in the repository. Set `LAW_GO_KR_OC` as an environment secret (cloud) or in `.env` (local).
