@@ -116,7 +116,8 @@ export function factsForSection(ledger: FactLedger, docType: "privacy" | "terms"
   const extra: Record<string, string[]> = {
     S02: [...TASK_FACTS, "privacy.S09_processors", "privacy.S10_overseas", "privacy.S14_devices"],
     S03: TASK_FACTS,
-    S05: ["privacy.S02_purposes", "privacy.S03_items", "privacy.S03_generatedItems", "privacy.S05_"],
+    S07: ["privacy.S09_roleAssessment"],
+    S05: ["privacy.S02_purposes", "privacy.S03_items", "privacy.S03_generatedItems", "privacy.S05_", "privacy.S14_devices"],
   };
   const extras = extra[sectionId] ?? [];
   const out: Record<string, JsonValue> = {};
@@ -155,6 +156,14 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
   let usage = ZERO;
 
   const ids = Object.keys(input.applicability.items).filter((id) => prefix.test(id)).sort();
+
+  const delegationFlag = input.applicability.warnings.some((w) => w.code === "DELEGATION_VS_PROVISION");
+  const ambiguousPartiesFor = (id: string): Record<string, JsonValue>[] => {
+    if (docType !== "privacy" || !delegationFlag || (id !== "S07" && id !== "S09")) return [];
+    const e = input.ledger.slots["privacy.S09_roleAssessment"];
+    if (e?.status !== "filled" || !Array.isArray(e.value)) return [];
+    return (e.value as Record<string, JsonValue>[]).filter((r) => r && typeof r === "object" && r["ownPurposeUse"] !== "no");
+  };
 
   // Terms articles are drafted one by one, so each call sees which sibling article owns which facts (cross-article consistency).
   const outline =
@@ -200,7 +209,10 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
       if (statement) return finish("not_processed_statement", [{ t: "para", runs: [text(statement, item.basisSlots[0])] }]);
       return null;
     }
-    if (item.state === "unknown") {
+    // Delegation vs provision ambiguity (user decision: always manual review, both candidates shown): S09 drafts the
+    // outsourcing candidate rows and S07 the provision candidate rows for the parties whose role is unclear.
+    const ambiguous = ambiguousPartiesFor(id);
+    if (item.state === "unknown" && ambiguous.length === 0) {
       // Slot ids go to the Reviewer Sheet (missingFacts), never into reader-facing text.
       const what = conflictNote(input.ledger, item.basisSlots);
       missingFacts.push({ sectionId: id, text: `${title}: 적용 여부가 확인되지 않았습니다.${what.length ? ` (${what.join(", ")})` : ""}` });
@@ -223,7 +235,7 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
 
     // Clause-first (only when the section is not being fixed by findings: fixes need an LLM edit).
     const candidates = input.selection.sections[id]?.candidates ?? [];
-    if (findingsBy(id).length === 0) {
+    if (findingsBy(id).length === 0 && ambiguous.length === 0) {
       const full = candidates.find((c) => c.coverage === "full" && libById.has(c.clauseId));
       if (full) {
         const r = renderClause(libById.get(full.clauseId)!.record, input.ledger);
@@ -254,6 +266,7 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
       fixFindings: findingsBy(id).map((f) => ({ ruleId: f.ruleId, severity: f.severity, message: f.message, quote: f.evidence.quote, fixHint: f.fixHint })),
       ...(docType === "terms" ? { documentOutline: outline.filter((o) => o.id !== id) } : {}),
       ...(related.length > 0 ? { relatedSections: related } : {}),
+      ...(ambiguous.length > 0 ? { ambiguousParties: ambiguous } : {}),
     };
     const res = await deps.llm.callStructured({
       stageId,
@@ -266,6 +279,10 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
     usage = add(usage, res.usage);
     for (const m of res.data.missingFacts) missingFacts.push({ sectionId: id, text: m });
     const blocks = res.data.blocks.length > 0 ? res.data.blocks : [note("manual_review", `${title}: 초안을 작성하지 못했습니다.`)];
+    if (ambiguous.length > 0) {
+      missingFacts.push({ sectionId: id, text: `${title}: ${ambiguous.map((a) => a.party).join(", ")}의 위탁/제3자 제공 여부를 담당자가 결정해야 합니다.` });
+      return finish("manual_review", blocks);
+    }
     return finish(res.data.blocks.length === 0 ? "manual_review" : res.data.status, blocks);
   }
 

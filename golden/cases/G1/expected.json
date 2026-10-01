@@ -120,10 +120,9 @@
         "basis": "consent"
       },
       {
-        "target": "접속기록",
-        "period": "1년",
-        "basis": "statute",
-        "citationId": "SAFE:8(1)"
+        "target": "서비스 접속 로그",
+        "period": "3개월",
+        "basis": "contract"
       }
     ],
     "privacy.S05_retentionExceptions": [

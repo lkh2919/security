@@ -82,6 +82,11 @@
         "task": "고객문의",
         "purpose": "문의 접수와 처리",
         "service": "쇼핑나우"
+      },
+      {
+        "task": "앱 오류 분석",
+        "purpose": "앱 오류 분석과 서비스 안정화",
+        "service": "쇼핑나우"
       }
     ],
     "privacy.S03_items": [
@@ -108,6 +113,14 @@
         "basisType": "consent",
         "legalBasis": "정보주체의 동의",
         "category": "일반"
+      },
+      {
+        "task": "앱 오류 분석",
+        "items": "앱 오류 로그, 기기 모델, OS 버전",
+        "required": "필수",
+        "basisType": "no_consent",
+        "legalBasis": "계약의 이행",
+        "category": "일반"
       }
     ],
     "privacy.S05_retention": [
@@ -128,10 +141,14 @@
         "basis": "consent"
       },
       {
-        "target": "접속기록",
-        "period": "1년",
-        "basis": "statute",
-        "citationId": "SAFE:8(1)"
+        "target": "서비스 접속 로그",
+        "period": "3개월",
+        "basis": "contract"
+      },
+      {
+        "target": "앱 오류 로그, 기기 모델, OS 버전",
+        "period": "수집 후 90일",
+        "basis": "contract"
       }
     ],
     "privacy.S05_retentionExceptions": [
@@ -284,7 +301,7 @@
         "retention": "수집 후 90일"
       }
     ],
-    "privacy.S10_refusal": "고객센터 이메일로 국외 이전을 거부할 수 있으며, 거부하면 주문과 앱 오류 분석 기능을 이용할 수 없습니다."
+    "privacy.S10_refusal": "고객센터 이메일(help@example.com)로 국외 이전을 거부할 수 있으며, 거부하면 주문과 앱 오류 분석 기능을 이용할 수 없습니다."
   },
   "applicability": {
     "documents": {

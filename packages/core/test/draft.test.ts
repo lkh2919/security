@@ -103,12 +103,21 @@ describe("draftDocument (privacy, G1)", () => {
     expect(r.llm.calls.some((c) => c.user.includes('"id":"S06"'))).toBe(false);
   });
 
-  test("an unknown gate is a manual-review note and costs no LLM call (G2b delegation ambiguity)", async () => {
+  test("delegation vs provision ambiguity (G2b): S07 and S09 draft candidate rows for the unclear party and stay manual_review", async () => {
     const r = await run("privacy", "G2b");
     expect(status(r.ast, "S07")).toBe("manual_review");
     expect(status(r.ast, "S09")).toBe("manual_review");
-    expect(r.llm.calls.some((c) => c.user.includes('"id":"S09"'))).toBe(false);
-    expect(r.missingFacts.map((m) => m.sectionId)).toEqual(expect.arrayContaining(["S07", "S09"]));
+    for (const id of ["S07", "S09"]) {
+      const call = r.llm.calls.find((c) => c.user.includes(`"section":{"id":"${id}"`))!;
+      expect(call.user).toContain('"ambiguousParties":[{"party":"페이온"');
+    }
+    expect(r.missingFacts.filter((m) => m.text.includes("페이온")).map((m) => m.sectionId).sort()).toEqual(["S07", "S09"]);
+  });
+
+  test("an unknown gate without a role assessment stays a manual-review note with no LLM call", async () => {
+    const r = await run("privacy", "G2b", library, undefined, { "privacy.S09_roleAssessment": "needs_manual_review" });
+    expect(status(r.ast, "S09")).toBe("manual_review");
+    expect(r.llm.calls.some((c) => c.user.includes('"section":{"id":"S09"'))).toBe(false);
   });
 
   test("warn-only special types get a manual-review placeholder, never a body (W1 children)", async () => {
