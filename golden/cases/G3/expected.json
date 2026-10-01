@@ -41,7 +41,136 @@
         "name": "메일웨이브",
         "task": "이메일 발송"
       }
-    ]
+    ],
+    "profile.orgNameRef": "주식회사 광장랩",
+    "profile.serviceNames": [
+      "모두의광장"
+    ],
+    "profile.channels": [
+      "mobile_app",
+      "web"
+    ],
+    "profile.dataSubjectGroups": [
+      "회원"
+    ],
+    "privacy.S02_purposes": [
+      {
+        "task": "회원가입",
+        "purpose": "회원 식별 및 공지 메일 발송",
+        "service": "모두의광장"
+      },
+      {
+        "task": "커뮤니티 이용",
+        "purpose": "게시글·사진·댓글 게시 서비스 제공",
+        "service": "모두의광장"
+      }
+    ],
+    "privacy.S03_items": [
+      {
+        "task": "회원가입",
+        "items": "이메일, 닉네임",
+        "required": "필수",
+        "basisType": "consent",
+        "legalBasis": "정보주체의 동의",
+        "category": "일반"
+      },
+      {
+        "task": "커뮤니티 이용",
+        "items": "게시글, 사진, 댓글",
+        "required": "선택",
+        "basisType": "no_consent",
+        "legalBasis": "계약의 이행",
+        "category": "일반"
+      }
+    ],
+    "privacy.S03_generatedItems": [
+      {
+        "task": "서비스 이용",
+        "items": "접속기록",
+        "legalBasis": "법령상 의무 준수"
+      }
+    ],
+    "privacy.S05_retention": [
+      {
+        "target": "계정 정보(이메일, 닉네임)",
+        "period": "회원 탈퇴 시 즉시 삭제",
+        "basis": "consent"
+      },
+      {
+        "target": "게시글",
+        "period": "회원이 삭제하지 않으면 탈퇴 후 익명 처리하여 보관",
+        "basis": "contract"
+      },
+      {
+        "target": "접속기록",
+        "period": "1년",
+        "basis": "statute",
+        "citationId": "SAFE:8(1)"
+      }
+    ],
+    "privacy.S05_retentionExceptions": [
+      "분쟁 또는 수사가 진행 중인 경우 해당 절차가 끝날 때까지 보관합니다."
+    ],
+    "privacy.S06_destruction": "운영팀이 개인정보 보호책임자의 승인을 받아 파기하며, 전자적 파일은 복구할 수 없는 방법으로 삭제합니다.",
+    "privacy.S09_roleAssessment": [
+      {
+        "party": "메일웨이브",
+        "partyType": "메일 발송",
+        "taskForUs": "이메일 발송",
+        "ownPurposeUse": "no",
+        "items": "이메일 주소",
+        "overseas": "no"
+      }
+    ],
+    "privacy.S09_ambiguousPartyTypes": [
+      "none"
+    ],
+    "privacy.S11_measures": [
+      "내부관리계획 수립·시행",
+      "접근 권한 관리",
+      "접속기록 보관",
+      "비밀번호 암호화"
+    ],
+    "privacy.S16_rightsChannels": [
+      "앱·웹 '내 정보' 메뉴",
+      "이메일"
+    ],
+    "privacy.S16_selfServicePaths": "앱·웹 > 내 정보",
+    "privacy.S16_requestDept": "운영팀 (help@example.com, 02-000-0000)",
+    "privacy.S18_officer": "개인정보 보호책임자: 운영팀장 (privacy@example.com, 02-000-0000)",
+    "privacy.S18_dept": "운영팀 (help@example.com, 02-000-0000)",
+    "privacy.S24_noticeMethod": [
+      "앱·웹 공지사항"
+    ],
+    "terms.minAge": 14,
+    "terms.definitions": [
+      "서비스",
+      "이용자",
+      "회원",
+      "게시물"
+    ],
+    "terms.serviceScope": "회원이 게시글과 사진을 올리고 댓글로 소통하는 무료 커뮤니티 서비스",
+    "terms.noticePeriodDays": 7,
+    "terms.unfavourableChangeNoticeDays": 30,
+    "terms.memberNoticeChannels": [
+      "공지사항",
+      "이메일"
+    ],
+    "terms.membershipRules": "이메일 주소로 가입하며 만 14세 이상만 가입할 수 있습니다. 회원은 앱·웹의 '내 정보' 메뉴에서 언제든지 탈퇴할 수 있고, 탈퇴 후 바로 다시 가입할 수 있습니다. 욕설, 음란물, 타인의 권리를 침해하는 게시물을 3회 이상 게시하면 30일 동안 글쓰기를 제한합니다.",
+    "terms.suspensionCases": "서버 점검이나 천재지변 등 불가항력으로 서비스 제공이 어려운 경우 일시 중단할 수 있습니다.",
+    "terms.subscription": false,
+    "terms.userObligations": "타인 정보 도용, 음란물이나 욕설 게시, 서비스 운영 방해를 하지 않아야 합니다.",
+    "terms.ipPolicy": "서비스의 상표와 디자인에 대한 권리는 회사에 있습니다. 회원이 올린 게시물의 저작권은 회원에게 있으며, 회사는 서비스 화면 노출과 홍보 목적으로만 이를 사용할 수 있습니다. 신고가 접수된 게시물은 게시를 숨기고 작성자에게 알린 뒤 이의제기를 받습니다. 회원이 탈퇴하면 삭제하지 않은 게시물은 익명 처리하여 남습니다.",
+    "terms.privacyPolicyUrl": "https://plaza.example.com/privacy",
+    "terms.liabilityPosture": "회사는 고의 또는 과실이 없는 경우 책임을 지지 않으며, 회원 사이에 발생한 분쟁에는 개입하지 않습니다.",
+    "terms.disputeVenue": "민사소송법에 따른 관할법원",
+    "terms.usesStdTerms": false,
+    "terms.nonMemberPurchase": false,
+    "terms.businessIdentity": "상호 주식회사 광장랩, 대표자 홍길동, 주소 서울특별시 마포구 가상로 2, 사업자등록번호 000-00-00000, 연락처 02-000-0000, 이메일 help@example.com",
+    "terms.pointsMileage": false,
+    "terms.minorPurchase": false,
+    "terms.marketplaceIntermediary": false,
+    "terms.complaintChannel": "help@example.com, 02-000-0000"
   },
   "applicability": {
     "documents": {
@@ -107,5 +236,5 @@
     "게시물을 임의로 삭제"
   ],
   "expectedVerdict": "pass",
-  "notes": "T12 keeps UGC copyright with the user and states a scoped licence and a removal procedure (R-T12-003, R-T12-004). T09 and T10 are drafted only if a paid feature appears (terms.paid false)."
+  "notes": "T12 keeps UGC copyright with the user and states a scoped licence and a removal procedure (R-T12-003, R-T12-004). T09 and T10 are drafted only if a paid feature appears (terms.paid false). Enriched 2026-10-01 (council stage 2): business identity, membership rules, notices, liability, privacy facts."
 }
