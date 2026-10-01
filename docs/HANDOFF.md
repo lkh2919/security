@@ -49,7 +49,7 @@ independent audit before rendering MD/HTML/DOCX plus a Reviewer Sheet for the In
 | 6a | Lotte corpus capture (47 index entries) | done |
 | 6b | Clause library normalization, house-style candidates, manifest | done: 153 clauses validate (`bun scripts/validate-clauses.ts`), manifest and candidates present. Open: user approval of house style; vetting of clauses (none vetted); 9 clauses with unbound variables (see KB gap) |
 | 7 | Intake (STT adapter, segmenter, form parser, masker) | done, but a masking rework was interrupted |
-| 7-off | Add `masking: "off" \| "basic"` (default off); make the client `assertNoPii` gate optional (`piiGate`, default false); smoke script accepts an input path | done (PR #1) |
+| 7-off | Add `masking: "off" \| "basic"` (default off); make the client `assertNoPii` gate optional (`piiGate`, default false); smoke script accepts an input path | done (PR #2) |
 | 8 | Golden cases G1–G3 (+G1b, G2b), W1–W4, seeded defects D1–D8, rubric v1 | done for inputs, expectations, defect specs and rubric (`golden/cases`, `golden/defects`, `kb/jurisdictions/kr/rubric/rubric-v1.json`, `test/golden-cases.test.ts`, `test/rubric.test.ts`). Reference drafts (`golden/cases/*/reference/`) wait for the Row 11 drafters; the privacy-domain-expert reviews them before they become the baseline. House style is still candidate, so the rubric's houseStyle score is not assessed. |
 | 9a | Anthropic client, R2 extract, C1 coverage, R3 gap | done |
 | 10 | Renderer MD/HTML/DOCX + Reviewer Sheet | done |
@@ -73,7 +73,7 @@ Known state: root tsc and `bun test` are green. Open KB gap (pinned in `test/kb-
 
 ## What the next session should do first
 
-1. Pull `claude/stoic-darwin-b7yuee` ([PR #1](https://github.com/lkh2919/security/pull/1)); run `bun install`, `bun x tsc --noEmit`, `cd packages/core && bun test` (expect 724 pass).
+1. Pull `claude/stoic-darwin-b7yuee` ([PR #2](https://github.com/lkh2919/security/pull/2)); run `bun install`, `bun x tsc --noEmit`, `cd packages/core && bun test` (expect 724 pass).
 2. With `ANTHROPIC_API_KEY` in `.env`: `bun scripts/smoke-extract.ts`, then `bun scripts/golden-regression.ts --cases G1 --runs 1 --no-defects`, then the full set with `--runs 3`. Tune prompts only where a gate metric fails (max 3 loops per defect class).
 3. Human gates: vet clauses (privacy-domain-expert), approve house style (user), review `golden/cases/*/reference/` once the first live drafts exist.
 4. On the original PC: `bun scripts/freshness-check.ts`. If `scripts/capture-lotte.ts` / `build-clauses.ts` are rerun, redact the officer contact lines of the capture index again (QA report finding 1).
