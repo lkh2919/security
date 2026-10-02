@@ -9,7 +9,7 @@
 import { X509Certificate, createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import type { BrowserFetchOptions, BrowserFetcher } from "./safe-fetch";
+import type { BrowserFetchOptions, BrowserFetcher, SelectSpec } from "./safe-fetch";
 
 interface PwResponse {
   status(): number;
@@ -29,6 +29,9 @@ interface PwPage {
   waitForLoadState(state: string, o: { timeout: number }): Promise<void>;
   content(): Promise<string>;
   url(): string;
+  selectOption(selector: string, values: { label: string } | { value: string }, o: { timeout: number; force?: boolean }): Promise<string[]>;
+  evaluate<T>(fn: string, arg?: unknown): Promise<T>;
+  waitForFunction(fn: string, arg: unknown, o: { timeout: number }): Promise<unknown>;
 }
 interface PwContext {
   newPage(): Promise<PwPage>;
@@ -63,6 +66,30 @@ export function findChromium(browsersPath = process.env["PLAYWRIGHT_BROWSERS_PAT
 export function spkiHashes(pemFile: string): string[] {
   const pem = readFileSync(pemFile, "utf8");
   return [...pem.matchAll(/-----BEGIN CERTIFICATE-----[\s\S]*?-----END CERTIFICATE-----/g)].map((m) => createHash("sha256").update(new X509Certificate(m[0]).publicKey.export({ type: "spki", format: "der" })).digest("base64"));
+}
+
+/** Browser-side: text and outer HTML of the first visible element that matches the selector (page functions, run by Playwright). */
+const VISIBLE_TEXT = `(cs) => { for (const e of document.querySelectorAll(cs)) { const st = getComputedStyle(e); if (e.getClientRects().length > 0 && st.visibility !== "hidden" && st.display !== "none") return (e.textContent || "").replace(/\\s+/g, " ").trim(); } return null; }`;
+const VISIBLE_HTML = `(cs) => { for (const e of document.querySelectorAll(cs)) { const st = getComputedStyle(e); if (e.getClientRects().length > 0 && st.visibility !== "hidden" && st.display !== "none") return e.outerHTML; } return null; }`;
+const CHANGED_TEXT = `([cs, prev]) => { for (const e of document.querySelectorAll(cs)) { const st = getComputedStyle(e); if (e.getClientRects().length > 0 && st.visibility !== "hidden" && st.display !== "none") { const t = (e.textContent || "").replace(/\\s+/g, " ").trim(); return t.length > 0 && t !== prev; } } return false; }`;
+
+/** Opens the select with the option chosen and returns the policy container (outer HTML). Throws when the content does not change. */
+async function chooseVersion(page: PwPage, sel: SelectSpec, timeoutMs: number): Promise<string> {
+  const before = await page.evaluate<string | null>(VISIBLE_TEXT, sel.contentSelector);
+  if (before === null) throw new Error(`select: content container "${sel.contentSelector}" not visible`);
+  const timeout = Math.min(10_000, timeoutMs);
+  try {
+    // `force`: widget libraries (jQuery UI selectmenu) hide the native select and draw their own button; the native select still drives the page.
+    await page.selectOption(sel.selector, { label: sel.value }, { timeout, force: true });
+  } catch {
+    await page.selectOption(sel.selector, { value: sel.value }, { timeout, force: true });
+  }
+  await page.waitForFunction(CHANGED_TEXT, [sel.contentSelector, before], { timeout }).catch(() => {
+    throw new Error("select: content did not change after choosing the option");
+  });
+  const html = await page.evaluate<string | null>(VISIBLE_HTML, sel.contentSelector);
+  if (html === null) throw new Error("select: content container disappeared");
+  return html;
 }
 
 const BLOCKED_RESOURCES = new Set(["image", "media", "font"]);
@@ -100,7 +127,7 @@ export class PlaywrightBrowserFetcher implements BrowserFetcher {
       });
       const response = await page.goto(url, { waitUntil: "load", timeout: opts.timeoutMs });
       await page.waitForLoadState("networkidle", { timeout: Math.min(10_000, opts.timeoutMs) }).catch(() => undefined);
-      const html = await page.content();
+      const html = opts.select ? await chooseVersion(page, opts.select, opts.timeoutMs) : await page.content();
       if (Buffer.byteLength(html, "utf8") > opts.maxBytes) throw new Error("rendered page exceeds the size cap");
       return { finalUrl: page.url(), httpStatus: response?.status() ?? 0, html };
     } finally {

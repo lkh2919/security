@@ -29,9 +29,18 @@ const REDIRECT_STATUS = new Set([301, 302, 303, 307, 308]);
 
 export type SkipReason = "robots_disallowed" | "robots_unreachable" | "rate_limit_daily" | "backoff" | "crawl_delay_too_long" | "blocked_http_403" | "blocked_http_429";
 
+/** Browser only: choose `value` (option label or value) in the select `selector`, wait until the text of `contentSelector` changes and return that container. */
+export interface SelectSpec {
+  readonly selector: string;
+  readonly value: string;
+  readonly contentSelector: string;
+}
+
 export interface PageRequest {
   readonly url: string;
   readonly render: "html" | "browser";
+  /** Needs `render: "browser"`. The result body is then the outer HTML of the content container after the choice. */
+  readonly select?: SelectSpec;
 }
 
 export type PageResult =
@@ -49,6 +58,8 @@ export interface BrowserFetchOptions {
   readonly userAgent: string;
   readonly timeoutMs: number;
   readonly maxBytes: number;
+  /** Choose an option in a select and return the content container instead of the whole document. */
+  readonly select?: SelectSpec;
   /** Called for every request the page makes (document, redirects, scripts, XHR); false aborts it. */
   readonly allowRequest: (url: string) => Promise<boolean>;
 }
@@ -234,7 +245,7 @@ export class SafeFetcher implements PageFetcher {
       priorDay = this.opts.state.host(start.host).lastPageDay;
       const skip = await this.preflight(start, day, claimed);
       if (skip) return { status: "skipped", reason: skip };
-      const result = req.render === "browser" ? await this.viaBrowser(start, day, priorDay) : await this.viaHttp(req.url, start, day, claimed);
+      const result = req.render === "browser" ? await this.viaBrowser(start, day, priorDay, req.select) : await this.viaHttp(req.url, start, day, claimed);
       return result;
     } finally {
       await this.opts.state.flush();
@@ -363,7 +374,7 @@ export class SafeFetcher implements PageFetcher {
     return { status: "skipped", reason: status === 403 ? "blocked_http_403" : "blocked_http_429" };
   }
 
-  private async viaBrowser(url: URL, day: string, priorDay: string | undefined): Promise<PageResult> {
+  private async viaBrowser(url: URL, day: string, priorDay: string | undefined, select?: SelectSpec): Promise<PageResult> {
     const browser = this.opts.browser;
     if (!browser) return { status: "failed", reason: "browser_unavailable" };
     try {
@@ -371,6 +382,7 @@ export class SafeFetcher implements PageFetcher {
         userAgent: this.ua,
         timeoutMs: this.timeoutMs,
         maxBytes: this.maxBytes,
+        ...(select ? { select } : {}),
         allowRequest: async (u) => {
           try {
             await assertPublicHost(validateUrl(u), this.dns);

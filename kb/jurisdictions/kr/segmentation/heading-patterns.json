@@ -1,6 +1,7 @@
 {
   "version": "1.0.0",
   "generated": "2026-10-02",
+  "unmappedKeywords": ["연계정보"],
   "note": "Heading variants -> section id for the Policy Monitor heading-rule segmenter (design M5/M7). Matching: the heading is normalized (numbering removed, only letters and digits kept, lowercase); `exact` entries must equal it, `keywords` must be contained in it; the longest keyword wins, ties go to the lower section id. Every rule-pack title.ko is an `exact` entry. The same keywords drive the full-text search that must fail before a mandatory section is reported missing. Seeded from rule-pack titles and the captures index headingList; the domain expert reviews it.",
   "sections": {
     "S01": {

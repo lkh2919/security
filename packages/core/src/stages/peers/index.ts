@@ -9,3 +9,4 @@ export * from "./baselines";
 export * from "./history";
 export * from "./history-law";
 export * from "./history-report";
+export * from "./extract";

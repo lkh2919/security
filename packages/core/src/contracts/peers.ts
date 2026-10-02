@@ -46,8 +46,19 @@ export const PeerHistoryVersionSchema = z.looseObject({
   /** `YYYY-MM-DD`: the day this version of the policy took effect. */
   effectiveDate: NonEmptyString,
   url: NonEmptyString,
-  /** `http` plain fetch, `browser` rendered fetch, `form` only available through a form or search page (not fetched). */
-  fetch: z.enum(["http", "browser", "form"]),
+  /**
+   * `http` plain fetch, `browser` rendered fetch, `form` only available through a form or search page (not fetched),
+   * `anchor` one plain fetch of the page (shared by versions of the same page), then the element whose id is the URL fragment or that
+   * matches `selector` is extracted (versions kept as hidden blocks in the same HTML), `select` browser: open the page, choose
+   * `select.value` in the select `select.selector`, wait until the content changes and extract `contentSelector`.
+   */
+  fetch: z.enum(["http", "browser", "form", "anchor", "select"]),
+  /** `anchor` (when there is no fragment, or to narrow it) / `select`: simple selector (`#id`, `.class`, `tag.class`, descendant chains). */
+  selector: z.string().min(1).optional(),
+  /** `select`: the dropdown and the option (label or value) that shows this version. */
+  select: z.looseObject({ selector: NonEmptyString, value: NonEmptyString }).optional(),
+  /** `select`: the container that holds the policy text (the first visible match is extracted). */
+  contentSelector: z.string().min(1).optional(),
   formNote: z.string().optional(),
 });
 export const PeerHistorySchema = z.looseObject({

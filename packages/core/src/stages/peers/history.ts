@@ -8,12 +8,13 @@
  * one-page-per-day slot of the current-policy watch, and at most `maxPagesPerHost` (3) history pages are requested per host per run.
  */
 import type { AmendmentDiff } from "../../contracts/amendment-diff";
-import { PEER_SIGNAL_LABEL, PeerHistorySchema, type PeerGroup, type PeerRegistry, type PolicyChangeEvent, type UrgencySignal } from "../../contracts/peers";
+import { PEER_SIGNAL_LABEL, PeerHistorySchema, PeerHistoryVersionSchema, type PeerGroup, type PeerRegistry, type PolicyChangeEvent, type UrgencySignal } from "../../contracts/peers";
 import type { RuleSection } from "../../contracts/rulepack";
-import type { PageFetcher } from "../../adapters/fetch/safe-fetch";
+import type { PageFetcher, SelectSpec } from "../../adapters/fetch/safe-fetch";
 import type { FetchStateStore } from "../../adapters/fetch/state";
 import type { HeadingPatterns } from "../ingest/segment-policy";
 import { buildChangeEvent } from "./changes";
+import { extractElementHtml, fragmentSelector, withoutFragment } from "./extract";
 import { normalizePolicyHtml, type NormalizedPolicy } from "./normalize";
 import { computeSignals, type Alignment, type PeerGroupInfo } from "./signals";
 
@@ -111,20 +112,55 @@ export async function comparePeerHistory(input: HistoryInput): Promise<HistoryRe
   const events: PolicyChangeEvent[] = [];
   const results: HistoryPeerResult[] = [];
 
-  /** Fetches one version through the safe fetcher under the per-host history limit. */
-  async function fetchVersion(url: string, render: "html" | "browser"): Promise<{ ok: true; policy: NormalizedPolicy } | { ok: false; status: "skipped" | "failed"; reason: string }> {
+  type Fetched = { ok: true; body: string } | { ok: false; status: "skipped" | "failed"; reason: string };
+  type Version = ReturnType<typeof PeerHistoryVersionSchema.parse>;
+  /** Pages already fetched in this run (an `anchor` page serves several versions with one request). */
+  const pageCache = new Map<string, Promise<Fetched>>();
+
+  /** Fetches one page through the safe fetcher under the per-host history limit. */
+  async function fetchBody(url: string, render: "html" | "browser", select?: SelectSpec): Promise<Fetched> {
     const host = hostOf(url);
     const used = perHost.get(host) ?? 0;
     if (used >= maxPerHost) return { ok: false, status: "skipped", reason: `history_host_limit: ${maxPerHost} history pages per host per run` };
     perHost.set(host, used + 1);
     input.state.setHost(host, { lastPageDay: undefined });
-    const res = await input.fetcher.fetchPage({ url, render });
+    const res = await input.fetcher.fetchPage({ url, render, ...(select ? { select } : {}) });
     if (res.status === "skipped") return { ok: false, status: "skipped", reason: res.reason };
     if (res.status === "failed") return { ok: false, status: "failed", reason: res.reason };
     if (res.status === "not_modified") return { ok: false, status: "failed", reason: "unexpected not_modified" };
-    const norm = normalizePolicyHtml(res.body, input.patterns);
+    return { ok: true, body: res.body };
+  }
+
+  function normalizeBody(html: string): { ok: true; policy: NormalizedPolicy } | { ok: false; status: "skipped"; reason: string } {
+    const norm = normalizePolicyHtml(html, input.patterns);
     if (norm.unusable) return { ok: false, status: "skipped", reason: `manual_review: ${norm.unusable}` };
     return { ok: true, policy: norm.policy };
+  }
+
+  /** One version -> normalized policy, by its fetch mode (`http`, `browser`, `anchor`, `select`). */
+  async function fetchVersion(v: Version): Promise<{ ok: true; policy: NormalizedPolicy } | { ok: false; status: "skipped" | "failed"; reason: string }> {
+    if (v.fetch === "anchor") {
+      const selector = v.selector ?? fragmentSelector(v.url);
+      if (!selector) return { ok: false, status: "failed", reason: "anchor: the URL has no #fragment and the version has no selector" };
+      const base = withoutFragment(v.url);
+      let page = pageCache.get(base);
+      if (!page) {
+        page = fetchBody(base, "html");
+        pageCache.set(base, page);
+      }
+      const got = await page;
+      if (!got.ok) return got;
+      const el = extractElementHtml(got.body, selector);
+      if (el === null) return { ok: false, status: "failed", reason: `anchor: element "${selector}" not found in the page` };
+      return normalizeBody(el);
+    }
+    if (v.fetch === "select") {
+      if (!v.select || !v.contentSelector) return { ok: false, status: "failed", reason: "select: the version needs `select` {selector, value} and `contentSelector`" };
+      const got = await fetchBody(withoutFragment(v.url), "browser", { selector: v.select.selector, value: v.select.value, contentSelector: v.contentSelector });
+      return got.ok ? normalizeBody(got.body) : got;
+    }
+    const got = await fetchBody(v.url, v.fetch === "browser" ? "browser" : "html");
+    return got.ok ? normalizeBody(got.body) : got;
   }
 
   async function processPeer(g: PeerGroup, p: PeerGroup["peers"][number]): Promise<HistoryPeerResult> {
@@ -145,10 +181,12 @@ export async function comparePeerHistory(input: HistoryInput): Promise<HistoryRe
     const ad = isoDateOf(after.effectiveDate);
     if (!bd || !ad) return { ...base, status: "failed", reason: "history effectiveDate is not a date" };
     for (const v of [before, after]) if (v.fetch === "form") return { ...base, status: "skipped", reason: `fetch_form: 양식 조회 필요, 자동 수집 안 함${v.formNote ? ` (${v.formNote})` : ""}`, beforeDate: bd, afterDate: ad };
-    const b = await fetchVersion(before.url, before.fetch === "browser" ? "browser" : "html");
+    const b = await fetchVersion(before);
     if (!b.ok) return { ...base, status: b.status, reason: `before: ${b.reason}`, beforeDate: bd, afterDate: ad };
-    const a = await fetchVersion(after.url, after.fetch === "browser" ? "browser" : "html");
+    const a = await fetchVersion(after);
     if (!a.ok) return { ...base, status: a.status, reason: `after: ${a.reason}`, beforeDate: bd, afterDate: ad };
+    // A fetch that silently returned the current text for the old version is no evidence: never count it as "compared, 0 changes".
+    if (a.policy.contentSha256 === b.policy.contentSha256) return { ...base, status: "failed", reason: "same_text: the before and after versions normalize to identical text (the old version was not really retrieved)", beforeDate: bd, afterDate: ad };
     // The change is dated by the day the new version took effect (that is the day compared with the amendment window).
     const event = buildChangeEvent({ peerId: p.peerId, groupId: g.groupId, detectedAt: new Date(`${ad}T00:00:00.000Z`), prev: b.policy, next: a.policy });
     const changedSections = event?.changedSections ?? [];

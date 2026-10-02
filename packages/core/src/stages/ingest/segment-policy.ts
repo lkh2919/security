@@ -23,6 +23,8 @@ import { buildRules, findHits } from "../intake/patterns";
 const PatternsFileSchema = z.looseObject({
   version: z.string().min(1),
   sections: z.record(ItemIdSchema, z.looseObject({ exact: z.array(z.string().min(1)), keywords: z.array(z.string().min(1)) })),
+  /** Topics that belong to no standard section (e.g. 연계정보(CI)): a heading containing one is never mapped and never folded into the section before it. */
+  unmappedKeywords: z.array(z.string().min(1)).optional(),
 });
 
 export interface SectionPatterns {
@@ -37,6 +39,8 @@ export interface HeadingPatterns {
   readonly version: string;
   /** SHA-256 of the file (manifest `segmentation.sha256`). */
   readonly sha256: string;
+  /** Normalized keywords of topics without a standard section: such a heading stays UNMAPPED (see `isUnmappedTopic`). */
+  readonly unmapped: readonly string[];
   /** In file order: S01..S24, A1, X1 (ties go to the earlier entry). */
   readonly sections: readonly SectionPatterns[];
 }
@@ -51,6 +55,7 @@ export function parseHeadingPatterns(raw: string): HeadingPatterns {
   return {
     version: file.version,
     sha256: sha256OfBytes(raw),
+    unmapped: (file.unmappedKeywords ?? []).map(normHeading).filter((k) => k.length > 0),
     sections: Object.entries(file.sections).map(([id, p]) => ({ id: id as ItemId, exact: p.exact.map(normHeading), keywords: p.keywords.map(normHeading).filter((k) => k.length > 0) })),
   };
 }
@@ -87,11 +92,18 @@ export interface HeadingMatch {
   readonly confidence: number;
 }
 
-/** Exact heading first, then the longest contained keyword. `null` when nothing matches. */
+/** True when the heading is about a topic that has no standard section (e.g. 연계정보(CI) 생성·처리). */
+export function isUnmappedTopic(patterns: HeadingPatterns, heading: string): boolean {
+  const n = normHeading(stripNumbering(heading));
+  return n.length > 0 && patterns.unmapped.some((k) => n.includes(k));
+}
+
+/** Exact heading first, then the longest contained keyword. `null` when nothing matches (or the heading is an unmapped topic). */
 export function matchHeading(patterns: HeadingPatterns, heading: string): HeadingMatch | null {
   const n = normHeading(stripNumbering(heading));
   if (!n) return null;
   for (const s of patterns.sections) if (s.exact.includes(n)) return { sectionId: s.id, mappedBy: "heading_exact", confidence: 1 };
+  if (patterns.unmapped.some((k) => n.includes(k))) return null;
   let best: { id: ItemId; len: number } | null = null;
   for (const s of patterns.sections) {
     for (const k of s.keywords) if (n.includes(k) && (!best || k.length > best.len)) best = { id: s.id, len: k.length };
@@ -209,6 +221,8 @@ export function segmentDocument(doc: ParsedDocument, patterns: HeadingPatterns):
     const match = matchHeading(patterns, p.text);
     // A plain line is a heading only when numbered or an exact title: a keyword inside a short sentence proves nothing.
     if (match && (numberingDepth(p.text) > 0 || match.mappedBy === "heading_exact")) return { match, depth: numberingDepth(p.text) || 2 };
+    // An article-level line (`제10조 ...`, `10. ...`) about an unmapped topic starts its own UNMAPPED block.
+    if (!match && numberingDepth(p.text) > 0 && numberingDepth(p.text) <= 2 && isUnmappedTopic(patterns, p.text)) return { match: null, depth: numberingDepth(p.text) };
     return null;
   };
 
@@ -232,7 +246,9 @@ export function segmentDocument(doc: ParsedDocument, patterns: HeadingPatterns):
       blocks.push(cur);
       return;
     }
-    if ((cur.mappedBy === "preamble" && !cur.sawTitle) || (inMapped && h.depth > cur.depth)) {
+    // An unmapped topic (연계정보 ...) is never folded into the section before it: it must not inherit S21 and the like.
+    const unmappedTopic = isUnmappedTopic(patterns, p.text);
+    if (!unmappedTopic && ((cur.mappedBy === "preamble" && !cur.sawTitle) || (inMapped && h.depth > cur.depth))) {
       if (cur.mappedBy === "preamble") cur.sawTitle = true;
       cur.paraIndexes.push(i);
       return;

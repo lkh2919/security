@@ -243,3 +243,31 @@ describe("IngestedPolicy -> PolicyAST", () => {
     expect(r.sectionParas.get("S02")!.map((x) => [x.n, x.text])).toEqual([[1, "가."], [2, "다."]]);
   });
 });
+
+describe("연계정보(CI) headings stay out of the standard sections", () => {
+  const seg = (md: string) => segmentDocument(parseMarkdown(md), patterns).sections.map((s) => [s.sectionId, s.title]);
+
+  test("a CI heading after the CCTV section is UNMAPPED, not S21 (also when it is a deeper sub-heading)", () => {
+    const flat = seg(["# 개인정보 처리방침", "", "## 제18조 고정형 영상정보처리기기 운영·관리에 관한 사항", "CCTV를 설치·운영합니다.", "", "## 제19조 연계정보(CI)의 생성·처리에 관한 사항", "연계정보를 처리합니다."].join("\n"));
+    expect(flat.find(([, t]) => String(t).includes("연계정보"))![0]).toBe(UNMAPPED_SECTION);
+    expect(flat.filter(([id]) => id === "S21").length).toBe(1);
+    const deeper = seg(["# 개인정보 처리방침", "", "## 제18조 고정형 영상정보처리기기 운영·관리에 관한 사항", "CCTV를 설치·운영합니다.", "", "#### 연계정보(CI) 생성·처리", "연계정보를 처리합니다."].join("\n"));
+    expect(deeper.find(([, t]) => String(t).includes("연계정보"))![0]).toBe(UNMAPPED_SECTION);
+  });
+
+  test("CI sub-headings that contain a section keyword (수집 및 이용 목적) are not mapped either; a plain article line is a heading too", () => {
+    expect(matchHeading(patterns, "2) 연계정보의 수집 및 이용 목적")).toBeNull();
+    const plain = seg(["# 개인정보 처리방침", "", "## 제9조 고정형 영상정보처리기기 운영·관리에 관한 사항", "CCTV를 설치·운영합니다.", "", "제10조 연계정보(CI) 생성⋅처리에 관한 사항", "", "연계정보를 처리합니다."].join("\n"));
+    expect(plain.find(([, t]) => String(t).includes("연계정보"))![0]).toBe(UNMAPPED_SECTION);
+  });
+
+  test("S21 matches only CCTV / 영상정보처리기기 headings", () => {
+    const s21 = patterns.sections.find((s) => s.id === "S21")!;
+    for (const k of [...s21.exact, ...s21.keywords]) expect(/cctv|영상정보처리기기|폐쇄회로|고정형영상/.test(k)).toBe(true);
+    expect(matchHeading(patterns, "제19조 연계정보(CI)의 생성·처리에 관한 사항")).toBeNull();
+    expect(matchHeading(patterns, "CCTV 설치 및 운영")?.sectionId).toBe("S21");
+    expect(matchHeading(patterns, "고정형 영상정보처리기기 운영·관리에 관한 사항")?.sectionId).toBe("S21");
+    expect(matchHeading(patterns, "이동형 영상정보처리기기 운영")?.sectionId).toBe("S22");
+    for (const h of ["개인정보의 처리 목적", "연계정보 안전성 확보 조치", "위치정보의 처리", "개인정보 보호책임자"]) expect(matchHeading(patterns, h)?.sectionId).not.toBe("S21");
+  });
+});
