@@ -32,6 +32,10 @@ bun scripts/run-pipeline.ts answer --run <runId> --answers answers.json
 
 Outputs land in `runs/<runId>/output/`: `privacy-policy.{md,html,docx}`, `terms.{md,html,docx}` (only if terms apply), `reviewer-sheet.{md,html}`. Intermediate artifacts (`03-extract.json`, `04-coverage.r0.json`, ...) and `run-state.json` let you see where a run stopped. Runs are never overwritten; a repeated run id is refused.
 
+### Monitor, daily and peers (any org)
+
+The dispatcher `bun scripts/agent.ts <check|impact|daily|draft|peers> --config config/orgs/<org>/org.json [--llm api|claude-code|none]` runs the policy monitor, the daily chain, Peer Watch and drafting per org config; `--llm claude-code` uses the Claude Code login instead of an API key. Outputs go to `runs/<tenantId>/` (gitignored). `daily` is resumable and skips freshness without `LAW_GO_KR_OC`. Setup for a new affiliate: [`adopt-in-30-minutes.md`](adopt-in-30-minutes.md). Monitor findings carry severity, a provisional or confirmed tier and Confirm questions; finance sections are manual review; peer signals are industry reference only.
+
 ## 4. Reading the result
 
 - **Reviewer Sheet first.** It lists, per section, the status, the evidence (transcript segment ids), open questions and audit findings. Give it to the InfoSec office with the draft.

@@ -60,6 +60,10 @@ bun scripts/validate-clauses.ts       # clause library validator
 
 Live runs need `ANTHROPIC_API_KEY` in `.env`; see the operator guide. Never print or commit secrets.
 
+## Adopt in 30 minutes (HUB)
+
+A new affiliate adopts with data only: `config/orgs/<org>/org.json`, a policy folder and optional peer list. Then `bun scripts/agent.ts check|impact|daily|peers --config config/orgs/<org>/org.json --llm claude-code`. Outputs go to `runs/<tenantId>/` (gitignored). Guide: [`docs/adopt-in-30-minutes.md`](docs/adopt-in-30-minutes.md) (Korean: [`docs/ko/adopt-in-30-minutes.md`](docs/ko/adopt-in-30-minutes.md)); HUB card: [`docs/hub/agent-card.md`](docs/hub/agent-card.md); Claude Code skill: [`skills/privacy-monitor/SKILL.md`](skills/privacy-monitor/SKILL.md). Library API: `packages/core` (`runMonitorFolder`, `runDaily`, `watchPeers`, `startRun`, `draftDocument`). Reference only, not legal advice; DOCX/PDF input not yet supported.
+
 ## Agents and skills
 
 Project agents: **privacy-domain-expert** (rule packs, rubric, template, clause vetting, house-style proposals) and **kb-curator** (corpus, provenance, manifest). Six more are copied from the L0 roster; see [`AGENTS.md`](AGENTS.md). Skills: [`skills/README.md`](skills/README.md); the `privacy-docs` router maps requests to `interview`, `draft`, `audit`, `freshness`.
