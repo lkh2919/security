@@ -1,0 +1,737 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-10-02",
+  "generator": "privacy-domain-expert (claude-opus-5-5)",
+  "status": "draft - awaiting domain-expert approval gate (confirmed design C1 human gates) before Mode B trusts it",
+  "note": "Legal-ref key prefix → freshness source and law.go.kr identity. Prefixes in use were collected programmatically from kb/jurisdictions/kr/rulepacks/*/ (*.json keys of form PREFIX:article...) on 2026-10-02: ARTC 248, STD10023 195, PIPA 180, ECA 133, DEC 69, LSA 18, ECA-DEC 12, STDG 11, OSHA 6, SAFE 4, CPPA 3, HIRE 2, NTBA 2 (plus RULE inside one compound key). NETA, NETA-DEC, PIPCGL, CIA, CIA-DEC, EFTA and FCPA are new. Source URLs have the OC parameter removed. 'watched': false means the sourceId is not in DEFAULT_FRESHNESS_TARGETS (packages/core/src/stages/freshness/targets.ts).",
+  "keyFormat": "PREFIX:article[-branch](paragraph)item, or PREFIX:article[item] for articles with items but no paragraphs; compound keys join parts with '+'.",
+  "compoundKeyRules": [
+    {
+      "pattern": "LSA:...+DEC:...",
+      "DEC": {
+        "lawNameKo": "근로기준법 시행령",
+        "lawId": "003058",
+        "currentMst": "270551",
+        "sourceId": "law:lsa-decree"
+      }
+    },
+    {
+      "pattern": "HIRE:...+DEC:...",
+      "DEC": {
+        "lawNameKo": "채용절차의 공정화에 관한 법률 시행령",
+        "lawId": "012193",
+        "currentMst": "209867",
+        "sourceId": "law:hire-decree"
+      }
+    },
+    {
+      "pattern": "OSHA:...+RULE:...",
+      "RULE": {
+        "lawNameKo": "산업안전보건법 시행규칙",
+        "lawId": "007364",
+        "currentMst": "288431",
+        "sourceId": "law:osha-rule"
+      }
+    },
+    {
+      "rule": "A secondary prefix after '+' resolves against the first part's law; DEC alone (first part) is always the PIPA decree."
+    }
+  ],
+  "prefixes": [
+    {
+      "prefix": "PIPA",
+      "sourceId": "law:pipa",
+      "lawNameKo": "개인정보 보호법",
+      "lawId": "011357",
+      "currentMst": "283839",
+      "currentVersion": "법률 제21445호, 공포 2026-03-10, 시행 2026-09-11",
+      "kind": "law",
+      "aliases": [
+        "개인정보 보호법",
+        "개인정보보호법",
+        "보호법",
+        "법"
+      ],
+      "monitorMode": "mapped",
+      "inRulePacks": [
+        "privacy-2026.04",
+        "terms-kftc-10023"
+      ],
+      "scheduled": [
+        {
+          "mst": "289415",
+          "promulgationNo": "법률 제21910호",
+          "effectiveDate": "2027-03-09"
+        },
+        {
+          "mst": "283839",
+          "promulgationNo": "법률 제21445호 (부칙 split stage)",
+          "effectiveDate": "2027-07-01"
+        }
+      ],
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=law&type=XML&query=%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%20%EB%B3%B4%ED%98%B8%EB%B2%95",
+          "fetched": "2026-10-02",
+          "version": "법률 제21445호, 시행 2026-09-11 (현행)"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=011357",
+          "fetched": "2026-10-02",
+          "version": "현행 + 시행예정 2 rows"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "DEC",
+      "sourceId": "law:pipa-decree",
+      "lawNameKo": "개인정보 보호법 시행령",
+      "lawId": "011468",
+      "currentMst": "289537",
+      "currentVersion": "대통령령 제36671호, 공포 2026-09-10, 시행 2026-09-11",
+      "kind": "decree",
+      "aliases": [
+        "개인정보 보호법 시행령",
+        "시행령",
+        "영"
+      ],
+      "monitorMode": "mapped",
+      "inRulePacks": [
+        "privacy-2026.04"
+      ],
+      "note": "Standalone DEC means the PIPA decree. Inside a compound key after another prefix (LSA:42+DEC:22(1)1, HIRE:11(3)+DEC:3-4) DEC means that law's decree: see compoundKeyRules.",
+      "scheduled": [],
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=law&type=XML&query=%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%20%EB%B3%B4%ED%98%B8%EB%B2%95",
+          "fetched": "2026-10-02",
+          "version": "대통령령 제36671호, 시행 2026-09-11 (현행)"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=011468",
+          "fetched": "2026-10-02",
+          "version": "현행 only; no 시행예정 row"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "STDG",
+      "sourceId": "admrul:std-guideline",
+      "lawNameKo": "표준 개인정보 보호지침",
+      "lawId": "admrul 행정규칙ID 73464",
+      "currentMst": "admrul 일련번호 2100000257592",
+      "currentVersion": "개인정보보호위원회 고시 제2025-4호, 발령·시행 2025-04-11",
+      "kind": "admrul",
+      "aliases": [
+        "표준지침",
+        "표준 개인정보 보호지침",
+        "고시"
+      ],
+      "monitorMode": "mapped",
+      "inRulePacks": [
+        "privacy-2026.04"
+      ],
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=admrul&type=XML&nw=1&query=%ED%91%9C%EC%A4%80%20%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%20%EB%B3%B4%ED%98%B8%EC%A7%80%EC%B9%A8",
+          "fetched": "2026-10-02",
+          "version": "고시 제2025-4호 (현행, 1 row)"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "SAFE",
+      "sourceId": "admrul:safety-measures",
+      "lawNameKo": "개인정보의 안전성 확보조치 기준",
+      "lawId": "admrul 행정규칙ID 73493",
+      "currentMst": "admrul 일련번호 2100000281400",
+      "currentVersion": "개인정보보호위원회 고시 제2026-9호, 발령·시행 2026-07-01",
+      "kind": "admrul",
+      "aliases": [
+        "안전성 확보조치 기준",
+        "안전조치 고시",
+        "고시"
+      ],
+      "monitorMode": "mapped",
+      "inRulePacks": [
+        "privacy-2026.04"
+      ],
+      "note": "targets.ts has no lawCode for this source; this map supplies SAFE (monitor design M7). Staged 8(1)-(2) wording from 고시 2025-9 부칙 (2026-10-31) is recorded in retention-periods.json.",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=admrul&type=XML&nw=1&query=%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%EC%9D%98%20%EC%95%88%EC%A0%84%EC%84%B1%20%ED%99%95%EB%B3%B4%EC%A1%B0%EC%B9%98%20%EA%B8%B0%EC%A4%80",
+          "fetched": "2026-10-02",
+          "version": "고시 제2026-9호 (현행, 1 row)"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "ARTC",
+      "sourceId": "law:artc",
+      "lawNameKo": "약관의 규제에 관한 법률",
+      "lawId": "000667",
+      "currentMst": "260021",
+      "currentVersion": "법률 제20239호, 공포 2024-02-06, 시행 2024-08-07 (타법개정)",
+      "kind": "law",
+      "aliases": [
+        "약관법",
+        "약관의 규제에 관한 법률",
+        "법"
+      ],
+      "monitorMode": "mapped",
+      "inRulePacks": [
+        "terms-kftc-10023"
+      ],
+      "note": "Key format also allows ARTC:7[1] (article with items, no paragraphs). Decree ID 004135 MST 256827 (대통령령 제33961호, 시행 2023-12-21) has no prefix in the packs.",
+      "scheduled": [],
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=law&type=XML&query=%EC%95%BD%EA%B4%80%EC%9D%98%20%EA%B7%9C%EC%A0%9C%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0",
+          "fetched": "2026-10-02",
+          "version": "법률 제20239호 (현행)"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=000667",
+          "fetched": "2026-10-02",
+          "version": "현행 only; no 시행예정 row"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "ECA",
+      "sourceId": "law:eca",
+      "lawNameKo": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "lawId": "009318",
+      "currentMst": "282793",
+      "currentVersion": "법률 제21312호, 공포 2026-01-20, 시행 2026-07-21",
+      "kind": "law",
+      "aliases": [
+        "전자상거래법",
+        "전자상거래 등에서의 소비자보호에 관한 법률",
+        "법"
+      ],
+      "monitorMode": "mapped",
+      "inRulePacks": [
+        "privacy-2026.04",
+        "terms-kftc-10023"
+      ],
+      "scheduled": [
+        {
+          "mst": "282793",
+          "promulgationNo": "법률 제21312호 (부칙 split stage)",
+          "effectiveDate": "2027-01-21"
+        }
+      ],
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=law&type=XML&query=%EC%A0%84%EC%9E%90%EC%83%81%EA%B1%B0%EB%9E%98%20%EB%93%B1%EC%97%90%EC%84%9C%EC%9D%98%20%EC%86%8C%EB%B9%84%EC%9E%90%EB%B3%B4%ED%98%B8%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0",
+          "fetched": "2026-10-02",
+          "version": "법률 제21312호 (현행)"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=009318",
+          "fetched": "2026-10-02",
+          "version": "현행 2026-07-21 + 시행예정 2027-01-21"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "ECA-DEC",
+      "sourceId": "law:eca-decree",
+      "lawNameKo": "전자상거래 등에서의 소비자보호에 관한 법률 시행령",
+      "lawId": "009338",
+      "currentMst": "288143",
+      "currentVersion": "대통령령 제36507호, 공포 2026-07-20, 시행 2026-07-21",
+      "kind": "decree",
+      "aliases": [
+        "전자상거래법 시행령",
+        "시행령",
+        "영"
+      ],
+      "monitorMode": "mapped",
+      "inRulePacks": [
+        "privacy-2026.04"
+      ],
+      "scheduled": [
+        {
+          "mst": "288143",
+          "promulgationNo": "대통령령 제36507호 (부칙 split stage)",
+          "effectiveDate": "2027-01-21"
+        }
+      ],
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=009338",
+          "fetched": "2026-10-02",
+          "version": "현행 2026-07-21 + 시행예정 2027-01-21"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "STD10023",
+      "sourceId": "page:ftc-10023",
+      "lawNameKo": "공정거래위원회 전자상거래(인터넷사이버몰) 표준약관 제10023호",
+      "lawId": null,
+      "currentMst": null,
+      "currentVersion": "표준약관 제10023호, 2015-06-26 개정 (attachment '2015_6._26._개정 (전자상거래 표준약관).hwp')",
+      "kind": "std-terms",
+      "aliases": [
+        "표준약관",
+        "전자상거래 표준약관",
+        "제10023호"
+      ],
+      "monitorMode": "mapped",
+      "inRulePacks": [
+        "terms-kftc-10023"
+      ],
+      "note": "Not a law.go.kr law: no lawId/MST. Watched as a web page (page:ftc-10023, page:ftc-list); track by 호수, not nttSn. Change detection is content-based, not article diff.",
+      "verifiedBy": [
+        {
+          "url": "https://www.ftc.go.kr/www/selectBbsNttView.do?key=202&bordCd=201&nttSn=11139",
+          "fetched": "2026-10-02",
+          "version": "[제10023호] 전자상거래 표준약관, attachment dated 2015-06-26"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "PIPCGL",
+      "sourceId": "page:pipc-bs217",
+      "lawNameKo": "개인정보 처리방침 작성지침 (개인정보보호위원회)",
+      "lawId": null,
+      "currentMst": null,
+      "currentVersion": "2026.4. 개정판 (pipc.go.kr BS217 nttId 12018, 2026-04-23; privacy.go.kr bbscttNo 20885, 2026-04-24)",
+      "kind": "guideline",
+      "aliases": [
+        "작성지침",
+        "처리방침 작성지침",
+        "지침"
+      ],
+      "monitorMode": "mapped",
+      "inRulePacks": [],
+      "note": "NEW prefix, not yet used as a key in the packs (packs cite it as verifiedBy 'pipc-guideline-2026-04'). Not a law.go.kr law or admrul (admrul search returns 0 hits). Second watch page: page:privacy-portal. A new edition affects all sections (affectsAllSections).",
+      "verifiedAt": "2026-09-29",
+      "verifiedBy": [
+        {
+          "url": "https://www.pipc.go.kr/np/cop/bbs/selectBoardArticle.do?bbsId=BS217&mCode=G010030000&nttId=12018",
+          "fetched": "2026-09-29",
+          "version": "2026.4. 개정",
+          "note": "Not re-fetched on 2026-10-02; from pending-verification.json (VERIFIED)."
+        }
+      ]
+    },
+    {
+      "prefix": "NETA",
+      "sourceId": "law:network-act",
+      "lawNameKo": "정보통신망 이용촉진 및 정보보호 등에 관한 법률",
+      "lawId": "000030",
+      "currentMst": "290001",
+      "currentVersion": "법률 제21988호, 공포 2026-09-29, 시행 2026-10-02",
+      "kind": "law",
+      "aliases": [
+        "정보통신망법",
+        "망법",
+        "정보통신망 이용촉진 및 정보보호 등에 관한 법률",
+        "법"
+      ],
+      "monitorMode": "mapped",
+      "inRulePacks": [],
+      "note": "NEW prefix (monitor design M7). No rule-pack legalRefs cite it yet, so Mode B maps its changes to no section until the packs cite NETA keys; until then any change gives a provisional item only. law-targets.json still records MST 283843 as current: superseded by 290001 on 2026-10-02.",
+      "scheduled": [
+        {
+          "mst": "285199",
+          "promulgationNo": "법률 제21500호",
+          "promulgationDate": "2026-03-31",
+          "effectiveDate": "2027-04-01",
+          "note": "Remaining stage; content not read in this run."
+        }
+      ],
+      "pendingReview": {
+        "amendment": "법률 제21988호",
+        "promulgated": "2026-09-29",
+        "effective": "2026-10-02",
+        "amendType": "일부개정",
+        "changedArticles": [
+          {
+            "key": "NETA:44-7(4)1",
+            "title": "불법정보 및 허위조작정보의 유통금지 등",
+            "change": "요청 주체 '수사기관의 장' → '공소청(광역공소청, 지방공소청 및 지방공소청 지청을 포함한다)의 장 또는 수사기관의 장'",
+            "m3Class": "terminology"
+          },
+          {
+            "key": "NETA:49-3(1)",
+            "title": "속이는 행위에 사용된 전화번호의 전기통신역무 제공의 중지 등",
+            "change": "요청 주체에 '중대범죄수사청장' 추가 (경찰청장 앞)",
+            "m3Class": "terminology"
+          }
+        ],
+        "reason": "「검찰청법」 폐지와 「공소청법」·「중대범죄수사청 조직 및 운영에 관한 법률」 시행(2026-10-02)에 따른 형사사법 체계 정비 (개정이유, 법제처 제공).",
+        "addendum": "부칙: 이 법은 2026년 10월 2일부터 시행한다.",
+        "impactOpinion": {
+          "label": "UNVERIFIED OPINION (privacy-domain-expert, not legal advice; awaiting confirmation per monitor design M4)",
+          "text": "Neither article governs privacy-policy content. 44-7 concerns orders against illegal/false information on boards, 49-3 concerns suspending phone numbers used for fraud; the change only renames requesting authorities. Expected class no_policy_impact for privacy policies; for terms of service, only clauses that quote the list of requesting authorities verbatim would need a terminology update (Low). Suggested M8 fixture label: 0 must-change findings, 0 section alerts."
+        },
+        "verifiedBy": [
+          {
+            "url": "https://www.law.go.kr/DRF/lawService.do?target=oldAndNew&type=XML&MST=290001",
+            "fetched": "2026-10-02",
+            "version": "신구법비교 법률 제21500호(MST 285199) → 제21988호(MST 290001)"
+          },
+          {
+            "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=290001",
+            "fetched": "2026-10-02",
+            "version": "법률 제21988호 전문, 부칙, 개정이유"
+          }
+        ]
+      },
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=law&type=XML&query=%EC%A0%95%EB%B3%B4%ED%86%B5%EC%8B%A0%EB%A7%9D%20%EC%9D%B4%EC%9A%A9%EC%B4%89%EC%A7%84",
+          "fetched": "2026-10-02",
+          "version": "법률 제21988호, 시행 2026-10-02 (현행)"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=000030",
+          "fetched": "2026-10-02",
+          "version": "현행 290001 + 시행예정 285199 (2027-04-01)"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=290001",
+          "fetched": "2026-10-02",
+          "version": "법률 제21988호 전문"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "NETA-DEC",
+      "sourceId": "law:network-act-decree",
+      "lawNameKo": "정보통신망 이용촉진 및 정보보호 등에 관한 법률 시행령",
+      "lawId": "004797",
+      "currentMst": "290483",
+      "currentVersion": "대통령령 제36728호, 공포 2026-09-29, 시행 2026-10-02 (타법개정)",
+      "kind": "decree",
+      "aliases": [
+        "정보통신망법 시행령",
+        "시행령",
+        "영"
+      ],
+      "monitorMode": "mapped",
+      "inRulePacks": [],
+      "note": "NEW prefix and NEW sourceId (not in DEFAULT_FRESHNESS_TARGETS). Add to the watch list only when the packs cite it.",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=004797",
+          "fetched": "2026-10-02",
+          "version": "현행 only"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "CPPA",
+      "sourceId": "law:cppa",
+      "lawNameKo": "통신비밀보호법",
+      "lawId": "000036",
+      "currentMst": "290003",
+      "currentVersion": "법률 제21989호, 공포 2026-09-29, 시행 2026-10-02",
+      "kind": "law",
+      "aliases": [
+        "통신비밀보호법",
+        "통비법",
+        "법"
+      ],
+      "monitorMode": "mapped",
+      "inRulePacks": [
+        "privacy-2026.04"
+      ],
+      "watched": false,
+      "note": "Cited once (S05 CPPA:15-2(2), 3개월). Not in DEFAULT_FRESHNESS_TARGETS. 제21989호 신구법비교 changes 3, 6, 7, 8, 9, 9-2, 9-3, 12-2, 13-4, 15-3; Art. 15-2 is not in the diff (unchanged).",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=oldAndNew&type=XML&MST=290003",
+          "fetched": "2026-10-02",
+          "version": "제21857호(MST 288621) → 제21989호(MST 290003)"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "LSA",
+      "sourceId": "law:lsa",
+      "lawNameKo": "근로기준법",
+      "lawId": "001872",
+      "currentMst": "290781",
+      "currentVersion": "법률 제21857호, 공포 2026-08-04, 시행 2026-10-02 (타법개정)",
+      "kind": "law",
+      "aliases": [
+        "근로기준법",
+        "법"
+      ],
+      "monitorMode": "mapped",
+      "inRulePacks": [
+        "privacy-2026.04"
+      ],
+      "watched": false,
+      "note": "Combined keys LSA:42+DEC:22(1)n: DEC there = 근로기준법 시행령 (ID 003058, MST 270551, 대통령령 제35436호, 시행 2025-10-23). retention-periods.json cites Act MST 283457, now superseded by 290781; whether Art. 42 changed is pending (see pending). Several 시행예정 rows (2026-10-08 to 2027-06-10).",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=law&type=XML&query=%EA%B7%BC%EB%A1%9C%EA%B8%B0%EC%A4%80%EB%B2%95",
+          "fetched": "2026-10-02",
+          "version": "법률 제21857호 (현행); 시행령 MST 270551 (현행)"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=001872",
+          "fetched": "2026-10-02",
+          "version": "7 rows: 현행 + 6 시행예정"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "NTBA",
+      "sourceId": "law:ntba",
+      "lawNameKo": "국세기본법",
+      "lawId": "001586",
+      "currentMst": "289999",
+      "currentVersion": "법률 제21987호, 공포 2026-09-29, 시행 2026-10-02",
+      "kind": "law",
+      "aliases": [
+        "국세기본법",
+        "법"
+      ],
+      "monitorMode": "mapped",
+      "inRulePacks": [
+        "privacy-2026.04"
+      ],
+      "watched": false,
+      "note": "retention-periods.json cites MST 288571; 제21987호 신구법비교 changes only Art. 8, so 85-3(2) is unchanged. 시행예정 rows to 2028-01-01 exist.",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=oldAndNew&type=XML&MST=289999",
+          "fetched": "2026-10-02",
+          "version": "제21860호(MST 288571) → 제21987호(MST 289999)"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "OSHA",
+      "sourceId": "law:osha",
+      "lawNameKo": "산업안전보건법",
+      "lawId": "001766",
+      "currentMst": "283449",
+      "currentVersion": "법률 제21374호, 공포 2026-02-19, 시행 2026-08-01",
+      "kind": "law",
+      "aliases": [
+        "산업안전보건법",
+        "산안법",
+        "법"
+      ],
+      "monitorMode": "mapped",
+      "inRulePacks": [
+        "privacy-2026.04"
+      ],
+      "watched": false,
+      "note": "Combined key OSHA:164(1)7+RULE:241(2): RULE = 산업안전보건법 시행규칙 (ID 007364, MST 288431, 고용노동부령 제477호, 시행 2026-08-01). 시행예정: 2026-12-08 (21534), 2027-01-01 (21374 stage), 2027-01-08 (21853); content not read.",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=001766",
+          "fetched": "2026-10-02",
+          "version": "현행 + 3 시행예정"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=law&type=XML&query=%EC%82%B0%EC%97%85%EC%95%88%EC%A0%84%EB%B3%B4%EA%B1%B4%EB%B2%95",
+          "fetched": "2026-10-02",
+          "version": "법률·시행령·시행규칙 현행"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "HIRE",
+      "sourceId": "law:hire",
+      "lawNameKo": "채용절차의 공정화에 관한 법률",
+      "lawId": "011990",
+      "currentMst": "218301",
+      "currentVersion": "법률 제17326호, 시행 2020-05-26",
+      "kind": "law",
+      "aliases": [
+        "채용절차법",
+        "법"
+      ],
+      "monitorMode": "mapped",
+      "inRulePacks": [
+        "privacy-2026.04"
+      ],
+      "watched": false,
+      "note": "Combined key HIRE:11(3)+DEC:3-4: DEC = 채용절차법 시행령 (ID 012193, MST 209867, 대통령령 제29963호, 시행 2019-07-17).",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=law&type=XML&query=%EC%B1%84%EC%9A%A9%EC%A0%88%EC%B0%A8%EC%9D%98%20%EA%B3%B5%EC%A0%95%ED%99%94%EC%97%90%20%EA%B4%80%ED%95%9C%20%EB%B2%95%EB%A5%A0",
+          "fetched": "2026-10-02",
+          "version": "법률·시행령 현행, no 시행예정"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "CIA",
+      "sourceId": "law:credit-info",
+      "lawNameKo": "신용정보의 이용 및 보호에 관한 법률",
+      "lawId": "001540",
+      "currentMst": "283841",
+      "currentVersion": "법률 제21445호(타법개정), 공포 2026-03-10, 시행 2026-09-11",
+      "kind": "law",
+      "aliases": [
+        "신용정보법",
+        "신용정보의 이용 및 보호에 관한 법률",
+        "법"
+      ],
+      "monitorMode": "manualReview",
+      "manualReview": true,
+      "sections": [],
+      "inRulePacks": [],
+      "alertText": "금융 법령 해당 – 수동 검토",
+      "note": "Finance option ① (confirmed design C6): monitor only, never auto-mapped to sections; every amendment yields a provisional manual-review item.",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=283841",
+          "fetched": "2026-10-02",
+          "version": "법률 제21445호 전문"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=001540",
+          "fetched": "2026-10-02",
+          "version": "현행 only"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "CIA-DEC",
+      "sourceId": "law:credit-info-decree",
+      "lawNameKo": "신용정보의 이용 및 보호에 관한 법률 시행령",
+      "lawId": "004105",
+      "currentMst": "289539",
+      "currentVersion": "대통령령 제36671호(타법개정), 공포 2026-09-10, 시행 2026-09-11",
+      "kind": "decree",
+      "aliases": [
+        "신용정보법 시행령",
+        "시행령",
+        "영"
+      ],
+      "monitorMode": "manualReview",
+      "manualReview": true,
+      "sections": [],
+      "inRulePacks": [],
+      "alertText": "금융 법령 해당 – 수동 검토",
+      "note": "Finance option ① (confirmed design C6): monitor only, never auto-mapped to sections; every amendment yields a provisional manual-review item.",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=289539",
+          "fetched": "2026-10-02",
+          "version": "대통령령 제36671호 전문"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=004105",
+          "fetched": "2026-10-02",
+          "version": "현행 only"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "EFTA",
+      "sourceId": "law:efta",
+      "lawNameKo": "전자금융거래법",
+      "lawId": "010199",
+      "currentMst": "290247",
+      "currentVersion": "법률 제22048호, 공포 2026-09-29, 시행 2026-10-02",
+      "kind": "law",
+      "aliases": [
+        "전자금융거래법",
+        "전금법",
+        "법"
+      ],
+      "monitorMode": "manualReview",
+      "manualReview": true,
+      "sections": [],
+      "inRulePacks": [],
+      "alertText": "금융 법령 해당 – 수동 검토",
+      "note": "Finance option ① (confirmed design C6): monitor only, never auto-mapped to sections; every amendment yields a provisional manual-review item.",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=290247",
+          "fetched": "2026-10-02",
+          "version": "법률 제22048호 전문"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=010199",
+          "fetched": "2026-10-02",
+          "version": "현행 290247 + 시행예정 280277 (법률 제21205호, 2026-12-17)"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=oldAndNew&type=XML&MST=290247",
+          "fetched": "2026-10-02",
+          "version": "제22048호: Art. 6-2(1) only (중대범죄수사청장 추가)"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    },
+    {
+      "prefix": "FCPA",
+      "sourceId": "law:fcpa",
+      "lawNameKo": "금융소비자 보호에 관한 법률",
+      "lawId": "013704",
+      "currentMst": "277247",
+      "currentVersion": "법률 제21065호(타법개정), 공포 2025-10-01, 시행 2026-01-02",
+      "kind": "law",
+      "aliases": [
+        "금융소비자보호법",
+        "금소법",
+        "법"
+      ],
+      "monitorMode": "manualReview",
+      "manualReview": true,
+      "sections": [],
+      "inRulePacks": [],
+      "alertText": "금융 법령 해당 – 수동 검토",
+      "note": "Finance option ① (confirmed design C6): monitor only, never auto-mapped to sections; every amendment yields a provisional manual-review item.",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=277247",
+          "fetched": "2026-10-02",
+          "version": "법률 제21065호 전문"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=013704",
+          "fetched": "2026-10-02",
+          "version": "현행 only"
+        }
+      ],
+      "verifiedAt": "2026-10-02"
+    }
+  ],
+  "pending": [
+    {
+      "item": "LSA:42 under 근로기준법 법률 제21857호 (MST 290781, 시행 2026-10-02, 타법개정)",
+      "reason": "retention-periods.json cites MST 283457; the 신구법비교 response for 290781 had no parsable article list, so whether Art. 42 changed is not confirmed (likely untouched: same-day 타법개정 from the criminal-procedure reform)."
+    },
+    {
+      "item": "정보통신망법 법률 제21500호 remaining stage (MST 285199, 2027-04-01)",
+      "reason": "Content not read in this run."
+    },
+    {
+      "item": "Finance watch-list pending items",
+      "reason": "See law-targets.watch-additions.json pending[]."
+    }
+  ]
+}

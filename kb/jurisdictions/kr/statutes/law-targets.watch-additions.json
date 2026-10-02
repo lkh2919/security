@@ -1,0 +1,367 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-10-02",
+  "generator": "privacy-domain-expert (claude-opus-5-5)",
+  "note": "Watch-list additions for finance option ① (confirmed design C6): monitor only, manualReview, no sections, no rule pack. Merge into DEFAULT_FRESHNESS_TARGETS / law-targets.json is a separate task. Source URLs have the OC parameter removed. Descriptions are one-line Korean summaries read from the current text on law.go.kr.",
+  "targets": [
+    {
+      "sourceId": "law:credit-info",
+      "name": "신용정보의 이용 및 보호에 관한 법률",
+      "target": "law",
+      "lawCode": "CIA",
+      "lawId": "001540",
+      "mst": "283841",
+      "version": "법률 제21445호 (타법개정)",
+      "promulgationDate": "2026-03-10",
+      "effectiveDate": "2026-09-11",
+      "monitorMode": "manualReview",
+      "manualReview": true,
+      "sections": [],
+      "articlesOfInterest": [
+        {
+          "article": "31",
+          "key": "CIA:31",
+          "title": "신용정보활용체제의 공시",
+          "description": "관리하는 신용정보의 종류·이용 목적, 제공받는 자, 신용정보주체의 권리와 행사 방법 등을 공시하고 변경 시 개인정보 보호법 제30조제2항 방법을 준용"
+        },
+        {
+          "article": "32",
+          "key": "CIA:32",
+          "title": "개인신용정보의 제공ㆍ활용에 대한 동의",
+          "description": "개인신용정보를 타인에게 제공할 때마다 서면·전자서명 등 정해진 방식으로 미리 개별 동의를 받음"
+        },
+        {
+          "article": "33",
+          "key": "CIA:33",
+          "title": "개인신용정보의 이용",
+          "description": "상거래관계 설정·유지 판단, 동의 등 법정 사유에 해당하는 경우에만 개인신용정보를 이용하고 질병·상해 정보는 별도 동의"
+        },
+        {
+          "article": "33-2",
+          "key": "CIA:33-2",
+          "title": "개인신용정보의 전송요구",
+          "description": "개인인 신용정보주체가 본인 개인신용정보를 본인·본인신용정보관리회사 등에게 전송하도록 요구할 수 있는 권리"
+        },
+        {
+          "article": "34",
+          "key": "CIA:34",
+          "title": "개인식별정보의 수집ㆍ이용 및 제공",
+          "description": "대통령령으로 정하는 개인식별정보의 수집·이용·제공에 제15조, 제32조, 제33조를 준용"
+        },
+        {
+          "article": "17",
+          "key": "CIA:17",
+          "title": "처리의 위탁",
+          "description": "신용정보 처리 위탁 시 개인정보 보호법 제26조 준용, 수탁자 암호화·교육·계약 반영 의무"
+        },
+        {
+          "article": "20-2",
+          "key": "CIA:20-2",
+          "title": "개인신용정보의 보유기간 등",
+          "description": "상거래관계 종료일부터 최장 5년(목적 달성 시 3개월) 이내에 관리대상에서 삭제하고, 예외 보존 시 분리 관리"
+        },
+        {
+          "article": "37",
+          "key": "CIA:37",
+          "title": "개인신용정보 제공 동의 철회권 등",
+          "description": "제공 동의 철회 및 상품 권유 연락중지 청구권과 그 권리·행사방법의 고지 의무"
+        },
+        {
+          "article": "38",
+          "key": "CIA:38",
+          "title": "신용정보의 열람 및 정정청구 등",
+          "description": "본인 신용정보의 교부·열람 및 정정 청구, 처리결과 7일 이내 통지"
+        },
+        {
+          "article": "39-3",
+          "key": "CIA:39-3",
+          "title": "신용정보주체의 권리행사 방법 및 절차",
+          "description": "전송요구·동의철회·열람 등 열람등요구를 대리인에게 하게 할 수 있고 만 14세 미만 아동은 법정대리인이 요구"
+        }
+      ],
+      "verifiedAt": "2026-10-02",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=283841",
+          "fetched": "2026-10-02",
+          "version": "법률 제21445호, 시행 2026-09-11",
+          "note": "All 10 articles read; 조문변경여부 N in this version"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=001540",
+          "fetched": "2026-10-02",
+          "version": "현행 only, no 시행예정"
+        }
+      ],
+      "note": "C6 lists '32–34'; read as 32, 33, 34 (33-2 also listed separately)."
+    },
+    {
+      "sourceId": "law:credit-info-decree",
+      "name": "신용정보의 이용 및 보호에 관한 법률 시행령",
+      "target": "law",
+      "lawCode": "CIA-DEC",
+      "lawId": "004105",
+      "mst": "289539",
+      "version": "대통령령 제36671호 (타법개정)",
+      "promulgationDate": "2026-09-10",
+      "effectiveDate": "2026-09-11",
+      "monitorMode": "manualReview",
+      "manualReview": true,
+      "sections": [],
+      "articlesOfInterest": [
+        {
+          "article": "14",
+          "key": "CIA-DEC:14",
+          "title": "수집된 신용정보 처리의 위탁",
+          "description": "법 제17조 위탁의 세부 기준(법 17조 대응)"
+        },
+        {
+          "article": "17-2",
+          "key": "CIA-DEC:17-2",
+          "title": "개인신용정보의 관리방법 등",
+          "description": "상거래관계가 종료된 신용정보주체의 개인신용정보 관리 방법(법 20조의2 대응)"
+        },
+        {
+          "article": "27",
+          "key": "CIA-DEC:27",
+          "title": "신용정보활용체제의 공시",
+          "description": "법 제31조 공시 의무 대상 신용정보제공·이용자와 공시 방법(법 31조 대응)"
+        },
+        {
+          "article": "28",
+          "key": "CIA-DEC:28",
+          "title": "개인신용정보의 제공ㆍ활용에 대한 동의",
+          "description": "법 제32조 동의 시 미리 알려야 할 사항과 동의 방식(법 32조 대응)"
+        },
+        {
+          "article": "28-2",
+          "key": "CIA-DEC:28-2",
+          "title": "개인신용정보의 이용",
+          "description": "법 제33조 이용 사유의 세부(법 33조 대응)"
+        },
+        {
+          "article": "28-3",
+          "key": "CIA-DEC:28-3",
+          "title": "개인신용정보의 전송요구",
+          "description": "법 제33조의2 전송요구의 대상·범위·방법(법 33조의2 대응)"
+        },
+        {
+          "article": "29",
+          "key": "CIA-DEC:29",
+          "title": "개인식별정보의 수집ㆍ이용 및 제공",
+          "description": "법 제34조의 개인식별정보 범위(법 34조 대응)"
+        },
+        {
+          "article": "32",
+          "key": "CIA-DEC:32",
+          "title": "개인신용정보 제공ㆍ이용 동의 철회권 등",
+          "description": "동의 철회를 홈페이지·유무선 통신·서면 등으로 할 수 있는 방법(법 37조 대응)"
+        },
+        {
+          "article": "33",
+          "key": "CIA-DEC:33",
+          "title": "신용정보의 열람 및 정정청구 등",
+          "description": "열람·정정청구의 본인확인 방법 등(법 38조 대응)"
+        },
+        {
+          "article": "34-3",
+          "key": "CIA-DEC:34-3",
+          "title": "신용정보주체의 권리행사 방법 및 절차",
+          "description": "대리인을 통한 열람등요구 방법(법 39조의3 대응)"
+        }
+      ],
+      "verifiedAt": "2026-10-02",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=289539",
+          "fetched": "2026-10-02",
+          "version": "대통령령 제36671호, 시행 2026-09-11"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=004105",
+          "fetched": "2026-10-02",
+          "version": "현행 only"
+        }
+      ],
+      "note": "C6 lists no decree articles; this list is the privacy-domain-expert's mapping of decree articles that implement the C6 Act articles (titles read from the current text; descriptions of 14, 28-2, 29, 33 are from titles and the Act cross-reference, bodies only partly read)."
+    },
+    {
+      "sourceId": "law:efta",
+      "name": "전자금융거래법",
+      "target": "law",
+      "lawCode": "EFTA",
+      "lawId": "010199",
+      "mst": "290247",
+      "version": "법률 제22048호 (일부개정)",
+      "promulgationDate": "2026-09-29",
+      "effectiveDate": "2026-10-02",
+      "monitorMode": "manualReview",
+      "manualReview": true,
+      "sections": [],
+      "articlesOfInterest": [
+        {
+          "article": "21",
+          "key": "EFTA:21",
+          "title": "안전성의 확보의무",
+          "description": "금융회사등은 선량한 관리자의 주의를 다하고 금융위원회가 정하는 정보기술부문·인증방법 기준을 준수"
+        },
+        {
+          "article": "22",
+          "key": "EFTA:22",
+          "title": "전자금융거래기록의 생성ㆍ보존 및 파기",
+          "description": "전자금융거래기록을 5년 범위의 대통령령 기간 동안 보존하고, 기간 경과·상거래관계 종료 후 5년 이내 파기(신용정보 제외)"
+        },
+        {
+          "article": "24",
+          "key": "EFTA:24",
+          "title": "약관의 명시와 변경통지 등",
+          "description": "전자금융거래 약관 명시·설명, 변경 시 시행일 1개월 전 게시·통지"
+        },
+        {
+          "article": "26",
+          "key": "EFTA:26",
+          "title": "전자금융거래정보의 제공 등",
+          "description": "업무상 알게 된 이용자 인적사항·계좌·거래내용을 동의 없이 제공·누설하거나 목적 외 사용 금지"
+        },
+        {
+          "article": "19",
+          "key": "EFTA:19",
+          "title": "선불전자지급수단의 환급",
+          "description": "선불전자지급수단 잔액 환급 약정을 약관에 기재하고 잔액 일정비율(20% 미만 불가) 이하 등은 전액 환급"
+        }
+      ],
+      "verifiedAt": "2026-10-02",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=290247",
+          "fetched": "2026-10-02",
+          "version": "법률 제22048호, 시행 2026-10-02"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=010199",
+          "fetched": "2026-10-02",
+          "version": "현행 290247 + 시행예정 MST 280277 (법률 제21205호, 공포 2025-12-16, 시행 2026-12-17)"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=oldAndNew&type=XML&MST=290247",
+          "fetched": "2026-10-02",
+          "version": "제22048호 changes only Art. 6-2(1) (중대범죄수사청장 추가); none of the articles of interest"
+        }
+      ],
+      "scheduled": [
+        {
+          "mst": "280277",
+          "promulgationNo": "법률 제21205호",
+          "effectiveDate": "2026-12-17",
+          "note": "Content not read; whether it touches 19/21/22/24/26 is pending."
+        }
+      ]
+    },
+    {
+      "sourceId": "law:fcpa",
+      "name": "금융소비자 보호에 관한 법률",
+      "target": "law",
+      "lawCode": "FCPA",
+      "lawId": "013704",
+      "mst": "277247",
+      "version": "법률 제21065호 (타법개정)",
+      "promulgationDate": "2025-10-01",
+      "effectiveDate": "2026-01-02",
+      "monitorMode": "manualReview",
+      "manualReview": true,
+      "sections": [],
+      "articlesOfInterest": [
+        {
+          "article": "19",
+          "key": "FCPA:19",
+          "title": "설명의무",
+          "description": "계약 체결 권유 또는 설명 요청 시 금융상품의 중요한 사항을 일반금융소비자가 이해할 수 있도록 설명"
+        },
+        {
+          "article": "23",
+          "key": "FCPA:23",
+          "title": "계약서류의 제공의무",
+          "description": "계약 체결 시 대통령령으로 정하는 계약서류를 지체 없이 제공하고 다툼 시 판매업자가 증명"
+        },
+        {
+          "article": "28",
+          "key": "FCPA:28",
+          "title": "자료의 기록 및 유지ㆍ관리 등",
+          "description": "업무 관련 자료를 기록·유지·관리하고 권리구제 목적의 금융소비자 열람 요구에 10일 이내 범위에서 응함"
+        },
+        {
+          "article": "46",
+          "key": "FCPA:46",
+          "title": "청약의 철회",
+          "description": "보장성 15일/30일, 투자성 7일 등 상품별 기간 내 일반금융소비자의 청약 철회권"
+        }
+      ],
+      "verifiedAt": "2026-10-02",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=277247",
+          "fetched": "2026-10-02",
+          "version": "법률 제21065호, 시행 2026-01-02"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawSearch.do?target=eflaw&type=XML&nw=2,3&sort=efdes&LID=013704",
+          "fetched": "2026-10-02",
+          "version": "현행 only, no 시행예정"
+        }
+      ]
+    }
+  ],
+  "supervisoryRegulations": {
+    "note": "C6 'supervisory regulations where law.go.kr carries them': found in the admrul API (현행). Candidate watch targets (sourceId to assign, e.g. admrul:credit-info-supervision); no articles of interest chosen yet.",
+    "items": [
+      {
+        "name": "신용정보업감독규정",
+        "target": "admrul",
+        "admrulSerial": "2100000285620",
+        "admrulId": "21819",
+        "version": "금융위원회 고시 제2026-40호, 발령 2026-09-29, 시행 2026-10-02",
+        "url": "https://www.law.go.kr/DRF/lawSearch.do?target=admrul&type=XML&nw=1&query=%EC%8B%A0%EC%9A%A9%EC%A0%95%EB%B3%B4%EC%97%85%EA%B0%90%EB%8F%85%EA%B7%9C%EC%A0%95",
+        "fetched": "2026-10-02",
+        "monitorMode": "manualReview"
+      },
+      {
+        "name": "전자금융감독규정",
+        "target": "admrul",
+        "admrulSerial": "2100000282622",
+        "admrulId": "21828",
+        "version": "금융위원회 고시 제2026-29호, 발령·시행 2026-07-15",
+        "url": "https://www.law.go.kr/DRF/lawSearch.do?target=admrul&type=XML&nw=1&query=%EC%A0%84%EC%9E%90%EA%B8%88%EC%9C%B5%EA%B0%90%EB%8F%85%EA%B7%9C%EC%A0%95",
+        "fetched": "2026-10-02",
+        "monitorMode": "manualReview"
+      },
+      {
+        "name": "금융소비자 보호에 관한 감독규정",
+        "target": "admrul",
+        "admrulSerial": "2100000285608",
+        "admrulId": "77048",
+        "version": "금융위원회 고시 제2026-40호, 발령 2026-09-29, 시행 2026-10-02",
+        "url": "https://www.law.go.kr/DRF/lawSearch.do?target=admrul&type=XML&nw=1&query=%EA%B8%88%EC%9C%B5%EC%86%8C%EB%B9%84%EC%9E%90%20%EB%B3%B4%ED%98%B8%EC%97%90%20%EA%B4%80%ED%95%9C%20%EA%B0%90%EB%8F%85%EA%B7%9C%EC%A0%95",
+        "fetched": "2026-10-02",
+        "monitorMode": "manualReview"
+      }
+    ]
+  },
+  "pending": [
+    {
+      "item": "전자금융거래법 법률 제21205호 (MST 280277, 시행 2026-12-17)",
+      "reason": "Scheduled version found; changes not read, so impact on Art. 19/21/22/24/26 is unknown."
+    },
+    {
+      "item": "전자금융거래법 시행령 (ID 010366, MST 285727, 대통령령 제36281호, 시행 2026-04-28) and 금융소비자보호법 시행령 (ID 014044, MST 285715, 대통령령 제36287호, 시행 2026-04-28)",
+      "reason": "IDs verified via lawSearch, but C6 does not name them as targets and no articles were chosen; add only if the user extends option ①."
+    },
+    {
+      "item": "신용정보법 시행령 article descriptions for 14, 28-2, 29, 33",
+      "reason": "Written from article titles and the Act cross-reference; full bodies not read."
+    },
+    {
+      "item": "Supervisory regulations (신용정보업감독규정, 전자금융감독규정, 금융소비자 보호에 관한 감독규정)",
+      "reason": "Current notice numbers verified via admrul search only; bodies not read and articles of interest not chosen."
+    }
+  ]
+}
