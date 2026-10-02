@@ -61,7 +61,7 @@ class FakeFetcher implements PageFetcher {
   readonly pages = new Map<string, string | PageResult>();
   async fetchPage(req: PageRequest): Promise<PageResult> {
     this.requests.push(req);
-    const p = this.pages.get(req.url);
+    const p = this.pages.get(req.select ? `${req.url}|select:${req.select.value}` : req.url);
     if (p === undefined) return { status: "failed", reason: "http_404" };
     if (typeof p !== "string") return p;
     return { status: "ok", finalUrl: req.url, httpStatus: 200, body: p, contentType: "text/html", rendered: req.render === "browser" };
@@ -309,8 +309,11 @@ describe("historical comparison", () => {
     expect(retail.signals).toHaveLength(1);
     expect(retail.signals[0]).toMatchObject({ articleKey: "PIPA:21(1)", sectionId: "S06", k: 2, n: 4, confidence: "high", meetsThreshold: false, label: PEER_SIGNAL_LABEL });
     const food = r.groups.find((g) => g.groupId === "food")!;
-    expect(food).toMatchObject({ compared: 2, changed: 1 });
-    expect(food.signals[0]).toMatchObject({ k: 1, n: 2 });
+    // f2 returns the same text for both versions: that is no evidence, so it is failed (same_text), not "compared, 0 changes"
+    expect(food).toMatchObject({ compared: 1, changed: 1, failed: 1 });
+    expect(by["f2"]).toMatchObject({ status: "failed" });
+    expect(by["f2"]!.reason).toContain("same_text");
+    expect(food.signals[0]).toMatchObject({ k: 1, n: 1 });
     // the render choice follows the history entry
     expect(f.requests.find((q) => q.url === "https://p3.example/privacy/2026-10-30")?.render).toBe("browser");
     expect(f.requests.find((q) => q.url === "https://p1.example/privacy/2026-10-30")?.render).toBe("html");
@@ -331,7 +334,7 @@ describe("historical comparison", () => {
     put("a1", page({ edit: { S06: CITES } }));
     put("a2", page({ edit: { S06: QUOTES } }));
     put("a3", page({ edit: { S06: CITES } }));
-    put("a4", page());
+    put("a4", page({ date: "2026-10-30" })); // date-only edit: compared, no change
     const r = await comparePeerHistory(base(f, { registry: reg }));
     expect(r.groups[0]!.signals[0]).toMatchObject({ k: 3, n: 4, meetsThreshold: true });
     // a window that starts after the peers' new versions took effect: nothing aligns
@@ -345,7 +348,8 @@ describe("historical comparison", () => {
       groups: [{ groupId: "retail", nameKo: "유통", lotte: [], peers: [peer("h1", hist("same")), peer("h2", hist("same")), peer("h3", hist("gone"))] }],
     });
     const f = new FakeFetcher();
-    for (const d of ["2025-01-01", "2026-10-30"]) f.pages.set(`https://same.example/privacy/${d}`, page());
+    f.pages.set("https://same.example/privacy/2025-01-01", page());
+    f.pages.set("https://same.example/privacy/2026-10-30", page({ edit: { S06: CITES } }));
     const r = await comparePeerHistory(base(f, { registry: reg }));
     expect(f.requests.filter((q) => q.url.startsWith("https://same.example")).length).toBe(3);
     expect(r.peers.find((p) => p.peerId === "h1")!.status).toBe("compared");

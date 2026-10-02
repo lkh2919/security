@@ -17,6 +17,10 @@
  * one-page-per-day slot, robots.txt and back-off still apply, and at most 3 history pages are requested per host per run. Browser
  * fetches honour PEER_BROWSER_CA_FILE like the daily watch.
  *
+ * Version fetch modes in the registry `history.versions[]`: `http`, `browser`, `form` (skipped), `anchor` (one page fetch; the element of the URL #fragment or `selector`)
+ * and `select` (browser: choose `select` {selector, value}, wait for the content, extract `contentSelector`). A before text equal to the after text is
+ * reported as `failed: same_text`, never as "compared, 0 changes".
+ *
  * Output: `runs/<tenant>/peers/history-<law>-<date>.md` (Korean) and `.json`. Reference only: no rating, no ranking.
  */
 import { existsSync } from "node:fs";
@@ -29,7 +33,7 @@ import { atomicWriteFile } from "../packages/core/src/pipeline/fs-atomic";
 import { loadRuleSections } from "../packages/core/src/stages/draft/load-sections";
 import { loadHeadingPatterns } from "../packages/core/src/stages/ingest";
 import { loadLegalRefMap } from "../packages/core/src/stages/monitor/legalref-map";
-import { comparePeerHistory, loadPeerRegistry, peersPaths, renderHistoryReport, resolveAmendment } from "../packages/core/src/stages/peers";
+import { collapseAlignments, comparePeerHistory, detailList, loadPeerRegistry, peersPaths, refLabel, renderHistoryReport, resolveAmendment, splitArticleKey } from "../packages/core/src/stages/peers";
 import { registryFileOf } from "./peers-cli";
 
 const argv = process.argv.slice(2);
@@ -60,6 +64,15 @@ if (!newMst) fail(`--new-mst is required for ${law}`);
 const oc = process.env["LAW_GO_KR_OC"];
 if (!oc) fail("LAW_GO_KR_OC is not set (environment only; it is never written to a file)");
 const client = new LawApiClient({ oc });
+
+/** One entry per article and section (the 항/호 units in a parenthesis; k is the largest k among them). */
+const consoleSignals = (signals: readonly { articleKey: string; sectionId: string; k: number; n: number; confidence: "high" | "medium" | "low" }[]): string =>
+  collapseAlignments(signals)
+    .map((c) => {
+      const mine = signals.filter((s) => s.sectionId === c.sectionId && splitArticleKey(s.articleKey).article === c.article);
+      return `${refLabel(c.article, detailList(c.keys))} ${c.sectionId} ${Math.max(...mine.map((s) => s.k))}/${mine[0]!.n} ${c.confidence}`;
+    })
+    .join("; ");
 
 const asOf = new Date();
 const date = asOf.toISOString().slice(0, 10);
@@ -104,7 +117,7 @@ try {
   await Promise.all([chmod(`${base}.md`, 0o600), chmod(`${base}.json`, 0o600)]).catch(() => undefined);
   console.log("");
   console.log("group | active | n | changed | no_update | no_history | skipped/failed | k/n (article section conf)");
-  for (const g of result.groups) console.log(`${g.groupId} | ${g.active} | ${g.compared} | ${g.changed} | ${g.noUpdate} | ${g.noHistory} | ${g.skipped + g.failed} | ${g.signals.map((s) => `${s.articleKey} ${s.sectionId} ${s.k}/${s.n} ${s.confidence}`).join("; ") || "-"}`);
+  for (const g of result.groups) console.log(`${g.groupId} | ${g.active} | ${g.compared} | ${g.changed} | ${g.noUpdate} | ${g.noHistory} | ${g.skipped + g.failed} | ${consoleSignals(g.signals) || "-"}`);
   console.log(`report: ${base.replace(root, ".")}.md / .json`);
 } finally {
   await browser.close();

@@ -197,13 +197,14 @@
               {
                 "effectiveDate": "2026-08-18",
                 "url": "https://www.ehyundai.com/newPortal/member/HD/PV01_03.do",
-                "fetch": "http",
-                "formNote": "V.18.0, announced and effective 2026-08-18"
+                "fetch": "anchor",
+                "selector": ".policy_content_view.v2",
+                "formNote": "V.18.0, announced and effective 2026-08-18; the current text is the .policy_content_view.v2 block (the older versions are separate popup articles of the same page)"
               },
               {
                 "effectiveDate": "2026-07-28",
                 "url": "https://www.ehyundai.com/newPortal/member/HD/PV01_03.do#popupPolicyOld20260728",
-                "fetch": "http",
+                "fetch": "anchor",
                 "formNote": "V.17.0; older versions are hidden popup blocks (#popupPolicyOldYYYYMMDD) inside the same served HTML"
               }
             ],
@@ -548,13 +549,16 @@
               {
                 "effectiveDate": "2026-08-11",
                 "url": "https://josunhotel.com/policy/privacy.do",
-                "fetch": "http",
-                "formNote": "first .terms block; text says applies from 2026-08-11"
+                "fetch": "anchor",
+                "selector": ".terms",
+                "formNote": "first .terms block (the version shown by default); text says applies from 2026-08-11"
               },
               {
                 "effectiveDate": "2026-06-23",
                 "url": "https://josunhotel.com/policy/privacy.do",
-                "fetch": "http",
+                "fetch": "select",
+                "select": { "selector": ".termsTop>.selectWrap>select", "value": "2026년 6월 23일 개정안" },
+                "contentSelector": ".terms",
                 "formNote": "second .terms block (dropdown label '2026년 6월 23일 개정안'; effective date not stated separately, label date used). Older labelled blocks are hidden in the same served HTML"
               }
             ],

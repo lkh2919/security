@@ -10,3 +10,4 @@ export * from "./history";
 export * from "./history-law";
 export * from "./history-report";
 export * from "./extract";
+export * from "./collapse";

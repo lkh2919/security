@@ -30,8 +30,8 @@ interface PwPage {
   content(): Promise<string>;
   url(): string;
   selectOption(selector: string, values: { label: string } | { value: string }, o: { timeout: number; force?: boolean }): Promise<string[]>;
-  evaluate<T>(fn: string, arg?: unknown): Promise<T>;
-  waitForFunction(fn: string, arg: unknown, o: { timeout: number }): Promise<unknown>;
+  evaluate<T>(expression: string): Promise<T>;
+  waitForFunction(expression: string, arg: unknown, o: { timeout: number }): Promise<unknown>;
 }
 interface PwContext {
   newPage(): Promise<PwPage>;
@@ -68,6 +68,9 @@ export function spkiHashes(pemFile: string): string[] {
   return [...pem.matchAll(/-----BEGIN CERTIFICATE-----[\s\S]*?-----END CERTIFICATE-----/g)].map((m) => createHash("sha256").update(new X509Certificate(m[0]).publicKey.export({ type: "spki", format: "der" })).digest("base64"));
 }
 
+/** Page functions as source text; `call` turns one into an expression (Playwright invokes a string only as an expression, not as a function). */
+const call = (fn: string, arg: unknown): string => `(${fn})(${JSON.stringify(arg)})`;
+
 /** Browser-side: text and outer HTML of the first visible element that matches the selector (page functions, run by Playwright). */
 const VISIBLE_TEXT = `(cs) => { for (const e of document.querySelectorAll(cs)) { const st = getComputedStyle(e); if (e.getClientRects().length > 0 && st.visibility !== "hidden" && st.display !== "none") return (e.textContent || "").replace(/\\s+/g, " ").trim(); } return null; }`;
 const VISIBLE_HTML = `(cs) => { for (const e of document.querySelectorAll(cs)) { const st = getComputedStyle(e); if (e.getClientRects().length > 0 && st.visibility !== "hidden" && st.display !== "none") return e.outerHTML; } return null; }`;
@@ -75,7 +78,7 @@ const CHANGED_TEXT = `([cs, prev]) => { for (const e of document.querySelectorAl
 
 /** Opens the select with the option chosen and returns the policy container (outer HTML). Throws when the content does not change. */
 async function chooseVersion(page: PwPage, sel: SelectSpec, timeoutMs: number): Promise<string> {
-  const before = await page.evaluate<string | null>(VISIBLE_TEXT, sel.contentSelector);
+  const before = await page.evaluate<string | null>(call(VISIBLE_TEXT, sel.contentSelector));
   if (before === null) throw new Error(`select: content container "${sel.contentSelector}" not visible`);
   const timeout = Math.min(10_000, timeoutMs);
   try {
@@ -84,10 +87,10 @@ async function chooseVersion(page: PwPage, sel: SelectSpec, timeoutMs: number): 
   } catch {
     await page.selectOption(sel.selector, { value: sel.value }, { timeout, force: true });
   }
-  await page.waitForFunction(CHANGED_TEXT, [sel.contentSelector, before], { timeout }).catch(() => {
+  await page.waitForFunction(call(CHANGED_TEXT, [sel.contentSelector, before]), undefined, { timeout }).catch(() => {
     throw new Error("select: content did not change after choosing the option");
   });
-  const html = await page.evaluate<string | null>(VISIBLE_HTML, sel.contentSelector);
+  const html = await page.evaluate<string | null>(call(VISIBLE_HTML, sel.contentSelector));
   if (html === null) throw new Error("select: content container disappeared");
   return html;
 }

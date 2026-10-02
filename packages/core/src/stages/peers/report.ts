@@ -5,6 +5,7 @@
 import { MONITOR_DISCLAIMER } from "../../contracts/monitor-report";
 import { PEER_SIGNAL_LABEL, PEER_UNKNOWN_CAUSE_LABEL, type PeerRegistry } from "../../contracts/peers";
 import { safeText } from "../monitor/report";
+import { collapseAlignments, refLabel } from "./collapse";
 import type { PeerSignals } from "./signals";
 
 export type OutcomeStatus = "unchanged" | "changed" | "baseline" | "cosmetic" | "skipped" | "failed";
@@ -89,7 +90,8 @@ export function renderPeerReport(r: PeerReportInput): string {
   const aligned = r.signals.peerAligned.filter((p) => p.alignments.some((a) => a.confidence !== "low"));
   const unknown = r.signals.peerAligned.filter((p) => p.alignments.every((a) => a.confidence === "low"));
   if (aligned.length === 0 && unknown.length === 0) out.push("해당 없음.", "");
-  for (const p of aligned) for (const a of p.alignments.filter((x) => x.confidence !== "low")) out.push(`- ${safeText(nameOf(p.peerId))}: ${safeText(a.articleKey)} / ${safeText(a.sectionId)} (신뢰도 ${CONF_KO[a.confidence]})`);
+  // One line per article and section (the 항/호 units of an article are listed in a parenthesis).
+  for (const p of aligned) for (const a of collapseAlignments(p.alignments.filter((x) => x.confidence !== "low")).filter((x) => x.confidence !== "low")) out.push(`- ${safeText(nameOf(p.peerId))}: ${safeText(refLabel(a.article, a.details))} / ${safeText(a.sectionId)} (신뢰도 ${CONF_KO[a.confidence]})`);
   for (const p of unknown) out.push(`- ${safeText(nameOf(p.peerId))}: ${PEER_UNKNOWN_CAUSE_LABEL}`);
   if (aligned.length + unknown.length > 0) out.push("");
 

@@ -6,6 +6,7 @@ import { MONITOR_DISCLAIMER } from "../../contracts/monitor-report";
 import { PEER_SIGNAL_LABEL, PEER_UNKNOWN_CAUSE_LABEL } from "../../contracts/peers";
 import { safeText } from "../monitor/report";
 import { PEER_NOT_RATED_NOTE } from "./report";
+import { bestConfidence, collapseAlignments, detailList, refLabel, splitArticleKey } from "./collapse";
 import type { HistoryResult } from "./history";
 
 const KIND_KO = { added: "추가", removed: "삭제", modified: "수정" } as const;
@@ -40,12 +41,26 @@ export function renderHistoryReport(i: HistoryReportInput): string {
   out.push("");
 
   out.push("## 2. 개정 조문과 함께 나타난 변경: 그룹별 k/n", "", `${PEER_SIGNAL_LABEL}. ${CO_OCCURRED_NOTE}`, "", "k는 같은 조문·항목에서 신뢰도 높음 또는 중간으로 연결된 피어 수입니다. 표시 기준(k 3 이상, k/n 60% 이상)을 못 채워도 참고로 모두 적습니다.", "");
-  const rows = r.groups.flatMap((g) => g.signals.map((s) => ({ g, s })));
+  // One row per group, article and section (the 항/호 units of an article are listed in a parenthesis); k is the largest k among them.
+  const rows = r.groups.flatMap((g) => {
+    const by = new Map<string, { article: string; sectionId: string; list: (typeof g.signals)[number][] }>();
+    for (const s of g.signals) {
+      const article = splitArticleKey(s.articleKey).article;
+      const cur = by.get(`${article}|${s.sectionId}`) ?? { article, sectionId: s.sectionId, list: [] };
+      cur.list.push(s);
+      by.set(`${article}|${s.sectionId}`, cur);
+    }
+    return [...by.values()].map((c) => {
+      const confidence = bestConfidence(c.list.map((s) => s.confidence));
+      const best = c.list.filter((s) => s.confidence === confidence);
+      return { g, article: c.article, sectionId: c.sectionId, confidence, details: detailList(best.map((s) => s.articleKey)), k: Math.max(...c.list.map((s) => s.k)), n: c.list[0]!.n, meets: c.list.some((s) => s.meetsThreshold) };
+    });
+  });
   if (rows.length === 0) out.push("연결된 변경이 없습니다 (k = 0).", "");
   else {
-    out.push("| 그룹 | 조문 | 항목 | k / n | 신뢰도 | 표시 기준 충족 |", "| --- | --- | --- | --- | --- | --- |");
-    for (const { g, s } of rows) out.push(`| ${safeText(g.nameKo)} | ${safeText(s.articleKey)} | ${title(s.sectionId)} | ${s.k} / ${s.n} | ${CONF_KO[s.confidence]} | ${s.meetsThreshold ? "예" : "아니오"} |`);
-    out.push("");
+    out.push("| 그룹 | 조문 (변경된 항·호) | 항목 | k / n | 신뢰도 | 표시 기준 충족 |", "| --- | --- | --- | --- | --- | --- |");
+    for (const x of rows) out.push(`| ${safeText(x.g.nameKo)} | ${safeText(refLabel(x.article, x.details))} | ${title(x.sectionId)} | ${x.k} / ${x.n} | ${CONF_KO[x.confidence]} | ${x.meets ? "예" : "아니오"} |`);
+    out.push("", "한 조문에서 여러 항·호가 연결된 경우 한 줄로 합쳤고, k는 그중 가장 큰 값입니다.", "");
   }
 
   out.push("## 3. 피어별 변경 (레지스트리 순서)", "");
@@ -54,10 +69,20 @@ export function renderHistoryReport(i: HistoryReportInput): string {
   if (changed.length === 0) out.push("실질 변경이 확인된 피어가 없습니다.", "");
   for (const p of changed) {
     out.push(`- ${safeText(r.groups.find((g) => g.groupId === p.groupId)?.nameKo ?? p.groupId)} · ${safeText(p.name)} (${safeText(p.beforeDate ?? "?")} → ${safeText(p.afterDate ?? "?")})`);
-    const al = p.alignments ?? [];
-    if (al.length === 0) out.push(`  - 연결 근거 없음: ${PEER_UNKNOWN_CAUSE_LABEL}`);
-    for (const a of al) out.push(`  - ${safeText(a.articleKey)} / ${title(a.sectionId)}: ${a.confidence === "low" ? PEER_UNKNOWN_CAUSE_LABEL : `신뢰도 ${CONF_KO[a.confidence]}`}`);
-    for (const c of p.changedSections ?? []) out.push(`  - ${title(c.sectionId)} (${KIND_KO[c.kind]})${c.quote ? `: "${safeText(c.quote)}"` : ""}`);
+    // Each changed section once, with its best confidence and the articles reached at that confidence.
+    const refs = collapseAlignments(p.alignments ?? []);
+    const seen = new Set<string>();
+    const sections = (p.changedSections ?? []).filter((c) => !seen.has(c.sectionId) && !!seen.add(c.sectionId));
+    if (refs.length === 0) out.push(`  - 연결 근거 없음: ${PEER_UNKNOWN_CAUSE_LABEL}`);
+    const confLine = (sectionId: string): string => {
+      const mine = refs.filter((x) => x.sectionId === sectionId);
+      if (mine.length === 0) return PEER_UNKNOWN_CAUSE_LABEL;
+      const best = bestConfidence(mine.map((x) => x.confidence));
+      if (best === "low") return PEER_UNKNOWN_CAUSE_LABEL;
+      return `신뢰도 ${CONF_KO[best]}: ${mine.filter((x) => x.confidence === best).map((x) => safeText(refLabel(x.article, x.details))).join(", ")}`;
+    };
+    for (const c of sections) out.push(`  - ${title(c.sectionId)} (${KIND_KO[c.kind]}) [${confLine(c.sectionId)}]${c.quote ? `: "${safeText(c.quote)}"` : ""}`);
+    for (const id of new Set(refs.map((x) => x.sectionId))) if (!seen.has(id)) out.push(`  - ${title(id)} [${confLine(id)}]`);
   }
   if (changed.length > 0) out.push("");
   const same = compared.filter((p) => !changed.includes(p));
