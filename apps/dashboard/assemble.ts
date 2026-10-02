@@ -37,7 +37,10 @@ const readJson = (p: string): Json | null => {
 
 /** Recursively masks contacts in every string. */
 export function maskDeep<T>(v: T): T {
-  if (typeof v === "string") return maskContacts(v).text as unknown as T;
+  if (typeof v === "string") {
+    const m = maskContacts(v);
+    return (m.phone || m.email ? m.text : v) as unknown as T; // the masker also folds dashes: keep the original when nothing was masked
+  }
   if (Array.isArray(v)) return v.map((x) => maskDeep(x)) as unknown as T;
   if (v && typeof v === "object") return Object.fromEntries(Object.entries(v as Json).map(([k, x]) => [k, maskDeep(x)])) as unknown as T;
   return v;
@@ -114,7 +117,7 @@ function buildAmendments(root: string, titles: Record<string, string>, reports: 
   const expDir = join(root, "golden", "monitor", "expected");
   if (!existsSync(lawsDir)) return [];
   const out: Json[] = [];
-  const modeB = reports.flatMap((r) => (r.findings as Json[]).filter((f) => f.mode === "B").map((f) => ({ ...f, policyId: r.policyId })));
+  const modeB: Json[] = reports.flatMap((r) => (r.findings as Json[]).filter((f) => f.mode === "B").map((f): Json => ({ ...f, policyId: r.policyId })));
   for (const f of readdirSync(lawsDir).filter((x) => x.endsWith(".json")).sort()) {
     const fx = readJson(join(lawsDir, f));
     if (!fx) continue;
@@ -160,7 +163,6 @@ function buildAmendments(root: string, titles: Record<string, string>, reports: 
       diffUnitCount: fx.diffUnitCount,
       noImpact,
       noImpactLabel: noImpact ? NO_IMPACT_LABEL : null,
-      note: noImpact ? exp.note : undefined,
       tier,
       articles: [...byArticle.entries()]
         .sort((a, b) => parseFloat(a[0].replace("-", ".")) - parseFloat(b[0].replace("-", ".")))
@@ -191,7 +193,7 @@ function buildPolicies(reports: Json[], titles: Record<string, string>, finance:
       for (const f of findings) bySeverity[f.severity] = (bySeverity[f.severity] ?? 0) + 1;
       const confirmBySection = new Map<string, { sectionId: string; title: string; questions: string[] }>();
       for (const f of findings.filter((x) => x.severity === "confirm")) {
-        const e = confirmBySection.get(f.sectionId) ?? { sectionId: f.sectionId, title: titles[f.sectionId] ?? "", questions: [] };
+        const e = confirmBySection.get(f.sectionId) ?? { sectionId: f.sectionId as string, title: titles[f.sectionId as string] ?? "", questions: [] as string[] };
         for (const q of (f.questions as string[]) ?? [f.message]) e.questions.push(q);
         confirmBySection.set(f.sectionId, e);
       }
