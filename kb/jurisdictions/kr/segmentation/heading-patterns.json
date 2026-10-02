@@ -1,7 +1,9 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "generated": "2026-10-02",
-  "unmappedKeywords": ["연계정보"],
+  "unmappedKeywords": [
+    "연계정보"
+  ],
   "note": "Heading variants -> section id for the Policy Monitor heading-rule segmenter (design M5/M7). Matching: the heading is normalized (numbering removed, only letters and digits kept, lowercase); `exact` entries must equal it, `keywords` must be contained in it; the longest keyword wins, ties go to the lower section id. Every rule-pack title.ko is an `exact` entry. The same keywords drive the full-text search that must fail before a mandatory section is reported missing. Seeded from rule-pack titles and the captures index headingList; the domain expert reviews it.",
   "sections": {
     "S01": {
@@ -292,7 +294,9 @@
         "열람 청구",
         "열람청구",
         "열람",
-        "정정·삭제"
+        "정정·삭제",
+        "동의철회",
+        "동의 철회"
       ]
     },
     "S17": {
@@ -327,7 +331,9 @@
         "담당 부서",
         "고충처리",
         "고충사항",
-        "개인정보보호 담당"
+        "개인정보보호 담당",
+        "민원서비스",
+        "불만처리"
       ]
     },
     "S19": {
@@ -415,7 +421,8 @@
         "방침의 변경",
         "개정 이력",
         "변경 이력",
-        "처리방침 변경에 관한 사항"
+        "처리방침 변경에 관한 사항",
+        "고지의 의무"
       ],
       "keywords": [
         "처리방침의 변경",
@@ -426,7 +433,8 @@
         "신·구 대조",
         "변경 이력",
         "개정 이력",
-        "시행일자"
+        "시행일자",
+        "고지의 의무"
       ]
     },
     "A1": {
