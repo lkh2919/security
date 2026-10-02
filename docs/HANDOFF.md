@@ -143,6 +143,14 @@ and a verified `statutes/remedy-agencies.json` for S20 (original PC / privacy-do
 - House-style candidates (19 rules) need the user's approval; until then no house-style rule is enforced.
 - Done 2026-10-01: personal names, e-mail and phones in the capture index were replaced (QA report finding 1). Do not rebuild the index from raw captures without redacting again.
 
+## Real-policy run (2026-10-02)
+
+10 of 26 published Lotte policies checked with the model (Mode A + PIPA 21445 Mode B): Critical 0, High 39, Confirm 89 after
+fixing 8 defects that only real pages exposed (segmenter depth, headings not sent to the model, finance text in Mode B prompts,
+HTML entities, ...). Two group-wide patterns: destruction procedure without who selects/approves (10/10) and rights list without
+전송요구권/자동화된 결정 (10/10). Details and follow-ups: `docs/reports/2026-10-02-lotte-real-run.md`. Re-fetch:
+`bun scripts/agent.ts peers --config config/orgs/example/org.json --dry-run --with-lotte --save-lotte watch/lotte`.
+
 ## Contest package status (2026-10-02)
 
 - Deck (Slides artifact, private to the user): https://claude.ai/artifact/VQRWPLE2Y8MEGMnqjnekT8 — 13 slides, numbers from real runs, team name is a placeholder ("팀 폴리시레이더(가칭)"), presenter still `[미정]`. The InfoSec time measurement is on hold, so slide 2 shows the measured scope cut (98 changed units → 5 linked to policies) instead of `[측정 예정]`.
