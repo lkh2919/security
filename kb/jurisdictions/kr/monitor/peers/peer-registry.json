@@ -1,0 +1,480 @@
+{
+  "version": "0.1.0",
+  "updated": "2026-10-02",
+  "note": "Peer privacy policies are public by PIPA Art. 30(2); fetching is reference only, change detection only, no rating or ranking of any company. Peer list user-approved 2026-10-02. robots checked with UA 'LottePolicyMonitor/0.1'; disallowed means excluded, unreachable robots means skipped until verified. Contains no personal data.",
+  "groups": [
+    {
+      "groupId": "food",
+      "nameKo": "식품",
+      "lotte": [
+        "lotte-wellfood-privacy",
+        "lotte-wellfood-privacy-cctv",
+        "lotte-chilsung-privacy"
+      ],
+      "peers": [
+        {
+          "peerId": "cj-cheiljedang",
+          "name": "CJ제일제당",
+          "url": "https://www.cj.co.kr/kr/privacy-policy",
+          "finalUrl": "https://www.cj.co.kr/kr/privacy-policy",
+          "render": "html",
+          "robots": "disallowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "excluded",
+          "excludedReason": "robots.txt disallows all paths for generic user agents (User-agent: * Disallow: /)"
+        },
+        {
+          "peerId": "nongshim",
+          "name": "농심",
+          "url": "https://www.nongshim.com/util/privacy",
+          "finalUrl": "https://www.nongshim.com/util/privacy",
+          "render": "html",
+          "robots": "disallowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "excluded",
+          "excludedReason": "robots.txt disallows all paths for generic user agents (User-agent: * Disallow: /)"
+        },
+        {
+          "peerId": "orion",
+          "name": "오리온",
+          "url": "https://www.orionworld.com/terms/101",
+          "finalUrl": "https://www.orionworld.com/terms/101",
+          "render": "html",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "active"
+        },
+        {
+          "peerId": "ottogi",
+          "name": "오뚜기",
+          "url": "https://www.otoki.com/site/privacy-policy",
+          "finalUrl": "https://www.otoki.com/site/privacy-policy",
+          "render": "js_required",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "active",
+          "note": "ottogi.co.kr redirects to otoki.com; policy text not in initial HTML"
+        },
+        {
+          "peerId": "hitejinro",
+          "name": "하이트진로",
+          "url": null,
+          "finalUrl": null,
+          "render": "unknown",
+          "robots": "unreachable",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "to_verify",
+          "toVerifyReason": "hitejinro.com returns HTTP 403 to the monitor UA (incl. robots.txt); official policy URL could not be confirmed"
+        }
+      ]
+    },
+    {
+      "groupId": "retail",
+      "nameKo": "유통",
+      "lotte": [
+        "lotte-department-store-privacy",
+        "lotte-department-store-privacy-cctv",
+        "lotte-mart-privacy",
+        "lotte-mart-privacy-cctv",
+        "seven-eleven-privacy",
+        "seven-eleven-privacy-cctv",
+        "lotte-himart-privacy",
+        "lotte-himart-mall-privacy"
+      ],
+      "peers": [
+        {
+          "peerId": "shinsegae-emart",
+          "name": "신세계(이마트)",
+          "url": "https://store.emart.com/member/personal_info.do",
+          "finalUrl": "https://store.emart.com/member/personal_info.do",
+          "render": "html",
+          "robots": "disallowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "excluded",
+          "note": "Chosen because it has a main public policy page. SSG.COM alternative: www.ssg.com robots.txt also disallows generic agents and the site returns 403; policy URL not located.",
+          "excludedReason": "robots.txt disallows all paths for generic user agents (User-agent: * Disallow: /)"
+        },
+        {
+          "peerId": "hyundai-dept",
+          "name": "현대백화점",
+          "url": "https://www.ehyundai.com/newPortal/member/HD/PV01_03.do",
+          "finalUrl": "https://www.ehyundai.com/newPortal/member/HD/PV01_03.do",
+          "render": "html",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "active",
+          "note": "thehyundai.com (online mall, redirects to hi.thehyundai.com) disallows robots; ehyundai.com department store portal is used instead; page is large (multi-version)"
+        },
+        {
+          "peerId": "gs-retail",
+          "name": "GS리테일",
+          "url": "https://www.gsretail.com/gsretail/ko/footer/privacy",
+          "finalUrl": "https://www.gsretail.com/gsretail/ko/footer/privacy",
+          "render": "js_required",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "active",
+          "note": "Vue SPA shell; needs JS fallback or manual capture"
+        },
+        {
+          "peerId": "bgf-retail",
+          "name": "BGF리테일",
+          "url": "https://cu.bgfretail.com/policy/policy/pc/privacyPolicy",
+          "finalUrl": "https://cu.bgfretail.com/policy/policy/pc/privacyPolicy",
+          "render": "html",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "active",
+          "note": "CU service policy; page holds multiple versions (very large HTML); robots.txt absent (404)"
+        },
+        {
+          "peerId": "coupang",
+          "name": "쿠팡",
+          "url": "https://privacy.coupang.com/ko/center/coupang/",
+          "finalUrl": "https://privacy.coupang.com/ko/center/coupang/",
+          "render": "html",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "active"
+        }
+      ]
+    },
+    {
+      "groupId": "chem_build_mfg",
+      "nameKo": "화학·건설·제조",
+      "lotte": [
+        "lotte-enc-privacy",
+        "lotte-castle-privacy",
+        "lotte-castle-privacy-cctv"
+      ],
+      "peers": [
+        {
+          "peerId": "lg-chem",
+          "name": "LG화학",
+          "url": "https://www.lgchem.com/privacy",
+          "finalUrl": "https://www.lgchem.com/privacy",
+          "render": "html",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "to_verify",
+          "toVerifyReason": "Only an English global-site privacy notice found on lgchem.com; Korean company 개인정보 처리방침 URL not confirmed (kr path returns 404)"
+        },
+        {
+          "peerId": "hanwha-solutions",
+          "name": "한화솔루션",
+          "url": "https://www.hanwhasolutions.com/ko/privacy",
+          "finalUrl": "https://www.hanwhasolutions.com/ko/privacy",
+          "render": "html",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "active"
+        },
+        {
+          "peerId": "hyundai-motor",
+          "name": "현대자동차",
+          "url": "https://privacy.hyundai.com/kr/ko",
+          "finalUrl": "https://privacy.hyundai.com/kr/ko",
+          "render": "js_required",
+          "robots": "unreachable",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "to_verify",
+          "note": "Policy PDF (개인정보보호 정책, 2025.02) exists at www.hyundai.com (robots allowed) but is an internal policy document, not the 처리방침",
+          "toVerifyReason": "privacy.hyundai.com robots.txt returns HTTP 403 to the monitor UA; page is a JS shell"
+        },
+        {
+          "peerId": "hyundai-enc",
+          "name": "현대건설",
+          "url": "https://www.hdec.kr/kr/etc/policy.aspx",
+          "finalUrl": "https://www.hdec.kr/kr/etc/policy.aspx",
+          "render": "html",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "active"
+        },
+        {
+          "peerId": "gs-enc",
+          "name": "GS건설",
+          "url": "https://gsenc.com/Service/Policy.aspx",
+          "finalUrl": "https://gsenc.com/Service/Policy.aspx",
+          "render": "js_required",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "active",
+          "note": "policy body not in initial HTML"
+        }
+      ]
+    },
+    {
+      "groupId": "tour_service",
+      "nameKo": "관광·서비스",
+      "lotte": [
+        "lotte-cinema-privacy",
+        "lotte-world-privacy",
+        "lotte-hotel-privacy",
+        "lotte-hotel-privacy-cctv",
+        "lotte-rental-privacy"
+      ],
+      "peers": [
+        {
+          "peerId": "hotel-shilla",
+          "name": "호텔신라",
+          "url": "https://www.shillahotels.com/ko/shillastay/hub/terms/privacy.do",
+          "finalUrl": "https://www.shillahotels.com/ko/shillastay/hub/terms/privacy.do",
+          "render": "js_required",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "active",
+          "note": "Shilla Stay hub policy page; brand-level, corporate 호텔신라 policy location may differ"
+        },
+        {
+          "peerId": "shinsegae-chosun",
+          "name": "신세계조선호텔(조선호텔앤리조트)",
+          "url": "https://josunhotel.com/policy/privacy.do",
+          "finalUrl": "https://josunhotel.com/policy/privacy.do",
+          "render": "html",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "active",
+          "note": "company now operates as 조선호텔앤리조트"
+        },
+        {
+          "peerId": "hanatour",
+          "name": "하나투어",
+          "url": "https://www.hanatour.com/els/prv/CHPC0PRV0002M200",
+          "finalUrl": "https://www.hanatour.com/els/prv/CHPC0PRV0002M200",
+          "render": "js_required",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "active"
+        },
+        {
+          "peerId": "modetour",
+          "name": "모두투어",
+          "url": "https://www.modetour.com/info/privacy-policy?version=2.4",
+          "finalUrl": "https://www.modetour.com/info/privacy-policy?version=2.4",
+          "render": "js_required",
+          "robots": "unreachable",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "to_verify",
+          "toVerifyReason": "robots.txt returns HTTP 403 to the monitor UA"
+        },
+        {
+          "peerId": "cj-cgv",
+          "name": "CJ CGV",
+          "url": "http://www.cgv.co.kr/rules/privacy.aspx?idx=8",
+          "finalUrl": "http://www.cgv.co.kr/rules/privacy.aspx?idx=8",
+          "render": "unknown",
+          "robots": "unreachable",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "to_verify",
+          "toVerifyReason": "www.cgv.co.kr returns HTTP 403 (including robots.txt) to the monitor UA; URL taken from search results, not verified"
+        }
+      ]
+    },
+    {
+      "groupId": "finance",
+      "nameKo": "금융(멤버십·카드)",
+      "lotte": [
+        "lpoint-privacy",
+        "lotte-members-privacy"
+      ],
+      "peers": [
+        {
+          "peerId": "cj-one",
+          "name": "CJ ONE",
+          "url": "https://www.cjone.com/cjmweb/privacy.do",
+          "finalUrl": "https://www.cjone.com/cjmweb/privacy.do",
+          "render": "html",
+          "robots": "disallowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "excluded",
+          "excludedReason": "robots.txt disallows all paths for generic user agents (User-agent: * Disallow: /)"
+        },
+        {
+          "peerId": "ok-cashbag",
+          "name": "OK캐쉬백",
+          "url": "https://m.okcashbag.com/agreement/personalInfo.mocb",
+          "finalUrl": "https://m.okcashbag.com/agreement/personalInfo.mocb",
+          "render": "html",
+          "robots": "disallowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "excluded",
+          "note": "www.okcashbag.com also disallows",
+          "excludedReason": "robots.txt disallows all paths for generic user agents (User-agent: * Disallow: /)"
+        },
+        {
+          "peerId": "shinhan-card",
+          "name": "신한카드",
+          "url": "https://www.shinhancard.com/pconts/html/helpdesk/personProtect/MOBFM170/MOBFM170R01.html",
+          "finalUrl": "https://www.shinhancard.com/pconts/html/helpdesk/personProtect/MOBFM170/MOBFM170R01.html",
+          "render": "js_required",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "active",
+          "note": "entry page redirects via JavaScript to /pconts/html/helpdesk/privacyPolicy/CONFM90100/CONFM90100R01.html (also a thin shell); page ids in search results were stale (404)"
+        },
+        {
+          "peerId": "samsung-card",
+          "name": "삼성카드",
+          "url": "https://www.samsungcard.com/personal/customer-service/privacy/UHPPCC0378M0.jsp",
+          "finalUrl": "https://www.samsungcard.com/personal/customer-service/privacy/UHPPCC0378M0.jsp",
+          "render": "html",
+          "robots": "disallowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "excluded",
+          "excludedReason": "robots.txt disallows all paths for generic user agents (User-agent: * Disallow: /)"
+        },
+        {
+          "peerId": "hyundai-card",
+          "name": "현대카드",
+          "url": null,
+          "finalUrl": null,
+          "render": "unknown",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "to_verify",
+          "toVerifyReason": "Official 개인정보 처리방침 page URL on hyundaicard.com not found (footer link is script-generated); robots.txt of www.hyundaicard.com was reachable"
+        }
+      ]
+    },
+    {
+      "groupId": "it_platform",
+      "nameKo": "IT·플랫폼(참고)",
+      "lotte": [],
+      "peers": [
+        {
+          "peerId": "naver",
+          "name": "네이버",
+          "url": "https://policy.naver.com/policy/privacy.html",
+          "finalUrl": "https://policy.naver.com/policy/privacy.html",
+          "render": "html",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "active",
+          "note": "robots.txt returned an HTML page (treated as absent)"
+        },
+        {
+          "peerId": "kakao",
+          "name": "카카오",
+          "url": "https://www.kakao.com/policy/privacy",
+          "finalUrl": "https://www.kakao.com/policy/privacy",
+          "render": "html",
+          "robots": "disallowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "excluded",
+          "excludedReason": "robots.txt disallows all paths except / and ads.txt for generic user agents"
+        },
+        {
+          "peerId": "toss",
+          "name": "토스(비바리퍼블리카)",
+          "url": "https://toss.im/privacy",
+          "finalUrl": "https://toss.im/privacy-policy",
+          "render": "js_required",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "active"
+        },
+        {
+          "peerId": "woowa",
+          "name": "우아한형제들(배달의민족)",
+          "url": null,
+          "finalUrl": null,
+          "render": "unknown",
+          "robots": "unreachable",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "to_verify",
+          "toVerifyReason": "baemin.com robots.txt disallows all paths; woowahan.com returns HTTP 403 to the monitor UA; official policy URL not confirmed"
+        },
+        {
+          "peerId": "daangn",
+          "name": "당근",
+          "url": "https://www.daangn.com/policy/privacy",
+          "finalUrl": "https://privacy-policy.daangn.com/",
+          "render": "html",
+          "robots": "allowed",
+          "robotsCheckedAt": "2026-10-02",
+          "termsNote": "",
+          "status": "active",
+          "note": "redirects to privacy-policy.daangn.com; robots.txt absent (404)"
+        }
+      ]
+    }
+  ],
+  "unassigned": [
+    {
+      "id": "lotte-holdings-privacy",
+      "domainGroup": "group_holding"
+    },
+    {
+      "id": "lotte-recruit-privacy",
+      "domainGroup": "hr_corporate"
+    },
+    {
+      "id": "lotteinnovate-privacy",
+      "domainGroup": "it_services"
+    },
+    {
+      "id": "lotteinnovate-privacy-cctv",
+      "domainGroup": "it_services"
+    },
+    {
+      "id": "lotte-global-logis-privacy",
+      "domainGroup": "logistics"
+    },
+    {
+      "id": "lotte-global-logis-privacy-cctv",
+      "domainGroup": "logistics"
+    }
+  ],
+  "lotteNotIncluded": [
+    {
+      "id": "lotteinnovate-cloud-privacy",
+      "reason": "failed_network"
+    },
+    {
+      "id": "lotteon-privacy",
+      "reason": "excluded_robots"
+    },
+    {
+      "id": "lotte-homeshopping-privacy",
+      "reason": "excluded_robots"
+    },
+    {
+      "id": "lotte-dfs-privacy",
+      "reason": "excluded_robots"
+    },
+    {
+      "id": "lotte-chemical-privacy",
+      "reason": "excluded_robots"
+    }
+  ]
+}
