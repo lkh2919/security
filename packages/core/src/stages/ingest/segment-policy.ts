@@ -111,6 +111,14 @@ export function matchHeading(patterns: HeadingPatterns, heading: string): Headin
   return best ? { sectionId: best.id, mappedBy: "heading_keyword", confidence: 0.8 } : null;
 }
 
+/**
+ * Does `sectionId` have a heading-like line anywhere in `lines` (another section's title, or a short non-sentence line that maps to it)?
+ * Narrower than `fullTextMentions`: used where a word in running text proves nothing, only a heading the segmenter missed counts.
+ */
+export function headingLineMentions(patterns: HeadingPatterns, sectionId: string, lines: readonly string[]): boolean {
+  return lines.some((l) => l.length <= MAX_HEADING_LINE && !SENTENCE_END.test(l) && matchHeading(patterns, l)?.sectionId === sectionId);
+}
+
 /** Full-text search used before a section is reported missing: does any exact title or keyword of `sectionId` occur anywhere? */
 export function fullTextMentions(patterns: HeadingPatterns, sectionId: string, text: string): boolean {
   const n = normHeading(text);
@@ -177,6 +185,8 @@ interface Block {
   paraIndexes: number[];
   /** Preamble only: an unmatched heading (the document title) was already absorbed. */
   sawTitle?: boolean;
+  /** Started by a heading element (<h1>-<h6>, Markdown #), not by a numbered or exact plain line. */
+  element?: boolean;
 }
 
 const SENTENCE_END = /(?:다|요|니다)\s*[.!?]?\s*$|[.!?]\s*$/u;
@@ -214,9 +224,9 @@ export function segmentDocument(doc: ParsedDocument, patterns: HeadingPatterns):
   const text = paras.map((p) => p.text).join("\n");
 
   // 2. classify each paragraph: heading (with its match and depth) or body.
-  const headingOf = (p: MaskedPara): { match: HeadingMatch | null; depth: number } | null => {
+  const headingOf = (p: MaskedPara): { match: HeadingMatch | null; depth: number; element?: boolean } | null => {
     if (p.kind === "row") return null;
-    if (p.kind === "heading") return { match: matchHeading(patterns, p.text), depth: p.level && p.level > 0 ? p.level : BOLD_DEPTH };
+    if (p.kind === "heading") return { match: matchHeading(patterns, p.text), depth: p.level && p.level > 0 ? p.level : BOLD_DEPTH, element: p.level !== undefined && p.level > 0 };
     if (p.text.length > MAX_HEADING_LINE || SENTENCE_END.test(p.text)) return null;
     const match = matchHeading(patterns, p.text);
     // A plain line is a heading only when numbered or an exact title: a keyword inside a short sentence proves nothing.
@@ -236,24 +246,27 @@ export function segmentDocument(doc: ParsedDocument, patterns: HeadingPatterns):
       return;
     }
     const inMapped = cur.mappedBy !== "preamble" && cur.sectionId !== UNMAPPED_SECTION;
+    // Element levels (h3 = 3) and plain-line numbering depths (1. = 1) are different scales: a heading element is never a
+    // sub-heading of a plain line (real page, 2026-10-02: "[제 9 조]" h3 folded under "2. 모바일 브라우저에서 쿠키 허용/차단").
+    const deeper = (h.element === true && cur.element !== true) ? false : h.depth > cur.depth;
     if (h.match) {
       // A keyword-only hit deeper than the current section heading is a sub-heading of it, not a new section.
-      if (h.match.mappedBy === "heading_keyword" && inMapped && h.depth > cur.depth) {
+      if (h.match.mappedBy === "heading_keyword" && inMapped && deeper) {
         cur.paraIndexes.push(i);
         return;
       }
-      cur = { sectionId: h.match.sectionId, title: p.text, mappedBy: h.match.mappedBy, confidence: h.match.confidence, depth: h.depth, headingIndex: i, paraIndexes: [] };
+      cur = { sectionId: h.match.sectionId, title: p.text, mappedBy: h.match.mappedBy, confidence: h.match.confidence, depth: h.depth, headingIndex: i, paraIndexes: [], ...(h.element ? { element: true } : {}) };
       blocks.push(cur);
       return;
     }
     // An unmapped topic (연계정보 ...) is never folded into the section before it: it must not inherit S21 and the like.
     const unmappedTopic = isUnmappedTopic(patterns, p.text);
-    if (!unmappedTopic && ((cur.mappedBy === "preamble" && !cur.sawTitle) || (inMapped && h.depth > cur.depth))) {
+    if (!unmappedTopic && ((cur.mappedBy === "preamble" && !cur.sawTitle) || (inMapped && deeper))) {
       if (cur.mappedBy === "preamble") cur.sawTitle = true;
       cur.paraIndexes.push(i);
       return;
     }
-    cur = { sectionId: UNMAPPED_SECTION, title: p.text, mappedBy: "none", confidence: 0, depth: h.depth, headingIndex: i, paraIndexes: [] };
+    cur = { sectionId: UNMAPPED_SECTION, title: p.text, mappedBy: "none", confidence: 0, depth: h.depth, headingIndex: i, paraIndexes: [], ...(h.element ? { element: true } : {}) };
     blocks.push(cur);
   });
 

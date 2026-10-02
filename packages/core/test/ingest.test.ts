@@ -203,6 +203,20 @@ describe("heading segmentation", () => {
   });
 });
 
+describe("heading elements vs plain numbered lines (real page, 2026-10-02)", () => {
+  test("an <h3> after a numbered plain line inside a section starts its own section", () => {
+    const html = [
+      "<h3>[제 8 조] 개인정보 자동 수집 장치의 설치 · 운영 및 거부에 관한 사항</h3><p>회사는 쿠키를 사용합니다.</p>",
+      "<p>2. 모바일 브라우저에서 쿠키 허용/차단</p><p>설정에서 차단할 수 있습니다.</p>",
+      "<h3>[제 11 조] 개인정보보호 책임자 및 담당자</h3><p>책임자: 홍길동, 연락처 privacy@lotte.net</p>",
+    ].join("");
+    const p = ingestPolicy({ name: "x.html", content: html, fetchedAt: NOW }, patterns);
+    expect([...new Set(p.sections.map((s) => s.sectionId))]).toEqual(["S14", "S18"]);
+    expect(p.sections.find((s) => s.sectionId === "S18")!.title).toContain("[제 11 조]");
+    expect(p.sections.find((s) => s.sectionId === "S18")!.paras.map((x) => x.text).join(" ")).toContain("책임자");
+  });
+});
+
 describe("IngestedPolicy -> PolicyAST", () => {
   const clean = ingestFixture("policy-clean.md");
   const { ast, paraMap, sectionParas } = policyToAst(clean, { runId: "monitor-test-001", effectiveDate: "2026-10-02", rulePackVersion: "privacy-2026.04" });

@@ -90,6 +90,28 @@ describe("Mode A: LLM judge (mock)", () => {
     expect(report.llmUsed).toBe(true);
   });
 
+  test("a prohibition ('no abbreviation') is never 'missing': without a quote it is a Confirm", async () => {
+    const llm = judge({ S03: [{ ruleId: "R-S03-002", verdict: "missing", quote: "", fixHint: "", question: "" }] });
+    const { report, adjustments } = await run("policy-clean.md", llm);
+    expect(report.findings.filter((f) => f.sectionId === "S03").map((f) => f.severity)).toEqual(["confirm"]);
+    expect(adjustments.join(" ")).toContain("'missing' on a prohibition read as 'wrong'");
+  });
+
+  test("a missing officer whose heading folded into another section is a Confirm question, not Critical", async () => {
+    const clean = readFileSync(join(import.meta.dir, "fixtures", "monitor", "policy-clean.md"), "utf8");
+    // S18 keeps only a stub; the officer block sits under S16 behind a heading-like line the segmenter did not take as a heading.
+    const content = clean
+      .replace("- 성명: 홍길동 (개인정보 보호책임자)\n- 전화번호: 010-0000-0000\n- 이메일: privacy@example.com", "문의는 아래 안내를 참고하십시오.")
+      .replace("## 9. 정보주체와 법정대리인의 권리·의무 및 행사방법\n", "## 9. 정보주체와 법정대리인의 권리·의무 및 행사방법\n\n개인정보 보호책임자 안내\n\n- 성명: 홍길동\n");
+    const policy = ingestPolicy({ name: "policy-folded2.md", content, fetchedAt: NOW }, patterns);
+    const llm = judge({ S18: [{ ruleId: "R-S18-001", verdict: "missing", quote: "", fixHint: "", question: "" }] });
+    const { report, adjustments } = await checkCurrentPolicy({ llm }, { ...base, policy });
+    const s18 = report.findings.filter((f) => f.sectionId === "S18");
+    expect(s18.map((f) => [f.ruleId, f.severity])).toEqual([["MON-CONFIRM", "confirm"]]);
+    expect(s18[0]!.questions?.join(" ")).toContain("다른 부분에 관련 내용");
+    expect(adjustments.join(" ")).toContain("reported as Confirm");
+  });
+
   test("verdicts map to severities; a missing must element is Critical, a located wrong value High, should-level Low", async () => {
     const llm = judge({
       S05: [

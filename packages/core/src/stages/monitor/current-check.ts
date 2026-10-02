@@ -29,7 +29,7 @@ import type { LlmClient } from "../../llm/client";
 import { runC2 } from "../check/run-c2";
 import type { RulePackItem } from "../coverage/load-kb";
 import { loadPromptFile, type PromptFile } from "../extract/prompt";
-import { fullTextMentions, type HeadingPatterns } from "../ingest/segment-policy";
+import { fullTextMentions, headingLineMentions, type HeadingPatterns } from "../ingest/segment-policy";
 import { locateAstPath, policyToAst } from "../ingest/to-ast";
 import { FINANCE_MANUAL_LABEL, UNTRUSTED_POLICY_NOTICE, buildReport, capSeverity, clean, digestRules, fenceText, numberFindings, paraOfQuote, verifyVerbatimQuote, type DigestRule } from "./common";
 
@@ -73,6 +73,9 @@ export interface CurrentCheckResult {
 }
 
 type Draft = Omit<MonitorFinding, "id">;
+
+/** Rule elements that forbid something; a model may not call them "missing". */
+const NEGATIVE_ELEMENT = /(^|, )no /;
 
 const draft = (f: Omit<Draft, "mode" | "tier" | "location" | "sectionId"> & { sectionId: string; para: number | null; quote: string }): Draft => {
   const { para, quote, ...rest } = f;
@@ -177,6 +180,7 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
     warnings.push("LLM backend not used: deterministic checks only (no element-level judgement of the sections)");
   } else {
     const prompt = deps.prompt ?? loadPromptFile(CHECK_PROMPT_PATH);
+    const outsideLines = (sectionId: string): string[] => policy.sections.filter((s) => s.sectionId !== sectionId).flatMap((s) => [s.title, ...s.paras.filter((p) => p.kind !== "row").map((p) => p.text)]);
     for (const [sectionId, section] of ruleSections) {
       const all = sectionParas.get(sectionId);
       if (section.classification !== "mandatory" || !all || all.length === 0) continue;
@@ -216,20 +220,29 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
         if (seen.has(f.ruleId)) continue;
         seen.add(f.ruleId);
         const factDependent = rule.ruleClass === "factDependent";
-        const asConfirm = f.verdict === "confirm" || factDependent || (f.verdict === "wrong" && !quote);
+        // A prohibition ("no abbreviation", "no vague terms") cannot be missing; only a quoted wording can break it.
+        const verdict = f.verdict === "missing" && NEGATIVE_ELEMENT.test(rule.element) ? "wrong" : f.verdict;
+        if (verdict !== f.verdict) adjustments.push(`${f.ruleId} in ${sectionId}: 'missing' on a prohibition read as 'wrong'`);
+        // The model sees one section. When a heading-like line for this section sits in another section (a heading the segmenter
+        // missed folds the text into the section before it), "missing here" does not mean missing from the policy: ask a person.
+        const misplaced = verdict === "missing" && headingLineMentions(input.patterns, sectionId, outsideLines(sectionId));
+        if (misplaced) adjustments.push(`${f.ruleId} in ${sectionId}: 'missing' but the topic appears in other sections, reported as Confirm`);
+        const asConfirm = verdict === "confirm" || factDependent || (verdict === "wrong" && !quote) || misplaced;
         if (asConfirm && rule.level === "should") {
           adjustments.push(`dropped ${f.ruleId} in ${sectionId}: a Confirm on a should rule only restates a recommendation`);
           continue;
         }
         if (asConfirm) {
           if (factDependent && f.verdict !== "confirm") adjustments.push(`${f.ruleId} in ${sectionId}: judged ${f.verdict} but fact-dependent, reported as Confirm`);
-          const question = clean(f.question).trim().slice(0, 200) || `${rule.element}: 해당 사실이 있는지 확인하십시오.`;
+          const question = misplaced
+            ? `${rule.element}: 이 항목에서는 확인되지 않지만 처리방침의 다른 부분에 관련 내용이 있습니다. 해당 내용이 이 항목 요건을 충족하는지 확인하십시오.`
+            : clean(f.question).trim().slice(0, 200) || `${rule.element}: 해당 사실이 있는지 확인하십시오.`;
           confirms.push({ ruleId: rule.ruleId, question, para: paraOfQuote(paras, quote), quote });
           continue;
         }
-        let severity: MonitorSeverity = rule.level === "should" ? "low" : f.verdict === "missing" ? "critical" : "high";
+        let severity: MonitorSeverity = rule.level === "should" ? "low" : verdict === "missing" ? "critical" : "high";
         if (rule.upcoming) severity = capSeverity(severity, "medium");
-        const message = f.verdict === "missing" ? `규칙 ${rule.ruleId}: 요구 요소(${rule.element})가 확인되지 않습니다.` : `규칙 ${rule.ruleId}: 요구 요소(${rule.element})의 기재가 규칙과 다릅니다.`;
+        const message = verdict === "missing" ? `규칙 ${rule.ruleId}: 요구 요소(${rule.element})가 확인되지 않습니다.` : `규칙 ${rule.ruleId}: 요구 요소(${rule.element})의 기재가 규칙과 다릅니다.`;
         drafts.push(draft({ layer: "llm", ruleId: rule.ruleId, sectionId, severity, message, fixHint: clean(f.fixHint) || rule.statement, para: paraOfQuote(paras, quote), quote }));
       }
       if (confirms.length > 0) {
