@@ -92,7 +92,7 @@ Logistics 4, IT services 3, HR 2 and holding 1 have no group yet; the user decid
 
 ### Peer candidates
 
-All candidates are to be verified. They need robots rules, a published policy and legal sign-off. URLs are not supplied yet.
+All candidates are to be verified: a published policy URL and robots rules. URLs are not supplied yet. Legal sign-off is not required: privacy policies must be publicly disclosed (PIPA Art. 30(2)), so fetching them is legitimate (user decision 2026-10-02).
 
 | Group | Candidates |
 |-------|------------|
@@ -130,7 +130,7 @@ All candidates are to be verified. They need robots rules, a published policy an
 - Check robots.txt on every fetch. A disallow, or robots.txt being unreachable, means the peer is skipped.
 - Use an honest user agent, fetch at most one page per host per day, honour Crawl-delay, and use conditional GET.
 - A 403 or 429 means back off; a block notice disables the peer for good.
-- Check each site's terms of use once, before enabling it.
+- Record each site's terms-of-use status once when the peer is added (informational; not a blocker).
 
 ### Storage
 
@@ -214,6 +214,6 @@ If live peer fetching slips, peers are captured by hand as saved HTML and go thr
 2. Heading patterns, including the old `제N조` layout used by L.POINT, and the finance lexicon (privacy-domain-expert).
 3. Alert, P2 and finance-flag wording (privacy-domain-expert).
 4. Hand label of the 제21988호 fixture (privacy-domain-expert).
-5. Peer registry: company list, terms-of-use check and legal sign-off (user and legal).
+5. Peer registry: company list (user). No legal sign-off is needed for fetching public policies (user decision 2026-10-02).
 6. Group assignment of logistics, IT services, HR and holding captures (user).
 7. Baseline hours and an expert key for the pilot (InfoSec).
