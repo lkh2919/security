@@ -1,4 +1,6 @@
 import { describe, expect, test } from "bun:test";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { MockLlmClient, type StructuredCallRequest } from "../src/llm";
 import { MonitorReportSchema } from "../src/contracts/monitor-report";
 import { RULE_CLASSES, ruleClassOf } from "../src/stages/monitor/rule-classes";
@@ -37,6 +39,26 @@ describe("Mode A: deterministic part", () => {
     expect(s06).toHaveLength(1);
     expect(s06[0]!.severity).toBe("confirm");
     expect(s06[0]!.message).toContain("위치 미확인");
+  });
+
+  test("an empty summary heading whose topic sits under a combined heading elsewhere is Confirm, not High", async () => {
+    // Real pages (2026-10-02 Lotte run): a summary label "개인정보의 보유 기간" with no body, while the retention text sits
+    // under "처리하는 개인정보의 항목" further down.
+    const clean = readFileSync(join(import.meta.dir, "fixtures", "monitor", "policy-clean.md"), "utf8");
+    const content = clean.replace("## 3. 개인정보의 처리 및 보유 기간\n", "").replace("## 1. 개인정보의 처리 목적", "## 개인정보의 보유 기간\n\n## 1. 개인정보의 처리 목적");
+    const policy = ingestPolicy({ name: "policy-toc.md", content, fetchedAt: NOW }, patterns);
+    const { report } = await checkCurrentPolicy({}, { ...base, policy });
+    const s05 = report.findings.filter((f) => f.sectionId === "S05");
+    expect(s05.map((f) => [f.ruleId, f.severity])).toEqual([["C2-EMPTY", "confirm"]]);
+    expect(s05[0]!.message).toContain("목차나 요약표");
+  });
+
+  test("an empty mandatory heading whose topic appears nowhere else stays High", async () => {
+    const clean = readFileSync(join(import.meta.dir, "fixtures", "monitor", "policy-clean.md"), "utf8");
+    const content = clean.replace("회사는 개인정보를 안전하게 처리하기 위하여 내부관리계획 수립, 접근권한 관리, 접속기록 보관, 암호화 등의 조치를 하고 있습니다.\n", "");
+    const policy = ingestPolicy({ name: "policy-empty.md", content, fetchedAt: NOW }, patterns);
+    const { report } = await checkCurrentPolicy({}, { ...base, policy });
+    expect(report.findings.filter((f) => f.sectionId === "S11").map((f) => [f.ruleId, f.severity])).toEqual([["C2-EMPTY", "high"]]);
   });
 
   test("an abbreviated recipient is a Medium finding located at its table row", async () => {

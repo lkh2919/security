@@ -131,8 +131,16 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
             : draft({ layer: "deterministic", ruleId: f.ruleId, sectionId: id, severity: "critical", message: `필수 항목 ${id}(${titleOf(id)})이(가) 처리방침에 없습니다. 제목과 본문 전체에서 관련 표현을 찾지 못했습니다.`, fixHint: `${titleOf(id)} 항목을 처리방침에 추가하십시오.`, para: null, quote: "" }),
         );
       } else if (f.ruleId === "C2-EMPTY") {
+        // Real pages often carry a table of contents or a summary label ("개인정보의 보유 기간") whose content sits under a
+        // combined heading elsewhere ("처리 항목 및 보유기간"). When the topic appears in another section's title or in any
+        // paragraph, the empty heading is a question for a person, not a High finding.
         const mandatory = ruleSections.get(f.sectionId)?.classification === "mandatory";
-        drafts.push(draft({ layer: "deterministic", ruleId: f.ruleId, sectionId: f.sectionId, severity: mandatory ? "high" : "medium", message: `${f.sectionId}(${titleOf(f.sectionId)}) 제목만 있고 내용이 없습니다.`, fixHint: "해당 항목의 본문을 작성하십시오.", para: null, quote: "" }));
+        const elsewhere = policy.sections.flatMap((s) => [...(s.sectionId === f.sectionId ? [] : [s.title]), ...s.paras.map((p) => p.text)]).join("\n");
+        drafts.push(
+          fullTextMentions(input.patterns, f.sectionId, elsewhere)
+            ? draft({ layer: "deterministic", ruleId: f.ruleId, sectionId: f.sectionId, severity: "confirm", message: `${f.sectionId}(${titleOf(f.sectionId)}) 제목 아래 본문이 없습니다. 목차나 요약표의 제목일 수 있고, 관련 내용은 다른 항목에 있는 것으로 보입니다. 사람이 확인해야 합니다.`, fixHint: `${titleOf(f.sectionId)} 내용이 어느 항목에 있는지 확인하고, 필요하면 해당 제목 아래로 옮기십시오.`, para: null, quote: "" })
+            : draft({ layer: "deterministic", ruleId: f.ruleId, sectionId: f.sectionId, severity: mandatory ? "high" : "medium", message: `${f.sectionId}(${titleOf(f.sectionId)}) 제목만 있고 내용이 없습니다.`, fixHint: "해당 항목의 본문을 작성하십시오.", para: null, quote: "" }),
+        );
       } else if (check.checkId === "safety.vague_recipients") {
         const ref = locateAstPath(paraMap, f.evidence.astPath);
         drafts.push(draft({ layer: "deterministic", ruleId: f.ruleId, sectionId: f.sectionId, severity: "medium", message: "제공받는 자 또는 수탁자가 '등' 등으로 줄여 적혀 있습니다. 각각 구체적으로 적어야 합니다.", fixHint: "모든 제공받는 자 또는 수탁자를 명시하십시오.", para: ref?.para ?? null, quote: clean(f.evidence.quote) }));

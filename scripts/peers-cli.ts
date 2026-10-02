@@ -10,10 +10,12 @@
  *                                         from the local snapshots under runs/<tenant>/peers/snapshots; fetches nothing
  *   --with-lotte                          dry run only: also fetch the group's Lotte captures. Lotte captures are re-checked
  *                                         (Mode A) by `daily`, never by this command, so a real run leaves them alone.
+ *   --save-lotte <dir>                    with --with-lotte: write each fetched Lotte page to <dir>/<id>.html for a folder-mode
+ *                                         check (`monitor.ts --watch <dir>`). Use a gitignored folder such as watch/lotte.
  *
  * Fetching follows the safe-fetch rules: exact registry URLs, robots.txt, honest user agent, one page per host per day.
  */
-import { existsSync } from "node:fs";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, isAbsolute, join, resolve } from "node:path";
 import { FileFetchState, PlaywrightBrowserFetcher, SafeFetcher } from "../packages/core/src/adapters/fetch";
 import { loadOrgConfig, tenantPaths } from "../packages/core/src/config";
@@ -39,6 +41,7 @@ export interface PeersCliArgs {
   readonly dryRun: boolean;
   readonly withLotte: boolean;
   readonly exportBaselines: boolean;
+  readonly saveLotteDir?: string;
 }
 
 /** Parses `--group`, `--limit`, `--dry-run`, `--with-lotte` from an argv tail. Throws a usage message on bad input. */
@@ -55,9 +58,11 @@ export function parsePeersArgs(root: string, argv: readonly string[]): PeersCliA
   const dryRun = argv.includes("--dry-run");
   const withLotte = argv.includes("--with-lotte");
   if (withLotte && !dryRun) throw new Error("--with-lotte is only available with --dry-run: Lotte captures are re-checked by the daily chain (agent.ts daily)");
+  const saveLotte = opt("save-lotte");
+  if (saveLotte !== undefined && !withLotte) throw new Error("--save-lotte needs --dry-run --with-lotte");
   const group = opt("group");
   const exportBaselines = argv.includes("--export-baselines");
-  return { root, configFile, dryRun, withLotte, exportBaselines, ...(group ? { group } : {}), ...(limit !== undefined ? { limit } : {}) };
+  return { root, configFile, dryRun, withLotte, exportBaselines, ...(saveLotte ? { saveLotteDir: resolve(saveLotte) } : {}), ...(group ? { group } : {}), ...(limit !== undefined ? { limit } : {}) };
 }
 
 export async function runPeersCommand(args: PeersCliArgs, log: (line: string) => void = console.log): Promise<number> {
@@ -97,6 +102,7 @@ export async function runPeersCommand(args: PeersCliArgs, log: (line: string) =>
       includeLotte: args.withLotte,
       dryRun: args.dryRun,
       log,
+      ...(args.saveLotteDir ? { onLotteChange: async (t: { id: string }, html: string) => saveLottePage(args.saveLotteDir!, t.id, html) } : {}),
     });
     const count = (s: string): number => r.outcomes.filter((o) => o.status === s).length;
     log(`summary: ${r.outcomes.length} target(s): ${count("unchanged")} unchanged, ${count("baseline")} first snapshot, ${count("changed")} changed, ${count("cosmetic")} cosmetic-only, ${count("skipped")} skipped, ${count("failed")} failed`);
@@ -107,6 +113,13 @@ export async function runPeersCommand(args: PeersCliArgs, log: (line: string) =>
   } finally {
     await browser.close();
   }
+}
+
+/** Writes one fetched Lotte page for folder mode. The id comes from the committed registry; anything else is rejected. */
+export function saveLottePage(dir: string, id: string, html: string): void {
+  if (!/^[a-z0-9-]+$/.test(id)) throw new Error(`unexpected capture id: ${id}`);
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(join(dir, `${id}.html`), html);
 }
 
 /** Builds the `daily` chain's peers input from the org config; null when the org has no usable registry. */
