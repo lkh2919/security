@@ -2,9 +2,10 @@
  * Shared helpers of the Policy Monitor runners (design M4, M6): severity order, quote verification, the untrusted-text fence,
  * rule digests and report assembly.
  */
-import type { RuleSection, Rule } from "../../contracts/rulepack";
+import type { RuleSection } from "../../contracts/rulepack";
 import { MONITOR_DISCLAIMER, MonitorReportSchema, summarizeFindings, type MonitorFinding, type MonitorReport, type MonitorSeverity } from "../../contracts/monitor-report";
 import type { IngestedPara } from "../../contracts/ingested-policy";
+import { ruleClassOf, type RuleClass } from "./rule-classes";
 import { UNTRUSTED_TAG } from "../intake/sanitize";
 import { maskContacts } from "../ingest/segment-policy";
 
@@ -65,14 +66,9 @@ export interface DigestRule {
   readonly element: string;
   readonly statement: string;
   readonly legalRefs: readonly string[];
-  /** Applies only under a condition the published text cannot show: findings are capped at Confirm. */
-  readonly conditional: boolean;
+  /** `factDependent` rules (rule-classes.ts) can only be Confirm: the published text cannot prove them required. */
+  readonly ruleClass: RuleClass;
   readonly upcoming: boolean;
-}
-
-/** Rules phrased "If ...", "Where ...", "When ...", "For ..." or titled "(if ...)" depend on the operator's facts. */
-export function isConditionalRule(rule: Rule, section: Pick<RuleSection, "classification">): boolean {
-  return section.classification === "conditional" || /^(if|where|when|for|in case|unless)\b/i.test(rule.statement.trim()) || /\(\s*if\b/i.test(rule.element);
 }
 
 export function digestRules(section: RuleSection, only?: ReadonlySet<string>): DigestRule[] {
@@ -84,7 +80,7 @@ export function digestRules(section: RuleSection, only?: ReadonlySet<string>): D
       element: r.element,
       statement: r.statement,
       legalRefs: r.legalRefs,
-      conditional: isConditionalRule(r, section),
+      ruleClass: ruleClassOf(r.ruleId),
       upcoming: r.effectiveStatus === "upcoming",
     }));
 }

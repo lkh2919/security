@@ -46,8 +46,8 @@ describe("finance flag (Mode A)", () => {
         M1: (r: StructuredCallRequest): { findings: CheckJudgeOutput["findings"] } => ({
           findings: sectionOf(r) === "S05"
             ? [
-                { ruleId: "R-S05-005", verdict: "wrong", quote: flaggedQuote, fixHint: "x" },
-                { ruleId: "R-S05-004", verdict: "wrong", quote: plainQuote, fixHint: "y" },
+                { ruleId: "R-S05-005", verdict: "wrong", quote: flaggedQuote, fixHint: "x", question: "" },
+                { ruleId: "R-S05-001", verdict: "wrong", quote: plainQuote, fixHint: "y", question: "" },
               ]
             : [],
         }),
@@ -56,7 +56,7 @@ describe("finance flag (Mode A)", () => {
     const { report, adjustments } = await checkCurrentPolicy({ llm }, { ...base, policy: ingest(lexicon) });
     expect(llm.calls.some((c) => c.user.includes("충전포인트"))).toBe(false);
     const s05 = report.findings.filter((x) => x.sectionId === "S05" && x.mode === "A" && x.layer === "llm");
-    expect(s05.map((x) => x.ruleId)).toEqual(["R-S05-004"]);
+    expect(s05.map((x) => x.ruleId)).toEqual(["R-S05-001"]);
     expect(adjustments.join(" ")).toContain("not a verbatim substring");
   });
 });

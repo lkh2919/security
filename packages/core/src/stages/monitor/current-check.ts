@@ -6,7 +6,9 @@
  *     keyword search also fails; otherwise it is "not located" (Confirm).
  *  3. One M1 call per present mandatory section judges the rule digest against the section text (the model sees published
  *     text only: no ledger, no transcript). Every quote must be a verbatim substring of the section text or the finding is
- *     dropped; findings under conditional rules are capped at Confirm.
+ *     dropped. Severity comes from the explicit rule class (rule-classes.ts): factDependent rules can only be Confirm, and
+ *     Confirm items are merged into ONE finding per section (questions listed, rule ids kept); Confirm items for should
+ *     rules are dropped.
  *
  *  4. Finance (design C6): a section with a paragraph tagged `financeFlag` (finance lexicon) yields one Confirm finding
  *     "금융 법령 해당 – 수동 검토" (no suggested wording). Flagged paragraphs are never sent to the model (a section whose
@@ -40,6 +42,8 @@ export const CheckJudgeSchema = z.strictObject({
       verdict: z.enum(["ok", "missing", "wrong", "confirm"]),
       quote: z.string(),
       fixHint: z.string(),
+      /** One short Korean question for the publisher; used for `confirm` and for factDependent rules. */
+      question: z.string(),
     }),
   ),
 });
@@ -88,7 +92,7 @@ function checkUserTurn(sectionId: string, title: string, digest: readonly Digest
   return [
     `SECTION ${sectionId}: ${title}`,
     "RULES (JSON, trusted):",
-    JSON.stringify(digest.map(({ ruleId, level, element, statement, legalRefs, conditional }) => ({ ruleId, level, element, statement, legalRefs, conditional }))),
+    JSON.stringify(digest.map(({ ruleId, level, element, statement, legalRefs, ruleClass }) => ({ ruleId, level, element, statement, legalRefs, class: ruleClass }))),
     "SECTION TEXT (untrusted data):",
     fenceText(text),
   ].join("\n");
@@ -188,6 +192,7 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
       }
       const byId = new Map(digest.map((r) => [r.ruleId, r]));
       const seen = new Set<string>();
+      const confirms: { ruleId: string; question: string; para: number | null; quote: string }[] = [];
       for (const f of out.findings) {
         if (f.verdict === "ok") continue;
         const rule = byId.get(f.ruleId);
@@ -200,14 +205,30 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
           adjustments.push(`dropped ${f.ruleId} in ${sectionId}: the quote is not a verbatim substring of the section`);
           continue;
         }
-        const key = `${f.ruleId}|${f.verdict}`;
-        if (seen.has(key)) continue;
-        seen.add(key);
-        let severity: MonitorSeverity = f.verdict === "confirm" ? "confirm" : rule.level === "should" ? "low" : f.verdict === "missing" ? "critical" : quote ? "high" : "confirm";
+        if (seen.has(f.ruleId)) continue;
+        seen.add(f.ruleId);
+        const factDependent = rule.ruleClass === "factDependent";
+        const asConfirm = f.verdict === "confirm" || factDependent || (f.verdict === "wrong" && !quote);
+        if (asConfirm && rule.level === "should") {
+          adjustments.push(`dropped ${f.ruleId} in ${sectionId}: a Confirm on a should rule only restates a recommendation`);
+          continue;
+        }
+        if (asConfirm) {
+          if (factDependent && f.verdict !== "confirm") adjustments.push(`${f.ruleId} in ${sectionId}: judged ${f.verdict} but fact-dependent, reported as Confirm`);
+          const question = clean(f.question).trim().slice(0, 200) || `${rule.element}: 해당 사실이 있는지 확인하십시오.`;
+          confirms.push({ ruleId: rule.ruleId, question, para: paraOfQuote(paras, quote), quote });
+          continue;
+        }
+        let severity: MonitorSeverity = rule.level === "should" ? "low" : f.verdict === "missing" ? "critical" : "high";
         if (rule.upcoming) severity = capSeverity(severity, "medium");
-        if (rule.conditional) severity = "confirm";
-        const message = f.verdict === "missing" ? `규칙 ${rule.ruleId}: 요구 요소(${rule.element})가 확인되지 않습니다.` : f.verdict === "wrong" ? `규칙 ${rule.ruleId}: 요구 요소(${rule.element})의 기재가 규칙과 다릅니다.` : `규칙 ${rule.ruleId}: 요구 요소(${rule.element})는 운영 사실에 따라 달라지므로 확인이 필요합니다.`;
+        const message = f.verdict === "missing" ? `규칙 ${rule.ruleId}: 요구 요소(${rule.element})가 확인되지 않습니다.` : `규칙 ${rule.ruleId}: 요구 요소(${rule.element})의 기재가 규칙과 다릅니다.`;
         drafts.push(draft({ layer: "llm", ruleId: rule.ruleId, sectionId, severity, message, fixHint: clean(f.fixHint) || rule.statement, para: paraOfQuote(paras, quote), quote }));
+      }
+      if (confirms.length > 0) {
+        confirms.sort((a, b) => a.ruleId.localeCompare(b.ruleId));
+        const first = confirms.find((c) => c.quote) ?? confirms[0]!;
+        const d = draft({ layer: "llm", ruleId: "MON-CONFIRM", sectionId, severity: "confirm", message: `${sectionId}(${section.title.ko}): 운영 사실에 따라 달라지므로 확인이 필요한 사항 ${confirms.length}건 (규칙 ${confirms.map((c) => c.ruleId).join(", ")}). 게시된 문구만으로 위반 여부를 판단할 수 없습니다.`, fixHint: "아래 질문에 해당하는 사실이 있으면 처리방침에 반영하십시오.", para: first.para, quote: first.quote });
+        drafts.push({ ...d, ruleIds: confirms.map((c) => c.ruleId), questions: confirms.map((c) => `${c.ruleId}: ${c.question}`) });
       }
     }
   }

@@ -22,6 +22,15 @@ export function safeText(s: string): string {
     .trim();
 }
 
+function confirmMd(f: MonitorFinding, titles: Readonly<Record<string, string>>): string[] {
+  const title = titles[f.sectionId];
+  const lines = [`### ${f.id} · ${f.sectionId}${title ? ` ${safeText(title)}` : ""}`, "", `- ${safeText(f.message)}`];
+  for (const q of f.questions ?? []) lines.push(`  - ${safeText(q)}`);
+  if (f.fixHint && !f.questions) lines.push(`- 수정 방향: ${safeText(f.fixHint)}`);
+  lines.push("");
+  return lines;
+}
+
 function findingMd(f: MonitorFinding, titles: Readonly<Record<string, string>>): string[] {
   const title = titles[f.sectionId];
   const lines = [`### ${f.id} · ${SEVERITY_LABEL[f.severity]} · ${f.sectionId}${title ? ` ${safeText(title)}` : ""}`, ""];
@@ -31,6 +40,7 @@ function findingMd(f: MonitorFinding, titles: Readonly<Record<string, string>>):
   lines.push(`- 내용: ${safeText(f.message)}`);
   if (f.location.quote) lines.push(`- 해당 문구: ${"> "}${safeText(f.location.quote)}`);
   for (const e of f.evidence ?? []) lines.push(`- 업계 동향(참고): 같은 그룹 ${e.n}곳 중 ${e.k}곳이 ${e.windowDays}일 안에 같은 방향으로 변경 (${safeText(e.articleKey)}) — ${e.label}${f.priority === "raised" ? " · 확인 우선순위 상향" : ""}`);
+  for (const q of f.questions ?? []) lines.push(`- 확인 질문: ${safeText(q)}`);
   if (f.fixHint) lines.push(`- 수정 방향: ${safeText(f.fixHint)}`);
   lines.push("");
   return lines;
@@ -53,9 +63,16 @@ export function renderMonitorMarkdown(report: MonitorReport, opts: MarkdownOptio
     for (const w of report.warnings) out.push(`- ${safeText(w)}`);
     out.push("");
   }
+  const firm = report.findings.filter((f) => f.severity !== "confirm");
+  const confirms = report.findings.filter((f) => f.severity === "confirm");
   out.push("## 지적 사항", "");
   if (report.findings.length === 0) out.push("자동 검사에서 지적 사항이 없습니다. 이는 적합하다는 뜻이 아니며, 사람의 검토가 필요합니다.", "");
-  for (const f of report.findings) out.push(...findingMd(f, titles));
+  else if (firm.length === 0) out.push("확정적 지적 사항은 없습니다. 아래 확인 필요 항목을 검토하십시오.", "");
+  for (const f of firm) out.push(...findingMd(f, titles));
+  if (confirms.length > 0) {
+    out.push("## 확인 필요 항목 (항목별 질문)", "", "운영 사실에 따라 달라지는 사항입니다. 위반으로 판단한 것이 아니며, 해당 사실이 있는 경우에만 반영하면 됩니다.", "");
+    for (const f of confirms) out.push(...(f.questions ? confirmMd(f, titles) : findingMd(f, titles)));
+  }
   out.push("---", "", MONITOR_DISCLAIMER, "");
   return out.join("\n");
 }

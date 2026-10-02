@@ -44,6 +44,9 @@ export const MonitorFindingSchema = FindingSchema.omit({ docType: true, severity
     tier: MonitorTierSchema,
     location: MonitorLocationSchema,
     trigger: MonitorTriggerSchema.optional(),
+    /** Merged Confirm finding (Mode A): every rule id it covers, and one short question per rule. */
+    ruleIds: z.array(NonEmptyString).optional(),
+    questions: z.array(z.string()).optional(),
     /** Peer Watch (design C5): "raised" when a group-adoption signal attaches. Moves ordering only, never the severity. */
     priority: z.enum(["normal", "raised"]).optional(),
     /** Group-adoption signals attached to a Mode B finding (reference only, "업계 동향(참고) — 법적 요구사항 아님"). */

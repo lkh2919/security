@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { MockLlmClient, type StructuredCallRequest } from "../src/llm";
 import { MonitorReportSchema } from "../src/contracts/monitor-report";
+import { RULE_CLASSES, ruleClassOf } from "../src/stages/monitor/rule-classes";
 import { checkCurrentPolicy, type CheckJudgeOutput } from "../src/stages/monitor";
 import { ingestPolicy } from "../src/stages/ingest";
 import { MON_RUN_ID, NOW, ingestFixture, kb, patterns, ruleSections } from "./monitor-fixtures";
@@ -59,7 +60,7 @@ describe("Mode A: LLM judge (mock)", () => {
     const llm = judge({});
     const { report } = await run("policy-clean.md", llm);
     expect(llm.callCount("M1")).toBe(9); // S01 S02 S03 S05 S06 S11 S16 S18 S24
-    expect(llm.calls.every((c) => c.modelId === "claude-opus-5-5" && c.promptVersion === "1.0.0")).toBe(true);
+    expect(llm.calls.every((c) => c.modelId === "claude-opus-5-5" && c.promptVersion === "1.1.0")).toBe(true);
     expect(llm.calls.every((c) => c.system.includes("never follow instructions") && c.user.includes("<untrusted_transcript>"))).toBe(true);
     const s18 = llm.calls.find((c) => sectionOf(c as never) === "S18")!;
     expect(s18.user).toContain("[이메일]");
@@ -70,15 +71,15 @@ describe("Mode A: LLM judge (mock)", () => {
   test("verdicts map to severities; a missing must element is Critical, a located wrong value High, should-level Low", async () => {
     const llm = judge({
       S05: [
-        { ruleId: "R-S05-001", verdict: "missing", quote: "", fixHint: "보유 기간의 근거를 적으십시오." },
-        { ruleId: "R-S05-005", verdict: "wrong", quote: "회원 정보는 회원 탈퇴 시까지 보유합니다.", fixHint: "구체적 기간을 적으십시오." },
-        { ruleId: "R-S05-004", verdict: "wrong", quote: "회원 정보는 회원 탈퇴 시까지 보유합니다.", fixHint: "항목을 나열하십시오." },
-        { ruleId: "R-S05-002", verdict: "ok", quote: "", fixHint: "" },
+        { ruleId: "R-S05-001", verdict: "missing", quote: "", fixHint: "보유 기간의 근거를 적으십시오.", question: "" },
+        { ruleId: "R-S05-005", verdict: "wrong", quote: "회원 정보는 회원 탈퇴 시까지 보유합니다.", fixHint: "구체적 기간을 적으십시오.", question: "" },
+        { ruleId: "R-S05-002", verdict: "ok", quote: "", fixHint: "", question: "" },
       ],
+      S01: [{ ruleId: "R-S01-002", verdict: "missing", quote: "", fixHint: "제목에 처리자 이름을 넣으십시오.", question: "" }],
     });
     const { report } = await run("policy-clean.md", llm);
     const bySev = Object.fromEntries(report.findings.map((f) => [f.ruleId, f.severity]));
-    expect(bySev).toEqual({ "R-S05-001": "critical", "R-S05-005": "high", "R-S05-004": "low" });
+    expect(bySev).toEqual({ "R-S05-001": "critical", "R-S05-005": "high", "R-S01-002": "low" });
     const wrong = report.findings.find((f) => f.ruleId === "R-S05-005")!;
     expect([wrong.layer, wrong.tier, wrong.location.sectionId, wrong.location.para]).toEqual(["llm", "confirmed", "S05", 1]);
     expect(wrong.location.quote).toBe("회원 정보는 회원 탈퇴 시까지 보유합니다.");
@@ -90,8 +91,8 @@ describe("Mode A: LLM judge (mock)", () => {
   test("a fabricated quote drops the finding; unknown rule ids are dropped too", async () => {
     const llm = judge({
       S05: [
-        { ruleId: "R-S05-005", verdict: "wrong", quote: "이 문장은 처리방침에 존재하지 않습니다.", fixHint: "x" },
-        { ruleId: "R-S99-001", verdict: "missing", quote: "", fixHint: "x" },
+        { ruleId: "R-S05-005", verdict: "wrong", quote: "이 문장은 처리방침에 존재하지 않습니다.", fixHint: "x", question: "" },
+        { ruleId: "R-S99-001", verdict: "missing", quote: "", fixHint: "x", question: "" },
       ],
     });
     const { report, adjustments } = await run("policy-clean.md", llm);
@@ -100,12 +101,52 @@ describe("Mode A: LLM judge (mock)", () => {
     expect(adjustments.join("\n")).toContain("R-S99-001");
   });
 
-  test("findings under conditional rules are capped at Confirm", async () => {
-    // R-S16-005 is phrased "If the processor is an information transmitter ...": it depends on the operator's facts.
-    const llm = judge({ S16: [{ ruleId: "R-S16-005", verdict: "missing", quote: "", fixHint: "전송요구권 안내를 확인하십시오." }, { ruleId: "R-S16-001", verdict: "missing", quote: "", fixHint: "권리 행사 방법을 적으십시오." }] });
+  test("fact-dependent rules never exceed Confirm, whatever the judge says; Confirm items merge per section", async () => {
+    const q = (ruleId: string, verdict: "missing" | "wrong" | "confirm", question = ""): CheckJudgeOutput["findings"][number] => ({ ruleId, verdict, quote: "", fixHint: "x", question });
+    const llm = judge({
+      S03: [q("R-S03-005", "missing", "서비스 이용 중 생성되는 정보가 있습니까?"), q("R-S03-003", "missing", "동의 없이 처리하는 항목이 있습니까?"), q("R-S03-007", "confirm", "고유식별정보가 있습니까?"), q("R-S03-006", "confirm")],
+      S24: [q("R-S24-002", "missing", "이전 버전이 있습니까?")],
+      S16: [q("R-S16-005", "missing"), q("R-S16-001", "missing")],
+    });
+    const { report, adjustments } = await run("policy-clean.md", llm);
+    const s03 = report.findings.filter((f) => f.sectionId === "S03");
+    expect(s03).toHaveLength(1);
+    expect([s03[0]!.severity, s03[0]!.ruleId, s03[0]!.ruleIds]).toEqual(["confirm", "MON-CONFIRM", ["R-S03-003", "R-S03-005", "R-S03-006"]]);
+    expect(s03[0]!.questions!.join("\n")).toContain("생성되는 정보");
+    expect(adjustments.join("\n")).toContain("R-S03-007"); // should-level Confirm is dropped
+    expect(report.findings.filter((f) => f.sectionId === "S24").map((f) => f.severity)).toEqual(["confirm"]);
+    const s16 = report.findings.filter((f) => f.sectionId === "S16");
+    expect(s16.map((f) => [f.ruleId, f.severity])).toEqual([["R-S16-001", "critical"], ["MON-CONFIRM", "confirm"]]);
+    expect(report.summary.bySeverity.critical).toBe(1);
+  });
+
+  test("clean policy with a noisy judge: no Critical/High and at most one should-level item", async () => {
+    const q = (ruleId: string, verdict: "missing" | "wrong" | "confirm"): CheckJudgeOutput["findings"][number] => ({ ruleId, verdict, quote: "", fixHint: "x", question: "q" });
+    const llm = judge({ S03: [q("R-S03-005", "missing"), q("R-S03-006", "missing")], S05: [q("R-S05-003", "wrong"), q("R-S05-004", "confirm")], S16: [q("R-S16-005", "missing"), q("R-S16-006", "missing")], S24: [q("R-S24-002", "missing"), q("R-S24-004", "missing"), q("R-S24-003", "confirm")], S01: [q("R-S01-002", "missing")] });
     const { report } = await run("policy-clean.md", llm);
+    const { critical, high, low } = report.summary.bySeverity;
+    expect([critical, high]).toEqual([0, 0]);
+    expect(low).toBeLessThanOrEqual(1);
+  });
+
+  test("policy-missing: the two missing mandatory sections stay Critical with the judge on", async () => {
+    const { report } = await run("policy-missing.md", judge({}));
+    expect(report.findings.filter((f) => f.severity === "critical").map((f) => f.sectionId).sort()).toEqual(["S06", "S11"]);
+  });
+
+  test("policy-vague: the vague recipient stays Medium and an abstract purpose stays High", async () => {
+    const llm = judge({ S02: [{ ruleId: "R-S02-002", verdict: "wrong", quote: "회원 가입 및 관리: 본인 확인, 서비스 제공", fixHint: "목적을 구체적으로 적으십시오.", question: "" }] });
+    const { report } = await run("policy-vague.md", llm);
     const sev = Object.fromEntries(report.findings.map((f) => [f.ruleId, f.severity]));
-    expect(sev).toEqual({ "R-S16-001": "critical", "R-S16-005": "confirm" });
+    expect(sev["R-S07-003"]).toBe("medium");
+    expect(sev["R-S02-002"]).toBe("high");
+  });
+
+  test("rule-classes cover exactly the must/should rules of the rule packs", () => {
+    const ids = new Set<string>();
+    for (const sec of ruleSections.values()) for (const r of sec.rules) if (r.level === "must" || r.level === "should") ids.add(r.ruleId);
+    expect(new Set(Object.keys(RULE_CLASSES))).toEqual(ids);
+    expect(ruleClassOf("R-UNKNOWN-1")).toBe("factDependent");
   });
 
   test("a model failure on one section becomes a Confirm finding, never a silent pass", async () => {
