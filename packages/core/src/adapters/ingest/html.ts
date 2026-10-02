@@ -43,6 +43,18 @@ interface Open {
   readonly hidden: boolean;
 }
 
+/** HTML named entities seen on Korean policy pages (the XML decoder knows only the five XML ones). `&amp;` stays for decodeEntities. */
+const NAMED_ENTITIES: Readonly<Record<string, string>> = {
+  nbsp: " ", middot: "·", bull: "•", sdot: "⋅", hellip: "…", ndash: "–", mdash: "—", lsquo: "‘", rsquo: "’", ldquo: "“", rdquo: "”",
+  laquo: "«", raquo: "»", lsaquo: "‹", rsaquo: "›", times: "×", divide: "÷", deg: "°", plusmn: "±", copy: "©", reg: "®", trade: "™",
+  rarr: "→", larr: "←", uarr: "↑", darr: "↓", harr: "↔", rArr: "⇒", para: "¶", sect: "§", ensp: " ", emsp: " ", thinsp: " ",
+  zwnj: "", zwj: "", shy: "", prime: "′", Prime: "″", lowast: "∗", minus: "−", le: "≤", ge: "≥", ne: "≠", tilde: "˜", circ: "ˆ",
+};
+
+export function decodeNamedHtmlEntities(s: string): string {
+  return s.replace(/&([A-Za-z]+);/g, (m, name: string) => NAMED_ENTITIES[name] ?? NAMED_ENTITIES[name.toLowerCase()] ?? m);
+}
+
 export function parseHtml(source: string): ParsedDocument {
   const drafts: ParaDraft[] = [];
   let hiddenRemoved = 0;
@@ -75,7 +87,7 @@ export function parseHtml(source: string): ParsedDocument {
   };
 
   const addText = (raw: string): void => {
-    const text = decodeEntities(raw.replace(/&nbsp;/gi, " "));
+    const text = decodeEntities(decodeNamedHtmlEntities(raw));
     if (cellBuf !== null) {
       cellBuf += text;
       return;

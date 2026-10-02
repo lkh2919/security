@@ -77,6 +77,9 @@ type Draft = Omit<MonitorFinding, "id">;
 /** Rule elements that forbid something; a model may not call them "missing". */
 const NEGATIVE_ELEMENT = /(^|, )no /;
 
+/** Sections whose tables list purposes or items with their retention (the processor's own processing). */
+const PURPOSE_TABLE_SECTIONS: ReadonlySet<string> = new Set(["S02", "S03"]);
+
 const draft = (f: Omit<Draft, "mode" | "tier" | "location" | "sectionId"> & { sectionId: string; para: number | null; quote: string }): Draft => {
   const { para, quote, ...rest } = f;
   return { mode: "A", tier: "confirmed", location: { sectionId: f.sectionId, para, quote }, ...rest };
@@ -180,7 +183,13 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
     warnings.push("LLM backend not used: deterministic checks only (no element-level judgement of the sections)");
   } else {
     const prompt = deps.prompt ?? loadPromptFile(CHECK_PROMPT_PATH);
-    const outsideLines = (sectionId: string): string[] => policy.sections.filter((s) => s.sectionId !== sectionId).flatMap((s) => [s.title, ...s.paras.filter((p) => p.kind !== "row").map((p) => p.text)]);
+    // Heading-like lines outside the section: other sections' titles, short plain lines, and the header cells of purpose and
+    // items tables (a "보유 및 이용기간" column there states retention per purpose, as real pages do). Header cells elsewhere
+    // describe someone else (a recipient's retention under S07), so they do not count.
+    const outsideLines = (sectionId: string): string[] =>
+      policy.sections
+        .filter((s) => s.sectionId !== sectionId)
+        .flatMap((s) => [s.title, ...s.paras.flatMap((p) => (p.kind !== "row" ? [p.text] : p.header && p.cells && PURPOSE_TABLE_SECTIONS.has(s.sectionId) ? [...p.cells] : []))]);
     for (const [sectionId, section] of ruleSections) {
       const all = sectionParas.get(sectionId);
       if (section.classification !== "mandatory" || !all || all.length === 0) continue;

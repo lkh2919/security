@@ -123,6 +123,15 @@ describe("Mode A: LLM judge (mock)", () => {
     expect(s16.user).toContain("1) 개인정보 열람요구");
   });
 
+  test("retention 'missing' in S05 is a Confirm when an items table carries a retention column (real page, 2026-10-02)", async () => {
+    const clean = readFileSync(join(import.meta.dir, "fixtures", "monitor", "policy-clean.md"), "utf8");
+    const content = clean.replace("회사는 서비스 제공을 위하여 이름, 이메일 주소, 휴대전화번호, 배송지 주소를 처리합니다.", "| 목적 | 수집 항목 | 보유 및 이용기간 |\n| --- | --- | --- |\n| 회원 관리 | 이름, 이메일 | 탈퇴 시까지 |");
+    const policy = ingestPolicy({ name: "policy-table.md", content, fetchedAt: NOW }, patterns);
+    const llm = judge({ S05: [{ ruleId: "R-S05-001", verdict: "missing", quote: "", fixHint: "", question: "" }] });
+    const { report } = await checkCurrentPolicy({ llm }, { ...base, policy });
+    expect(report.findings.filter((f) => f.sectionId === "S05").map((f) => f.severity)).toEqual(["confirm"]);
+  });
+
   test("verdicts map to severities; a missing must element is Critical, a located wrong value High, should-level Low", async () => {
     const llm = judge({
       S05: [

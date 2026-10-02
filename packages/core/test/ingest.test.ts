@@ -203,6 +203,13 @@ describe("heading segmentation", () => {
   });
 });
 
+describe("HTML named entities (real page, 2026-10-02)", () => {
+  test("&middot; and friends decode; &amp;middot; stays literal", () => {
+    const d = parseHtml("<p>보유&middot;이용기간 &ndash; 1년&nbsp;간 &amp;middot; &unknown;</p>");
+    expect(d.paras[0]!.text).toBe("보유·이용기간 – 1년 간 &middot; &unknown;");
+  });
+});
+
 describe("heading elements vs plain numbered lines (real page, 2026-10-02)", () => {
   test("an <h3> after a numbered plain line inside a section starts its own section", () => {
     const html = [
