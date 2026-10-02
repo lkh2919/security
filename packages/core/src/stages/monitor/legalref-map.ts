@@ -2,7 +2,8 @@
  * Loader and helpers for the legal-ref map (`statutes/legalref-map.json`, design C2/C6). A missing file is an empty map: every
  * prefix is then treated as `mapped`, which is the behaviour before the map existed. An invalid file is an error.
  * Accepted file shapes: the bare record `{ "PIPA": {...} }`, or a record wrapped in `entries` / `prefixes` / `map` next to
- * metadata keys (`version`, `generated`, `note`, `$schema`).
+ * metadata keys (`version`, `generated`, `note`, `$schema`), or a list `prefixes: [{ prefix, ... }]` next to any metadata
+ * (the form the KB file uses).
  */
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -15,6 +16,19 @@ const META = new Set(["version", "generated", "note", "notes", "$schema", ...WRA
 export function parseLegalRefMap(raw: unknown): LegalRefMap {
   if (typeof raw !== "object" || raw === null || Array.isArray(raw)) throw new Error("[LEGALREF_MAP] the file must hold a JSON object");
   const obj = raw as Record<string, unknown>;
+  if (Array.isArray(obj["prefixes"])) {
+    const rows = obj["prefixes"] as unknown[];
+    const listed = Object.fromEntries(
+      rows.map((row, i) => {
+        if (typeof row !== "object" || row === null || typeof (row as { prefix?: unknown }).prefix !== "string") throw new Error(`[LEGALREF_MAP] invalid: prefixes.${i}: missing "prefix"`);
+        const { prefix, ...entry } = row as { prefix: string } & Record<string, unknown>;
+        return [prefix, entry];
+      }),
+    );
+    const r = LegalRefMapSchema.safeParse(listed);
+    if (!r.success) throw new Error(`[LEGALREF_MAP] invalid: ${r.error.issues.slice(0, 3).map((i) => `${i.path.join(".") || "(root)"}: ${i.message}`).join("; ")}`);
+    return r.data;
+  }
   const wrapper = WRAPPERS.find((k) => typeof obj[k] === "object" && obj[k] !== null && !Array.isArray(obj[k]));
   const record = wrapper ? obj[wrapper] : Object.fromEntries(Object.entries(obj).filter(([k]) => !META.has(k)));
   const r = LegalRefMapSchema.safeParse(record);

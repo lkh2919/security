@@ -14,18 +14,20 @@ export type MonitorMode = z.infer<typeof MonitorModeSchema>;
 
 export const LegalRefPrefixSchema = z.string().regex(/^[A-Z][A-Z0-9-]*$/, "prefix must look like PIPA, DEC, ECA-DEC");
 
-export const LegalRefMapEntrySchema = z.strictObject({
+/** Loose: the domain expert's file carries extra provenance (currentVersion, scheduled stages, inRulePacks). */
+export const LegalRefMapEntrySchema = z.looseObject({
   /** Watch-target id (`law:pipa`), the join key to `law-targets.watch.json`. */
   sourceId: NonEmptyString,
   lawNameKo: NonEmptyString,
-  lawId: NonEmptyString.optional(),
-  currentMst: NonEmptyString.optional(),
+  lawId: NonEmptyString.nullish(),
+  currentMst: NonEmptyString.nullish(),
   /** Free label: `act`, `decree`, `notice`, `rule`. */
   kind: NonEmptyString,
   aliases: z.array(NonEmptyString),
   monitorMode: MonitorModeSchema,
   verifiedAt: IsoDateSchema.optional(),
-  verifiedBy: NonEmptyString.optional(),
+  /** A note, or law.go.kr sources `{ url (OC removed), fetched, version }`. */
+  verifiedBy: z.union([NonEmptyString, z.array(z.looseObject({ url: z.string() }))]).optional(),
 });
 export type LegalRefMapEntry = z.infer<typeof LegalRefMapEntrySchema>;
 

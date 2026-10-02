@@ -34,12 +34,25 @@ export const WatchTargetsFileSchema = z.strictObject({
 });
 export type WatchTargetsFile = z.infer<typeof WatchTargetsFileSchema>;
 
-/** Additions: both lists optional. Entries whose sourceId already exists in the main file are ignored with a warning. */
-export const WatchTargetsAdditionsSchema = z.strictObject({
-  version: NonEmptyString.optional(),
-  generated: z.string().optional(),
-  note: z.string().optional(),
-  laws: z.array(LawWatchTargetSchema).optional(),
-  pages: z.array(PageWatchTargetSchema).optional(),
-});
+/** An addition row may carry the domain expert's provenance (lawId, mst, articlesOfInterest, ...); only the watch fields are used. */
+const LawAdditionSchema = z.looseObject(LawWatchTargetSchema.shape).transform(({ sourceId, name, target, lawCode, monitorMode }) => ({
+  sourceId,
+  name,
+  target,
+  ...(lawCode !== undefined ? { lawCode } : {}),
+  ...(monitorMode !== undefined ? { monitorMode } : {}),
+}));
+
+/**
+ * Additions: both lists optional; `targets` is accepted as an alias of `laws` (the KB file's name). Other top-level keys
+ * (generator, pending, supervisoryRegulations) are provenance and ignored. Entries whose sourceId already exists in the main
+ * file are ignored with a warning.
+ */
+export const WatchTargetsAdditionsSchema = z
+  .looseObject({
+    laws: z.array(LawAdditionSchema).optional(),
+    targets: z.array(LawAdditionSchema).optional(),
+    pages: z.array(PageWatchTargetSchema).optional(),
+  })
+  .transform((a) => ({ laws: [...(a.laws ?? []), ...(a.targets ?? [])], pages: a.pages ?? [] }));
 export type WatchTargetsAdditions = z.infer<typeof WatchTargetsAdditionsSchema>;
