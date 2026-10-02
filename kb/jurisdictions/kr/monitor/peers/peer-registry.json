@@ -207,7 +207,7 @@
                 "formNote": "V.17.0; older versions are hidden popup blocks (#popupPolicyOldYYYYMMDD) inside the same served HTML"
               }
             ],
-            "beforeAmendment": 0,
+            "beforeAmendment": 1,
             "afterAmendment": 0,
             "note": "Updated 2026-08-18 (V.18.0), so the in-force version before 2026-09-11 and the first version on/after 2026-08-01 are the same (index 0); the pre-update baseline is index 1. Multi-version page (about 2.6 MB) over plain HTTP."
           }
@@ -558,7 +558,7 @@
                 "formNote": "second .terms block (dropdown label '2026년 6월 23일 개정안'; effective date not stated separately, label date used). Older labelled blocks are hidden in the same served HTML"
               }
             ],
-            "beforeAmendment": 0,
+            "beforeAmendment": 1,
             "afterAmendment": 0,
             "note": "Updated 2026-08-11, so before and after are the same version (index 0); pre-update baseline is index 1. Dropdown also lists 2026-06-18, 2026-04-06, 2026-03-12, 2024-09-20 and older."
           }
@@ -763,7 +763,7 @@
                 "formNote": "value 53; verified text applies from 2026-05-28"
               }
             ],
-            "beforeAmendment": 0,
+            "beforeAmendment": 1,
             "afterAmendment": 0,
             "note": "Updated 2026-08-20, so before and after are the same version (index 0); pre-update baseline is index 1. Page is JS-driven (CommonPageObject ajax), so the browser fetch is needed."
           }
@@ -865,7 +865,7 @@
                 "formNote": "announced 2026-07-09; the 'previous version' link of the current page"
               }
             ],
-            "beforeAmendment": 0,
+            "beforeAmendment": 1,
             "afterAmendment": 0,
             "note": "Updated 2026-09-03, before 2026-09-11, so before and after are the same version (index 0); baseline is index 1. Only the immediate predecessor is a static page; the full list is at https://notice.naver.com/notices/privacypolicy/13880 (JS list, not parsed)."
           }

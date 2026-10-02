@@ -83,6 +83,17 @@ ambiguous parties; T13 refers to the policy by title without a link; golden G-ca
 What blocks a full G pass now is KB content, not prompts: verified Decree Art.45 ref for S16 (R-S16-006)
 and a verified `statutes/remedy-agencies.json` for S20 (original PC / privacy-domain-expert).
 
+## Peer Watch status (2026-10-02)
+
+- Registry v0.3 (30 peers, 6 groups, 5 active each) with version history; hash-only baselines for 25 peers in
+  `kb/jurisdictions/kr/monitor/peers/baselines/` (no daily schedule for the PoC, user decision: rerun by hand).
+- First historical run, PIPA 270351 -> 283839 (`scripts/peer-history.ts`): 8 peers compared, 4 with substantive changes;
+  당근 S18 changes align with PIPA Art. 31 (privacy officer, Act 21445) at medium confidence; no group reaches the P2
+  threshold (k>=3, 60%). Most peers had no update across the amendment.
+- Known issues to fix next: hyundai-dept and shinsegae-chosun compared with 0 changes (check that the before URL really
+  serves the older text); toss before/after dates are inverted in the registry; woori-card history blocked by robots;
+  report lists one row per 항/호 (collapse per article); segmentation put BC카드 '연계정보(CI)' text under S21.
+
 ## law.go.kr access (updated 2026-10-01)
 
 - 2026-10-02: the user set the cloud environment's internet access to unrestricted. Official sources (law.go.kr,
