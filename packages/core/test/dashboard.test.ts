@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { articleOfUnit, assembleDashboard, DISCLAIMER, jsonForScript, loadMonitorReports, maskDeep, NO_IMPACT_LABEL, PEER_LABEL, renderDashboardHtml } from "../../../apps/dashboard/assemble";
+import { articleOfUnit, assembleDashboard, collapseKeys, collapseKeysInText, collapseKeysKo, GATE_LABEL_KO, DISCLAIMER, jsonForScript, loadMonitorReports, maskDeep, NO_IMPACT_LABEL, PEER_LABEL, renderDashboardHtml } from "../../../apps/dashboard/assemble";
 
 const ROOT = join(import.meta.dir, "..", "..", "..");
 const CONFIG = join(ROOT, "config", "orgs", "example", "org.json");
@@ -79,5 +79,18 @@ describe("dashboard data assembly", () => {
     const json = html.match(/<script type="application\/json" id="dashboard-data">([\s\S]*?)<\/script>/)![1]!;
     expect(JSON.parse(json).meta.disclaimer).toBe(DISCLAIMER);
     expect(readFileSync(join(ROOT, "apps", "dashboard", "app.js"), "utf8")).not.toMatch(/fetch\(|XMLHttpRequest/);
+  });
+});
+
+describe("dashboard collapse and labels", () => {
+  test("unit keys collapse to one label per article", () => {
+    const keys = ["PIPA:31(1)", "PIPA:31(3)", "PIPA:31(4)1", "PIPA:31(4)2", "PIPA:31(4)4", "PIPA:29"];
+    expect(collapseKeys(keys)).toBe("PIPA:31 (1항, 3항, 4항 1·2·4호), PIPA:29");
+    expect(collapseKeysKo(["PIPA:31(1)", "PIPA:31(4)1", "PIPA:31(10)", "PIPA:28-4(1)"])).toBe("제31조 (1·4·10항), 제28조의4 (1항)");
+    expect(collapseKeysInText("개정 조문(PIPA:31(1), PIPA:31(4)1)이 S18에 영향")).toBe("개정 조문(PIPA:31 (1항, 4항 1호))이 S18에 영향");
+  });
+  test("gate labels are Korean and keep ids", () => {
+    expect(GATE_LABEL_KO["C7.decoy"]).toMatch(/정보통신망법/);
+    expect(Object.values(GATE_LABEL_KO).every((v) => /[가-힣]/.test(v))).toBe(true);
   });
 });

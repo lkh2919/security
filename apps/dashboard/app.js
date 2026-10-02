@@ -67,14 +67,18 @@
       a.noImpact ? badge(a.noImpactLabel, "b-ok") : badge(a.tier, a.tier === "확정" ? "b-ok" : "b-prov")
     ]));
     c.appendChild(h("div", { class: "mute" }, "공포 " + a.promulgated + " · 시행 " + a.effectiveOn + " · 변경 단위 " + a.diffUnitCount + "개 · 직전 버전 " + (a.previous.promulgationNo || "-")));
+    if (a.checkedPolicies && a.checkedPolicies.length) {
+      var n = a.policyFindings.length;
+      c.appendChild(h("div", { class: "mute" }, "개정 영향 점검 실행: " + a.modeBStamp + " · 점검한 처리방침 " + a.checkedPolicies.join(", ") + " · 알림 " + (a.noImpact ? "0건" : n + "건")));
+    }
     if (a.noImpact) {
       c.appendChild(h("p", null, a.noImpactLabel));
-      c.appendChild(h("p", { class: "mute" }, "변경된 조문(" + a.articles.map(function (x) { return x.units.join(", "); }).join(", ") + ")은 처리방침 항목에 연결된 규칙 근거가 없어 점검 대상 정책에 알림을 내지 않았습니다. 이 판단은 도메인 검토 전 의견입니다."));
+      c.appendChild(h("p", { class: "mute" }, "변경된 조문(" + a.articles.map(function (x) { return "제" + x.article.replace("-", "조의") + (x.article.indexOf("-") >= 0 ? "" : "조"); }).join(", ") + ")은 처리방침 항목에 연결된 규칙 근거가 없어 점검 대상 정책에 알림을 내지 않았습니다. 이 판단은 도메인 검토 전 의견입니다."));
     } else {
       c.appendChild(h("p", { class: "mute" }, "영향 판단은 규칙 팩 법령 근거 연결 기준이며, 도메인 전문가 검토 전에는 참고용입니다."));
       c.appendChild(h("h3", null, "영향 받는 처리방침 항목 (" + a.sections.length + "개)"));
       c.appendChild(table(["항목", "변경 조문 단위", "관련 규칙"], a.sections.map(function (s) {
-        return [secName(s.sectionId, s.title), h("span", { class: "units" }, s.units.join(", ")), s.rules.join(", ")];
+        return [secName(s.sectionId, s.title), h("span", { class: "units" }, s.unitsLabel || s.units.join(", ")), s.rules.join(", ")];
       })));
       c.appendChild(h("h3", { style: "margin-top:14px" }, "처리방침별 수정 필요 위치"));
       if (a.policyFindings.length) {
@@ -171,7 +175,7 @@
     el.appendChild(h("p", { class: "mute" }, "n곳 중 k곳이 개정 후 같은 조문과 관련된 항목을 고쳤다는 뜻입니다. 순위나 회사별 점수는 제공하지 않습니다."));
     var rows = [];
     P.groups.forEach(function (g) {
-      g.signals.forEach(function (s) { rows.push([g.nameKo, s.articleKey, s.sectionId, s.k + " / " + s.n + " (" + s.windowDays + "일)", CONF[s.confidence] || s.confidence, s.meetsThreshold ? badge("기준 충족", "b-ok") : badge("참고", "b-skip")]); });
+      g.signals.forEach(function (s) { rows.push([g.nameKo, s.label, s.sectionId, s.k + " / " + s.n + " (" + s.windowDays + "일)", CONF[s.confidence] || s.confidence, s.meetsThreshold ? badge("기준 충족", "b-ok") : badge("참고", "b-skip")]); });
     });
     el.appendChild(rows.length ? table(["그룹", "조문", "처리방침 항목", "k / n", "신뢰도", "기준"], rows) : empty("조문 단위 신호가 없습니다."));
     el.appendChild(h("h2", null, "상세: 동종사별 확인 상태"));
@@ -189,7 +193,7 @@
     el.appendChild(disc());
     if (!G) { el.appendChild(empty("품질 게이트 결과가 없습니다.")); return el; }
     el.appendChild(h("div", { class: "grid" }, [stat(G.pass, "통과"), stat(G.fail, "실패"), stat(G.skip, "건너뜀"), stat(G.total, "전체")]));
-    el.appendChild(h("p", { class: "mute" }, "실행 " + G.stamp + " · 모드 " + G.mode + " · 규칙 팩 " + G.rulePack + (G.labelStatus ? " · " + G.labelStatus : "")));
+    el.appendChild(h("p", { class: "mute" }, "실행 " + G.stamp + " · 모드 " + (G.mode === "deterministic" ? "규칙 기반(모델 미사용)" : G.mode) + " · 규칙 팩 " + G.rulePack + (G.labelStatus ? " · " + (G.labelStatus === "amendment and policy labels pending privacy-domain-expert review" ? "개정·처리방침 정답 라벨은 도메인 전문가 검토 대기" : G.labelStatus) : "")));
     el.appendChild(table(["게이트", "항목", "기준", "값", "상태"], G.gates.map(function (x) {
       return [x.id, h("div", null, [x.label, x.note ? h("div", { class: "mute" }, x.note) : null]), x.threshold, x.value, badge(x.status === "pass" ? "통과" : x.status === "fail" ? "실패" : "건너뜀", x.status === "pass" ? "b-ok" : x.status === "fail" ? "b-fail" : "b-skip")];
     })));
