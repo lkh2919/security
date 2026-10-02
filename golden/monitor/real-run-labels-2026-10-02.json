@@ -1,0 +1,508 @@
+{
+ "fixture": "Policy Monitor real run 2026-10-02: Mode A High/Medium and Mode B Medium findings on 10 published Lotte privacy policies",
+ "labelStatus": "AI 자체 검토 — 사람 전문가 검증 전 (privacy-domain-expert role, claude-opus-5-5, 2026-10-02). Not legal advice; not a human expert sign-off.",
+ "runs": [
+  "runs/lotte-real/llm-v3/2026-10-02T10-44-12-184Z (9 policies)",
+  "runs/lotte-real/llm-v4-himart/2026-10-02T11-02-37-839Z (lotte-himart-privacy)"
+ ],
+ "rulePackVersion": "privacy-2026.04",
+ "sources": [
+  "PIPA 법률 제21445호 (MST 283839), law.go.kr DRF lawService XML, verified 2026-10-02",
+  "PIPA Decree 대통령령 제36671호 (MST 289537), law.go.kr DRF lawService XML, fetched and verified 2026-10-02",
+  "Raw pages watch/lotte/*.html (gitignored)"
+ ],
+ "verdictKey": {
+  "verdict": "TP = real issue under the rule pack and the law as it applies today; FP = content exists or rule misapplied; uncertain = depends on operator facts the text cannot show",
+  "rulePackVerdict": "the same finding judged against the rule statement exactly as written in privacy-2026.04"
+ },
+ "summary": {
+  "all42": {
+   "TP": 29,
+   "FP": 5,
+   "uncertain": 8,
+   "precision": 0.853
+  },
+  "high39": {
+   "TP": 26,
+   "FP": 5,
+   "uncertain": 8,
+   "precision": 0.839
+  },
+  "all42_rulePackAsWritten": {
+   "TP": 37,
+   "FP": 4,
+   "uncertain": 1,
+   "precision": 0.902
+  },
+  "high39_rulePackAsWritten": {
+   "TP": 34,
+   "FP": 4,
+   "uncertain": 1,
+   "precision": 0.895
+  }
+ },
+ "labels": [
+  {
+   "policyId": "lotte-castle-privacy",
+   "findingId": "A-0001",
+   "ruleId": "R-S01-006",
+   "sectionId": "S01",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Preamble ends with a sentence announcing a list of collected items that never follows (orphan sentence). Real drafting defect; severity should be Low/Medium."
+  },
+  {
+   "policyId": "lotte-castle-privacy",
+   "findingId": "A-0002",
+   "ruleId": "R-S02-002",
+   "sectionId": "S02",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Purpose 'legal obligations under related laws' names no law or duty; open-ended purpose."
+  },
+  {
+   "policyId": "lotte-castle-privacy",
+   "findingId": "A-0003",
+   "ruleId": "R-S05-005",
+   "sectionId": "S05",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "FP",
+   "rulePackVerdict": "FP",
+   "reason": "Retention for the subscription-winner list ends at a named event (after eligibility screening). The rule accepts criteria when a fixed period cannot be set."
+  },
+  {
+   "policyId": "lotte-castle-privacy",
+   "findingId": "A-0004",
+   "ruleId": "R-S06-003",
+   "sectionId": "S06",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Rule-pack TP: procedure and method paragraphs exist (PIPA 30(1)3-2 met) but no step says who selects data for destruction and who approves it. The selection/approval detail is guideline-only; severity should be Medium, not High."
+  },
+  {
+   "policyId": "lotte-castle-privacy",
+   "findingId": "A-0005",
+   "ruleId": "R-S16-001",
+   "sectionId": "S16",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "FP",
+   "rulePackVerdict": "FP",
+   "reason": "Rights list includes transmission; the policy states no automated decisions are made and gives a channel (website or privacy department) for all rights. Missing per-right menu paths is at most an R-S16-002 detail."
+  },
+  {
+   "policyId": "lotte-castle-privacy",
+   "findingId": "A-0006",
+   "ruleId": "R-S07-003",
+   "sectionId": "S07",
+   "severity": "medium",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Recipient row lists four banks and ends with '등'; recipients must be named in full."
+  },
+  {
+   "policyId": "lotte-department-store-privacy",
+   "findingId": "A-0001",
+   "ruleId": "R-S02-002",
+   "sectionId": "S02",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Purpose ends with '등 기타 편의 서비스'; open-ended."
+  },
+  {
+   "policyId": "lotte-department-store-privacy",
+   "findingId": "A-0002",
+   "ruleId": "R-S03-002",
+   "sectionId": "S03",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Item list uses '등 기타 고객이 입력한' wording; items not concrete."
+  },
+  {
+   "policyId": "lotte-department-store-privacy",
+   "findingId": "A-0003",
+   "ruleId": "R-S06-003",
+   "sectionId": "S06",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Rule-pack TP: procedure and method paragraphs exist (PIPA 30(1)3-2 met) but no step says who selects data for destruction and who approves it. The selection/approval detail is guideline-only; severity should be Medium, not High."
+  },
+  {
+   "policyId": "lotte-department-store-privacy",
+   "findingId": "A-0004",
+   "ruleId": "R-S16-001",
+   "sectionId": "S16",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "uncertain",
+   "rulePackVerdict": "TP",
+   "reason": "Core rights (access, correction/deletion, suspension) and a request channel are present. Gap is only 전송요구권 (PIPA 35-2; for private processors Decree 42-2(1)1 starts 2027-02-20) and 자동화된 결정 rights (PIPA 37-2; only if such decisions are made). Fact-dependent; rule-pack TP as written. Consent withdrawal is offered only via the withdrawal menu."
+  },
+  {
+   "policyId": "lotte-enc-privacy",
+   "findingId": "A-0001",
+   "ruleId": "R-S02-002",
+   "sectionId": "S02",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "FP",
+   "rulePackVerdict": "FP",
+   "reason": "Quoted text is a summary label that points to the body ('세부 항목은 본문 확인'); the body table lists purposes without '등'."
+  },
+  {
+   "policyId": "lotte-enc-privacy",
+   "findingId": "A-0002",
+   "ruleId": "R-S06-003",
+   "sectionId": "S06",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Rule-pack TP: procedure and method paragraphs exist (PIPA 30(1)3-2 met) but no step says who selects data for destruction and who approves it. The selection/approval detail is guideline-only; severity should be Medium, not High."
+  },
+  {
+   "policyId": "lotte-enc-privacy",
+   "findingId": "A-0003",
+   "ruleId": "R-S16-001",
+   "sectionId": "S16",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "uncertain",
+   "rulePackVerdict": "TP",
+   "reason": "Core rights (access, correction/deletion, suspension) and a request channel are present. Gap is only 전송요구권 (PIPA 35-2; for private processors Decree 42-2(1)1 starts 2027-02-20) and 자동화된 결정 rights (PIPA 37-2; only if such decisions are made). Fact-dependent; rule-pack TP as written."
+  },
+  {
+   "policyId": "lotte-global-logis-privacy",
+   "findingId": "A-0001",
+   "ruleId": "R-S06-003",
+   "sectionId": "S06",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Procedure says data due for destruction is selected and a plan is made, but no approval step. Guideline-only detail; severity should be Medium."
+  },
+  {
+   "policyId": "lotte-global-logis-privacy",
+   "findingId": "A-0002",
+   "ruleId": "R-S16-001",
+   "sectionId": "S16",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "uncertain",
+   "rulePackVerdict": "TP",
+   "reason": "Core rights (access, correction/deletion, suspension) and a request channel are present. Gap is only 전송요구권 (PIPA 35-2; for private processors Decree 42-2(1)1 starts 2027-02-20) and 자동화된 결정 rights (PIPA 37-2; only if such decisions are made). Fact-dependent; rule-pack TP as written. Channel list ending in '등' is acceptable (Decree 41(2)1 wording)."
+  },
+  {
+   "policyId": "lotte-himart-mall-privacy",
+   "findingId": "A-0001",
+   "ruleId": "R-S01-001",
+   "sectionId": "S01",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "uncertain",
+   "rulePackVerdict": "uncertain",
+   "reason": "Static HTML shows no standalone title before the version-history selector; the title may be rendered by script or site chrome. Needs a look at the rendered page."
+  },
+  {
+   "policyId": "lotte-himart-mall-privacy",
+   "findingId": "A-0002",
+   "ruleId": "R-S03-002",
+   "sectionId": "S03",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Items '거래정보', '포인트정보' are abstract labels without the concrete items."
+  },
+  {
+   "policyId": "lotte-himart-mall-privacy",
+   "findingId": "A-0003",
+   "ruleId": "R-S06-003",
+   "sectionId": "S06",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Rule-pack TP: procedure and method paragraphs exist (PIPA 30(1)3-2 met) but no step says who selects data for destruction and who approves it. The selection/approval detail is guideline-only; severity should be Medium, not High."
+  },
+  {
+   "policyId": "lotte-himart-mall-privacy",
+   "findingId": "A-0004",
+   "ruleId": "R-S16-001",
+   "sectionId": "S16",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "uncertain",
+   "rulePackVerdict": "TP",
+   "reason": "Core rights (access, correction/deletion, suspension) and a request channel are present. Gap is only 전송요구권 (PIPA 35-2; for private processors Decree 42-2(1)1 starts 2027-02-20) and 자동화된 결정 rights (PIPA 37-2; only if such decisions are made). Fact-dependent; rule-pack TP as written. Consent withdrawal is offered only via the withdrawal menu."
+  },
+  {
+   "policyId": "lotte-rental-privacy",
+   "findingId": "A-0001",
+   "ruleId": "R-S02-002",
+   "sectionId": "S02",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Several purposes end in '등' (quality improvement, collection, complaints)."
+  },
+  {
+   "policyId": "lotte-rental-privacy",
+   "findingId": "A-0002",
+   "ruleId": "R-S03-002",
+   "sectionId": "S03",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Guarantor items end with '등'; vehicle operation information is abstract."
+  },
+  {
+   "policyId": "lotte-rental-privacy",
+   "findingId": "A-0003",
+   "ruleId": "R-S05-005",
+   "sectionId": "S05",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "'Other retained information: until the purpose is achieved' is the abstract period the rule forbids."
+  },
+  {
+   "policyId": "lotte-rental-privacy",
+   "findingId": "A-0004",
+   "ruleId": "R-S06-003",
+   "sectionId": "S06",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Rule-pack TP: procedure and method paragraphs exist (PIPA 30(1)3-2 met) but no step says who selects data for destruction and who approves it. The selection/approval detail is guideline-only; severity should be Medium, not High."
+  },
+  {
+   "policyId": "lotte-rental-privacy",
+   "findingId": "A-0005",
+   "ruleId": "R-S16-001",
+   "sectionId": "S16",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Rights section covers only access, correction and consent withdrawal; deletion and suspension rights and how to exercise them are absent (PIPA 30(1)5, 38(4))."
+  },
+  {
+   "policyId": "lotte-wellfood-privacy",
+   "findingId": "A-0001",
+   "ruleId": "R-S03-002",
+   "sectionId": "S03",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "'기타 서비스 이용 기록' is a catch-all item label."
+  },
+  {
+   "policyId": "lotte-wellfood-privacy",
+   "findingId": "A-0002",
+   "ruleId": "R-S06-001",
+   "sectionId": "S06",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Destruction clause omits 'without delay' (지체 없이, PIPA 21(1)). Text-only rule; severity Medium would fit."
+  },
+  {
+   "policyId": "lotte-wellfood-privacy",
+   "findingId": "A-0003",
+   "ruleId": "R-S06-003",
+   "sectionId": "S06",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Rule-pack TP: procedure and method paragraphs exist (PIPA 30(1)3-2 met) but no step says who selects data for destruction and who approves it. The selection/approval detail is guideline-only; severity should be Medium, not High."
+  },
+  {
+   "policyId": "lotte-wellfood-privacy",
+   "findingId": "A-0004",
+   "ruleId": "R-S16-001",
+   "sectionId": "S16",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "FP",
+   "rulePackVerdict": "TP",
+   "reason": "Policy lists all core rights and automated-decision refusal/explanation with a channel. Only 전송요구권 is missing, which does not yet apply to a private processor of this kind (Decree 42-2(1)1 in force 2027-02-20)."
+  },
+  {
+   "policyId": "lotteinnovate-privacy",
+   "findingId": "A-0001",
+   "ruleId": "R-S06-003",
+   "sectionId": "S06",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Rule-pack TP: procedure and method paragraphs exist (PIPA 30(1)3-2 met) but no step says who selects data for destruction and who approves it. The selection/approval detail is guideline-only; severity should be Medium, not High."
+  },
+  {
+   "policyId": "lotteinnovate-privacy",
+   "findingId": "A-0002",
+   "ruleId": "R-S16-001",
+   "sectionId": "S16",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "uncertain",
+   "rulePackVerdict": "TP",
+   "reason": "Core rights (access, correction/deletion, suspension) and a request channel are present. Gap is only 전송요구권 (PIPA 35-2; for private processors Decree 42-2(1)1 starts 2027-02-20) and 자동화된 결정 rights (PIPA 37-2; only if such decisions are made). Fact-dependent; rule-pack TP as written. Consent withdrawal not listed as a right."
+  },
+  {
+   "policyId": "lpoint-privacy",
+   "findingId": "A-0001",
+   "ruleId": "R-S01-006",
+   "sectionId": "S01",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Preamble clause mixes outsourcing, consent and a deemed-consent rule in one sentence; not item-separated."
+  },
+  {
+   "policyId": "lpoint-privacy",
+   "findingId": "A-0002",
+   "ruleId": "R-S02-002",
+   "sectionId": "S02",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Purpose '기타 원활한 양질의 서비스 제공' is open-ended."
+  },
+  {
+   "policyId": "lpoint-privacy",
+   "findingId": "A-0003",
+   "ruleId": "R-S03-002",
+   "sectionId": "S03",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Purchase-history item list ends with '등'; other abstract labels too."
+  },
+  {
+   "policyId": "lpoint-privacy",
+   "findingId": "A-0004",
+   "ruleId": "R-S05-001",
+   "sectionId": "S05",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "FP",
+   "rulePackVerdict": "FP",
+   "reason": "Items 4 and 5 of the statutory retention list do name the record type and the statute; the model saw the period line alone (list split into A./B. lines)."
+  },
+  {
+   "policyId": "lpoint-privacy",
+   "findingId": "A-0005",
+   "ruleId": "R-S05-005",
+   "sectionId": "S05",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "'Other cases with separate consent: until the consented period' names no task or period."
+  },
+  {
+   "policyId": "lpoint-privacy",
+   "findingId": "A-0006",
+   "ruleId": "R-S06-003",
+   "sectionId": "S06",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Rule-pack TP: procedure and method paragraphs exist (PIPA 30(1)3-2 met) but no step says who selects data for destruction and who approves it. The selection/approval detail is guideline-only; severity should be Medium, not High."
+  },
+  {
+   "policyId": "lpoint-privacy",
+   "findingId": "A-0007",
+   "ruleId": "R-S16-001",
+   "sectionId": "S16",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "uncertain",
+   "rulePackVerdict": "TP",
+   "reason": "Core rights (access, correction/deletion, suspension) and a request channel are present. Gap is only 전송요구권 (PIPA 35-2; for private processors Decree 42-2(1)1 starts 2027-02-20) and 자동화된 결정 rights (PIPA 37-2; only if such decisions are made). Fact-dependent; rule-pack TP as written."
+  },
+  {
+   "policyId": "lpoint-privacy",
+   "findingId": "A-0008",
+   "ruleId": "R-S07-003",
+   "sectionId": "S07",
+   "severity": "medium",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Non-affiliate recipient list ends with '등'."
+  },
+  {
+   "policyId": "lpoint-privacy",
+   "findingId": "B-0009",
+   "ruleId": "R-S18-001",
+   "sectionId": "S18",
+   "severity": "medium",
+   "mode": "B",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Mode B (provisional): the officer duty list is presented as complete and lacks the two duties added by PIPA 31(4)2-3 (Act 21445). Real issue, but it is R-S18-006 (should), not R-S18-001."
+  },
+  {
+   "policyId": "lotte-himart-privacy",
+   "findingId": "A-0001",
+   "ruleId": "R-S05-005",
+   "sectionId": "S05",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Most tasks have periods in the items table, but data received from delivery partners and auto-collected logs have none; the quoted general sentence is not a period."
+  },
+  {
+   "policyId": "lotte-himart-privacy",
+   "findingId": "A-0002",
+   "ruleId": "R-S06-003",
+   "sectionId": "S06",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "TP",
+   "rulePackVerdict": "TP",
+   "reason": "Rule-pack TP: procedure and method paragraphs exist (PIPA 30(1)3-2 met) but no step says who selects data for destruction and who approves it. The selection/approval detail is guideline-only; severity should be Medium, not High."
+  },
+  {
+   "policyId": "lotte-himart-privacy",
+   "findingId": "A-0003",
+   "ruleId": "R-S16-001",
+   "sectionId": "S16",
+   "severity": "high",
+   "mode": "A",
+   "verdict": "uncertain",
+   "rulePackVerdict": "TP",
+   "reason": "Core rights (access, correction/deletion, suspension) and a request channel are present. Gap is only 전송요구권 (PIPA 35-2; for private processors Decree 42-2(1)1 starts 2027-02-20) and 자동화된 결정 rights (PIPA 37-2; only if such decisions are made). Fact-dependent; rule-pack TP as written. Consent withdrawal is offered only via the withdrawal menu."
+  }
+ ]
+}
