@@ -224,6 +224,20 @@ describe("heading elements vs plain numbered lines (real page, 2026-10-02)", () 
   });
 });
 
+describe("document-adaptive numbering (real pages, 2026-10-02)", () => {
+  test("'가.' articles with '1.' items: a later '사.' article is not folded under the '1.' item before it", () => {
+    const md = ["바.개인정보의 파기절차 및 방법", "1.파기절차", "목적 달성 후 파기합니다.", "사. 수집한 개인정보의 위탁", "아래 업체에 위탁합니다."].join("\n\n");
+    const p = ingestPolicy({ name: "x.md", content: md, fetchedAt: NOW }, patterns);
+    expect([...new Set(p.sections.map((s) => s.sectionId))]).toEqual(["S06", "S09"]);
+  });
+
+  test("a numbered bold line is an article, not a sub-heading of the circled item before it", () => {
+    const html = "<p><strong>6. 개인정보의 안전성 확보조치</strong></p><p>③ 물리적 보호조치</p><p>출입을 통제합니다.</p><p><strong>7. 개인정보 자동 수집 장치에 의한 개인정보 수집</strong></p><p>쿠키를 사용합니다.</p>";
+    const p = ingestPolicy({ name: "x.html", content: html, fetchedAt: NOW }, patterns);
+    expect([...new Set(p.sections.map((s) => s.sectionId))]).toEqual(["S11", "S14"]);
+  });
+});
+
 describe("IngestedPolicy -> PolicyAST", () => {
   const clean = ingestFixture("policy-clean.md");
   const { ast, paraMap, sectionParas } = policyToAst(clean, { runId: "monitor-test-001", effectiveDate: "2026-10-02", rulePackVersion: "privacy-2026.04" });

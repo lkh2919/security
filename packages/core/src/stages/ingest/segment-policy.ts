@@ -77,13 +77,29 @@ export function stripNumbering(s: string): string {
   return t;
 }
 
-/** Nesting depth of a numbering style (1 = top). 0 when the line has no numbering. */
-function numberingDepth(s: string): number {
-  if (/^\s*(?:제\s*\d+\s*장|[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ])/u.test(s)) return 1;
-  if (/^\s*(?:제\s*\d+\s*(?:조|절)|\d{1,2}\s*\.)/u.test(s)) return 2;
-  if (/^\s*(?:\d{1,2}\s*\)|\(\s*\d{1,2}\s*\)|[가-하]\s*[.)])/u.test(s)) return 3;
-  if (/^\s*[①-⑳]/u.test(s)) return 4;
-  return 0;
+type NumberingStyle = "chapter" | "article" | "arabic" | "hangul" | "paren" | "circled";
+
+function numberingStyle(s: string): NumberingStyle | null {
+  if (/^\s*(?:제\s*\d+\s*장|[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ])/u.test(s)) return "chapter";
+  if (/^\s*\[?\s*제\s*\d+\s*(?:조|절)/u.test(s)) return "article";
+  if (/^\s*\d{1,2}\s*\./u.test(s)) return "arabic";
+  if (/^\s*[가-하]\s*[.)]/u.test(s)) return "hangul";
+  if (/^\s*(?:\d{1,2}\s*\)|\(\s*\d{1,2}\s*\))/u.test(s)) return "paren";
+  if (/^\s*[①-⑳]/u.test(s)) return "circled";
+  return null;
+}
+
+const DEFAULT_DEPTH: Readonly<Record<NumberingStyle, number>> = { chapter: 1, article: 2, arabic: 2, hangul: 3, paren: 3, circled: 4 };
+
+/**
+ * Nesting depth of a numbering style (1 = top), 0 when the line has no numbering. `top` is the style the document uses for
+ * its articles: real pages differ ("가." articles with "1." items on one site, "1." articles with "가." items on another).
+ */
+function numberingDepth(s: string, top: NumberingStyle | null = null): number {
+  const st = numberingStyle(s);
+  if (!st) return 0;
+  if (st === "chapter" || st === top) return 1;
+  return Math.max(2, DEFAULT_DEPTH[st]);
 }
 
 export interface HeadingMatch {
@@ -223,20 +239,32 @@ export function segmentDocument(doc: ParsedDocument, patterns: HeadingPatterns):
   }
   const text = paras.map((p) => p.text).join("\n");
 
-  // 2. classify each paragraph: heading (with its match and depth) or body.
+  // 2. the document's article numbering style: that of the first short numbered line that maps to a section.
+  const top = (() => {
+    for (const p of paras) {
+      if (p.kind === "row" || p.text.length > MAX_HEADING_LINE || SENTENCE_END.test(p.text)) continue;
+      const st = numberingStyle(p.text);
+      if (st && st !== "chapter" && matchHeading(patterns, p.text)) return st;
+    }
+    return null;
+  })();
+  const depthOf = (t: string): number => numberingDepth(t, top);
+
+  // 3. classify each paragraph: heading (with its match and depth) or body.
   const headingOf = (p: MaskedPara): { match: HeadingMatch | null; depth: number; element?: boolean } | null => {
     if (p.kind === "row") return null;
-    if (p.kind === "heading") return { match: matchHeading(patterns, p.text), depth: p.level && p.level > 0 ? p.level : BOLD_DEPTH, element: p.level !== undefined && p.level > 0 };
+    // A bold line (level 0) that carries numbering takes its numbering depth: "7. 개인정보 자동 수집 장치" in bold is an article.
+    if (p.kind === "heading") return { match: matchHeading(patterns, p.text), depth: p.level && p.level > 0 ? p.level : depthOf(p.text) || BOLD_DEPTH, element: p.level !== undefined && p.level > 0 };
     if (p.text.length > MAX_HEADING_LINE || SENTENCE_END.test(p.text)) return null;
     const match = matchHeading(patterns, p.text);
     // A plain line is a heading only when numbered or an exact title: a keyword inside a short sentence proves nothing.
-    if (match && (numberingDepth(p.text) > 0 || match.mappedBy === "heading_exact")) return { match, depth: numberingDepth(p.text) || 2 };
+    if (match && (depthOf(p.text) > 0 || match.mappedBy === "heading_exact")) return { match, depth: depthOf(p.text) || 2 };
     // An article-level line (`제10조 ...`, `10. ...`) about an unmapped topic starts its own UNMAPPED block.
-    if (!match && numberingDepth(p.text) > 0 && numberingDepth(p.text) <= 2 && isUnmappedTopic(patterns, p.text)) return { match: null, depth: numberingDepth(p.text) };
+    if (!match && depthOf(p.text) > 0 && depthOf(p.text) <= 2 && isUnmappedTopic(patterns, p.text)) return { match: null, depth: depthOf(p.text) };
     return null;
   };
 
-  // 3. blocks
+  // 4. blocks
   const blocks: Block[] = [{ sectionId: "S01", title: "", mappedBy: "preamble", confidence: 0.5, depth: 0, headingIndex: -1, paraIndexes: [] }];
   let cur = blocks[0]!;
   paras.forEach((p, i) => {
@@ -270,7 +298,7 @@ export function segmentDocument(doc: ParsedDocument, patterns: HeadingPatterns):
     blocks.push(cur);
   });
 
-  // 4. sections
+  // 5. sections
   const sections: IngestedSection[] = [];
   for (const b of blocks) {
     if (b.headingIndex < 0 && b.paraIndexes.length === 0) continue; // empty preamble
