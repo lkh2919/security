@@ -109,6 +109,15 @@ and a verified `statutes/remedy-agencies.json` for S20 (original PC / privacy-do
   through the proxy (socket closed); rerun or retry when a source reports unreachable.
 - Raw sources under `kb/_sources/` are still only on the original PC (gitignored).
 
+## Eval gates and law-amendment fixtures (2026-10-02)
+
+`bun scripts/eval-gates.ts [--llm claude-code|api]` runs the M8/C7 gates (deterministic by default, no model) and writes `runs/eval/eval-gates-<stamp>.json`; exit 1 when a gate fails. Metrics are pure functions in `packages/core/src/eval/monitor-metrics.ts`; labels and fixtures live in `golden/monitor/` (`laws/`, `expected/`, `policies/<id>/{policy,expected.json}`). All labels are **pending privacy-domain-expert review**.
+
+- **Law fixtures** (live law.go.kr, parsed articles that differ, raw-XML SHA-256 recorded): PIPA MST 270351 -> 283839 (Act 21445, 98 changed units; mapped sections S09, S11, S13, S18, S19 incl. Art. 31 -> S18; 67 units unmapped). Network Act: the label compares MST **285199** (Act 21500) with 290001 (Act 21988), because 283843 -> 290001 spans 246 units (Act 21500 sits between them); the 285199 -> 290001 diff is exactly NETA:44-7(4)1 and 49-3(1), no rule cites NETA, zero findings on any policy (decoy).
+- **Seeded policies**: the four monitor test fixtures, the HTML one and three variants of the clean policy (S18 contact removed, S09 list with "등", S06 deleted). The S18 seed is judge-only: a deterministic run skips it (named in the table); `--llm` counts it.
+- Not yet measurable: segmentation on real policies (needs the `kb/_sources` slice), model-run stability, judge-path recall. Run `--llm claude-code` once before relying on the numbers.
+- Peer gates use pages rendered from the golden clean policy (`peerPageHtml`): 7 cosmetic variants (whitespace, markup, nav/footer, renumbering, section reorder, date-only, replay) and 5 seeded edits.
+
 ## Live-run findings that need a person (KB or design gaps, not prompt tuning)
 
 - **Interview Template has no slots** for cookie refusal steps / retention / items (S14), and no KB of statutory remedy agencies (S20: names, phone numbers, URLs). G1 supplies these values by hand; real interviews cannot extract them. The privacy-domain-expert should add slots and a verified `statutes/remedy-agencies.json`.

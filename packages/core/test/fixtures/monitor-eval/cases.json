@@ -1,0 +1,23 @@
+{
+  "note": "Synthetic expectations and findings for the monitor-metrics unit tests (no real policy text).",
+  "seededExpectation": {
+    "policyId": "seed-a",
+    "kind": "seeded",
+    "sections": [{ "title": "1. 처리 목적", "sectionId": "S02" }, { "title": "2. 파기", "sectionId": "S06" }],
+    "findings": [
+      { "ruleId": "C2-M-S06", "sectionId": "S06", "severityFloor": "critical", "detect": "deterministic", "major": true },
+      { "ruleId": "R-S09-002", "sectionId": "S09", "severityFloor": "medium", "detect": "deterministic", "para": 2 },
+      { "anyOfRuleIds": ["R-S18-001", "R-S18-002"], "sectionId": "S18", "severityFloor": "low", "detect": "llm" }
+    ]
+  },
+  "findingsAllFound": [
+    { "ruleId": "C2-M-S06", "sectionId": "S06", "severity": "critical", "location": { "sectionId": "S06", "para": null, "quote": "" } },
+    { "ruleId": "R-S09-002", "sectionId": "S09", "severity": "medium", "location": { "para": 2, "quote": "예시 주식회사 등" } },
+    { "ruleId": "R-S18-002", "sectionId": "S18", "severity": "low", "location": { "para": null, "quote": "" } }
+  ],
+  "findingsDowngraded": [
+    { "ruleId": "C2-M-S06", "sectionId": "S06", "severity": "confirm" },
+    { "ruleId": "R-S09-002", "sectionId": "S09", "severity": "medium", "location": { "para": 3, "quote": "x" } }
+  ],
+  "cleanExpectation": { "policyId": "clean", "kind": "clean", "sections": [], "findings": [], "forbidSeverities": ["critical", "high"] }
+}

@@ -1,0 +1,95 @@
+{
+  "fixture": "golden/monitor/laws/pipa-20897-to-21445.json",
+  "law": "PIPA",
+  "labelStatus": "pending privacy-domain-expert review",
+  "derivation": "article diff (diffArticles) intersected with rule-pack privacy-2026.04 legalRefs (mapUnitsToSections); sanity check: PIPA Art. 31 (privacy officer) maps to S18",
+  "rulePack": "privacy-2026.04",
+  "mustIncludeSections": [
+    "S18"
+  ],
+  "expectedDiffUnitCount": 98,
+  "expectedSections": [
+    {
+      "sectionId": "S09",
+      "units": [
+        "PIPA:26(4)",
+        "PIPA:26(8)"
+      ],
+      "rules": [
+        "R-S09-007"
+      ]
+    },
+    {
+      "sectionId": "S11",
+      "units": [
+        "PIPA:29"
+      ],
+      "rules": [
+        "R-S11-001"
+      ]
+    },
+    {
+      "sectionId": "S13",
+      "units": [
+        "PIPA:28-4(1)"
+      ],
+      "rules": [
+        "R-S13-006"
+      ]
+    },
+    {
+      "sectionId": "S18",
+      "units": [
+        "PIPA:31(1)",
+        "PIPA:31(10)",
+        "PIPA:31(3)",
+        "PIPA:31(3)1",
+        "PIPA:31(3)2",
+        "PIPA:31(3)3",
+        "PIPA:31(3)4",
+        "PIPA:31(3)5",
+        "PIPA:31(3)6",
+        "PIPA:31(3)7",
+        "PIPA:31(4)",
+        "PIPA:31(4)1",
+        "PIPA:31(4)2",
+        "PIPA:31(4)3",
+        "PIPA:31(4)4",
+        "PIPA:31(4)5",
+        "PIPA:31(4)6",
+        "PIPA:31(4)7",
+        "PIPA:31(4)8",
+        "PIPA:31(4)9",
+        "PIPA:31(5)",
+        "PIPA:31(6)",
+        "PIPA:31(7)",
+        "PIPA:31(8)",
+        "PIPA:31(9)"
+      ],
+      "rules": [
+        "R-S18-001",
+        "R-S18-005",
+        "R-S18-006"
+      ]
+    },
+    {
+      "sectionId": "S19",
+      "units": [
+        "PIPA:31-2(1)1",
+        "PIPA:31-2(1)2"
+      ],
+      "rules": [
+        "R-S19-001",
+        "R-S19-003"
+      ]
+    }
+  ],
+  "expectedUnmappedUnitCount": 67,
+  "mustRuleSections": [
+    "S09",
+    "S11",
+    "S13",
+    "S18",
+    "S19"
+  ]
+}
