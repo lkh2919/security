@@ -5,7 +5,7 @@
  *   bun scripts/agent.ts impact --config ... --diff old.xml,new.xml --law PIPA [--effective YYYY-MM-DD] [--llm ...]
  *   bun scripts/agent.ts daily  --config ... [--llm ...] [--run-id daily-YYYYMMDD]
  *   bun scripts/agent.ts draft  --config ... --transcript interview.txt --form form.md [--masking basic] [--run-id ID] [--effective-date YYYY-MM-DD] [--llm ...]
- *   bun scripts/agent.ts peers  --config ...        (not yet implemented)
+ *   bun scripts/agent.ts peers  --config ... [--group retail] [--dry-run] [--limit N] [--with-lotte]   (Peer Watch, see scripts/peers-cli.ts)
  *
  * `--llm` overrides the config's `llm`; `none` runs the deterministic part only. All outputs go under `runs/<tenantId>/...`
  * (`monitor/`, `daily/<runId>/`, `draft/<runId>/`). `daily` is resumable: rerun it (same day or `--run-id`) after a failed step and
@@ -25,9 +25,10 @@ import { createBackendClient, resolveBackend, type BackendClient } from "../pack
 import { krPaths, loadKrKnowledge } from "../packages/core/src/stages/coverage";
 import { runDaily } from "../packages/core/src/stages/daily";
 import { loadRuleSections } from "../packages/core/src/stages/draft/load-sections";
-import { loadHeadingPatterns } from "../packages/core/src/stages/ingest";
+import { loadFinanceLexicon, loadHeadingPatterns } from "../packages/core/src/stages/ingest";
 import { ingestPolicyFolder, listPolicyFiles, runMonitorFolder } from "../packages/core/src/stages/monitor";
 import { startRun } from "../packages/core/src/stages/orchestrate";
+import { dailyPeersDeps, parsePeersArgs, runPeersCommand } from "./peers-cli";
 
 const [command, ...rest] = process.argv.slice(2);
 const opt = (name: string): string | undefined => {
@@ -53,8 +54,12 @@ const needed: OrgApp[] = command === "daily" ? ["check", "impact"] : [command as
 if (!needed.some((a) => org.apps.includes(a))) fail(`app "${command}" is not enabled for ${org.tenantId} (apps: ${org.apps.join(", ")})`);
 
 if (command === "peers") {
-  console.log("peers: not yet implemented");
-  process.exit(0);
+  try {
+    process.exit(await runPeersCommand(parsePeersArgs(root, rest)));
+  } catch (err) {
+    console.error(err instanceof Error ? err.message : String(err));
+    process.exit(2);
+  }
 }
 
 const llmChoice = opt("llm") ?? org.llm;
@@ -101,13 +106,17 @@ async function daily(): Promise<void> {
   const oc = process.env["LAW_GO_KR_OC"];
   const client = oc ? new LawApiClient({ oc }) : null;
   if (!client) console.log("LAW_GO_KR_OC is not set: the freshness step is skipped (steps b-d still run on what exists)");
+  // Peer Watch step: on when the org enables the app and has a registry; `--skip-peers` turns it off for this run.
+  const peers = org.apps.includes("peers") && !rest.includes("--skip-peers") ? dailyPeersDeps(root, resolve(configFile!), org.peersFile, tenant.peersDir) : null;
+  if (org.apps.includes("peers") && !peers && !rest.includes("--skip-peers")) console.log("peers: no peer registry found (peersFile): the peers step is skipped");
   try {
     const r = await runDaily({
       krDir: kr,
       tenantId: tenant.tenantId,
       runsRoot: tenant.dailyDir,
       registryPath: tenant.registryPath,
-      apps: { check: org.apps.includes("check"), impact: org.apps.includes("impact") },
+      apps: { check: org.apps.includes("check"), impact: org.apps.includes("impact"), peers: peers !== null },
+      ...(peers ? { peers: { ...peers.deps, financeLexicon: loadFinanceLexicon(root) } } : {}),
       loadPolicies: () => ingestPolicyFolder(root, policyDir, now),
       ruleSections,
       rulePackItems: kb.rulePackItems,
@@ -125,8 +134,10 @@ async function daily(): Promise<void> {
   } catch (err) {
     console.error(redactSecrets(`daily chain stopped: ${err instanceof Error ? err.message : String(err)}\nFinished steps are kept; rerun the same command to resume at the failed step.`, oc ? [oc] : []));
     backendClient?.close();
+    await peers?.close();
     process.exit(1);
   }
+  await peers?.close();
 }
 
 async function draft(): Promise<void> {

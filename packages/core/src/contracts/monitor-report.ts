@@ -9,6 +9,7 @@ import { z } from "zod";
 import { IsoDateSchema, IsoDateTimeSchema, MAX_QUOTE_LENGTH, NonEmptyString, RunIdSchema, Sha256Schema, VersionSchema } from "./common";
 import { FindingSchema } from "./audit-report";
 import { PolicyIdSchema } from "./ingested-policy";
+import { UrgencySignalSchema } from "./peers";
 
 /** The only disclaimer line a report may carry (design M1). */
 export const MONITOR_DISCLAIMER = "참고용 검토 결과입니다. 정보보호실·법무 검토가 필요합니다.";
@@ -43,6 +44,10 @@ export const MonitorFindingSchema = FindingSchema.omit({ docType: true, severity
     tier: MonitorTierSchema,
     location: MonitorLocationSchema,
     trigger: MonitorTriggerSchema.optional(),
+    /** Peer Watch (design C5): "raised" when a group-adoption signal attaches. Moves ordering only, never the severity. */
+    priority: z.enum(["normal", "raised"]).optional(),
+    /** Group-adoption signals attached to a Mode B finding (reference only, "업계 동향(참고) — 법적 요구사항 아님"). */
+    evidence: z.array(UrgencySignalSchema).optional(),
   })
   .superRefine((f, ctx) => {
     if (f.tier === "provisional" && (f.severity === "critical" || f.severity === "high")) {

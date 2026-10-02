@@ -28,12 +28,35 @@ import { runImpact } from "../monitor/impact";
 import { loadLegalRefMap, sourceIdToPrefix } from "../monitor/legalref-map";
 import { detectChange, loadRegistry, recordCheck, saveRegistry } from "../monitor/registry";
 import { renderDailyDigest } from "./digest";
-import { DailyDigestSchema, DailyFreshnessSchema, DailyImpactSchema, DailyRecheckSchema, type DailyFreshness, type DailyImpact, type DailyRecheck } from "./schemas";
+import { DailyDigestSchema, DailyFreshnessSchema, DailyImpactSchema, DailyPeersSchema, DailyRecheckSchema, type DailyFreshness, type DailyImpact, type DailyPeers, type DailyRecheck } from "./schemas";
 import { renderMonitorJson, renderMonitorMarkdown } from "../monitor/report";
+import type { AmendmentDiff } from "../../contracts/amendment-diff";
+import type { PeerRegistry } from "../../contracts/peers";
+import type { PageFetcher } from "../../adapters/fetch/safe-fetch";
+import type { FetchStateStore } from "../../adapters/fetch/state";
+import type { FinanceLexicon } from "../ingest/finance-lexicon";
+import { ingestPolicy } from "../ingest/ingest-policy";
+import { attachUrgencySignals } from "../peers/signals";
+import type { CaptureEntry } from "../peers/registry";
+import { watchPeers } from "../peers/run-peers";
 
 /** Full-text fetch by MST (LawApiClient implements it). */
 export interface LawTextPort {
   getFullTextXml(mst: string): Promise<string>;
+}
+
+/** Peer Watch inputs of the `daily` chain (design C5). Absent, or `apps.peers` false: the step is skipped with a note. */
+export interface DailyPeersDeps {
+  readonly registry: PeerRegistry;
+  readonly captures: readonly CaptureEntry[];
+  readonly fetcher: PageFetcher;
+  readonly state: FetchStateStore;
+  /** `runs/<tenant>/peers` */
+  readonly peersDir: string;
+  readonly group?: string;
+  readonly limit?: number;
+  readonly dryRun?: boolean;
+  readonly financeLexicon?: FinanceLexicon;
 }
 
 export interface DailyDeps {
@@ -46,7 +69,8 @@ export interface DailyDeps {
   readonly runId?: string;
   readonly registryPath: string;
   /** Which monitor apps the org enabled; a disabled app's step is skipped. */
-  readonly apps: { readonly check: boolean; readonly impact: boolean };
+  readonly apps: { readonly check: boolean; readonly impact: boolean; readonly peers?: boolean };
+  readonly peers?: DailyPeersDeps;
   /** The org's policies, ingested (called by each step that needs them). */
   readonly loadPolicies: () => IngestedPolicy[];
   readonly ruleSections: ReadonlyMap<string, RuleSection>;
@@ -107,7 +131,7 @@ export async function runDaily(deps: DailyDeps): Promise<DailyResult> {
     flushed = all.length;
   };
   const steps: { stage: string; resumed: boolean }[] = [];
-  const step = async <T>(stage: "daily-freshness" | "daily-impact" | "daily-recheck" | "daily-digest", run: () => Promise<{ output: T; resumed: boolean }>): Promise<T> => {
+  const step = async <T>(stage: "daily-freshness" | "daily-impact" | "daily-recheck" | "daily-peers" | "daily-digest", run: () => Promise<{ output: T; resumed: boolean }>): Promise<T> => {
     try {
       const r = await run();
       steps.push({ stage, resumed: r.resumed });
@@ -202,6 +226,7 @@ export async function runDaily(deps: DailyDeps): Promise<DailyResult> {
             perPolicy: Object.fromEntries(res.perPolicy),
             warnings: [...res.warnings],
             llmUsed: res.llmUsed,
+            units: diff.units.map((u) => ({ ...u })),
           });
         }
         return { status: "ran", diffs, notes };
@@ -233,6 +258,65 @@ export async function runDaily(deps: DailyDeps): Promise<DailyResult> {
     }),
   );
 
+  // (c2) Peer Watch: peers' public policies, and Mode A re-check of Lotte captures whose page changed ----------------
+  const peers: DailyPeers = await step("daily-peers", () =>
+    runResumableStage(store, {
+      stage: "daily-peers",
+      schema: DailyPeersSchema,
+      now,
+      compute: async (): Promise<DailyPeers> => {
+        const empty = { outcomes: [], signals: { peerChanged: [], peerAligned: [], groupAdoption: [] }, lotteReports: [] };
+        if (!deps.apps.peers) return { status: "skipped", notes: ["peers app is not enabled for this org"], ...empty };
+        const pd = deps.peers;
+        if (!pd) return { status: "skipped", notes: ["no peer registry configured (peersFile)"], ...empty };
+        const diffs: AmendmentDiff[] = impact.diffs.flatMap((d) =>
+          d.units ? [{ law: d.lawCode, oldVersion: d.oldMst, newVersion: d.newMst, effectiveOn: d.effectiveOn, units: d.units, hash: d.diffHash }] : [],
+        );
+        const lotteReports: MonitorReport[] = [];
+        const notes: string[] = [];
+        const r = await watchPeers({
+          registry: pd.registry,
+          captures: pd.captures,
+          fetcher: pd.fetcher,
+          state: pd.state,
+          patterns: deps.patterns,
+          peersDir: pd.peersDir,
+          tenantId: deps.tenantId,
+          ...(pd.group ? { group: pd.group } : {}),
+          ...(pd.limit !== undefined ? { limit: pd.limit } : {}),
+          ...(pd.dryRun ? { dryRun: true } : {}),
+          now,
+          amendmentDiffs: diffs,
+          ruleSections: deps.ruleSections,
+          lawNames: (prefix) => {
+            const e = legalRefMap[prefix];
+            return e ? [e.lawNameKo, ...e.aliases] : [];
+          },
+          log,
+          // Mode A on a Lotte policy whose published page is new or changed (the same check as a changed hash in the policy folder).
+          onLotteChange: async (target, html) => {
+            if (!deps.apps.check) {
+              notes.push(`${target.id}: 현행 점검(check) 앱이 꺼져 있어 재점검을 건너뜀 / check app disabled, re-check skipped`);
+              return;
+            }
+            const policy = ingestPolicy({ name: `${target.id}.html`, policyId: target.id, content: html, url: target.url, fetchedAt: now() }, deps.patterns, pd.financeLexicon);
+            const a = await checkCurrentPolicy({ ...(deps.llm ? { llm: deps.llm } : {}) }, { runId, policy, ruleSections: deps.ruleSections, rulePackItems: deps.rulePackItems, rulePackVersion: deps.rulePackVersion, patterns: deps.patterns, now: now() });
+            lotteReports.push(a.report);
+          },
+        });
+        return {
+          status: "ran",
+          notes,
+          ...(r.dryRun ? { dryRun: true } : {}),
+          outcomes: r.outcomes.map(({ changedSections, ...o }) => ({ ...o, ...(changedSections ? { changedSections: changedSections.map((c) => ({ ...c })) } : {}) })),
+          signals: { peerChanged: r.signals.peerChanged.map((p) => ({ ...p, sectionIds: [...p.sectionIds] })), peerAligned: r.signals.peerAligned.map((p) => ({ ...p, alignments: p.alignments.map((a) => ({ ...a })) })), groupAdoption: r.signals.groupAdoption.map((g) => ({ ...g })) },
+          lotteReports,
+          ...(r.reportFile ? { reportFile: r.reportFile } : {}),
+        };
+      },
+    }),
+  );
+
   // (d) digest + per-policy reports + registry ---------------------------------------------------------------
   const digest = await step("daily-digest", () =>
     runResumableStage(store, {
@@ -249,7 +333,7 @@ export async function runDaily(deps: DailyDeps): Promise<DailyResult> {
         const at = now();
         for (const policy of policies) {
           const a = recheck.reports.find((r) => r.policyId === policy.policyId);
-          const modeB: MonitorFinding[] = impact.diffs.flatMap((d) => d.perPolicy[policy.policyId] ?? []);
+          const modeB: MonitorFinding[] = attachUrgencySignals(impact.diffs.flatMap((d) => d.perPolicy[policy.policyId] ?? []), peers.signals.groupAdoption);
           if (!a && modeB.length === 0) {
             registry = recordCheck(registry, policy, at);
             continue;
@@ -264,11 +348,19 @@ export async function runDaily(deps: DailyDeps): Promise<DailyResult> {
           merged.set(policy.policyId, report);
           registry = recordCheck(registry, policy, at, { report, file: join(runId, md) });
         }
+        // Mode A reports of Lotte captures fetched by the peers step (kept apart from the policy-folder registry).
+        for (const report of peers.lotteReports) {
+          const md = join("reports", `${report.policyId}.md`);
+          await writeFile(store.path(md), renderMonitorMarkdown(report, { titles: deps.titles ?? {} }));
+          await writeFile(store.path("reports", `${report.policyId}.json`), renderMonitorJson(report));
+          reportFiles.push(md);
+          merged.set(report.policyId, report);
+        }
         await saveRegistry(deps.registryPath, registry);
         // cost line from everything this run has logged, across resumed invocations
         await flushUsage();
         const usage = summarizeUsage(await readUsageJsonl(store.path(USAGE_FILE)));
-        await writeFile(store.path("digest.md"), renderDailyDigest({ runId, tenantId: deps.tenantId, date: day, freshness, impact, recheck, reports: [...merged.values()], usage, ...(targetsInfo.warnings.length > 0 ? { warnings: targetsInfo.warnings } : {}) }));
+        await writeFile(store.path("digest.md"), renderDailyDigest({ runId, tenantId: deps.tenantId, date: day, freshness, impact, recheck, ...(deps.apps.peers ? { peers } : {}), reports: [...merged.values()], usage, ...(targetsInfo.warnings.length > 0 ? { warnings: targetsInfo.warnings } : {}) }));
         return { digestFile: "digest.md", reportFiles, registryUpdated: true };
       },
     }),

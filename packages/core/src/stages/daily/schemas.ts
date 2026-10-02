@@ -1,8 +1,10 @@
 /** Artifacts of the daily chain steps (one typed JSON per RunStore stage). No policy text, no contacts. */
 import { z } from "zod";
+import { AmendmentUnitSchema } from "../../contracts/amendment-diff";
 import { NonEmptyString, Sha256Schema } from "../../contracts/common";
 import { FreshnessReportSchema } from "../../contracts/freshness-report";
 import { MonitorFindingSchema, MonitorReportSchema } from "../../contracts/monitor-report";
+import { ChangedSectionSchema, UrgencySignalSchema } from "../../contracts/peers";
 
 export const FreshnessChangeSchema = z.strictObject({
   sourceId: NonEmptyString,
@@ -40,6 +42,8 @@ export const DailyDiffResultSchema = z.strictObject({
   perPolicy: z.record(z.string(), z.array(MonitorFindingSchema)),
   warnings: z.array(z.string()),
   llmUsed: z.boolean(),
+  /** The changed units, kept so the peers step can align peer changes with the amendment (Peer Watch P1). */
+  units: z.array(AmendmentUnitSchema).optional(),
 });
 
 export const DailyImpactSchema = z.strictObject({
@@ -57,6 +61,42 @@ export const DailyRecheckSchema = z.strictObject({
   notes: z.array(z.string()),
 });
 export type DailyRecheck = z.infer<typeof DailyRecheckSchema>;
+
+export const PeerOutcomeSchema = z.strictObject({
+  id: NonEmptyString,
+  groupId: NonEmptyString,
+  name: z.string(),
+  kind: z.enum(["peer", "lotte"]),
+  status: z.enum(["unchanged", "changed", "baseline", "cosmetic", "skipped", "failed"]),
+  reason: z.string().optional(),
+  changedSections: z.array(ChangedSectionSchema).optional(),
+});
+
+export const AlignmentSchema = z.strictObject({
+  articleKey: NonEmptyString,
+  sectionId: NonEmptyString,
+  confidence: z.enum(["high", "medium", "low"]),
+  basis: z.enum(["cites_article", "quotes_new_wording", "new_terms", "section_timing"]),
+});
+
+export const PeerSignalsSchema = z.strictObject({
+  peerChanged: z.array(z.strictObject({ peerId: NonEmptyString, groupId: NonEmptyString, detectedAt: z.string(), sectionIds: z.array(z.string()) })),
+  peerAligned: z.array(z.strictObject({ peerId: NonEmptyString, groupId: NonEmptyString, detectedAt: z.string(), alignments: z.array(AlignmentSchema) })),
+  groupAdoption: z.array(UrgencySignalSchema),
+});
+
+/** Peer Watch step: outcomes and signals (hashes, short masked quotes), plus Mode A reports of changed Lotte captures. */
+export const DailyPeersSchema = z.strictObject({
+  status: z.enum(["ran", "skipped"]),
+  notes: z.array(z.string()),
+  dryRun: z.boolean().optional(),
+  outcomes: z.array(PeerOutcomeSchema),
+  signals: PeerSignalsSchema,
+  /** Mode A reports of Lotte captures that were new or changed (policyId = capture id). */
+  lotteReports: z.array(MonitorReportSchema),
+  reportFile: z.string().optional(),
+});
+export type DailyPeers = z.infer<typeof DailyPeersSchema>;
 
 export const DailyDigestSchema = z.strictObject({
   digestFile: NonEmptyString,

@@ -37,6 +37,8 @@ export interface TenantPaths {
   readonly freshnessDir: string;
   /** Draft pipeline runs. */
   readonly draftDir: string;
+  /** Peer Watch: snapshots, change log, fetch state and reports (`<root>/peers`). */
+  readonly peersDir: string;
 }
 
 /** `runsRoot` is `<repo>/runs`. The tenant id is validated: it becomes a directory name. */
@@ -44,5 +46,5 @@ export function tenantPaths(runsRoot: string, tenantId: string = DEFAULT_TENANT_
   const id = TenantIdSchema.parse(tenantId);
   const root = join(runsRoot, id);
   const monitorDir = join(root, "monitor");
-  return { tenantId: id, root, monitorDir, registryPath: join(monitorDir, "registry.json"), dailyDir: join(root, "daily"), freshnessDir: join(root, "freshness"), draftDir: join(root, "draft") };
+  return { tenantId: id, root, monitorDir, registryPath: join(monitorDir, "registry.json"), dailyDir: join(root, "daily"), freshnessDir: join(root, "freshness"), draftDir: join(root, "draft"), peersDir: join(root, "peers") };
 }

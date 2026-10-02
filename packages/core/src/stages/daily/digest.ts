@@ -3,7 +3,8 @@ import { MONITOR_DISCLAIMER, type MonitorReport } from "../../contracts/monitor-
 import { formatCostLine, type UsageSummary } from "../../llm/usage-log";
 import { FINANCE_MANUAL_LABEL } from "../monitor/common";
 import { SEVERITY_LABEL, safeText } from "../monitor/report";
-import type { DailyFreshness, DailyImpact, DailyRecheck } from "./schemas";
+import { PEER_SIGNAL_LABEL } from "../../contracts/peers";
+import type { DailyFreshness, DailyImpact, DailyPeers, DailyRecheck } from "./schemas";
 
 const SEVERITIES = ["critical", "high", "medium", "low", "confirm"] as const;
 
@@ -14,6 +15,7 @@ export interface DigestInput {
   readonly freshness: DailyFreshness;
   readonly impact: DailyImpact;
   readonly recheck: DailyRecheck;
+  readonly peers?: DailyPeers;
   /** Per-policy reports (Mode A and/or Mode B findings). */
   readonly reports: readonly MonitorReport[];
   readonly usage: UsageSummary;
@@ -66,6 +68,23 @@ export function renderDailyDigest(d: DigestInput): string {
     for (const r of d.reports) out.push(`| ${safeText(r.policyId)} | ${SEVERITIES.map((s) => String(r.summary.bySeverity[s])).join(" | ")} |`);
     out.push("");
   } else out.push("새로 작성한 보고서가 없습니다.", "");
+
+  if (d.peers) {
+    out.push("## 5. 피어 워치 (업계 동향, 참고)", "", `${PEER_SIGNAL_LABEL}.`, "");
+    if (d.peers.status === "skipped") out.push(`건너뜀: ${safeText(d.peers.notes.join("; "))}`, "");
+    else {
+      const peers = d.peers.outcomes.filter((o) => o.kind === "peer");
+      const lotte = d.peers.outcomes.filter((o) => o.kind === "lotte");
+      const n = (list: typeof peers, s: string): number => list.filter((o) => o.status === s).length;
+      out.push(`- 피어: 변경 ${n(peers, "changed")}곳, 외형만 변경 ${n(peers, "cosmetic")}곳, 변경 없음 ${n(peers, "unchanged") + n(peers, "baseline")}곳, 건너뜀·실패 ${n(peers, "skipped") + n(peers, "failed")}곳`);
+      out.push(`- 롯데 계열 공개 방침: 변경·신규 ${n(lotte, "changed") + n(lotte, "baseline")}건 (현행 점검 ${d.peers.lotteReports.length}건), 건너뜀·실패 ${n(lotte, "skipped") + n(lotte, "failed")}건`);
+      if (d.peers.signals.groupAdoption.length === 0) out.push("- 그룹 동향 신호: 없음");
+      for (const s of d.peers.signals.groupAdoption) out.push(`- 그룹 동향 신호: ${safeText(s.groupId)} · ${safeText(s.articleKey)} · ${safeText(s.sectionId)} — ${s.k}/${s.n} (${s.windowDays}일) · ${s.label}`);
+      if (d.peers.reportFile) out.push(`- 상세 보고서: ${safeText(d.peers.reportFile)}`);
+      for (const n2 of d.peers.notes) out.push(`- 참고: ${safeText(n2)}`);
+      out.push("");
+    }
+  }
 
   out.push("---", "", MONITOR_DISCLAIMER, "");
   return out.join("\n");

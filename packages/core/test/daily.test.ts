@@ -78,7 +78,7 @@ describe("daily chain", () => {
   test("freshness -> Mode B -> Mode A -> digest, finance as manual review, tenant-prefixed outputs", async () => {
     const { deps, counts } = setup();
     const r = await runDaily(deps);
-    expect(r.steps.map((s) => [s.stage, s.resumed])).toEqual([["daily-freshness", false], ["daily-impact", false], ["daily-recheck", false], ["daily-digest", false]]);
+    expect(r.steps.map((s) => [s.stage, s.resumed])).toEqual([["daily-freshness", false], ["daily-impact", false], ["daily-recheck", false], ["daily-peers", false], ["daily-digest", false]]);
     expect(r.runId).toBe("daily-20261002");
     expect(r.dir).toContain(join("runs", "acme", "daily"));
     expect(counts.current).toBe(3);
@@ -104,7 +104,7 @@ describe("daily chain", () => {
     expect(counts.current).toBe(3);
 
     const r = await runDaily(deps);
-    expect(r.steps.map((s) => [s.stage, s.resumed])).toEqual([["daily-freshness", true], ["daily-impact", false], ["daily-recheck", false], ["daily-digest", false]]);
+    expect(r.steps.map((s) => [s.stage, s.resumed])).toEqual([["daily-freshness", true], ["daily-impact", false], ["daily-recheck", false], ["daily-peers", false], ["daily-digest", false]]);
     expect(counts.current).toBe(3); // freshness was not repeated
     expect(existsSync(r.digestFile)).toBe(true);
     expect((await store.readState()).stages["daily-impact"]?.status).toBe("done");

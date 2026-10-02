@@ -30,6 +30,7 @@ function findingMd(f: MonitorFinding, titles: Readonly<Record<string, string>>):
   if (f.trigger) lines.push(`- 개정 조문: ${safeText(f.trigger.law)} ${safeText(f.trigger.articleKey)}${f.trigger.effectiveOn ? ` (시행 ${f.trigger.effectiveOn})` : ""}`);
   lines.push(`- 내용: ${safeText(f.message)}`);
   if (f.location.quote) lines.push(`- 해당 문구: ${"> "}${safeText(f.location.quote)}`);
+  for (const e of f.evidence ?? []) lines.push(`- 업계 동향(참고): 같은 그룹 ${e.n}곳 중 ${e.k}곳이 ${e.windowDays}일 안에 같은 방향으로 변경 (${safeText(e.articleKey)}) — ${e.label}${f.priority === "raised" ? " · 확인 우선순위 상향" : ""}`);
   if (f.fixHint) lines.push(`- 수정 방향: ${safeText(f.fixHint)}`);
   lines.push("");
   return lines;

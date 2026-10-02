@@ -28,3 +28,4 @@ export * from "./usage";
 export * from "./legalref-map";
 export * from "./org-config";
 export * from "./watch-targets";
+export * from "./peers";
