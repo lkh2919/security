@@ -58,6 +58,8 @@ export const RuleSchema = z.strictObject({
   sectionId: ItemIdSchema,
   level: RuleLevelSchema,
   element: NonEmptyString,
+  /** Korean label of the element for user-facing alerts ("파기 절차 및 방법"); the section title is the fallback. */
+  elementKo: z.string().min(1).optional(),
   statement: NonEmptyString,
   /** Keys into the section's `legalRefs` map. */
   legalRefs: z.array(LegalRefKeySchema),

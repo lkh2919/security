@@ -9,7 +9,7 @@ import { maskContacts } from "../ingest/segment-policy";
 
 export const SEVERITY_LABEL: Readonly<Record<MonitorSeverity, string>> = { critical: "치명 (Critical)", high: "높음 (High)", medium: "중간 (Medium)", low: "낮음 (Low)", confirm: "확인 필요 (Confirm)" };
 export const PROVISIONAL_LABEL = "미검증 – 도메인 검토 대기";
-export const CONFIRMED_LABEL = "검증됨 (규칙 팩 기준)";
+export const CONFIRMED_LABEL = "규칙 팩 기준 판단 (사람 검토 전)";
 
 const ORDER: readonly MonitorSeverity[] = ["critical", "high", "medium", "low", "confirm"];
 

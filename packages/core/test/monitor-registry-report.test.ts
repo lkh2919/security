@@ -83,7 +83,7 @@ describe("reports", () => {
     expect(md.split(MONITOR_DISCLAIMER).length - 1).toBe(2); // top and bottom
     expect(md).toContain("| 중간 (Medium) |");
     expect(md).toContain("미검증 – 도메인 검토 대기");
-    expect(md).toContain("검증됨 (규칙 팩 기준)");
+    expect(md).toContain("규칙 팩 기준 판단 (사람 검토 전)");
     expect(md).toContain("- 위치: S07 제2문단");
     expect(md).toContain("수정 방향:");
     expect(md).toContain("개정 조문: PIPA PIPA:2\\[2\\] (시행 2026-12-01)");

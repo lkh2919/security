@@ -153,6 +153,36 @@ export function impactSeverity(args: { hasMust: boolean; effectiveOn: string | n
   return args.confirmed ? "high" : "medium";
 }
 
+const LAW_KO: Readonly<Record<string, string>> = { PIPA: "개인정보 보호법", DEC: "개인정보 보호법 시행령", NETA: "정보통신망법", "NETA-DEC": "정보통신망법 시행령", CIA: "신용정보법", EFTA: "전자금융거래법", FCPA: "금융소비자보호법" };
+const CHANGE_KO: Readonly<Record<string, string>> = { amended: "개정", added: "신설", deleted: "삭제" };
+
+/** "PIPA:31(1)", "PIPA:31(3)2", "PIPA:31(4)" ... -> "제31조 제1항, 제3항~제4항": one entry per article, items folded into their paragraph. */
+export function compactUnitKeys(keys: readonly string[]): string {
+  const byArticle = new Map<string, Set<number>>();
+  for (const k of keys) {
+    const m = /^[A-Z-]+:(\d+(?:-\d+)?)(?:\((\d+)\))?/.exec(k);
+    if (!m) continue;
+    const set = byArticle.get(m[1]!) ?? new Set<number>();
+    if (m[2]) set.add(Number(m[2]));
+    byArticle.set(m[1]!, set);
+  }
+  return [...byArticle]
+    .map(([art, paras]) => {
+      const name = `제${art.replace(/-(\d+)$/, "조의$1").replace(/^(\d+)$/, "$1조")}`;
+      if (paras.size === 0) return name;
+      const sorted = [...paras].sort((a, b) => a - b);
+      const runs: string[] = [];
+      for (let i = 0; i < sorted.length; i++) {
+        let j = i;
+        while (j + 1 < sorted.length && sorted[j + 1] === sorted[j]! + 1) j++;
+        runs.push(j > i + 1 ? `제${sorted[i]}항~제${sorted[j]}항` : j === i + 1 ? `제${sorted[i]}항, 제${sorted[j]}항` : `제${sorted[i]}항`);
+        i = j;
+      }
+      return `${name} ${runs.join(", ")}`;
+    })
+    .join("; ");
+}
+
 export async function runImpact(deps: ImpactDeps, input: ImpactInput): Promise<ImpactResult> {
   const now = input.now ?? new Date();
   const confirmed = input.confirmed === true;
@@ -173,12 +203,14 @@ export async function runImpact(deps: ImpactDeps, input: ImpactInput): Promise<I
   if (!deps.llm) warnings.push("LLM backend not used: affected sections are listed without a model judgement");
 
   const trigger = (key: string): NonNullable<MonitorFinding["trigger"]> => ({ law: diff.law, articleKey: key, effectiveOn: diff.effectiveOn });
-  const wording = tier === "provisional" ? "개정으로 인해 변경이 필요할 수 있습니다(가능성, 미검증)." : "개정으로 인해 변경이 필요합니다.";
+  const lawKo = LAW_KO[diff.law] ?? diff.law;
+  const when = diff.effectiveOn ? `${diff.effectiveOn} 시행` : "시행일 미정";
+  const wording = tier === "provisional" ? `${lawKo} 개정(${when})으로 이 항목의 수정이 필요할 수 있습니다 (미검증).` : `${lawKo} 개정(${when})으로 이 항목의 수정이 필요합니다.`;
 
   const unmapped = numberFindings(
     "BU",
     mapping.unmapped.map(
-      (u): Draft => ({ mode: "B", tier: "provisional", layer: "deterministic", ruleId: "MON-UNMAPPED", sectionId: UNMAPPED_SECTION, severity: "confirm", message: `개정 조문 ${u.key}(${u.change})은(는) 현재 규칙 팩의 어느 규칙과도 연결되지 않습니다. 처리방침에 미치는 영향은 도메인 검토가 필요합니다.`, fixHint: "정보보호실·법무 검토 후 규칙 팩 반영 여부를 결정하십시오.", location: { sectionId: UNMAPPED_SECTION, para: null, quote: "" }, trigger: trigger(u.key) }),
+      (u): Draft => ({ mode: "B", tier: "provisional", layer: "deterministic", ruleId: "MON-UNMAPPED", sectionId: UNMAPPED_SECTION, severity: "confirm", message: `개정 조문 ${u.key}(${CHANGE_KO[u.change] ?? u.change})은(는) 현재 규칙 팩의 어느 규칙과도 연결되지 않습니다. 처리방침에 미치는 영향은 도메인 검토가 필요합니다.`, fixHint: "정보보호실·법무 검토 후 규칙 팩 반영 여부를 결정하십시오.", location: { sectionId: UNMAPPED_SECTION, para: null, quote: "" }, trigger: trigger(u.key) }),
     ),
   );
 
@@ -216,15 +248,15 @@ export async function runImpact(deps: ImpactDeps, input: ImpactInput): Promise<I
       const { paras, sent, text } = sectionModelText(policy, impact.sectionId);
 
       if (paras.length === 0) {
-        drafts.push({ ...base, layer: "deterministic", severity: "confirm", message: `개정 조문(${keys.join(", ")})과 연결된 ${impact.sectionId}(${section.title.ko}) 항목을 처리방침에서 찾지 못했습니다. 해당 항목이 필요한지 확인하십시오.${relatedNote}`, fixHint: "처리방침에 해당 항목이 있는지, 개정으로 새로 필요한지 검토하십시오.", location: { sectionId: impact.sectionId, para: null, quote: "" } });
+        drafts.push({ ...base, layer: "deterministic", severity: "confirm", message: `개정 범위(${compactUnitKeys(keys)})에 연결된 ${impact.sectionId}(${section.title.ko}) 항목을 처리방침에서 찾지 못했습니다. 해당 항목이 필요한지 확인하십시오.${relatedNote}`, fixHint: "처리방침에 해당 항목이 있는지, 개정으로 새로 필요한지 검토하십시오.", location: { sectionId: impact.sectionId, para: null, quote: "" } });
         continue;
       }
       if (sent.length === 0) {
-        drafts.push({ ...base, layer: "deterministic", severity: "confirm", message: `${FINANCE_MANUAL_LABEL}: 개정 조문(${keys.join(", ")})과 연결된 ${impact.sectionId}(${section.title.ko}) 항목이 모두 금융 법령 관련 내용이라 모델에 보내지 않았습니다. 사람이 검토해야 합니다.${relatedNote}`, fixHint: "해당 항목을 개정 내용과 대조해 검토하십시오.", location: { sectionId: impact.sectionId, para: null, quote: "" } });
+        drafts.push({ ...base, layer: "deterministic", severity: "confirm", message: `${FINANCE_MANUAL_LABEL}: 개정 범위(${compactUnitKeys(keys)})에 연결된 ${impact.sectionId}(${section.title.ko}) 항목이 모두 금융 법령 관련 내용이라 모델에 보내지 않았습니다. 사람이 검토해야 합니다.${relatedNote}`, fixHint: "해당 항목을 개정 내용과 대조해 검토하십시오.", location: { sectionId: impact.sectionId, para: null, quote: "" } });
         continue;
       }
       if (!deps.llm || !prompt) {
-        drafts.push({ ...base, layer: "deterministic", severity: "confirm", message: `개정 조문(${keys.join(", ")})이 ${impact.sectionId}(${section.title.ko})의 규칙과 연결됩니다. 모델 판단을 실행하지 않아 영향 여부는 확인되지 않았습니다.${relatedNote}`, fixHint: "해당 항목을 개정 내용과 대조해 검토하십시오.", location: { sectionId: impact.sectionId, para: null, quote: "" } });
+        drafts.push({ ...base, layer: "deterministic", severity: "confirm", message: `개정 범위(${compactUnitKeys(keys)})이 ${impact.sectionId}(${section.title.ko})의 규칙과 연결됩니다. 모델 판단을 실행하지 않아 영향 여부는 확인되지 않았습니다.${relatedNote}`, fixHint: "해당 항목을 개정 내용과 대조해 검토하십시오.", location: { sectionId: impact.sectionId, para: null, quote: "" } });
         continue;
       }
 
@@ -235,7 +267,7 @@ export async function runImpact(deps: ImpactDeps, input: ImpactInput): Promise<I
         out = res.data;
       } catch (err) {
         warnings.push(`${policy.policyId} ${impact.sectionId}: the model judgement failed (${err instanceof Error ? err.name : "error"}); manual review required`);
-        drafts.push({ ...base, layer: "llm", severity: "confirm", message: `개정 조문(${keys.join(", ")})의 영향을 ${impact.sectionId}(${section.title.ko})에서 자동으로 판단하지 못했습니다. 사람이 검토해야 합니다.${relatedNote}`, fixHint: "해당 항목을 수동으로 확인하십시오.", location: { sectionId: impact.sectionId, para: null, quote: "" } });
+        drafts.push({ ...base, layer: "llm", severity: "confirm", message: `개정 범위(${compactUnitKeys(keys)})의 영향을 ${impact.sectionId}(${section.title.ko})에서 자동으로 판단하지 못했습니다. 사람이 검토해야 합니다.${relatedNote}`, fixHint: "해당 항목을 수동으로 확인하십시오.", location: { sectionId: impact.sectionId, para: null, quote: "" } });
         continue;
       }
       if (out.verdict === "still_compliant") continue;
@@ -252,7 +284,7 @@ export async function runImpact(deps: ImpactDeps, input: ImpactInput): Promise<I
       if (tier === "provisional") severity = capSeverity(severity, "medium");
       const suggestion = clean(out.suggestedWording).trim();
       const fixHint = suggestion ? (tier === "provisional" ? `(참고 문안, 확정 아님) ${suggestion}` : suggestion) : "해당 문단을 개정 내용에 맞게 검토하십시오.";
-      const message = out.verdict === "review" ? `개정 조문(${keys.join(", ")})이 ${impact.sectionId}(${section.title.ko})에 영향을 주는지 확인이 필요합니다.${relatedNote}` : `${wording} 개정 조문: ${keys.join(", ")}.${relatedNote}`;
+      const message = out.verdict === "review" ? `${lawKo} 개정 범위(${compactUnitKeys(keys)})가 ${impact.sectionId}(${section.title.ko})에 영향을 주는지 확인이 필요합니다.${relatedNote}` : `${wording} 개정 범위: ${compactUnitKeys(keys)}.${relatedNote}`;
       drafts.push({ ...base, layer: "llm", severity, message, fixHint, location: { sectionId: impact.sectionId, para: paraOfQuote(paras, quote), quote } });
     }
     perPolicy.set(policy.policyId, numberFindings("B", drafts));

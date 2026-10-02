@@ -3,6 +3,7 @@ import { AmendmentDiffSchema } from "../src/contracts/amendment-diff";
 import { MockLlmClient, type StructuredCallRequest } from "../src/llm";
 import { formatLegalRefKey } from "../src/stages/render/resolve";
 import { diffArticles, flattenArticles, impactSeverity, mapUnitsToSections, parseLawXml, refsRelated, runImpact, type ImpactJudgeOutput } from "../src/stages/monitor";
+import { compactUnitKeys } from "../src/stages/monitor/impact";
 import { NOW, ingestFixture, readFixture, ruleSections } from "./monitor-fixtures";
 
 const oldArticles = parseLawXml(readFixture("law-old.xml"));
@@ -75,7 +76,8 @@ describe("legal-ref matching", () => {
   test("a change in PIPA:30(1)1 reaches the rules citing it or its parent, not a sibling item's rules", () => {
     const m = mapUnitsToSections([{ key: "PIPA:30(1)1", change: "amended", oldText: "a", newText: "b" }], ruleSections);
     expect(m.sections.map((s) => s.sectionId)).toEqual(["S01", "S02"]); // S01: R-S01-003 cites PIPA:30(1); S02: R-S02-001 cites PIPA:30(1)1
-    expect(m.sections.find((s) => s.sectionId === "S02")!.rules.map((r) => r.ruleId)).toEqual(["R-S02-001"]);
+    // R-S02-002 cites PIPA:30(1)1 too since the 2026-10-02 self-review (specific purposes)
+    expect(m.sections.find((s) => s.sectionId === "S02")!.rules.map((r) => r.ruleId)).toEqual(["R-S02-001", "R-S02-002"]);
     expect(m.unmapped).toEqual([]);
   });
 
@@ -124,7 +126,8 @@ describe("Mode B runner (mock LLM)", () => {
     expect([f.mode, f.tier, f.severity, f.layer, f.ruleId]).toEqual(["B", "provisional", "medium", "llm", "R-S02-001"]);
     expect(f.location).toEqual({ sectionId: "S02", para: 2, quote: "회원 가입 및 관리: 본인 확인, 서비스 제공" });
     expect(f.trigger).toEqual({ law: "PIPA", articleKey: "PIPA:2[2]", effectiveOn: null });
-    expect(f.message).toContain("가능성");
+    expect(f.message).toContain("수정이 필요할 수 있습니다 (미검증)");
+    expect(f.message).toContain("개정 범위: 제2조");
     expect(f.fixHint).toContain("확정 아님");
     expect(f.fixHint).not.toContain("privacy@example.com");
     expect(f.fixHint).toContain("[이메일]");
@@ -179,3 +182,12 @@ describe("Mode B runner (mock LLM)", () => {
     expect(r.perPolicy.get("policy-c")!.map((f) => [f.ruleId, f.severity])).toEqual([["MON-INGEST", "confirm"]]);
   });
 });
+
+describe("Mode B wording (domain self-review 2026-10-02)", () => {
+  test("unit keys collapse per article with paragraph ranges; items fold into their paragraph", () => {
+    const keys = ["PIPA:31(1)", "PIPA:31(3)", "PIPA:31(3)1", "PIPA:31(4)", "PIPA:31(5)", "PIPA:31(6)", "PIPA:31(10)", "PIPA:28-4(1)", "PIPA:29"];
+    expect(compactUnitKeys(keys)).toBe("제31조 제1항, 제3항~제6항, 제10항; 제28조의4 제1항; 제29조");
+    expect(compactUnitKeys(["PIPA:26(4)", "PIPA:26(5)"])).toBe("제26조 제4항, 제5항");
+  });
+});
+

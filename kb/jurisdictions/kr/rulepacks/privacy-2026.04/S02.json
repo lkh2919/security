@@ -10,7 +10,7 @@
   "applicability": { "when": { "all": [] } },
   "rules": [
     { "ruleId": "R-S02-001", "sectionId": "S02", "level": "must", "element": "purposes stated", "statement": "State the purposes for which personal data is processed (processing includes collection, storage, use, provision, destruction and similar acts).", "legalRefs": ["PIPA:30(1)1", "PIPA:2[2]"], "check": { "kind": "deterministic", "expr": "count(section.S02.purposes) >= 1" }, "sourceSpan": "L579-585", "verifiedAt": "2026-09-29" },
-    { "ruleId": "R-S02-002", "sectionId": "S02", "level": "must", "element": "specific, no vague terms", "statement": "Each purpose is specific and clear; do not use open-ended wording such as \"~등\".", "legalRefs": [], "check": { "kind": "deterministic", "expr": "!match(section.S02.text, lex.vague)" }, "sourceSpan": "L586-587", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S02-002", "sectionId": "S02", "level": "must", "element": "specific, no vague terms", "elementKo": "처리 목적의 구체적 기재", "statement": "Each purpose is specific and clear; do not use open-ended wording such as \"~등\".", "legalRefs": ["PIPA:3(1)", "PIPA:30(1)1"], "check": { "kind": "deterministic", "expr": "!match(section.S02.text, lex.vague)" }, "sourceSpan": "L586-587", "verifiedAt": "2026-10-02" },
     { "ruleId": "R-S02-003", "sectionId": "S02", "level": "must", "element": "consistent with consent notice", "statement": "For consent-based processing, purposes match what was notified when consent was obtained.", "legalRefs": [], "check": { "kind": "llm", "expr": "compare(section.S02, slot(privacy.S02_purposes).consentNoticeText)" }, "sourceSpan": "L591-593", "verifiedAt": "2026-09-29" },
     { "ruleId": "R-S02-004", "sectionId": "S02", "level": "must", "element": "no-consent purposes predictable", "statement": "For processing without consent, state purposes clearly enough that the data subject can reasonably expect them.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L594-596", "verifiedAt": "2026-09-29" },
     { "ruleId": "R-S02-005", "sectionId": "S02", "level": "may", "element": "per-service split", "statement": "Where several services exist, purposes may be grouped per service.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L588-589", "verifiedAt": "2026-09-29" },
@@ -31,7 +31,8 @@
   "legalRefs": {
     "PIPA:30(1)1": { "law": "개인정보 보호법", "article": "30", "paragraph": "1", "item": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p21 L579", "lawGoKr": false },
     "PIPA:2[2]": { "law": "개인정보 보호법", "article": "2", "item": "2", "verifiedBy": "pipc-guideline-2026-04", "at": "p21 L582-585", "lawGoKr": false },
-    "PIPA:18": { "law": "개인정보 보호법", "article": "18", "verifiedBy": "pipc-guideline-2026-04", "at": "p22 L610 (example)", "lawGoKr": false }
+    "PIPA:18": { "law": "개인정보 보호법", "article": "18", "verifiedBy": "pipc-guideline-2026-04", "at": "p22 L610 (example)", "lawGoKr": false },
+    "PIPA:3(1)": { "law": "개인정보 보호법", "article": "3", "paragraph": "1", "verifiedBy": [{ "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=283839", "fetched": "2026-10-02", "version": "법률 제21445호, 시행 2026-09-11" }], "at": "provision text read in the law.go.kr XML (domain self-review)", "lawGoKr": true }
   },
   "needsVerification": []
 }

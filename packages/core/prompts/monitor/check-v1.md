@@ -1,5 +1,5 @@
 ---
-version: 1.1.0
+version: 1.2.0
 stage: M1 (Policy monitor, Mode A: published-policy check)
 model: claude-opus-5-5
 effort: high
@@ -40,6 +40,7 @@ Return `{ "findings": [ { "ruleId", "verdict", "quote", "fixHint", "question" } 
 
 - `quote`: a verbatim excerpt of the section text, at most 200 characters, copied exactly (same characters, same spacing). Use an empty string for `missing` (an omission has no quote). If you cannot copy an exact excerpt, use an empty string; never paraphrase.
 - `fixHint`: one sentence in Korean on what the publisher should check or add. Direction only, no rewritten policy text, no contact details.
+  For a right or duty that applies only in some cases (a `factDependent` rule, or a `textOnly` rule whose statement says "if", "where" or "when"), start with "해당되는 경우" and do not state it as a duty of every processor (not "전송요구권을 추가해야 합니다", but "해당되는 경우 전송요구 방법을 적으십시오"). Do not call a method missing when the text names a channel (homepage, e-mail, phone): ask for the missing detail instead.
 - `question`: for `confirm` only, one short Korean question the publisher can answer yes or no (for example "서비스 이용 중 생성되는 정보가 있습니까?"); no more than 100 characters, no contact details. Use an empty string for other verdicts.
 - Report `confirm` only for `must` rules; a `should` rule that is merely not shown is `ok`, not `confirm`.
 - No findings: `{ "findings": [] }`.

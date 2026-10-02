@@ -1,7 +1,7 @@
 {
   "policyId": "seed-s18-no-contact",
   "synthetic": true,
-  "labelStatus": "pending privacy-domain-expert review",
+  "labelStatus": "pending privacy-domain-expert review (AI self-reviewed 2026-10-02: removing every contact breaks PIPA 30(1)6 (전화번호 등 연락처), so R-S18-001 at High)",
   "kind": "seeded",
   "derivedFrom": "clean",
   "seed": "S18: officer phone and e-mail lines removed (name only)",
@@ -62,12 +62,10 @@
   "findings": [
     {
       "anyOfRuleIds": [
-        "R-S18-001",
-        "R-S18-002",
-        "R-S18-003"
+        "R-S18-001"
       ],
       "sectionId": "S18",
-      "severityFloor": "low",
+      "severityFloor": "high",
       "detect": "llm",
       "major": false
     }

@@ -52,7 +52,7 @@ export const RULE_CLASSES: Readonly<Record<string, RuleClass>> = {
   // S05 Processing and retention period (mandatory)
   "R-S05-001": "textOnly", // must: retention per basis
   "R-S05-002": "factDependent", // must: consistent with consent notice
-  "R-S05-003": "factDependent", // must: statutory basis and period
+  "R-S05-003": "textOnly", // must: statutory basis and period (trigger is in the text: "관련 법령에 따라" needs the statute and period; self-review 2026-10-02)
   "R-S05-004": "factDependent", // should: items kept under statute
   "R-S05-005": "textOnly", // must: concrete period per task
   "R-S05-006": "factDependent", // should: extension exceptions
@@ -60,7 +60,8 @@ export const RULE_CLASSES: Readonly<Record<string, RuleClass>> = {
   // S06 Destruction procedure and method (mandatory)
   "R-S06-001": "textOnly", // must: destroy without delay
   "R-S06-002": "factDependent", // must: preservation basis, items, period
-  "R-S06-003": "textOnly", // must: procedure and method details
+  "R-S06-003": "textOnly", // must: procedure and method stated
+  "R-S06-005": "textOnly", // should: selection and approval step (split from R-S06-003, self-review 2026-10-02)
   "R-S06-004": "factDependent", // should: separate storage statement
   // S07 Provision to third parties (conditional)
   "R-S07-001": "textOnly", // must: consent-based provision fields
@@ -85,7 +86,7 @@ export const RULE_CLASSES: Readonly<Record<string, RuleClass>> = {
   "R-S11-001": "textOnly", // must: measures stated
   "R-S11-002": "factDependent", // must: actual measures by category
   // S12 Sensitive-data disclosure risk and opt-out (conditional)
-  "R-S12-001": "textOnly", // must: disclosure possibility
+  "R-S12-001": "factDependent", // must: disclosure possibility (only if public information may include sensitive data; self-review 2026-10-02)
   "R-S12-002": "textOnly", // must: how to choose non-disclosure
   // S13 Pseudonymized information (conditional)
   "R-S13-001": "textOnly", // must: purpose
@@ -106,13 +107,14 @@ export const RULE_CLASSES: Readonly<Record<string, RuleClass>> = {
   "R-S15-002": "textOnly", // should: refusal method
   "R-S15-003": "factDependent", // should: periodic review (operational)
   // S16 Rights of data subjects and legal representatives (mandatory)
-  "R-S16-001": "textOnly", // must: rights and how to exercise
-  "R-S16-002": "factDependent", // must: website self-service
+  "R-S16-001": "textOnly", // must: core rights and how to exercise (전송요구·자동화된 결정 split out, self-review 2026-10-02)
+  "R-S16-002": "textOnly", // must: website self-service (a fetched web policy proves the website exists; self-review 2026-10-02)
   "R-S16-003": "factDependent", // must: no harder than collection
   "R-S16-004": "textOnly", // should: request form and contact
   "R-S16-005": "factDependent", // must: transmission request (if transmitter)
   "R-S16-006": "factDependent", // should: agents, limits, identity check, response time
   "R-S16-007": "factDependent", // should: minors
+  "R-S16-008": "factDependent", // should: automated-decision rights pointer (only if fully automated decisions are made)
   // S17 Automated decisions (conditional)
   "R-S17-001": "textOnly", // must: fact, purpose, scope of subjects
   "R-S17-002": "factDependent", // must: main data types and relation
@@ -126,7 +128,7 @@ export const RULE_CLASSES: Readonly<Record<string, RuleClass>> = {
   "R-S18-003": "factDependent", // must: working contact
   "R-S18-004": "textOnly", // should: both officer and department
   "R-S18-005": "factDependent", // should: officer shown = officer designated and reported (large processors)
-  "R-S18-006": "factDependent", // should: officer duties described with the amended list
+  "R-S18-006": "textOnly", // should: officer duties described with the amended list (a duty list in the text is the trigger; self-review 2026-10-02)
   "R-S18-007": "factDependent", // should: small business: owner or representative is the officer
   // S19 Domestic representative (conditional)
   "R-S19-001": "textOnly", // must: representative details

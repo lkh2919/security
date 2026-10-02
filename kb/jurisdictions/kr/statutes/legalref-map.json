@@ -101,7 +101,9 @@
         "privacy-2026.04"
       ],
       "note": "Standalone DEC means the PIPA decree. Inside a compound key after another prefix (LSA:42+DEC:22(1)1, HIRE:11(3)+DEC:3-4) DEC means that law's decree: see compoundKeyRules.",
-      "scheduled": [],
+      "scheduled": [
+        {"mst": "289537", "promulgationNo": "대통령령 제36121호 부칙 단서 (제42조의2제1항제1호; current text MST 289537)", "effectiveDate": "2027-02-20", "keys": ["DEC:42-2(1)1"], "rules": ["R-S16-005"], "note": "Large private processors become information transmitters (전송요구권). Read in the decree XML 2026-10-02 (domain self-review)."}
+      ],
       "verifiedBy": [
         {
           "url": "https://www.law.go.kr/DRF/lawSearch.do?target=law&type=XML&query=%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%20%EB%B3%B4%ED%98%B8%EB%B2%95",

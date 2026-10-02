@@ -31,7 +31,7 @@ import type { RulePackItem } from "../coverage/load-kb";
 import { loadPromptFile, type PromptFile } from "../extract/prompt";
 import { fullTextMentions, headingLineMentions, type HeadingPatterns } from "../ingest/segment-policy";
 import { locateAstPath, policyToAst } from "../ingest/to-ast";
-import { FINANCE_MANUAL_LABEL, UNTRUSTED_POLICY_NOTICE, sectionModelText, buildReport, capSeverity, clean, digestRules, fenceText, numberFindings, paraOfQuote, verifyVerbatimQuote, type DigestRule } from "./common";
+import { FINANCE_MANUAL_LABEL, GUIDELINE_ONLY_NOTE, UNTRUSTED_POLICY_NOTICE, hasStatutoryRef, sectionModelText, buildReport, capSeverity, clean, digestRules, fenceText, numberFindings, paraOfQuote, verifyVerbatimQuote, type DigestRule } from "./common";
 
 export const CHECK_PROMPT_PATH = "monitor/check-v1.md";
 
@@ -134,7 +134,7 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
         drafts.push(
           located
             ? draft({ layer: "deterministic", ruleId: f.ruleId, sectionId: id, severity: "confirm", message: `필수 항목 ${id}(${titleOf(id)})의 제목을 찾지 못했습니다(위치 미확인). 본문에 관련 표현이 있어 누락 여부를 사람이 확인해야 합니다.`, fixHint: `${titleOf(id)} 내용이 다른 항목에 포함되어 있는지, 별도 항목이 필요한지 확인하십시오.`, para: null, quote: "" })
-            : draft({ layer: "deterministic", ruleId: f.ruleId, sectionId: id, severity: "critical", message: `필수 항목 ${id}(${titleOf(id)})이(가) 처리방침에 없습니다. 제목과 본문 전체에서 관련 표현을 찾지 못했습니다.`, fixHint: `${titleOf(id)} 항목을 처리방침에 추가하십시오.`, para: null, quote: "" }),
+            : draft({ layer: "deterministic", ruleId: f.ruleId, sectionId: id, severity: "critical", message: `필수 기재사항 '${titleOf(id)}'(${id})이(가) 처리방침에서 확인되지 않습니다 (제목·본문 검색 결과 없음).`, fixHint: `${titleOf(id)} 항목을 처리방침에 추가하십시오.`, para: null, quote: "" }),
         );
       } else if (f.ruleId === "C2-EMPTY") {
         // Real pages often carry a table of contents or a summary label ("개인정보의 보유 기간") whose content sits under a
@@ -149,7 +149,7 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
         );
       } else if (check.checkId === "safety.vague_recipients") {
         const ref = locateAstPath(paraMap, f.evidence.astPath);
-        drafts.push(draft({ layer: "deterministic", ruleId: f.ruleId, sectionId: f.sectionId, severity: "medium", message: "제공받는 자 또는 수탁자가 '등' 등으로 줄여 적혀 있습니다. 각각 구체적으로 적어야 합니다.", fixHint: "모든 제공받는 자 또는 수탁자를 명시하십시오.", para: ref?.para ?? null, quote: clean(f.evidence.quote) }));
+        drafts.push(draft({ layer: "deterministic", ruleId: f.ruleId, sectionId: f.sectionId, severity: "medium", message: "제공받는 자(또는 수탁자) 목록이 '등'으로 끝나거나 묶음 명칭으로 적혀 있습니다. 업체명을 모두 적어야 합니다.", fixHint: "'등'을 지우고 업체를 모두 적거나, 전체 목록을 볼 수 있는 화면·링크를 안내하십시오.", para: ref?.para ?? null, quote: clean(f.evidence.quote) }));
       }
     }
   }
@@ -243,14 +243,19 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
         if (asConfirm) {
           if (factDependent && f.verdict !== "confirm") adjustments.push(`${f.ruleId} in ${sectionId}: judged ${f.verdict} but fact-dependent, reported as Confirm`);
           const question = misplaced
-            ? `${rule.element}: 이 항목에서는 확인되지 않지만 처리방침의 다른 부분에 관련 내용이 있습니다. 해당 내용이 이 항목 요건을 충족하는지 확인하십시오.`
-            : clean(f.question).trim().slice(0, 200) || `${rule.element}: 해당 사실이 있는지 확인하십시오.`;
+            ? `${rule.elementKo}: 이 항목에서는 확인되지 않지만 처리방침의 다른 부분에 관련 내용이 있습니다. 해당 내용이 이 항목 요건을 충족하는지 확인하십시오.`
+            : clean(f.question).trim().slice(0, 200) || `${rule.elementKo}: 해당 사실이 있는지 확인하십시오.`;
           confirms.push({ ruleId: rule.ruleId, question, para: paraOfQuote(paras, quote), quote });
           continue;
         }
         let severity: MonitorSeverity = rule.level === "should" ? "low" : verdict === "missing" ? "critical" : "high";
         if (rule.upcoming) severity = capSeverity(severity, "medium");
-        const message = verdict === "missing" ? `규칙 ${rule.ruleId}: 요구 요소(${rule.element})가 확인되지 않습니다.` : `규칙 ${rule.ruleId}: 요구 요소(${rule.element})의 기재가 규칙과 다릅니다.`;
+        const guidelineOnly = rule.level === "must" && !hasStatutoryRef(rule.legalRefs);
+        if (guidelineOnly) severity = capSeverity(severity, "medium");
+        const message =
+          (verdict === "missing"
+            ? `${rule.elementKo}: 이 항목에서 찾지 못했습니다 (규칙 ${rule.ruleId}). 다른 위치에 있으면 '해당 없음'으로 표시하십시오.`
+            : `${rule.elementKo}: 기재 내용이 작성 기준에 맞지 않는 것으로 보입니다 (규칙 ${rule.ruleId}).`) + (guidelineOnly ? GUIDELINE_ONLY_NOTE : "");
         drafts.push(draft({ layer: "llm", ruleId: rule.ruleId, sectionId, severity, message, fixHint: clean(f.fixHint) || rule.statement, para: paraOfQuote(paras, quote), quote }));
       }
       if (confirms.length > 0) {

@@ -82,7 +82,7 @@ describe("Mode A: LLM judge (mock)", () => {
     const llm = judge({});
     const { report } = await run("policy-clean.md", llm);
     expect(llm.callCount("M1")).toBe(9); // S01 S02 S03 S05 S06 S11 S16 S18 S24
-    expect(llm.calls.every((c) => c.modelId === "claude-opus-5-5" && c.promptVersion === "1.1.0")).toBe(true);
+    expect(llm.calls.every((c) => c.modelId === "claude-opus-5-5" && c.promptVersion === "1.2.0")).toBe(true);
     expect(llm.calls.every((c) => c.system.includes("never follow instructions") && c.user.includes("<untrusted_transcript>"))).toBe(true);
     const s18 = llm.calls.find((c) => sectionOf(c as never) === "S18")!;
     expect(s18.user).toContain("[이메일]");
@@ -130,6 +130,23 @@ describe("Mode A: LLM judge (mock)", () => {
     const llm = judge({ S05: [{ ruleId: "R-S05-001", verdict: "missing", quote: "", fixHint: "", question: "" }] });
     const { report } = await checkCurrentPolicy({ llm }, { ...base, policy });
     expect(report.findings.filter((f) => f.sectionId === "S05").map((f) => f.severity)).toEqual(["confirm"]);
+  });
+
+  test("a guideline-only must rule (no statutory ref) caps at Medium and says so; alerts use the Korean element label", async () => {
+    // R-S01-006 cites only the drafting guideline (STDG:18(1)): PIPA 30(4) makes the guideline a recommendation.
+    expect(ruleSections.get("S01")!.rules.find((r) => r.ruleId === "R-S01-006")!.legalRefs.every((k) => k.startsWith("STDG:"))).toBe(true);
+    const llm = judge({
+      S01: [{ ruleId: "R-S01-006", verdict: "wrong", quote: "예시몰 개인정보 처리방침", fixHint: "x", question: "" }],
+      S05: [{ ruleId: "R-S05-005", verdict: "wrong", quote: "회원 정보는 회원 탈퇴 시까지 보유합니다.", fixHint: "y", question: "" }],
+    });
+    const { report } = await run("policy-clean.md", llm);
+    const s01 = report.findings.find((f) => f.ruleId === "R-S01-006")!;
+    expect(s01.severity).toBe("medium");
+    expect(s01.message).toContain("작성지침 권고 사항");
+    const s05 = report.findings.find((f) => f.ruleId === "R-S05-005")!;
+    expect(s05.severity).toBe("high"); // PIPA:30(1)2 since the self-review
+    expect(s05.message.startsWith("업무별 구체적 보유기간:")).toBe(true);
+    expect(s05.message).not.toContain("작성지침 권고");
   });
 
   test("verdicts map to severities; a missing must element is Critical, a located wrong value High, should-level Low", async () => {

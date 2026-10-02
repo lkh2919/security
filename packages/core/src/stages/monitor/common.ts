@@ -95,12 +95,25 @@ export interface DigestRule {
   readonly ruleId: string;
   readonly level: "must" | "should";
   readonly element: string;
+  /** Korean label for alerts; the section title when the rule has none. */
+  readonly elementKo: string;
   readonly statement: string;
   readonly legalRefs: readonly string[];
   /** `factDependent` rules (rule-classes.ts) can only be Confirm: the published text cannot prove them required. */
   readonly ruleClass: RuleClass;
   readonly upcoming: boolean;
 }
+
+/** References to the drafting guideline (STDG) or PIPC guidance only: no statutory duty behind the rule. */
+const GUIDELINE_REF = /^(STDG|PIPCGL)(:|$)/;
+
+/**
+ * True when a rule has a verified statutory reference. A `must` rule without one rests on the drafting guideline, which PIPA 30(4)
+ * makes a recommendation: the monitor caps it at Medium (domain self-review 2026-10-02, decision 2a).
+ */
+export const hasStatutoryRef = (legalRefs: readonly string[]): boolean => legalRefs.some((k) => !GUIDELINE_REF.test(k));
+
+export const GUIDELINE_ONLY_NOTE = " (작성지침 권고 사항이며 법 조문 위반으로 단정하지 않습니다.)";
 
 export function digestRules(section: RuleSection, only?: ReadonlySet<string>): DigestRule[] {
   return section.rules
@@ -109,6 +122,7 @@ export function digestRules(section: RuleSection, only?: ReadonlySet<string>): D
       ruleId: r.ruleId,
       level: r.level as "must" | "should",
       element: r.element,
+      elementKo: r.elementKo ?? section.title.ko,
       statement: r.statement,
       legalRefs: r.legalRefs,
       ruleClass: ruleClassOf(r.ruleId),

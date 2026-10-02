@@ -1,7 +1,7 @@
 {
   "fixture": "golden/monitor/laws/pipa-20897-to-21445.json",
   "law": "PIPA",
-  "labelStatus": "pending privacy-domain-expert review",
+  "labelStatus": "pending privacy-domain-expert review (AI self-reviewed 2026-10-02: changeClass added; S18 narrowed to 31(1), 31(3), 31(4))",
   "derivation": "article diff (diffArticles) intersected with rule-pack privacy-2026.04 legalRefs (mapUnitsToSections); sanity check: PIPA Art. 31 (privacy officer) maps to S18",
   "rulePack": "privacy-2026.04",
   "mustIncludeSections": [
@@ -17,7 +17,8 @@
       ],
       "rules": [
         "R-S09-007"
-      ]
+      ],
+      "changeClass": "terminology"
     },
     {
       "sectionId": "S11",
@@ -26,7 +27,8 @@
       ],
       "rules": [
         "R-S11-001"
-      ]
+      ],
+      "changeClass": "terminology"
     },
     {
       "sectionId": "S13",
@@ -35,13 +37,13 @@
       ],
       "rules": [
         "R-S13-006"
-      ]
+      ],
+      "changeClass": "terminology"
     },
     {
       "sectionId": "S18",
       "units": [
         "PIPA:31(1)",
-        "PIPA:31(10)",
         "PIPA:31(3)",
         "PIPA:31(3)1",
         "PIPA:31(3)2",
@@ -59,18 +61,14 @@
         "PIPA:31(4)6",
         "PIPA:31(4)7",
         "PIPA:31(4)8",
-        "PIPA:31(4)9",
-        "PIPA:31(5)",
-        "PIPA:31(6)",
-        "PIPA:31(7)",
-        "PIPA:31(8)",
-        "PIPA:31(9)"
+        "PIPA:31(4)9"
       ],
       "rules": [
         "R-S18-001",
         "R-S18-005",
         "R-S18-006"
-      ]
+      ],
+      "changeClass": "substantive"
     },
     {
       "sectionId": "S19",
@@ -81,15 +79,17 @@
       "rules": [
         "R-S19-001",
         "R-S19-003"
-      ]
+      ],
+      "changeClass": "terminology"
     }
   ],
-  "expectedUnmappedUnitCount": 67,
+  "expectedUnmappedUnitCount": 73,
   "mustRuleSections": [
     "S09",
     "S11",
     "S13",
     "S18",
     "S19"
-  ]
+  ],
+  "changeClassNote": "terminology = wording or renumbering only (유출 → 유출등, cross-references); substantive = duties changed (Art. 31(3) board reporting, 31(4) officer duties). PIPA:31(5)-(10) (officer status and independence) map to no rule since the whole-article ref was narrowed."
 }

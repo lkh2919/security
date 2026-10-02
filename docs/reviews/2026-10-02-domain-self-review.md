@@ -227,3 +227,21 @@ Not changed, noted: S17 keyword "프로파일링" (ad profiling is usually S15, 
 6. 하이마트몰 title: check the rendered page.
 7. Guideline text (kb/_sources) to confirm the R-S06-003 and R-S16-001 source spans; STDG 18(1)/20(1) article text; safety-measures notice 파기 provisions. All ⚠️ Unverified here.
 8. All 42 labels: this file is an AI self-review and the eval gate should treat it as provisional until a person confirms.
+
+## 9. Applied by PM (2026-10-02, same day)
+
+The user asked to apply the review at once. Applied, with tests (1008 pass, eval gates 25/25):
+
+| Item | Change |
+|---|---|
+| 2a cap | `must` rules whose refs are empty or guideline-only (STDG, PIPCGL) cap at Medium in Mode A, with the note "(작성지침 권고 사항이며 법 조문 위반으로 단정하지 않습니다.)" (`hasStatutoryRef`, `current-check.ts`) |
+| 2a refs | Verified refs added (decree and PIPA text checked again by PM): R-S02-002 `PIPA:3(1)`, `PIPA:30(1)1`; R-S03-002 `DEC:31(1)1`; R-S04-003 `PIPA:22-2(3)`; R-S05-005 `PIPA:30(1)2`; R-S05-003 `PIPA:30(1)3-2`; R-S14-002 `PIPA:30(1)7`; R-S16-002 `PIPA:38(4)`, `DEC:41(2)3` |
+| 2a split | R-S06-003 (procedure and method, `PIPA:30(1)3-2`, `PIPA:21(2)`, `DEC:16(1)`) + new R-S06-005 (`should`: who selects and approves) |
+| 2b split | R-S16-001 core rights (+`PIPA:35(1)`, `36(1)`, `37(1)`, `38(4)`); R-S16-005 refs and effectiveNote (2027-02-20); new R-S16-008 (`should`, factDependent) |
+| §3 classes | R-S05-003, R-S16-002, R-S18-006 → textOnly; R-S12-001 → factDependent; R-S06-005 textOnly; R-S16-008 factDependent. R-S06-002 deferred (needs S05 text in the judge) |
+| §4 map | R-S18-001 `PIPA:31` → `PIPA:31(1)`; DEC scheduled entry `DEC:42-2(1)1` 2027-02-20 → R-S16-005. PIPA 31(5)-(10) now map to no rule (officer status, not policy wording) |
+| §5 wording | `elementKo` on 15 rules (section title is the fallback); new Mode A messages; vague-recipient text; Mode B "개정 범위: 제31조 제1항, 제3항~제4항" per article; 개정/신설/삭제; `CONFIRMED_LABEL` = "규칙 팩 기준 판단 (사람 검토 전)"; check prompt 1.2.0: conditional fix hints start with "해당되는 경우" |
+| §6 labels | Clean fixtures add "동의 철회"; seed-s18-no-contact → R-S18-001 at High; pipa-21445 relabelled with `changeClass` (terminology vs substantive), unmapped 73; D5 source `PIPA:31(1)` |
+| R-S01-001 | check regex accepts "개인정보처리방침" without spaces |
+
+Deferred: R-S06-002 reclass; alias context-only rule (§4 #2); PIPCGL/NETA mode naming (§4 #4-5); STDG article text; `elementKo` for the remaining rules; R-S16-002 statement wording; "치명 → 심각" (optional). Human items in §8 stay open.
