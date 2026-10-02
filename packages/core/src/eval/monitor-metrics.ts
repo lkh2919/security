@@ -12,6 +12,8 @@ export const SEVERITY_RANK: Readonly<Record<string, number>> = { critical: 5, hi
 export interface SectionLabel {
   readonly title: string;
   readonly sectionId: string;
+  /** Other ids that are also right, for a combined heading such as "처리 목적, 항목 및 보유기간". */
+  readonly alsoAccept?: readonly string[];
 }
 
 export interface FindingLike {
@@ -55,7 +57,8 @@ export function segmentationAccuracy(expected: readonly SectionLabel[], actual: 
   const wrong: string[] = [];
   let correct = 0;
   for (const e of expected) {
-    if (byTitle.get(e.title) === e.sectionId) correct += 1;
+    const got = byTitle.get(e.title);
+    if (got !== undefined && (got === e.sectionId || (e.alsoAccept ?? []).includes(got))) correct += 1;
     else wrong.push(`${e.title} -> ${byTitle.get(e.title) ?? "(missing)"}, expected ${e.sectionId}`);
   }
   return { correct, total: expected.length, accuracy: ratio(correct, expected.length), wrong };
@@ -330,7 +333,7 @@ export function evaluateMonitorGates(m: MonitorMetrics): GateRow[] {
   const peerS = m.peerSubstantive;
   const ig = m.integrity;
   rows.push(row("M8.seg", "Segmentation accuracy, golden drafts", ">= 0.95", m.segmentationAccuracy === null ? null : pct(m.segmentationAccuracy), m.segmentationAccuracy === null ? null : m.segmentationAccuracy >= 0.95));
-  rows.push(row("M8.seg.real", "Segmentation accuracy, real policies", ">= 0.90", m.realPolicySegmentation === null ? null : pct(m.realPolicySegmentation), m.realPolicySegmentation === null ? null : m.realPolicySegmentation >= 0.9, m.realPolicySegmentation === null ? "no real-policy slice yet (kb/_sources is gitignored); drafts are cleaner than real policies" : undefined));
+  rows.push(row("M8.seg.real", "Segmentation accuracy, real policies", ">= 0.90", m.realPolicySegmentation === null ? null : pct(m.realPolicySegmentation), m.realPolicySegmentation === null ? null : m.realPolicySegmentation >= 0.9, m.realPolicySegmentation === null ? "real pages not present or changed (watch/lotte is gitignored; fetch with agent.ts peers --save-lotte)" : undefined));
   rows.push(row("M8.span", "Span fidelity", "= 1.0", m.spanFidelity === null ? null : pct(m.spanFidelity), m.spanFidelity === null ? null : m.spanFidelity === 1));
   rows.push(row("M8.recall", "Seeded-defect recall", ">= 0.90", s ? `${f2(s.recall)} (${s.detected}/${s.total})` : null, s ? s.recall >= 0.9 : null, s && s.skippedLlmOnly > 0 ? `${s.skippedLlmOnly} judge-only seed(s) not counted (run with --llm)` : s && s.missed.length > 0 ? `missed: ${s.missed.join(", ")}` : undefined));
   rows.push(row("M8.recall.major", "Seeded-defect recall, major", "= 1.0", s ? `${f2(s.majorRecall)} (${s.majorDetected}/${s.majorTotal})` : null, s ? s.majorRecall === 1 : null));

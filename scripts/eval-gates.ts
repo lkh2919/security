@@ -12,6 +12,7 @@
  *
  * With `--llm` the Mode A judge and the Mode B judge run too: judge-only seeds then count, and stability compares two model runs.
  */
+import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
@@ -37,6 +38,7 @@ import {
   type ChangeEventLike,
   type MonitorMetrics,
   type PolicyExpectation,
+  type SectionLabel,
 } from "../packages/core/src/eval/monitor-metrics";
 import type { LlmClient } from "../packages/core/src/llm/client";
 import { createBackendClient, resolveBackend } from "../packages/core/src/llm/factory";
@@ -116,6 +118,39 @@ const segTotal = seg.reduce((n, s) => n + s.total, 0);
 const segCorrect = seg.reduce((n, s) => n + s.correct, 0);
 detail["segmentationWrong"] = seg.flatMap((s, i) => s.wrong.map((w) => `${golden[i]!.expected.policyId}: ${w}`));
 const spans = spanFidelity([...ingested.values()]);
+
+// Real-policy slice: labels are committed (golden/monitor/real), the pages are not (watch/ is gitignored). A page is scored only
+// when its SHA-256 still equals the labelled one; otherwise the site changed and the labels may no longer fit.
+const realSeg = (() => {
+  const labelsFile = join(goldenDir, "real", "lotte-2026-10-02.json");
+  const pagesDir = resolve(process.env["REAL_POLICY_DIR"] ?? join(root, "watch", "lotte"));
+  if (!existsSync(labelsFile)) return null;
+  const doc = JSON.parse(readFileSync(labelsFile, "utf8")) as { policies: { policyId: string; file: string; sourceSha256: string; sections: SectionLabel[] }[] };
+  let correct = 0;
+  let total = 0;
+  const wrong: string[] = [];
+  const skipped: string[] = [];
+  for (const p of doc.policies) {
+    const file = join(pagesDir, p.file);
+    if (!existsSync(file)) {
+      skipped.push(`${p.policyId}: page not present`);
+      continue;
+    }
+    const bytes = readFileSync(file);
+    if (createHash("sha256").update(bytes).digest("hex") !== p.sourceSha256) {
+      skipped.push(`${p.policyId}: page changed since labelling`);
+      continue;
+    }
+    const policy = ingestPolicy({ name: p.file, policyId: p.policyId, content: bytes.toString("utf8"), fetchedAt: NOW }, patterns, lexicon);
+    const r = segmentationAccuracy(p.sections, policy.sections.map((s) => ({ title: s.title, sectionId: s.sectionId })));
+    correct += r.correct;
+    total += r.total;
+    wrong.push(...r.wrong.map((w) => `${p.policyId}: ${w}`));
+  }
+  detail["realSegmentationWrong"] = wrong;
+  detail["realSegmentationSkipped"] = skipped;
+  return total === 0 ? null : correct / total;
+})();
 
 // --- unchanged hash ------------------------------------------------------------------------------------------------
 
@@ -255,7 +290,7 @@ const clean = cleanPolicyScores(asItems("clean"));
 const metrics: MonitorMetrics = {
   segmentationAccuracy: segTotal === 0 ? null : segCorrect / segTotal,
   spanFidelity: spans.total === 0 ? null : spans.fidelity,
-  realPolicySegmentation: null,
+  realPolicySegmentation: realSeg,
   seeded,
   clean,
   unchangedHashAlerts,

@@ -46,6 +46,11 @@ describe("segmentation and spans", () => {
     expect(r.wrong).toHaveLength(2);
     expect(segmentationAccuracy([], []).accuracy).toBe(1);
   });
+  test("a combined heading may carry alsoAccept ids; a missing heading is still wrong", () => {
+    const labels = [{ title: "처리 목적, 항목 및 보유기간", sectionId: "S02", alsoAccept: ["S03", "S05"] }, { title: "x", sectionId: "S06", alsoAccept: ["S07"] }];
+    const r = segmentationAccuracy(labels, [{ title: "처리 목적, 항목 및 보유기간", sectionId: "S05" }]);
+    expect([r.correct, r.total]).toEqual([1, 2]);
+  });
   test("span fidelity finds a span that does not reproduce its paragraph", () => {
     const ok = { text: "abc\ndef", sections: [{ paras: [{ text: "abc", span: { start: 0, end: 3 } }, { text: "def", span: { start: 4, end: 7 } }] }] };
     const bad = { text: "abc\ndef", sections: [{ paras: [{ text: "abc", span: { start: 0, end: 3 } }, { text: "def", span: { start: 3, end: 6 } }] }] };

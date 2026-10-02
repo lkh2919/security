@@ -1,0 +1,651 @@
+{
+ "fixture": "monitor real-policy segmentation slice",
+ "labelStatus": "AI self-labelled 2026-10-02 (PM, privacy-domain-expert role) — human review pending",
+ "scope": "Article-level headings of 10 published Lotte privacy policies fetched 2026-10-02. Sub-headings, tables of contents and document titles are not labelled. alsoAccept lists other ids that are right for a combined heading (for example 처리 목적, 항목 및 보유기간).",
+ "pages": "Not in git (watch/ is gitignored). Fetch with: bun scripts/agent.ts peers --config config/orgs/example/org.json --dry-run --with-lotte --save-lotte watch/lotte. A page whose SHA-256 differs from sourceSha256 is skipped, because the site changed.",
+ "policies": [
+  {
+   "policyId": "lotte-castle-privacy",
+   "file": "lotte-castle-privacy.html",
+   "sourceSha256": "c858062acb590495c4713ba2872e49216c0cd9db0bd8ded5d83eaf93f868a1c7",
+   "sections": [
+    {
+     "title": "1. 개인정보의 처리 목적",
+     "sectionId": "S02"
+    },
+    {
+     "title": "2. 개인정보 처리목적 및 처리항목, 보유 및 이용기간",
+     "sectionId": "S05",
+     "alsoAccept": [
+      "S02",
+      "S03"
+     ]
+    },
+    {
+     "title": "3. 수집방법",
+     "sectionId": "S03"
+    },
+    {
+     "title": "4. 개인정보의 파기절차 및 방법",
+     "sectionId": "S06"
+    },
+    {
+     "title": "5. 개인정보의 제공",
+     "sectionId": "S07"
+    },
+    {
+     "title": "6. 수집한 개인정보의 위탁",
+     "sectionId": "S09"
+    },
+    {
+     "title": "7. 이용자 및 법정대리인의 권리와 그 행사방법",
+     "sectionId": "S16"
+    },
+    {
+     "title": "8. 개인정보 자동수집 장치의 설치, 운영 및 그 거부에 관한 사항",
+     "sectionId": "S14"
+    },
+    {
+     "title": "9. 개인정보의 안전성 확보조치",
+     "sectionId": "S11"
+    },
+    {
+     "title": "10. 개인정보에 관한 민원서비스",
+     "sectionId": "S18"
+    }
+   ]
+  },
+  {
+   "policyId": "lotte-department-store-privacy",
+   "file": "lotte-department-store-privacy.html",
+   "sourceSha256": "f63e009867068a6d3f18c7ee3a6e965050fcf06f538bc94899292f1b601295a7",
+   "sections": [
+    {
+     "title": "[제 1 조] 개인정보의 처리목적",
+     "sectionId": "S02"
+    },
+    {
+     "title": "[제 2 조] 개인정보의 처리 항목 및 보유기간",
+     "sectionId": "S03",
+     "alsoAccept": [
+      "S05"
+     ]
+    },
+    {
+     "title": "[제 3 조] 14세 미만 아동의 개인정보 처리에 관한 사항",
+     "sectionId": "S04"
+    },
+    {
+     "title": "[제 4 조] 개인정보의 파기",
+     "sectionId": "S06"
+    },
+    {
+     "title": "[제 5 조] 개인정보의 제3자 제공",
+     "sectionId": "S07"
+    },
+    {
+     "title": "[제 6 조] 개인정보 처리업무의 위탁",
+     "sectionId": "S09"
+    },
+    {
+     "title": "[제 7 조] 개인정보의 안전성 확보조치",
+     "sectionId": "S11"
+    },
+    {
+     "title": "[제 8 조] 개인정보 자동 수집 장치의 설치 · 운영 및 거부에 관한 사항",
+     "sectionId": "S14"
+    },
+    {
+     "title": "[제 9 조] 행태정보의 수집·이용·제공 및 거부방법",
+     "sectionId": "S15"
+    },
+    {
+     "title": "[제 10 조] 정보주체 및 법정대리인의 권리와 의무 및 그 행사 방법",
+     "sectionId": "S16"
+    },
+    {
+     "title": "[제 11 조] 개인정보보호 책임자 및 담당자",
+     "sectionId": "S18"
+    },
+    {
+     "title": "[제 12 조] 개인정보 처리방침의 변경",
+     "sectionId": "S24"
+    }
+   ]
+  },
+  {
+   "policyId": "lotte-enc-privacy",
+   "file": "lotte-enc-privacy.html",
+   "sourceSha256": "adbeeedc145b0e27b4fe8a9751eb44f6b450a65c54089b6751e7f6e3ec8e60a6",
+   "sections": [
+    {
+     "title": "1. 개인정보의 처리 목적, 항목, 보유기간, 수집방법",
+     "sectionId": "S02",
+     "alsoAccept": [
+      "S03",
+      "S05"
+     ]
+    },
+    {
+     "title": "2. 개인정보의 파기절차 및 방법",
+     "sectionId": "S06"
+    },
+    {
+     "title": "3. 개인정보의 제공",
+     "sectionId": "S07"
+    },
+    {
+     "title": "4. 개인정보 처리업무의 위탁",
+     "sectionId": "S09"
+    },
+    {
+     "title": "5. 개인정보 자동수집 장치의 설치, 운영 및 그 거부에 관한 사항",
+     "sectionId": "S14"
+    },
+    {
+     "title": "6. 정보주체의 권리·의무와 그 행사방법",
+     "sectionId": "S16"
+    },
+    {
+     "title": "7. 개인정보 보호책임자",
+     "sectionId": "S18"
+    },
+    {
+     "title": "8. 개인정보의 안전성 확보조치에 관한 사항",
+     "sectionId": "S11"
+    },
+    {
+     "title": "9. 개인정보에 관한 민원서비스",
+     "sectionId": "S18"
+    },
+    {
+     "title": "10. 개인정보 처리방침의 변경",
+     "sectionId": "S24"
+    }
+   ]
+  },
+  {
+   "policyId": "lotte-global-logis-privacy",
+   "file": "lotte-global-logis-privacy.html",
+   "sourceSha256": "acd92274053f8b316c33fe2e4d10363bfa8aafcad5f7ece64f1bc6660fa4e9d3",
+   "sections": [
+    {
+     "title": "1. 개인정보의 처리 목적, 수집 항목, 보유 및 이용기간",
+     "sectionId": "S05",
+     "alsoAccept": [
+      "S02",
+      "S03"
+     ]
+    },
+    {
+     "title": "2. 개인정보의 파기절차 및 파기방법에 관한 사항",
+     "sectionId": "S06"
+    },
+    {
+     "title": "3. 개인정보의 제3자 제공에 관한 사항",
+     "sectionId": "S07"
+    },
+    {
+     "title": "4. 개인정보 처리업무의 위탁에 관한 사항",
+     "sectionId": "S09"
+    },
+    {
+     "title": "5. 개인정보의 국외 이전에 관한 사항",
+     "sectionId": "S10"
+    },
+    {
+     "title": "6. 정보주체와 법정대리인의 권리 • 의무 및 행사방법에 관한 사항",
+     "sectionId": "S16"
+    },
+    {
+     "title": "7. 개인정보를 자동으로 수집하는 장치의 설치 • 운영 및 거부에 관한 사항",
+     "sectionId": "S14"
+    },
+    {
+     "title": "8. 개인정보의 안전성 확보조치에 관한 사항",
+     "sectionId": "S11"
+    },
+    {
+     "title": "9. 개인정보 보호책임자에 관한 사항",
+     "sectionId": "S18"
+    },
+    {
+     "title": "10. 정보주체의 권익침해에 대한 구제방법",
+     "sectionId": "S20"
+    },
+    {
+     "title": "11. 위치정보 처리에 관한 사항",
+     "sectionId": "X1"
+    },
+    {
+     "title": "12. 개인정보 처리방침의 변경에 관한 사항(고지의 의무)",
+     "sectionId": "S24"
+    }
+   ]
+  },
+  {
+   "policyId": "lotte-himart-mall-privacy",
+   "file": "lotte-himart-mall-privacy.html",
+   "sourceSha256": "27925c9d275af61321b57b35eec2bf463943132fae3638af29e5c1e91db117b6",
+   "sections": [
+    {
+     "title": "1. 개인정보의 처리목적",
+     "sectionId": "S02"
+    },
+    {
+     "title": "2. 처리하는 개인정보 항목",
+     "sectionId": "S03"
+    },
+    {
+     "title": "3. 개인정보 수집 방법",
+     "sectionId": "S03"
+    },
+    {
+     "title": "5. 개인정보의 처리 및 보유기간",
+     "sectionId": "S05"
+    },
+    {
+     "title": "6. 개인정보의 파기",
+     "sectionId": "S06"
+    },
+    {
+     "title": "7. 개인정보의 제3자 제공",
+     "sectionId": "S07"
+    },
+    {
+     "title": "8. 개인정보처리의 위탁",
+     "sectionId": "S09"
+    },
+    {
+     "title": "9. 개인위치정보 처리방침",
+     "sectionId": "X1"
+    },
+    {
+     "title": "10. 연계정보(CI) 처리에 관한 사항",
+     "sectionId": "UNMAPPED"
+    },
+    {
+     "title": "11. 정보주체(이용자)의 권리의무 및 행사방법",
+     "sectionId": "S16"
+    },
+    {
+     "title": "12. 행태정보의 관리",
+     "sectionId": "S15"
+    },
+    {
+     "title": "13. 개인정보를 자동으로 수집하는 장치의 설치·운영 및 그 거부에 관한 사항",
+     "sectionId": "S14"
+    },
+    {
+     "title": "14. 개인정보의 안전성 확보조치",
+     "sectionId": "S11"
+    },
+    {
+     "title": "15. 개인정보 보호책임자",
+     "sectionId": "S18"
+    },
+    {
+     "title": "16. 이용자의 게시물",
+     "sectionId": "UNMAPPED"
+    },
+    {
+     "title": "17. 권익침해 구제방법",
+     "sectionId": "S20"
+    },
+    {
+     "title": "18. 개인정보 처리방침 변경",
+     "sectionId": "S24"
+    }
+   ]
+  },
+  {
+   "policyId": "lotte-himart-privacy",
+   "file": "lotte-himart-privacy.html",
+   "sourceSha256": "05a4231d65a50b94aab0757d941f35104046495c0f3a2b7d6cb5cb8e50c942ff",
+   "sections": [
+    {
+     "title": "1. 개인정보의 처리목적",
+     "sectionId": "S02"
+    },
+    {
+     "title": "2. 처리하는 개인정보 항목",
+     "sectionId": "S03"
+    },
+    {
+     "title": "3. 개인정보 수집 방법",
+     "sectionId": "S03"
+    },
+    {
+     "title": "4. 개인정보의 처리 및 보유기간",
+     "sectionId": "S05"
+    },
+    {
+     "title": "5. 개인정보의 파기",
+     "sectionId": "S06"
+    },
+    {
+     "title": "6. 개인정보의 제3자 제공",
+     "sectionId": "S07"
+    },
+    {
+     "title": "7. 개인정보처리의 위탁",
+     "sectionId": "S09"
+    },
+    {
+     "title": "8. 정보주체(이용자)의 권리의무 및 행사방법",
+     "sectionId": "S16"
+    },
+    {
+     "title": "9. 개인정보의 안전성 확보조치",
+     "sectionId": "S11"
+    },
+    {
+     "title": "10. 개인정보 보호책임자",
+     "sectionId": "S18"
+    },
+    {
+     "title": "11. 이용자의 게시물",
+     "sectionId": "UNMAPPED"
+    },
+    {
+     "title": "12. 권익침해 구제방법",
+     "sectionId": "S20"
+    },
+    {
+     "title": "13. 개인정보처리방침 변경",
+     "sectionId": "S24"
+    }
+   ]
+  },
+  {
+   "policyId": "lotte-rental-privacy",
+   "file": "lotte-rental-privacy.html",
+   "sourceSha256": "a5de07771221361f74e561bdbd41117ee166bd9813033915d8bbd5c34b205953",
+   "sections": [
+    {
+     "title": "가. 수집하는 개인정보 항목",
+     "sectionId": "S03"
+    },
+    {
+     "title": "나.개인정보 수집 방법",
+     "sectionId": "S03"
+    },
+    {
+     "title": "다.개인정보의 수집 및 이용목적",
+     "sectionId": "S02"
+    },
+    {
+     "title": "라.목적 외 사용 및 제3자에 대한 제공",
+     "sectionId": "S07"
+    },
+    {
+     "title": "마.개인정보의 보유 및 이용기간",
+     "sectionId": "S05"
+    },
+    {
+     "title": "바.개인정보의 파기절차 및 방법",
+     "sectionId": "S06"
+    },
+    {
+     "title": "사. 수집한 개인정보의 위탁",
+     "sectionId": "S09"
+    },
+    {
+     "title": "아.개인정보의 국외이전",
+     "sectionId": "S10"
+    },
+    {
+     "title": "자.이용자 및 법정대리인의 권리와 그 행사방법",
+     "sectionId": "S16"
+    },
+    {
+     "title": "차.개인정보 자동수집 장치의 설치, 운영 및 그 거부에 관한 사항",
+     "sectionId": "S14"
+    },
+    {
+     "title": "카.개인정보 보호책임자",
+     "sectionId": "S18"
+    },
+    {
+     "title": "타.개인정보처리방침의 적용제외",
+     "sectionId": "UNMAPPED",
+     "alsoAccept": [
+      "S23"
+     ]
+    },
+    {
+     "title": "파.개인정보의 보안유지를 위한 기술적, 관리적 대책",
+     "sectionId": "S11"
+    },
+    {
+     "title": "하.고객센터안내",
+     "sectionId": "UNMAPPED",
+     "alsoAccept": [
+      "S18"
+     ]
+    }
+   ]
+  },
+  {
+   "policyId": "lotte-wellfood-privacy",
+   "file": "lotte-wellfood-privacy.html",
+   "sourceSha256": "9e64fad271680b5c0b7bfe41a2f13ad5da2ebf914332bc2fe903ca53e440ea4a",
+   "sections": [
+    {
+     "title": "1. 개인정보의 수집항목, 목적 및 보유기간",
+     "sectionId": "S03",
+     "alsoAccept": [
+      "S02",
+      "S05"
+     ]
+    },
+    {
+     "title": "2. 개인정보의 제3자 제공",
+     "sectionId": "S07"
+    },
+    {
+     "title": "3. 개인정보의 처리업무 위탁",
+     "sectionId": "S09"
+    },
+    {
+     "title": "4. 개인정보의 파기 절차 및 방법",
+     "sectionId": "S06"
+    },
+    {
+     "title": "5. 정보주체와 법정대리인의 권리·의무 및 행사방법",
+     "sectionId": "S16"
+    },
+    {
+     "title": "6. 개인정보의 안전성 확보조치",
+     "sectionId": "S11"
+    },
+    {
+     "title": "7. 개인정보 자동 수집 장치에 의한 개인정보 수집",
+     "sectionId": "S14"
+    },
+    {
+     "title": "8. 행태정보의 수집·이용 및 거부 등에 관한 사항",
+     "sectionId": "S15"
+    },
+    {
+     "title": "9. 연계정보(Connected Information, CI) 처리에 관한 사항",
+     "sectionId": "UNMAPPED"
+    },
+    {
+     "title": "10. 개인정보보호책임자와 민원처리 부서",
+     "sectionId": "S18"
+    },
+    {
+     "title": "11. 개인정보 처리방침의 변경",
+     "sectionId": "S24"
+    }
+   ]
+  },
+  {
+   "policyId": "lotteinnovate-privacy",
+   "file": "lotteinnovate-privacy.html",
+   "sourceSha256": "ed4d6a742490a4bfc2a584cb9e80092b8751c2bc601da5aaaf7ed4a40b539323",
+   "sections": [
+    {
+     "title": "1. 개인정보 수집 및 이용목적",
+     "sectionId": "S02"
+    },
+    {
+     "title": "2. 개인정보의 수집 항목 및 수집 방법",
+     "sectionId": "S03"
+    },
+    {
+     "title": "나. 개인정보 자동 수집 장치의 설치, 운영 및 그 거부에 관한 사항",
+     "sectionId": "S14"
+    },
+    {
+     "title": "3. 개인정보 처리 및 보유 기간",
+     "sectionId": "S05"
+    },
+    {
+     "title": "4. 개인정보 제3자 제공에 관한 사항",
+     "sectionId": "S07"
+    },
+    {
+     "title": "5. 개인정보 위탁에 관한 사항",
+     "sectionId": "S09"
+    },
+    {
+     "title": "6. 개인정보 국외이전에 관한 사항",
+     "sectionId": "S10"
+    },
+    {
+     "title": "7. 정보주체, 법정대리인의 권리·의무 및 행사방법",
+     "sectionId": "S16"
+    },
+    {
+     "title": "8. 개인정보 파기절차 및 파기방법",
+     "sectionId": "S06"
+    },
+    {
+     "title": "9. 개인정보 안전성 확보 조치",
+     "sectionId": "S11"
+    },
+    {
+     "title": "10. 서비스의 개인정보 보호책임자에 관한 사항",
+     "sectionId": "S18"
+    },
+    {
+     "title": "11. 개인정보처리방침의 변경",
+     "sectionId": "S24"
+    }
+   ]
+  },
+  {
+   "policyId": "lpoint-privacy",
+   "file": "lpoint-privacy.html",
+   "sourceSha256": "1d2a92d37aa40591ce2e2dd92c9f5e209d466e74410573977a4117a6b0f255f2",
+   "sections": [
+    {
+     "title": "제1조 수집하는 개인정보 항목",
+     "sectionId": "S03"
+    },
+    {
+     "title": "제2조 개인정보의 수집방법",
+     "sectionId": "S03"
+    },
+    {
+     "title": "제3조 개인정보의 수집 및 이용목적",
+     "sectionId": "S02"
+    },
+    {
+     "title": "제4조 개인정보의 목적 외 사용 및 제3자에 대한 제공 및 공유",
+     "sectionId": "S07"
+    },
+    {
+     "title": "제5조 수집한 개인정보취급위탁",
+     "sectionId": "S09"
+    },
+    {
+     "title": "제6조 개인정보의 보유, 이용기간",
+     "sectionId": "S05"
+    },
+    {
+     "title": "제7조 개인정보의 파기 절차",
+     "sectionId": "S06"
+    },
+    {
+     "title": "제8조 개인정보의 공개 및 관리",
+     "sectionId": "UNMAPPED",
+     "alsoAccept": [
+      "S23"
+     ]
+    },
+    {
+     "title": "제9조 링크사이트",
+     "sectionId": "UNMAPPED",
+     "alsoAccept": [
+      "S23"
+     ]
+    },
+    {
+     "title": "제10조 게시물",
+     "sectionId": "UNMAPPED",
+     "alsoAccept": [
+      "S23"
+     ]
+    },
+    {
+     "title": "제11조 개인정보의 열람 및 정정",
+     "sectionId": "S16"
+    },
+    {
+     "title": "제12조 개인정보의 수집/이용/제공에 대한 동의철회",
+     "sectionId": "S16"
+    },
+    {
+     "title": "제13조 광고성 정보 전송",
+     "sectionId": "UNMAPPED",
+     "alsoAccept": [
+      "S23"
+     ]
+    },
+    {
+     "title": "제14조 이용자 및 법정대리인의 권리와 그 행사방법",
+     "sectionId": "S16"
+    },
+    {
+     "title": "제15조 의견수렴 및 불만처리",
+     "sectionId": "S18"
+    },
+    {
+     "title": "제16조 아동의 개인정보보호",
+     "sectionId": "S04"
+    },
+    {
+     "title": "제17조 도용된 개인정보에 대한 조치",
+     "sectionId": "UNMAPPED",
+     "alsoAccept": [
+      "S23"
+     ]
+    },
+    {
+     "title": "제18조 개인정보의 자동 수집 장치의 설치, 운영 및 그 거부에 관한 사항",
+     "sectionId": "S14"
+    },
+    {
+     "title": "제19조 개인정보 보호 책임자",
+     "sectionId": "S18"
+    },
+    {
+     "title": "제20조 개인정보 취급자의 역할 및 업무",
+     "sectionId": "UNMAPPED",
+     "alsoAccept": [
+      "S11",
+      "S23"
+     ]
+    },
+    {
+     "title": "제21조 고지의 의무",
+     "sectionId": "S24"
+    }
+   ]
+  }
+ ],
+ "caveat": "Development slice: the segmenter fixes of 2026-10-02 were made while reading these same pages, so 0.985 here is not a held-out score. The 16 Lotte pages not yet fetched are the held-out slice."
+}

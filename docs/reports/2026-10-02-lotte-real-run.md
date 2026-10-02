@@ -63,5 +63,5 @@ review progress), 공통 패턴 (the two 10/10 patterns with each affiliate's wo
    tokens only when mapped; a TOC filter would shorten S01.
 3. Fetch the remaining 16 (robots unreachable may be transient; CCTV pages on later days; 시네마 needs a higher size cap
    for that host; 멤버스 and 월드 need manual capture).
-4. Label the 10 pages' sections to turn on the real-policy segmentation gate.
+4. Done: `golden/monitor/real/lotte-2026-10-02.json` labels 132 article headings (AI self-labelled, human review pending); gate M8.seg.real = 0.985 when the pages are present. This is a development slice (fixes were made on these pages); label the next 16 pages as the held-out slice.
 5. 18 PIPA amendment units map to no rule (Art. 34 breach notification, 30-3, 39) — expected for a privacy-policy rule pack, listed for review.
