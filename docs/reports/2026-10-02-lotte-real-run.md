@@ -65,3 +65,18 @@ review progress), 공통 패턴 (the two 10/10 patterns with each affiliate's wo
    for that host; 멤버스 and 월드 need manual capture).
 4. Done: `golden/monitor/real/lotte-2026-10-02.json` labels 132 article headings (AI self-labelled, human review pending); gate M8.seg.real = 0.985 when the pages are present. This is a development slice (fixes were made on these pages); label the next 16 pages as the held-out slice.
 5. 18 PIPA amendment units map to no rule (Art. 34 breach notification, 30-3, 39) — expected for a privacy-policy rule pack, listed for review.
+
+## Re-run after the domain self-review (2026-10-02, late)
+
+Same 10 pages, rules and code after `dd9f537` and `c390cf9` (guideline-only cap, R-S06-003/R-S16-001 splits, adaptive
+numbering, element-missing = High). 109 + 8 model calls, list-price estimate $5.44.
+
+| | Critical | High | Medium | Low | Confirm |
+|---|---|---|---|---|---|
+| Before (v3/v4) | 0 | 39 | 2 | 7 | 89 |
+| After (v5/v6) | 0 | 29 | 7 | 15 | 110 (Mode A 81 + Mode B 29) |
+
+- Destruction approval step (now R-S06-005, should): Low on 5 policies instead of High on 10.
+- Rights (R-S16-001, core rights only): High on 6. Transmission and automated decisions are now conditional questions.
+- 롯데렌탈 R-S16-001 first came out Critical ('missing' on a partial list); fixed in `c390cf9` and re-run: High with the incomplete list quoted.
+- Not yet re-labelled: the 42-finding labels apply to the v3 run; precision of this run needs a new pass.
