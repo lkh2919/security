@@ -900,9 +900,9 @@
                 "fetch": "browser"
               }
             ],
-            "beforeAmendment": 0,
-            "afterAmendment": 1,
-            "note": "Monthly revisions. Latest before 2026-09-11 is 2026-09-04 (index 0); first on/after 2026-08-01 is 2026-08-07 (index 1); baseline just before 2026-08-01 is 2026-07-03 (index 2). Dropdown dates are the effective dates ('부터 적용돼요')."
+            "beforeAmendment": 2,
+            "afterAmendment": 0,
+            "note": "Monthly revisions. Latest before 2026-09-11 is 2026-09-04 (index 0); first on/after 2026-08-01 is 2026-08-07 (index 1); baseline just before 2026-08-01 is 2026-07-03 (index 2). Dropdown dates are the effective dates ('부터 적용돼요'). Corrected 2026-10-02: before = 2026-07-03 (index 2, last version before the 2026-08 update cycle), after = 2026-09-04 (index 0, latest before the amendment's effective date)."
           }
         },
         {
