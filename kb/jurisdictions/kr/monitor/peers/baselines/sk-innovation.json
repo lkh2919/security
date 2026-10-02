@@ -1,0 +1,81 @@
+{
+  "peerId": "sk-innovation",
+  "url": "https://www.skinnovation.com/privacy",
+  "fetchedAt": "2026-10-02T06:47:46.398Z",
+  "contentSha256": "a4206c88c5319e99db5ae724fa314bc58ddf753efe2b678a188ef03bb0f2f6be",
+  "neutralContentSha256": "7cb9c41653f0d2849b605eec05b39c18cfaa985b2fa7c9a84d93f03d1edef444",
+  "sections": [
+    {
+      "sectionId": "S01",
+      "sha256": "9b2613f59ba4bc790908af4d128dadba76e2acffa05696ba378ea336dc1e646d",
+      "neutralSha256": "a58f81dfaf88f203203d592c1f08d7875ce1ae931481f62e45ee7955e281b775",
+      "charCount": 501
+    },
+    {
+      "sectionId": "S03",
+      "sha256": "ea8b9217db824101ea0ecf6ffca4f25d4cd74605b421a8bc35659fc0a56709e0",
+      "neutralSha256": "ea8b9217db824101ea0ecf6ffca4f25d4cd74605b421a8bc35659fc0a56709e0",
+      "charCount": 425
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "95729c6b10dd85cea0e49d142babccca8d5f5627a24f0f3cc9536111891a2d56",
+      "neutralSha256": "95729c6b10dd85cea0e49d142babccca8d5f5627a24f0f3cc9536111891a2d56",
+      "charCount": 487
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "f7cca08f58153f355e17ccaca1cc1223233915827d0a7c3f5a8f947471ea2c94",
+      "neutralSha256": "f7cca08f58153f355e17ccaca1cc1223233915827d0a7c3f5a8f947471ea2c94",
+      "charCount": 26
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "7e480611bac2390be0cd612f6a6bd3af0aeed7b071acd9e53e283f7f47c3d853",
+      "neutralSha256": "7e480611bac2390be0cd612f6a6bd3af0aeed7b071acd9e53e283f7f47c3d853",
+      "charCount": 278
+    },
+    {
+      "sectionId": "S11",
+      "sha256": "23a30b80e373abd9b231fb532edb23f3264de7c0bbf59a1a62adc82e6aa5446b",
+      "neutralSha256": "23a30b80e373abd9b231fb532edb23f3264de7c0bbf59a1a62adc82e6aa5446b",
+      "charCount": 184
+    },
+    {
+      "sectionId": "S14",
+      "sha256": "a9ec2083e94c5f9b12d56b2188612371157b7bc47019f17218cc0b5c5caa11b3",
+      "neutralSha256": "a9ec2083e94c5f9b12d56b2188612371157b7bc47019f17218cc0b5c5caa11b3",
+      "charCount": 1832
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "3b7bd76f715686020446900a5fc76743a959d32fd8bf236b37ddc7502b779664",
+      "neutralSha256": "3b7bd76f715686020446900a5fc76743a959d32fd8bf236b37ddc7502b779664",
+      "charCount": 779
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "35fc23c092eb05ee6b6c4f8fea6282dbd23a87d130cf954b5e2ad4b18f651199",
+      "neutralSha256": "35fc23c092eb05ee6b6c4f8fea6282dbd23a87d130cf954b5e2ad4b18f651199",
+      "charCount": 1901
+    },
+    {
+      "sectionId": "S20",
+      "sha256": "750d68c3f9868ba7a2a23db096c0244d3869903bb003b8922aabfb7d27601773",
+      "neutralSha256": "750d68c3f9868ba7a2a23db096c0244d3869903bb003b8922aabfb7d27601773",
+      "charCount": 386
+    },
+    {
+      "sectionId": "S21",
+      "sha256": "55911f079442d5bc0791bdf4df946ad350bc2881cf076d3ca7cbad64a9ee91be",
+      "neutralSha256": "55911f079442d5bc0791bdf4df946ad350bc2881cf076d3ca7cbad64a9ee91be",
+      "charCount": 0
+    },
+    {
+      "sectionId": "S24",
+      "sha256": "798a41112270a0eeb8c964b1fa801cdc7f2f008522bbe2341556311d20efd94d",
+      "neutralSha256": "fa4cf280b56b843a3fd59330e0068ccfef5645a34d891b50a084566c261450ff",
+      "charCount": 208
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "peerId": "homeplus",
+  "url": "https://my.homeplus.co.kr/setting/auth/ghsPrivate",
+  "fetchedAt": "2026-10-02T06:44:32.996Z",
+  "contentSha256": "883a4bf34e9a0342dc554d09e1bb7f9093d93dc8ccfcec969ecd2533ea447fad",
+  "neutralContentSha256": "dde915dafbef51ac09753448ed6a45c217887aa122c1d68fa50fd750f07675f4",
+  "sections": [
+    {
+      "sectionId": "PREAMBLE",
+      "sha256": "0eb5298dbe55927a7f28a9b5dccce9f0eb5a509c3b09df06e6f623a71c06f918",
+      "neutralSha256": "0eb5298dbe55927a7f28a9b5dccce9f0eb5a509c3b09df06e6f623a71c06f918",
+      "charCount": 496
+    },
+    {
+      "sectionId": "S02",
+      "sha256": "54abbc78399a0122cd4cbda5f6d67b48781b9490bcceb32ab81403a3febd262f",
+      "neutralSha256": "54abbc78399a0122cd4cbda5f6d67b48781b9490bcceb32ab81403a3febd262f",
+      "charCount": 1195
+    },
+    {
+      "sectionId": "S03",
+      "sha256": "d86f2c6f47780a500131dc46dfc7a50dbc3a5bffad86ee575cdffa8a9d0c6c10",
+      "neutralSha256": "d86f2c6f47780a500131dc46dfc7a50dbc3a5bffad86ee575cdffa8a9d0c6c10",
+      "charCount": 2728
+    },
+    {
+      "sectionId": "S05",
+      "sha256": "ed6d313148f026df94c871f6d1a1e0558660b3c8766142d48e3c8326d5328e20",
+      "neutralSha256": "ed6d313148f026df94c871f6d1a1e0558660b3c8766142d48e3c8326d5328e20",
+      "charCount": 1792
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "a82ab5aa54b959b48df5baefa24ffbc147d77042fbc603a38501a686915c8dc7",
+      "neutralSha256": "a82ab5aa54b959b48df5baefa24ffbc147d77042fbc603a38501a686915c8dc7",
+      "charCount": 379
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "91295452f92a874864409795a765e2eecd8a24afa4ce0ed0f1bebc54bcead96b",
+      "neutralSha256": "91295452f92a874864409795a765e2eecd8a24afa4ce0ed0f1bebc54bcead96b",
+      "charCount": 2224
+    },
+    {
+      "sectionId": "S08",
+      "sha256": "c6b80ae10dd07c57294d2b4cb348965917fe5aee45c886b1cfd93f9e4906dceb",
+      "neutralSha256": "c6b80ae10dd07c57294d2b4cb348965917fe5aee45c886b1cfd93f9e4906dceb",
+      "charCount": 524
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "da9376f93b6168ac2a3394325d32d4a939434cabfea84c8fb54db575814c9c61",
+      "neutralSha256": "da9376f93b6168ac2a3394325d32d4a939434cabfea84c8fb54db575814c9c61",
+      "charCount": 1518
+    },
+    {
+      "sectionId": "S10",
+      "sha256": "dc1c629b41f3e0b9089a62d0706ab73febd7a082f1987d76d675d7d6e0588c89",
+      "neutralSha256": "dc1c629b41f3e0b9089a62d0706ab73febd7a082f1987d76d675d7d6e0588c89",
+      "charCount": 818
+    },
+    {
+      "sectionId": "S11",
+      "sha256": "c3d2c635e1843f6aac6cdcc51bb14b5d5551f9f3008cc0eb5798babda86bebe5",
+      "neutralSha256": "c3d2c635e1843f6aac6cdcc51bb14b5d5551f9f3008cc0eb5798babda86bebe5",
+      "charCount": 1019
+    },
+    {
+      "sectionId": "S14",
+      "sha256": "42bf925fbb64940f5718dd86c98c4cf677dc4b0c9dabeb5e35ef4721353b5139",
+      "neutralSha256": "42bf925fbb64940f5718dd86c98c4cf677dc4b0c9dabeb5e35ef4721353b5139",
+      "charCount": 661
+    },
+    {
+      "sectionId": "S15",
+      "sha256": "8589eafa47dac4ae7eddf4f455fba210feb2f74d5b62cd1e93da0fdb8a0f36c4",
+      "neutralSha256": "8589eafa47dac4ae7eddf4f455fba210feb2f74d5b62cd1e93da0fdb8a0f36c4",
+      "charCount": 1403
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "e185b14fcb1fd36b6ef9fc13d2243cd531692fbfb6775df909a7898f0e53ee33",
+      "neutralSha256": "e185b14fcb1fd36b6ef9fc13d2243cd531692fbfb6775df909a7898f0e53ee33",
+      "charCount": 1187
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "dc3ae446b56ec4d0ed0e785f09cc00534f6a31a6793539944efb0d4a235a56e7",
+      "neutralSha256": "dc3ae446b56ec4d0ed0e785f09cc00534f6a31a6793539944efb0d4a235a56e7",
+      "charCount": 728
+    },
+    {
+      "sectionId": "S21",
+      "sha256": "f309f87ffe280bf729232888c3201c307e073d1b45ab76d2f8b070a7948857aa",
+      "neutralSha256": "f309f87ffe280bf729232888c3201c307e073d1b45ab76d2f8b070a7948857aa",
+      "charCount": 3069
+    },
+    {
+      "sectionId": "X1",
+      "sha256": "06e2383c620ed37a120d9ec0842b6a6e501ed08838163d9b3b65d9d832238544",
+      "neutralSha256": "06e2383c620ed37a120d9ec0842b6a6e501ed08838163d9b3b65d9d832238544",
+      "charCount": 1092
+    },
+    {
+      "sectionId": "UNMAPPED",
+      "sha256": "6cc0538ee210012e70c72cc91985a79423bb1d0785c9b35b89397febde16a119",
+      "neutralSha256": "5d95309efb060dc32559f86be27d2b598002d122f0a38b23bd684b4dadfdc664",
+      "charCount": 3340
+    }
+  ]
+}

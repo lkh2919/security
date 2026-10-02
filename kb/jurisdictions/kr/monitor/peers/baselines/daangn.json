@@ -1,0 +1,70 @@
+{
+  "peerId": "daangn",
+  "url": "https://www.daangn.com/policy/privacy",
+  "fetchedAt": "2026-10-02T06:49:58.829Z",
+  "contentSha256": "a1d6f9c33587b8612c6f7743a4e394b0a262167d885fd91e1fbec16859a8106f",
+  "neutralContentSha256": "1592ae92dfb3e152e0951422d1be2f28402242482559ce4b44fb0167e4e4fd3e",
+  "sections": [
+    {
+      "sectionId": "PREAMBLE",
+      "sha256": "20892c5141c0ab1fbd523695ad729e2fa0bc9c0d3fcf30142fa9b4a67f384e92",
+      "neutralSha256": "20892c5141c0ab1fbd523695ad729e2fa0bc9c0d3fcf30142fa9b4a67f384e92",
+      "charCount": 372
+    },
+    {
+      "sectionId": "S02",
+      "sha256": "f60b2eb40259880a9d1dbd53b679ffbc2f158da8a35ba927bd287dd2ce88bf9e",
+      "neutralSha256": "f60b2eb40259880a9d1dbd53b679ffbc2f158da8a35ba927bd287dd2ce88bf9e",
+      "charCount": 847
+    },
+    {
+      "sectionId": "S03",
+      "sha256": "66d9f3ddc57d941f87771d07f4d8ac0c80531cb41656ef92a23380007640f279",
+      "neutralSha256": "66d9f3ddc57d941f87771d07f4d8ac0c80531cb41656ef92a23380007640f279",
+      "charCount": 5411
+    },
+    {
+      "sectionId": "S04",
+      "sha256": "7e1a0170165db7bf5850e00f8ea1127fd1f635d1e1bdc6c630e98b6257dd1fd9",
+      "neutralSha256": "7e1a0170165db7bf5850e00f8ea1127fd1f635d1e1bdc6c630e98b6257dd1fd9",
+      "charCount": 44
+    },
+    {
+      "sectionId": "S05",
+      "sha256": "bea7ec30f8aac2edc9504c6551e6369a518637182a6da20de1efe1fb1679cb1d",
+      "neutralSha256": "bea7ec30f8aac2edc9504c6551e6369a518637182a6da20de1efe1fb1679cb1d",
+      "charCount": 1431
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "b2c1b03d3e0ebc73a6867e0d8b94da5bf6ba66222c25191ed5425fee390c28b6",
+      "neutralSha256": "b2c1b03d3e0ebc73a6867e0d8b94da5bf6ba66222c25191ed5425fee390c28b6",
+      "charCount": 741
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "c7b2ae64ffd1dde48a5c42cb62c0aa82f076328646448565981469ed97c9c2ac",
+      "neutralSha256": "c7b2ae64ffd1dde48a5c42cb62c0aa82f076328646448565981469ed97c9c2ac",
+      "charCount": 9342
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "f99d6e3480e9ade699c87f8184cf6f4df7d3ab34f7229d54f867aded097cc65d",
+      "neutralSha256": "f99d6e3480e9ade699c87f8184cf6f4df7d3ab34f7229d54f867aded097cc65d",
+      "charCount": 622
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "d47bcc56aa32937302e79529f1d66b569e2ecdface7917c9b06971ed272163bf",
+      "neutralSha256": "3a66e40a26754f4f373315507f8259539d48e64c85b73511ac9fecc694978f54",
+      "charCount": 1755
+    },
+    {
+      "sectionId": "X1",
+      "sha256": "ead0b8603b51fb45fc9c57be09301954e18a30050c429f739e4101fa519cdb81",
+      "neutralSha256": "ead0b8603b51fb45fc9c57be09301954e18a30050c429f739e4101fa519cdb81",
+      "charCount": 1566
+    }
+  ],
+  "effectiveDateText": "2026년 9월 25일"
+}

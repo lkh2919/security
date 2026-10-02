@@ -5,7 +5,7 @@
  *   bun scripts/agent.ts impact --config ... --diff old.xml,new.xml --law PIPA [--effective YYYY-MM-DD] [--llm ...]
  *   bun scripts/agent.ts daily  --config ... [--llm ...] [--run-id daily-YYYYMMDD]
  *   bun scripts/agent.ts draft  --config ... --transcript interview.txt --form form.md [--masking basic] [--run-id ID] [--effective-date YYYY-MM-DD] [--llm ...]
- *   bun scripts/agent.ts peers  --config ... [--group retail] [--dry-run] [--limit N] [--with-lotte]   (Peer Watch, see scripts/peers-cli.ts)
+ *   bun scripts/agent.ts peers  --config ... [--group retail] [--dry-run] [--limit N] [--with-lotte] | --export-baselines   (Peer Watch, see scripts/peers-cli.ts)
  *
  * `--llm` overrides the config's `llm`; `none` runs the deterministic part only. All outputs go under `runs/<tenantId>/...`
  * (`monitor/`, `daily/<runId>/`, `draft/<runId>/`). `daily` is resumable: rerun it (same day or `--run-id`) after a failed step and

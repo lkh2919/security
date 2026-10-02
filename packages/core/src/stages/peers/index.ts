@@ -5,3 +5,7 @@ export * from "./signals";
 export * from "./registry";
 export * from "./report";
 export * from "./run-peers";
+export * from "./baselines";
+export * from "./history";
+export * from "./history-law";
+export * from "./history-report";

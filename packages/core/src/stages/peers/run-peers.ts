@@ -19,7 +19,8 @@ import type { RuleSection } from "../../contracts/rulepack";
 import type { PageFetcher } from "../../adapters/fetch/safe-fetch";
 import type { FetchStateStore } from "../../adapters/fetch/state";
 import type { HeadingPatterns } from "../ingest/segment-policy";
-import { appendChangeLog, buildChangeEvent, readChangeLog } from "./changes";
+import { appendChangeLog, buildChangeEvent, readChangeLog, type PrevPolicy } from "./changes";
+import { BaselineStore, baselineAsPrev, baselineFromPolicy } from "./baselines";
 import { sha256Hex } from "../../pipeline/canonical";
 import { normalizePolicyHtml, type NormalizedPolicy } from "./normalize";
 import { buildTargets, type CaptureEntry, type PeerTarget } from "./registry";
@@ -35,6 +36,8 @@ export interface WatchPeersInput {
   readonly patterns: HeadingPatterns;
   /** `runs/<tenant>/peers` */
   readonly peersDir: string;
+  /** Committed hash-only baselines (`kb/jurisdictions/kr/monitor/peers/baselines`). Without it only local snapshots are used. */
+  readonly baselinesDir?: string;
   readonly tenantId: string;
   readonly group?: string;
   readonly limit?: number;
@@ -65,7 +68,7 @@ export interface WatchPeersResult {
 
 const EMPTY_SIGNALS: PeerSignals = { peerChanged: [], peerAligned: [], groupAdoption: [] };
 
-export const peersPaths = (peersDir: string) => ({ snapshots: join(peersDir, "snapshots"), changelog: join(peersDir, "changelog.jsonl"), fetchState: join(peersDir, "fetch-state.json") });
+export const peersPaths = (peersDir: string) => ({ snapshots: join(peersDir, "snapshots"), changelog: join(peersDir, "changelog.jsonl"), fetchState: join(peersDir, "fetch-state.json"), historyFetchState: join(peersDir, "history-fetch-state.json") });
 
 export async function watchPeers(input: WatchPeersInput): Promise<WatchPeersResult> {
   const now = input.now ?? (() => new Date());
@@ -73,6 +76,7 @@ export async function watchPeers(input: WatchPeersInput): Promise<WatchPeersResu
   const dryRun = input.dryRun === true;
   const paths = peersPaths(input.peersDir);
   const store = new SnapshotStore(paths.snapshots);
+  const baselines = input.baselinesDir ? new BaselineStore(input.baselinesDir) : null;
   const startedAt = now();
   const date = startedAt.toISOString().slice(0, 10);
   const { targets, skipped } = buildTargets(input.registry, input.captures, { ...(input.group ? { group: input.group } : {}), ...(input.limit !== undefined ? { limit: input.limit } : {}), ...(input.includeLotte === false ? { includeLotte: false } : {}) });
@@ -107,7 +111,10 @@ export async function watchPeers(input: WatchPeersInput): Promise<WatchPeersResu
     const next = norm.policy;
     current.set(t.id, next);
     const rawSha = sha256Hex(res.body);
-    const stored = await store.latest(t.id);
+    const local = await store.latest(t.id);
+    // No local snapshot (ephemeral container): the committed hash-only baseline is the previous side.
+    const baseline = local ? null : (baselines?.load(t.id) ?? null);
+    const stored: { policy: PrevPolicy } | null = local ? { policy: local.policy } : baseline ? { policy: baselineAsPrev(baseline) } : null;
     const at = now();
     const writeSnapshot = async (): Promise<void> => {
       const snapshot: PolicySnapshot = {
@@ -115,11 +122,13 @@ export async function watchPeers(input: WatchPeersInput): Promise<WatchPeersResu
         url: t.url,
         fetchedAt: at.toISOString(),
         contentSha256: next.contentSha256,
-        sections: next.sections.map((s) => ({ sectionId: s.sectionId, sha256: s.sha256, charCount: s.charCount })),
+        neutralContentSha256: next.neutralContentSha256,
+        sections: next.sections.map((s) => ({ sectionId: s.sectionId, sha256: s.sha256, neutralSha256: s.neutralSha256, charCount: s.charCount })),
         render: res.rendered ? "browser" : "html",
         status: "ok",
       };
       await store.write(snapshot, next.text);
+      await baselines?.save(baselineFromPolicy(t.id, t.url, at.toISOString(), next));
     };
     const remember = (): void => {
       if (!dryRun) input.state.setUrl(t.url, { ...input.state.url(t.url), rawSha256: rawSha });
@@ -158,7 +167,7 @@ export async function watchPeers(input: WatchPeersInput): Promise<WatchPeersResu
     for (const g of input.registry.groups) {
       const peers = g.peers.filter((p) => p.status === "active");
       let n = 0;
-      for (const p of peers) if (current.has(p.peerId) || (await store.hasSnapshot(p.peerId))) n++;
+      for (const p of peers) if (current.has(p.peerId) || (await store.hasSnapshot(p.peerId)) || baselines?.has(p.peerId)) n++;
       groups.set(g.groupId, { peers: new Set(peers.map((p) => p.peerId)), n });
     }
     signals = await computeSignals({

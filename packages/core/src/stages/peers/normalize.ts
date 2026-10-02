@@ -4,7 +4,8 @@
  *
  * Hashing is built so that layout changes do not register: a section hash covers the section's blocks sorted by text (so identical or
  * reordered blocks are equal), with heading numbering stripped (inserting a section renumbers the others). Dates and wording stay in
- * the text: a date-only edit is a modified section here.
+ * the text. Comparison uses a second, date-neutral hash (`neutralSha256`: dates replaced by a token, 시행일/공고일 lines dropped), so a
+ * date-only edit is cosmetic (design C5 P0) while the stored text stays unchanged.
  */
 import { stripInvisible, parseHtml, collapseSpace } from "../../adapters/ingest";
 import { sha256Hex } from "../../pipeline/canonical";
@@ -26,6 +27,8 @@ export interface NormBlock {
 export interface NormSection {
   readonly sectionId: string;
   readonly sha256: string;
+  /** Hash of the date-neutralized form (see `neutralizeDates`); equal sections differ at most by dates. */
+  readonly neutralSha256: string;
   readonly charCount: number;
   /** Blocks sorted by their text (canonical order). */
   readonly blocks: readonly NormBlock[];
@@ -35,6 +38,8 @@ export interface NormalizedPolicy {
   readonly sections: readonly NormSection[];
   /** Hash over the section hashes. */
   readonly contentSha256: string;
+  /** Hash over the date-neutral section hashes. */
+  readonly neutralContentSha256: string;
   /** Re-parseable text (`## [S02] title` marker lines, then the paragraphs). */
   readonly text: string;
 }
@@ -61,6 +66,36 @@ const sectionOrder = (id: string): number => {
   return m ? Number(m[1]) : 500;
 };
 
+const DATE_PATTERNS = [/\d{4}\s*년\s*\d{1,2}\s*월\s*\d{1,2}\s*일/g, /\d{4}\s*[.\-/]\s*\d{1,2}\s*[.\-/]\s*\d{1,2}\s*\.?/g];
+const DATE_LABEL_LINE = /^[\[(]?\s*(?:시행\s*일자?|시행\s*예정일|공고\s*일자?|개정\s*일자?|최종\s*(?:수정|개정)\s*일자?)\s*[:：\])]?/;
+export const DATE_TOKEN = "<DATE>";
+
+/** Dates (`2024.01.01`, `2024-01-01`, `2024년 1월 1일`) become a token; a 시행일/공고일 line that carries a date is dropped (empty string). */
+export function neutralizeDates(text: string): string {
+  const t = text.trim();
+  const hasDate = DATE_PATTERNS.some((re) => new RegExp(re.source).test(t));
+  if (hasDate && DATE_LABEL_LINE.test(t)) return "";
+  let out = t;
+  for (const re of DATE_PATTERNS) out = out.replace(re, DATE_TOKEN);
+  return out;
+}
+
+/** First date written on a 시행일/공고일/시행 line, as it appears (digits and date punctuation only), or undefined. */
+export function extractEffectiveDateText(text: string): string | undefined {
+  const lines = text.split("\n").map((l) => l.trim());
+  const dateOf = (l: string): string | undefined => {
+    for (const re of DATE_PATTERNS) {
+      const m = new RegExp(re.source).exec(l);
+      if (m) return m[0].replace(/\s+/g, " ").trim();
+    }
+    return undefined;
+  };
+  const pick = (pred: (l: string) => boolean): string | undefined => lines.filter(pred).map(dateOf).find((d) => d !== undefined);
+  return pick((l) => /시행\s*일|시행일자/.test(l) && DATE_LABEL_LINE.test(l)) ?? pick((l) => DATE_LABEL_LINE.test(l)) ?? pick((l) => /(?:부터|일부터)\s*시행/.test(l));
+}
+
+const neutralBlock = (b: NormBlock): NormBlock => ({ sectionId: b.sectionId, title: neutralizeDates(b.title), paras: b.paras.map(neutralizeDates).filter(Boolean) });
+
 const blockKey = (b: NormBlock): string => `${stripNumbering(b.title).trim()}\n${b.paras.join("\n")}`;
 
 /** Groups blocks by section id and computes the hashes. Input order does not matter. */
@@ -74,7 +109,8 @@ export function buildNormalized(blocks: readonly NormBlock[]): NormalizedPolicy 
     .sort(([a], [b]) => sectionOrder(a) - sectionOrder(b) || a.localeCompare(b))
     .map(([sectionId, list]) => {
       const sorted = [...list].sort((a, b) => blockKey(a).localeCompare(blockKey(b)));
-      return { sectionId, sha256: sha256Hex(sorted.map(blockKey).join("\n\n")), charCount: sorted.reduce((n, b) => n + b.paras.reduce((m, p) => m + p.length, 0), 0), blocks: sorted };
+      const neutral = list.map(neutralBlock).filter((b) => b.paras.length > 0 || b.title.trim()).sort((a, b) => blockKey(a).localeCompare(blockKey(b)));
+      return { sectionId, sha256: sha256Hex(sorted.map(blockKey).join("\n\n")), neutralSha256: sha256Hex(neutral.map(blockKey).join("\n\n")), charCount: sorted.reduce((n, b) => n + b.paras.reduce((m, p) => m + p.length, 0), 0), blocks: sorted };
     });
   const lines: string[] = [];
   for (const s of sections)
@@ -82,7 +118,12 @@ export function buildNormalized(blocks: readonly NormBlock[]): NormalizedPolicy 
       lines.push(`## [${s.sectionId}]${b.title ? ` ${b.title}` : ""}`);
       for (const p of b.paras) lines.push(p.startsWith("## [") ? `\\${p}` : p);
     }
-  return { sections, contentSha256: sha256Hex(sections.map((s) => `${s.sectionId}:${s.sha256}`).join("\n")), text: `${lines.join("\n")}\n` };
+  return {
+    sections,
+    contentSha256: sha256Hex(sections.map((s) => `${s.sectionId}:${s.sha256}`).join("\n")),
+    neutralContentSha256: sha256Hex(sections.map((s) => `${s.sectionId}:${s.neutralSha256}`).join("\n")),
+    text: `${lines.join("\n")}\n`,
+  };
 }
 
 export interface NormalizeResult {

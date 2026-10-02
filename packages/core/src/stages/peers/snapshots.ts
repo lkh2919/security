@@ -44,6 +44,12 @@ export class SnapshotStore {
     return last ? this.load(peerId, last) : null;
   }
 
+  /** Peer ids that have a snapshot folder. */
+  async peerIds(): Promise<string[]> {
+    if (!existsSync(this.dir)) return [];
+    return (await readdir(this.dir)).filter((id) => PeerIdSchema.safeParse(id).success).sort();
+  }
+
   async hasSnapshot(peerId: string): Promise<boolean> {
     return (await this.dates(peerId)).length > 0;
   }

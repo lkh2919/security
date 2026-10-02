@@ -1,0 +1,136 @@
+{
+  "peerId": "hyundai-dept",
+  "url": "https://www.ehyundai.com/newPortal/member/HD/PV01_03.do",
+  "fetchedAt": "2026-10-02T06:36:40.628Z",
+  "contentSha256": "a32db884acd4ef1f75643e73486480828caea392436317ac362159f5ff9a0609",
+  "neutralContentSha256": "94d68554a3075b689cdc0bb240f17aa35f3c6af90469beb75ee8670bce97e8b9",
+  "sections": [
+    {
+      "sectionId": "PREAMBLE",
+      "sha256": "6086972d6bb4ec331b28299fc3fabc7f2268e8bd3b74c9a1acd247ebcfd795eb",
+      "neutralSha256": "6086972d6bb4ec331b28299fc3fabc7f2268e8bd3b74c9a1acd247ebcfd795eb",
+      "charCount": 137
+    },
+    {
+      "sectionId": "S01",
+      "sha256": "8a00e39756a973aea7875fcc515f28ab2c06a3995aee6e087a97079a876ce2bd",
+      "neutralSha256": "a5bcf4c62165df2884397f53ef3e76729ce8522debb1f25b7139d715a5ec5313",
+      "charCount": 22827
+    },
+    {
+      "sectionId": "S02",
+      "sha256": "d6eda0f40f6f0dd7283a70a4f75c6b51a14bf7bdba8550a902eb76b170367da1",
+      "neutralSha256": "d6eda0f40f6f0dd7283a70a4f75c6b51a14bf7bdba8550a902eb76b170367da1",
+      "charCount": 14191
+    },
+    {
+      "sectionId": "S03",
+      "sha256": "c998087400bf80aa4c60f8abc744ae4948fb1a2aa502ebf10db47755a88840bf",
+      "neutralSha256": "c998087400bf80aa4c60f8abc744ae4948fb1a2aa502ebf10db47755a88840bf",
+      "charCount": 54843
+    },
+    {
+      "sectionId": "S04",
+      "sha256": "0a140683e308ab0aefea6cb5a8d7140034b3ee7d27b7a631afeb822cc3dee6b4",
+      "neutralSha256": "0a140683e308ab0aefea6cb5a8d7140034b3ee7d27b7a631afeb822cc3dee6b4",
+      "charCount": 6233
+    },
+    {
+      "sectionId": "S05",
+      "sha256": "23f1dadf0a5c7dcab99dd9d3acb5362182519cb223404b1f8c02679718354e88",
+      "neutralSha256": "23f1dadf0a5c7dcab99dd9d3acb5362182519cb223404b1f8c02679718354e88",
+      "charCount": 23205
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "aca9f12e01720e567b165e050db7412160431caedf8094e46538005e5d2fd48e",
+      "neutralSha256": "aca9f12e01720e567b165e050db7412160431caedf8094e46538005e5d2fd48e",
+      "charCount": 15421
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "b19bffc581a97925b1e5d155a126612767da78f82ad270239bb8f650d32835e7",
+      "neutralSha256": "b19bffc581a97925b1e5d155a126612767da78f82ad270239bb8f650d32835e7",
+      "charCount": 73739
+    },
+    {
+      "sectionId": "S08",
+      "sha256": "1706e2224f267392e2208822e0e43a952304c0e94fe61fcd88e1fb8d9d080264",
+      "neutralSha256": "1706e2224f267392e2208822e0e43a952304c0e94fe61fcd88e1fb8d9d080264",
+      "charCount": 214
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "76704b058c7acaeb3d8131258811720dfef3e984d923e7341b05a8e9d489b1d9",
+      "neutralSha256": "76704b058c7acaeb3d8131258811720dfef3e984d923e7341b05a8e9d489b1d9",
+      "charCount": 96178
+    },
+    {
+      "sectionId": "S10",
+      "sha256": "c900ac92be19152e65bec54e6fbddec91b3dde4f89f744b2920a9c3c7910f3e4",
+      "neutralSha256": "c900ac92be19152e65bec54e6fbddec91b3dde4f89f744b2920a9c3c7910f3e4",
+      "charCount": 971
+    },
+    {
+      "sectionId": "S11",
+      "sha256": "0ec41ff5f50fc1a74175e543d54c18d041fe13db2d42f95552a1800ac85d6961",
+      "neutralSha256": "fdd46fdf4fc6072490437f57034ca9bc3b21388187937dccf164113207d76a9c",
+      "charCount": 36286
+    },
+    {
+      "sectionId": "S13",
+      "sha256": "b1af2f1f574bd7cbc552c74553f6b4df18f2d01e9f3e529ce085a64c4bede901",
+      "neutralSha256": "b1af2f1f574bd7cbc552c74553f6b4df18f2d01e9f3e529ce085a64c4bede901",
+      "charCount": 5996
+    },
+    {
+      "sectionId": "S14",
+      "sha256": "e3479ff9bd4bea89e81b7791021e68a5bcc7a8ab0aa6464861be274d050efc41",
+      "neutralSha256": "e3479ff9bd4bea89e81b7791021e68a5bcc7a8ab0aa6464861be274d050efc41",
+      "charCount": 36979
+    },
+    {
+      "sectionId": "S15",
+      "sha256": "16e896c3d0aa48c749625c761c237d095c651c8d5dcf2e29000d7961e030f04f",
+      "neutralSha256": "16e896c3d0aa48c749625c761c237d095c651c8d5dcf2e29000d7961e030f04f",
+      "charCount": 4192
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "b760a21b5e4695e545f00803f771876048d563433542995bbf74837a7516d3b4",
+      "neutralSha256": "b760a21b5e4695e545f00803f771876048d563433542995bbf74837a7516d3b4",
+      "charCount": 35553
+    },
+    {
+      "sectionId": "S17",
+      "sha256": "df408ff46285f70684e3a48df8a03d0c276054de819b58dcd8e4d6c6fe889ca8",
+      "neutralSha256": "df408ff46285f70684e3a48df8a03d0c276054de819b58dcd8e4d6c6fe889ca8",
+      "charCount": 1042
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "741d654bdc6be1d62a4e6e96d56d88bbc14b5765d085431da26f68234ca39148",
+      "neutralSha256": "741d654bdc6be1d62a4e6e96d56d88bbc14b5765d085431da26f68234ca39148",
+      "charCount": 7280
+    },
+    {
+      "sectionId": "S20",
+      "sha256": "f2a4430d462cdd1f2cac669e89a14f786c40c32a5b4dd65f0bb39c87e503e452",
+      "neutralSha256": "f2a4430d462cdd1f2cac669e89a14f786c40c32a5b4dd65f0bb39c87e503e452",
+      "charCount": 7705
+    },
+    {
+      "sectionId": "S24",
+      "sha256": "6f595258ca9144854ab3078178e73b85dce70008ee3c93cdd9f1d76cfbedb663",
+      "neutralSha256": "318028ff55a8d3c7404d9fbc715f04cdd65ab3204b4f312bebe6810b03ee40e9",
+      "charCount": 13342
+    },
+    {
+      "sectionId": "UNMAPPED",
+      "sha256": "679e65b7b895c8b69d6c3a17ba6df26d29b7493121d6ac8ff22e0987a88bdf95",
+      "neutralSha256": "c7a2e012d1250f6dde2564464ff1884837e1b00ee02be3c41ddb98d31d822124",
+      "charCount": 34357
+    }
+  ],
+  "effectiveDateText": "2012년 01월 01일"
+}

@@ -1,0 +1,94 @@
+{
+  "peerId": "dongwon-fnb",
+  "url": "https://www.dongwonfnb.com/services/Etc/Privacy",
+  "fetchedAt": "2026-10-02T06:47:13.743Z",
+  "contentSha256": "08600af5c3243f2ff5659f2ecf581ec0f8924e63e70ab16208419c7c7a78358f",
+  "neutralContentSha256": "d74d527afb26b987ab4c52e5630fe53060936a686ada7dbb3c750cf372a83739",
+  "sections": [
+    {
+      "sectionId": "PREAMBLE",
+      "sha256": "c0fb999e591baaae6880823374b767cf9359a71ce86117f4d683f068a11f5949",
+      "neutralSha256": "c0fb999e591baaae6880823374b767cf9359a71ce86117f4d683f068a11f5949",
+      "charCount": 4
+    },
+    {
+      "sectionId": "S01",
+      "sha256": "9249535d272250e06c4e0a5bce5ac0d7b62770c306730486211bb9f73b9a204f",
+      "neutralSha256": "9249535d272250e06c4e0a5bce5ac0d7b62770c306730486211bb9f73b9a204f",
+      "charCount": 290
+    },
+    {
+      "sectionId": "S02",
+      "sha256": "9b71b403444995f9466acca1c939f37fa6580dc40233b18bf18eb7f5b485c17d",
+      "neutralSha256": "9b71b403444995f9466acca1c939f37fa6580dc40233b18bf18eb7f5b485c17d",
+      "charCount": 311
+    },
+    {
+      "sectionId": "S03",
+      "sha256": "762c3ae937a1f7fb38f10c3728270cd2a4b4a7c02b7bea554e97d4cf550774c0",
+      "neutralSha256": "762c3ae937a1f7fb38f10c3728270cd2a4b4a7c02b7bea554e97d4cf550774c0",
+      "charCount": 118
+    },
+    {
+      "sectionId": "S05",
+      "sha256": "9e2ca6f5a05eb8c9e973bd968265f22ceb6dc271266a1ebcfa8b780f9ec390c2",
+      "neutralSha256": "9e2ca6f5a05eb8c9e973bd968265f22ceb6dc271266a1ebcfa8b780f9ec390c2",
+      "charCount": 459
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "d5788739574ff3606ae0e25ad21bb342987dbc0cc23bfb82d94213e1ec9b17c4",
+      "neutralSha256": "d5788739574ff3606ae0e25ad21bb342987dbc0cc23bfb82d94213e1ec9b17c4",
+      "charCount": 329
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "e5f179aed002f0b618d277a034c37939edfec63685168bd1a7cf66655d14737c",
+      "neutralSha256": "e5f179aed002f0b618d277a034c37939edfec63685168bd1a7cf66655d14737c",
+      "charCount": 67
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "692ab84b0c598cf09e9c15cb53a89e207124cdb0709e9e450d05f3d7baf30168",
+      "neutralSha256": "692ab84b0c598cf09e9c15cb53a89e207124cdb0709e9e450d05f3d7baf30168",
+      "charCount": 342
+    },
+    {
+      "sectionId": "S11",
+      "sha256": "8a5877e8ab6c968222125eb580063a52be685f081f27bc961d8d2973a13b9d51",
+      "neutralSha256": "8a5877e8ab6c968222125eb580063a52be685f081f27bc961d8d2973a13b9d51",
+      "charCount": 665
+    },
+    {
+      "sectionId": "S14",
+      "sha256": "883b2b6d3d004ab5e2094ce2e4c64cbfe1bc7cf95ac64a23fea28123b94e5667",
+      "neutralSha256": "883b2b6d3d004ab5e2094ce2e4c64cbfe1bc7cf95ac64a23fea28123b94e5667",
+      "charCount": 649
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "a4bb65f7143d20b15bf4c063b7044f0bed8a954c12cf1887d6ec5650141ce3bf",
+      "neutralSha256": "a4bb65f7143d20b15bf4c063b7044f0bed8a954c12cf1887d6ec5650141ce3bf",
+      "charCount": 419
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "a07b26e92e2a3273028f13ccfea3d893862be3ab03501a2fe7aa66f27239ac52",
+      "neutralSha256": "a07b26e92e2a3273028f13ccfea3d893862be3ab03501a2fe7aa66f27239ac52",
+      "charCount": 164
+    },
+    {
+      "sectionId": "S20",
+      "sha256": "4465c7ce0102354e5c7a1af39b8452bf38ca2aaaf06f665a26bda64cbe2ae27a",
+      "neutralSha256": "4465c7ce0102354e5c7a1af39b8452bf38ca2aaaf06f665a26bda64cbe2ae27a",
+      "charCount": 331
+    },
+    {
+      "sectionId": "UNMAPPED",
+      "sha256": "5dcf247c205b2f17e8966058638102b526bfadc0b2a3690bd1bf944c185f9bd5",
+      "neutralSha256": "a70c73b8e36a197fafdfd14a62a621ff23c5ee096931efe0f6e5cb9770407724",
+      "charCount": 1227
+    }
+  ],
+  "effectiveDateText": "2025년 03월 20일"
+}

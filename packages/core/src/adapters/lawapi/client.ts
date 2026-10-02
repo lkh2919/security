@@ -224,6 +224,21 @@ export class LawApiClient {
     });
   }
 
+  /**
+   * Every version of a law by 법령ID (현행, 연혁 and 시행예정; lawSearch `target=eflaw`, `nw=1,2,3`), newest effective date first. A
+   * version (MST) appears once per effective date it has (phased entry into force), so callers pick the row they need.
+   */
+  async listAllVersions(lawId: string): Promise<LawVersion[]> {
+    const xml = await this.getXml("lawSearch.do", { target: "eflaw", LID: lawId, nw: "1,2,3", display: "100", sort: "efdes" }, ["LawSearch"]);
+    const seen = new Set<string>();
+    return LawApiClient.parseSearch(xml, "law").filter((v) => {
+      const key = `${v.mst}|${v.effectiveOn}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
   /** Text of one article (JO code), tags stripped. */
   async getArticleText(mst: string, jo: string): Promise<string> {
     const xml = await this.getXml("lawService.do", { target: "law", MST: mst, JO: jo }, ["법령", "Law"]);

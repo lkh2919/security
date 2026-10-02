@@ -1,0 +1,93 @@
+{
+  "peerId": "hotel-shilla",
+  "url": "https://www.shillahotels.com/ko/shillastay/hub/terms/privacy.do",
+  "fetchedAt": "2026-10-02T06:47:54.267Z",
+  "contentSha256": "7ffddf09cfa665b4802042f71f6fcd3337cc8f15b8fb76064f8e5725926e992d",
+  "neutralContentSha256": "2a55f21cb85cbf7b620b100e7a6bd999c0662247db9f7d75ac12fc5d156e3f60",
+  "sections": [
+    {
+      "sectionId": "PREAMBLE",
+      "sha256": "80c21f11581ccc63f8a4a428d8100fbaef679cdce68da23bad95e9dbe0632c11",
+      "neutralSha256": "80c21f11581ccc63f8a4a428d8100fbaef679cdce68da23bad95e9dbe0632c11",
+      "charCount": 267
+    },
+    {
+      "sectionId": "S01",
+      "sha256": "a7b5fe62faac9b950807d32dc392c079f52cce88ece889359c6b871b3ae49d77",
+      "neutralSha256": "d3d84d0c387e3df0c8b3ac480fad372708c52c87ca21714c839d645e29973714",
+      "charCount": 670
+    },
+    {
+      "sectionId": "S04",
+      "sha256": "606235382fe7af7cea4f9be663688f998493b29f66d1df705635204e3ac89fd8",
+      "neutralSha256": "606235382fe7af7cea4f9be663688f998493b29f66d1df705635204e3ac89fd8",
+      "charCount": 308
+    },
+    {
+      "sectionId": "S05",
+      "sha256": "68bf8c65a29e42b326b7f16f5444038e9713ae012b49a62bf8cefb4f4e651289",
+      "neutralSha256": "68bf8c65a29e42b326b7f16f5444038e9713ae012b49a62bf8cefb4f4e651289",
+      "charCount": 1604
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "140f1613a960dfb984e183d740d1bf243495076130d0eeb7152044374b0044fd",
+      "neutralSha256": "140f1613a960dfb984e183d740d1bf243495076130d0eeb7152044374b0044fd",
+      "charCount": 768
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "f98fdbc6fb45ae6437a6b5f430d0cb61d7551f4cb27863d63f437838444f968d",
+      "neutralSha256": "f98fdbc6fb45ae6437a6b5f430d0cb61d7551f4cb27863d63f437838444f968d",
+      "charCount": 1199
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "1038b084f3cd9dc1c093ecdc721b2d1680f5ed98a87a19e98ba8883a56971c41",
+      "neutralSha256": "1038b084f3cd9dc1c093ecdc721b2d1680f5ed98a87a19e98ba8883a56971c41",
+      "charCount": 739
+    },
+    {
+      "sectionId": "S10",
+      "sha256": "714213c98a689b1a8cb198e9e679cac5b33da88ecd843e15166ab724839fda63",
+      "neutralSha256": "714213c98a689b1a8cb198e9e679cac5b33da88ecd843e15166ab724839fda63",
+      "charCount": 860
+    },
+    {
+      "sectionId": "S11",
+      "sha256": "58a7cdea2183c2870ba6df43a925b625d45ae73d672d901f9d8f7e8629f1116c",
+      "neutralSha256": "58a7cdea2183c2870ba6df43a925b625d45ae73d672d901f9d8f7e8629f1116c",
+      "charCount": 393
+    },
+    {
+      "sectionId": "S14",
+      "sha256": "9395d7c6f9e1a8444267f36ac892d3529832704a70f3a4c5946662b5e5f1b10f",
+      "neutralSha256": "9395d7c6f9e1a8444267f36ac892d3529832704a70f3a4c5946662b5e5f1b10f",
+      "charCount": 1638
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "9a6f4542c27916e3af197ff0297077d0fc670e49264aa44edf9b25261627bcea",
+      "neutralSha256": "9a6f4542c27916e3af197ff0297077d0fc670e49264aa44edf9b25261627bcea",
+      "charCount": 1062
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "bf27a84bf2a17846d4744839f92af99ac7cc26a15af0f63565384f608eb6f315",
+      "neutralSha256": "bf27a84bf2a17846d4744839f92af99ac7cc26a15af0f63565384f608eb6f315",
+      "charCount": 567
+    },
+    {
+      "sectionId": "S24",
+      "sha256": "33a525c82a65c093f4976e17e6712a5f6f00413154f1b387e9087ef969fc16f9",
+      "neutralSha256": "de42a8ff0794fdb744589bd52b15576ce1f0b737e23721f999866e28daa59a08",
+      "charCount": 293
+    },
+    {
+      "sectionId": "UNMAPPED",
+      "sha256": "eb86212cdc08b7ebbf784d5111fa3bfc04674b7c40734d14fba86e8d636cbe6b",
+      "neutralSha256": "eb86212cdc08b7ebbf784d5111fa3bfc04674b7c40734d14fba86e8d636cbe6b",
+      "charCount": 4160
+    }
+  ]
+}

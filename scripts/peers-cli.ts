@@ -6,6 +6,8 @@
  *   --limit N                             fetch at most N pages
  *   --dry-run                             fetch and compare, write nothing (no snapshot, change log, validator or report);
  *                                         the fetch itself still counts against each host's one page per UTC day
+ *   --export-baselines                    migration: write the hash-only baselines (kb/.../peers/baselines/<peerId>.json, committed to git)
+ *                                         from the local snapshots under runs/<tenant>/peers/snapshots; fetches nothing
  *   --with-lotte                          dry run only: also fetch the group's Lotte captures. Lotte captures are re-checked
  *                                         (Mode A) by `daily`, never by this command, so a real run leaves them alone.
  *
@@ -16,7 +18,7 @@ import { dirname, isAbsolute, join, resolve } from "node:path";
 import { FileFetchState, PlaywrightBrowserFetcher, SafeFetcher } from "../packages/core/src/adapters/fetch";
 import { loadOrgConfig, tenantPaths } from "../packages/core/src/config";
 import { loadHeadingPatterns } from "../packages/core/src/stages/ingest";
-import { loadCaptureIndex, loadPeerRegistry, peersPaths, watchPeers } from "../packages/core/src/stages/peers";
+import { BaselineStore, SnapshotStore, exportBaselines, loadCaptureIndex, loadPeerRegistry, peersPaths, watchPeers } from "../packages/core/src/stages/peers";
 
 export const DEFAULT_REGISTRY = join("kb", "jurisdictions", "kr", "monitor", "peers", "peer-registry.json");
 export const CAPTURE_INDEX = join("kb", "jurisdictions", "kr", "clauses", "_captures", "index.json");
@@ -26,6 +28,9 @@ export function registryFileOf(root: string, configFile: string, peersFile: stri
   return isAbsolute(peersFile) ? peersFile : resolve(dirname(resolve(configFile)), peersFile);
 }
 
+/** Committed baselines live next to the registry. */
+export const baselinesDirOf = (registryFile: string): string => join(dirname(registryFile), "baselines");
+
 export interface PeersCliArgs {
   readonly root: string;
   readonly configFile: string;
@@ -33,6 +38,7 @@ export interface PeersCliArgs {
   readonly limit?: number;
   readonly dryRun: boolean;
   readonly withLotte: boolean;
+  readonly exportBaselines: boolean;
 }
 
 /** Parses `--group`, `--limit`, `--dry-run`, `--with-lotte` from an argv tail. Throws a usage message on bad input. */
@@ -50,7 +56,8 @@ export function parsePeersArgs(root: string, argv: readonly string[]): PeersCliA
   const withLotte = argv.includes("--with-lotte");
   if (withLotte && !dryRun) throw new Error("--with-lotte is only available with --dry-run: Lotte captures are re-checked by the daily chain (agent.ts daily)");
   const group = opt("group");
-  return { root, configFile, dryRun, withLotte, ...(group ? { group } : {}), ...(limit !== undefined ? { limit } : {}) };
+  const exportBaselines = argv.includes("--export-baselines");
+  return { root, configFile, dryRun, withLotte, exportBaselines, ...(group ? { group } : {}), ...(limit !== undefined ? { limit } : {}) };
 }
 
 export async function runPeersCommand(args: PeersCliArgs, log: (line: string) => void = console.log): Promise<number> {
@@ -62,6 +69,14 @@ export async function runPeersCommand(args: PeersCliArgs, log: (line: string) =>
   const group = args.group ?? (registry.groups.some((g) => g.groupId === org.domainGroup) ? org.domainGroup : undefined);
   const captures = loadCaptureIndex(join(args.root, CAPTURE_INDEX));
   const paths = peersPaths(tenant.peersDir);
+  const baselinesDir = baselinesDirOf(registryFile);
+
+  if (args.exportBaselines) {
+    const snapshots = new SnapshotStore(paths.snapshots);
+    const r = await exportBaselines(snapshots, new BaselineStore(baselinesDir), await snapshots.peerIds());
+    log(`${org.tenantId}: export-baselines -> ${baselinesDir.replace(args.root, ".")}: ${r.written.length} written, ${r.unchanged.length} already current${r.missing.length ? `, ${r.missing.length} without snapshot` : ""}`);
+    return 0;
+  }
 
   const state = new FileFetchState(paths.fetchState);
   const browser = new PlaywrightBrowserFetcher();
@@ -75,6 +90,7 @@ export async function runPeersCommand(args: PeersCliArgs, log: (line: string) =>
       state,
       patterns: loadHeadingPatterns(args.root),
       peersDir: tenant.peersDir,
+      baselinesDir,
       tenantId: tenant.tenantId,
       ...(group ? { group } : {}),
       ...(args.limit !== undefined ? { limit: args.limit } : {}),
@@ -99,5 +115,5 @@ export function dailyPeersDeps(root: string, configFile: string, peersFile: stri
   if (!existsSync(registryFile)) return null;
   const state = new FileFetchState(peersDir ? peersPaths(peersDir).fetchState : "");
   const browser = new PlaywrightBrowserFetcher();
-  return { deps: { registry: loadPeerRegistry(registryFile), captures: loadCaptureIndex(join(root, CAPTURE_INDEX)), fetcher: new SafeFetcher({ state, browser }), state, peersDir }, close: () => browser.close() };
+  return { deps: { registry: loadPeerRegistry(registryFile), captures: loadCaptureIndex(join(root, CAPTURE_INDEX)), fetcher: new SafeFetcher({ state, browser }), state, peersDir, baselinesDir: baselinesDirOf(registryFile) }, close: () => browser.close() };
 }

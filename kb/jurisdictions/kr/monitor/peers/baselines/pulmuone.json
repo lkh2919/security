@@ -1,0 +1,100 @@
+{
+  "peerId": "pulmuone",
+  "url": "https://www.pulmuone.co.kr/pulmuone/policy/v1.do",
+  "fetchedAt": "2026-10-02T06:47:20.258Z",
+  "contentSha256": "86af8e571651f86f75215267c9c8ecb3b68c584fd53cbafdac7c1317251f750a",
+  "neutralContentSha256": "6be991aa4b902d7f43b1a82d1f38eb4439d72bdfbc0a88bc855e4d8ef3bd9e7c",
+  "sections": [
+    {
+      "sectionId": "PREAMBLE",
+      "sha256": "180dec9c6248ce05947dd76ba7e8c642aff5e4ce51cb5cefb6f48eb22de67c75",
+      "neutralSha256": "180dec9c6248ce05947dd76ba7e8c642aff5e4ce51cb5cefb6f48eb22de67c75",
+      "charCount": 395
+    },
+    {
+      "sectionId": "S01",
+      "sha256": "df9e9ef8874e73ad44f91f4e0072a16aafdc5e011674b33c1adf05b856556376",
+      "neutralSha256": "df9e9ef8874e73ad44f91f4e0072a16aafdc5e011674b33c1adf05b856556376",
+      "charCount": 486
+    },
+    {
+      "sectionId": "S02",
+      "sha256": "bdfb0f9eaf6f1d00e9f99107dfe194f62248a4ae79a5b2a13905319658adb6f2",
+      "neutralSha256": "bdfb0f9eaf6f1d00e9f99107dfe194f62248a4ae79a5b2a13905319658adb6f2",
+      "charCount": 3404
+    },
+    {
+      "sectionId": "S03",
+      "sha256": "dacf3347c5db36b5b0a986a2f2b79adfcc20f10b73eb45e9ccf02ba7d0529176",
+      "neutralSha256": "dacf3347c5db36b5b0a986a2f2b79adfcc20f10b73eb45e9ccf02ba7d0529176",
+      "charCount": 1018
+    },
+    {
+      "sectionId": "S04",
+      "sha256": "b8a8c0ebb1b1ad0ae988c89bc8ff7909ae703cfcbcc76ab23c38a15152debc2b",
+      "neutralSha256": "b8a8c0ebb1b1ad0ae988c89bc8ff7909ae703cfcbcc76ab23c38a15152debc2b",
+      "charCount": 0
+    },
+    {
+      "sectionId": "S05",
+      "sha256": "eb644143bc8033d4f7624335d636ed645511cea82262a280c914cd3016637bf9",
+      "neutralSha256": "eb644143bc8033d4f7624335d636ed645511cea82262a280c914cd3016637bf9",
+      "charCount": 1062
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "c6cc32d7c8e18f7ec65117e428747bcf84c87e2a27e9e9ed4925464875122f6b",
+      "neutralSha256": "c6cc32d7c8e18f7ec65117e428747bcf84c87e2a27e9e9ed4925464875122f6b",
+      "charCount": 5531
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "d88e03e4dacbb82b1f8c4e4ad44e10808e9625a88147e9a09ddbc006be537be3",
+      "neutralSha256": "d88e03e4dacbb82b1f8c4e4ad44e10808e9625a88147e9a09ddbc006be537be3",
+      "charCount": 204
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "14087a9942ad0377f19cfb3436dfff67a2e2683a30ce8aacd4fdb743225982c0",
+      "neutralSha256": "14087a9942ad0377f19cfb3436dfff67a2e2683a30ce8aacd4fdb743225982c0",
+      "charCount": 489
+    },
+    {
+      "sectionId": "S11",
+      "sha256": "414b51d9b6d34042412dcaa4198a05a1d69e636d1e9821acd7eeb7a5594fde46",
+      "neutralSha256": "414b51d9b6d34042412dcaa4198a05a1d69e636d1e9821acd7eeb7a5594fde46",
+      "charCount": 634
+    },
+    {
+      "sectionId": "S14",
+      "sha256": "021c7bb2f213ebf96a37d9949ac92f7cb1cdb668ed1f58d42661453146ff05de",
+      "neutralSha256": "021c7bb2f213ebf96a37d9949ac92f7cb1cdb668ed1f58d42661453146ff05de",
+      "charCount": 3557
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "46ce3500fdcd8c2788fa32f427d89b145e974c27549f4d74c9739631444a6eb3",
+      "neutralSha256": "46ce3500fdcd8c2788fa32f427d89b145e974c27549f4d74c9739631444a6eb3",
+      "charCount": 614
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "36fecc47b444452b43804bb77af45bafa5ee86e19096808a4fd61a053a18a256",
+      "neutralSha256": "dbd0d5e6c4201338e0de63bccc2d1a40a5d74432e1d2069598e9cd084ddf99b6",
+      "charCount": 4284
+    },
+    {
+      "sectionId": "S20",
+      "sha256": "536ee41655b7cc926cf90dc76649223f09fd7fc8e67e648a5c1b6f957c84ca66",
+      "neutralSha256": "415cfa552e071a8993e1e9261c67cde7bacd9ae78d599a1df7ff074c9c747931",
+      "charCount": 2368
+    },
+    {
+      "sectionId": "UNMAPPED",
+      "sha256": "3a72c53ef8b37642debf606427fe379087214287dad3170f1cb1b24ec378083f",
+      "neutralSha256": "5605368a2153eb751984de8afa98d2b5c5b53bd3dd9f3d0070ab01172b61c540",
+      "charCount": 3272
+    }
+  ],
+  "effectiveDateText": "2015년 3월 12일"
+}

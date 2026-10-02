@@ -1,0 +1,81 @@
+{
+  "peerId": "binggrae",
+  "url": "https://www.bing.co.kr/support/privacy",
+  "fetchedAt": "2026-10-02T06:47:16.782Z",
+  "contentSha256": "a49ba4eea90154aaccf0b4e0522ca8de8262797481c409b3c8536ae4aa83f461",
+  "neutralContentSha256": "d87fb267de0d80a0a01186d0520bf97b7624a611c5f433737e5b1461b1755523",
+  "sections": [
+    {
+      "sectionId": "S01",
+      "sha256": "aaba12811873b8397f2c8d32c44c6c29f1b4d986ac1e5a96b78c0afd1fb9069f",
+      "neutralSha256": "aaba12811873b8397f2c8d32c44c6c29f1b4d986ac1e5a96b78c0afd1fb9069f",
+      "charCount": 361
+    },
+    {
+      "sectionId": "S02",
+      "sha256": "d7876edbe889531e9576f3e9c054accbfb2692b6c845c77fa567a8973da3c011",
+      "neutralSha256": "d7876edbe889531e9576f3e9c054accbfb2692b6c845c77fa567a8973da3c011",
+      "charCount": 1317
+    },
+    {
+      "sectionId": "S03",
+      "sha256": "e64c2b5baa00729d515dd61fa8c9cea5efc5db820ba9ab2c08f038497907ffb8",
+      "neutralSha256": "e64c2b5baa00729d515dd61fa8c9cea5efc5db820ba9ab2c08f038497907ffb8",
+      "charCount": 312
+    },
+    {
+      "sectionId": "S05",
+      "sha256": "8de4facc9cf77568657d44e66f33f62330cefa55c2ba1320e45b8dd82bdcddfe",
+      "neutralSha256": "8de4facc9cf77568657d44e66f33f62330cefa55c2ba1320e45b8dd82bdcddfe",
+      "charCount": 415
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "18acc7c3e8601f49159f8167311f062ddc589e0d0beea7272be636e219552d15",
+      "neutralSha256": "18acc7c3e8601f49159f8167311f062ddc589e0d0beea7272be636e219552d15",
+      "charCount": 616
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "9083193835b98a0881d60ff35a6033c08b58aa2b576b62ebfc58505f6296e529",
+      "neutralSha256": "9083193835b98a0881d60ff35a6033c08b58aa2b576b62ebfc58505f6296e529",
+      "charCount": 502
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "74f6b83f392ca479b9a9277aa1ddb6b75d1fc95a4f53006f1d41706d4c264425",
+      "neutralSha256": "74f6b83f392ca479b9a9277aa1ddb6b75d1fc95a4f53006f1d41706d4c264425",
+      "charCount": 1775
+    },
+    {
+      "sectionId": "S11",
+      "sha256": "781e38974ad90b778ae110df337659f6eda63ffd425a3a98d1e06534dc14eb17",
+      "neutralSha256": "781e38974ad90b778ae110df337659f6eda63ffd425a3a98d1e06534dc14eb17",
+      "charCount": 1777
+    },
+    {
+      "sectionId": "S14",
+      "sha256": "4e3e54b4c59207d983b9521092208334b09df60a95a44c68ad929b7911a22f2c",
+      "neutralSha256": "4e3e54b4c59207d983b9521092208334b09df60a95a44c68ad929b7911a22f2c",
+      "charCount": 692
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "947e4052cc80de94ea4f010d465d956ef08df97c50bd7e3883b3a843cb5820d4",
+      "neutralSha256": "947e4052cc80de94ea4f010d465d956ef08df97c50bd7e3883b3a843cb5820d4",
+      "charCount": 0
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "add8ca45ae874a405f2a292ec2a33e6f71d954ecce697e13e00efd629ff9e0e7",
+      "neutralSha256": "add8ca45ae874a405f2a292ec2a33e6f71d954ecce697e13e00efd629ff9e0e7",
+      "charCount": 340
+    },
+    {
+      "sectionId": "UNMAPPED",
+      "sha256": "fb462f9f5d4cbb18dad032bda745b326f4226c730cba2356d439674d2acf3626",
+      "neutralSha256": "18b544daecaff6d1fcfda58984a1378115d5bad507cff0a9b3242e82b266f790",
+      "charCount": 873
+    }
+  ]
+}

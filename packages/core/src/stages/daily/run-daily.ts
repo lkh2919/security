@@ -53,6 +53,8 @@ export interface DailyPeersDeps {
   readonly state: FetchStateStore;
   /** `runs/<tenant>/peers` */
   readonly peersDir: string;
+  /** Committed hash-only baselines of the peer policies. */
+  readonly baselinesDir?: string;
   readonly group?: string;
   readonly limit?: number;
   readonly dryRun?: boolean;
@@ -281,6 +283,7 @@ export async function runDaily(deps: DailyDeps): Promise<DailyResult> {
           state: pd.state,
           patterns: deps.patterns,
           peersDir: pd.peersDir,
+          ...(pd.baselinesDir ? { baselinesDir: pd.baselinesDir } : {}),
           tenantId: deps.tenantId,
           ...(pd.group ? { group: pd.group } : {}),
           ...(pd.limit !== undefined ? { limit: pd.limit } : {}),

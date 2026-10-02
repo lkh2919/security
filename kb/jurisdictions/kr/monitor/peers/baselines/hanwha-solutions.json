@@ -1,0 +1,100 @@
+{
+  "peerId": "hanwha-solutions",
+  "url": "https://www.hanwhasolutions.com/ko/privacy",
+  "fetchedAt": "2026-10-02T06:47:23.156Z",
+  "contentSha256": "512027d1c9c0973746ce6cddda00321c24139fa3793014bd472ae843c2e6c42a",
+  "neutralContentSha256": "421683e171ab7d22cb53ba1cf8525dbeb482ae3d962635021dcb94e0c6b611b9",
+  "sections": [
+    {
+      "sectionId": "PREAMBLE",
+      "sha256": "3ad1cb021016c553c6540a7592e97f8da315385396df4b2092bfeabefd58ef02",
+      "neutralSha256": "3ad1cb021016c553c6540a7592e97f8da315385396df4b2092bfeabefd58ef02",
+      "charCount": 16
+    },
+    {
+      "sectionId": "S01",
+      "sha256": "9b17344cfad4077a1440a2c84c9086311d8a75c894ec19638b92defdd0242602",
+      "neutralSha256": "9b17344cfad4077a1440a2c84c9086311d8a75c894ec19638b92defdd0242602",
+      "charCount": 7
+    },
+    {
+      "sectionId": "S02",
+      "sha256": "d67a1d804d7bd79cbf745a0847ab50288ef6d4aa21a09577a1c590e1e6fd80a6",
+      "neutralSha256": "d67a1d804d7bd79cbf745a0847ab50288ef6d4aa21a09577a1c590e1e6fd80a6",
+      "charCount": 144
+    },
+    {
+      "sectionId": "S03",
+      "sha256": "fa84bf20d3c28dc733281606c495fed34c72ead2d11b636cada67564d40f34e4",
+      "neutralSha256": "fa84bf20d3c28dc733281606c495fed34c72ead2d11b636cada67564d40f34e4",
+      "charCount": 187
+    },
+    {
+      "sectionId": "S05",
+      "sha256": "f773dffda4913ef6d2d8bf2b3c8f77d08cc77a9ed90e8cf5aac6d7e20841652a",
+      "neutralSha256": "f773dffda4913ef6d2d8bf2b3c8f77d08cc77a9ed90e8cf5aac6d7e20841652a",
+      "charCount": 98
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "436072479bd47570a2fe430ee2c7cc00041a9ff442f6fd0ee23ce664386884db",
+      "neutralSha256": "436072479bd47570a2fe430ee2c7cc00041a9ff442f6fd0ee23ce664386884db",
+      "charCount": 733
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "0614f5ae133d0a1b3b1c9d178bcbbded9313c575bcbe8a5384d77306402c7f93",
+      "neutralSha256": "0614f5ae133d0a1b3b1c9d178bcbbded9313c575bcbe8a5384d77306402c7f93",
+      "charCount": 167
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "0e7b1d1e732591ee67171407e9444ac09c34310f310c20d764f327bde73b653c",
+      "neutralSha256": "0e7b1d1e732591ee67171407e9444ac09c34310f310c20d764f327bde73b653c",
+      "charCount": 362
+    },
+    {
+      "sectionId": "S11",
+      "sha256": "4da9f8523201b14fbfdb75ae14244dce8a0346950c3ea04257d5a816212f2315",
+      "neutralSha256": "4da9f8523201b14fbfdb75ae14244dce8a0346950c3ea04257d5a816212f2315",
+      "charCount": 784
+    },
+    {
+      "sectionId": "S14",
+      "sha256": "7ade75e1eb6424d62ff809aef62ea5d856f7727958d0c187ca0b1a767207f98a",
+      "neutralSha256": "7ade75e1eb6424d62ff809aef62ea5d856f7727958d0c187ca0b1a767207f98a",
+      "charCount": 388
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "f8cfacea43c7bd7c934fcf47a2f301813aaef87edbd7f89dd49c1fcd364389eb",
+      "neutralSha256": "f8cfacea43c7bd7c934fcf47a2f301813aaef87edbd7f89dd49c1fcd364389eb",
+      "charCount": 605
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "160936a350d2114f0540c45b8018833172538ac4e2617e2f1ee82a44931aefeb",
+      "neutralSha256": "160936a350d2114f0540c45b8018833172538ac4e2617e2f1ee82a44931aefeb",
+      "charCount": 345
+    },
+    {
+      "sectionId": "S20",
+      "sha256": "5b3440d27e507d580e2c65ad5fc18524e9016f001db55ccc714ca1efe9dda796",
+      "neutralSha256": "5b3440d27e507d580e2c65ad5fc18524e9016f001db55ccc714ca1efe9dda796",
+      "charCount": 328
+    },
+    {
+      "sectionId": "S24",
+      "sha256": "38956109d9b048af601d2c0e10b50e0f7f1a24dcf0a48c6ff677ab0fd682c0cb",
+      "neutralSha256": "38956109d9b048af601d2c0e10b50e0f7f1a24dcf0a48c6ff677ab0fd682c0cb",
+      "charCount": 95
+    },
+    {
+      "sectionId": "UNMAPPED",
+      "sha256": "3f9ec36eb1ad215576130224675fb0c4a1baf2a1e3d69742f24bbaf4d577fe3c",
+      "neutralSha256": "84b9af07e6f9d13b97e71b7a1b1486bf895dc49cd81b0f0a10a92f36d3b75891",
+      "charCount": 420
+    }
+  ],
+  "effectiveDateText": "2025년 4월 1일"
+}

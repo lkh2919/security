@@ -38,6 +38,28 @@ export const PeerEntrySchema = z.looseObject({
 });
 export type PeerEntry = z.infer<typeof PeerEntrySchema>;
 
+/**
+ * Policy version history of a peer (registry `history`, read by `scripts/peer-history.ts`). Loose and parsed on its own: an invalid
+ * `history` makes that peer "이력 미공개" instead of failing the whole registry.
+ */
+export const PeerHistoryVersionSchema = z.looseObject({
+  /** `YYYY-MM-DD`: the day this version of the policy took effect. */
+  effectiveDate: NonEmptyString,
+  url: NonEmptyString,
+  /** `http` plain fetch, `browser` rendered fetch, `form` only available through a form or search page (not fetched). */
+  fetch: z.enum(["http", "browser", "form"]),
+  formNote: z.string().optional(),
+});
+export const PeerHistorySchema = z.looseObject({
+  currentEffectiveDate: z.string().nullable().optional(),
+  versions: z.array(PeerHistoryVersionSchema),
+  /** Indexes into `versions`: the version in force just before / after the amendment under study. */
+  beforeAmendment: z.number().int().nonnegative().nullable().optional(),
+  afterAmendment: z.number().int().nonnegative().nullable().optional(),
+  note: z.string().optional(),
+});
+export type PeerHistory = z.infer<typeof PeerHistorySchema>;
+
 export const PeerGroupSchema = z.looseObject({
   groupId: PeerIdSchema,
   nameKo: NonEmptyString,
@@ -63,6 +85,8 @@ export const SnapshotSectionSchema = z.strictObject({
   /** `S01`..`S24`, `PREAMBLE` (text before the first heading) or `UNMAPPED`. */
   sectionId: NonEmptyString,
   sha256: Sha256Schema,
+  /** Hash of the date-neutralized section text (dates replaced, 시행일/공고일 lines dropped); optional for older snapshots. */
+  neutralSha256: Sha256Schema.optional(),
   charCount: z.number().int().nonnegative(),
 });
 
@@ -73,6 +97,7 @@ export const PolicySnapshotSchema = z
     fetchedAt: IsoDateTimeSchema,
     /** Hash over the per-section hashes of the normalized text: equal for whitespace, markup, navigation and block-order edits. */
     contentSha256: Sha256Schema.optional(),
+    neutralContentSha256: Sha256Schema.optional(),
     sections: z.array(SnapshotSectionSchema),
     render: z.enum(["html", "browser"]),
     status: z.enum(["ok", "skipped", "failed"]),
@@ -82,6 +107,22 @@ export const PolicySnapshotSchema = z
     if (s.status === "ok" && !s.contentSha256) ctx.addIssue({ code: "custom", path: ["contentSha256"], message: "an ok snapshot needs contentSha256" });
   });
 export type PolicySnapshot = z.infer<typeof PolicySnapshotSchema>;
+
+/**
+ * Committed, hash-only baseline of one peer policy (`kb/jurisdictions/kr/monitor/peers/baselines/<peerId>.json`). The cloud container is
+ * ephemeral, so the "previous" side of a comparison must survive in git. No policy text and no quotes: hashes, counts and the
+ * effective date as written on the page (digits and date punctuation only).
+ */
+export const PeerBaselineSchema = z.strictObject({
+  peerId: PeerIdSchema,
+  url: NonEmptyString,
+  fetchedAt: IsoDateTimeSchema,
+  contentSha256: Sha256Schema,
+  neutralContentSha256: Sha256Schema.optional(),
+  sections: z.array(SnapshotSectionSchema),
+  effectiveDateText: z.string().regex(/^[0-9.\-/년월일 ]{6,24}$/, "effectiveDateText holds only digits and date punctuation").optional(),
+});
+export type PeerBaseline = z.infer<typeof PeerBaselineSchema>;
 
 export const QuoteSchema = z.string().refine((q) => q.trim().split(/\s+/).filter(Boolean).length <= MAX_PEER_QUOTE_WORDS, { message: `a quote holds at most ${MAX_PEER_QUOTE_WORDS} words` });
 
