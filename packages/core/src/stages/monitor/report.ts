@@ -4,6 +4,7 @@
  * syntax inside quoted policy text is neutralised.
  */
 import { MONITOR_DISCLAIMER, type MonitorFinding, type MonitorReport, type MonitorSeverity } from "../../contracts/monitor-report";
+import { formatCostLine, type UsageSummary } from "../../llm/usage-log";
 import { maskContacts } from "../ingest/segment-policy";
 
 export const SEVERITY_LABEL: Readonly<Record<MonitorSeverity, string>> = { critical: "치명 (Critical)", high: "높음 (High)", medium: "중간 (Medium)", low: "낮음 (Low)", confirm: "확인 필요 (Confirm)" };
@@ -29,7 +30,8 @@ function findingMd(f: MonitorFinding, titles: Readonly<Record<string, string>>):
   if (f.trigger) lines.push(`- 개정 조문: ${safeText(f.trigger.law)} ${safeText(f.trigger.articleKey)}${f.trigger.effectiveOn ? ` (시행 ${f.trigger.effectiveOn})` : ""}`);
   lines.push(`- 내용: ${safeText(f.message)}`);
   if (f.location.quote) lines.push(`- 해당 문구: ${"> "}${safeText(f.location.quote)}`);
-  lines.push(`- 수정 방향: ${safeText(f.fixHint)}`, "");
+  if (f.fixHint) lines.push(`- 수정 방향: ${safeText(f.fixHint)}`);
+  lines.push("");
   return lines;
 }
 
@@ -68,10 +70,11 @@ export interface SummaryEntry {
   readonly report?: MonitorReport;
 }
 
-export function renderSummaryMarkdown(args: { stamp: string; entries: readonly SummaryEntry[]; unmapped?: readonly MonitorFinding[]; notes?: readonly string[] }): string {
+export function renderSummaryMarkdown(args: { stamp: string; entries: readonly SummaryEntry[]; unmapped?: readonly MonitorFinding[]; notes?: readonly string[]; usage?: UsageSummary }): string {
   const out: string[] = [`# 점검 요약 ${safeText(args.stamp)}`, "", `> ${MONITOR_DISCLAIMER}`, ""];
   for (const n of args.notes ?? []) out.push(`- ${safeText(n)}`);
-  if ((args.notes ?? []).length > 0) out.push("");
+  if (args.usage) out.push(`- ${safeText(formatCostLine(args.usage))}`);
+  if ((args.notes ?? []).length > 0 || args.usage) out.push("");
   out.push("| 정책 | 상태 | " + ORDER.map((s) => SEVERITY_LABEL[s]).join(" | ") + " |", "| --- | --- | " + ORDER.map(() => "---").join(" | ") + " |");
   for (const e of args.entries) {
     const state = e.status === "checked" ? "점검함" : e.status === "skipped_unchanged" ? "변경 없음 (건너뜀)" : "수동 검토 필요";

@@ -8,15 +8,19 @@ import { AnthropicLlmClient } from "./anthropic-client";
 import { ClaudeCodeLlmClient } from "./claude-code-client";
 import type { LlmClient } from "./client";
 import type { LlmStageId } from "./models";
+import type { UsageRecord } from "../contracts/usage";
+import { toUsageRecords, type UsageSource } from "./usage-log";
 
 export type LlmBackend = "api" | "claude-code";
 
-export interface BackendClient {
+export interface BackendClient extends UsageSource {
   readonly backend: LlmBackend;
   readonly client: LlmClient;
   /** Per-stage usage line for the run log (no prompts, no values). */
   usageLine(stage: LlmStageId): string | null;
   close(): void;
+  /** Every call so far as usage records (Claude Code: reported cost preferred; API: list price). */
+  usageRecords(): UsageRecord[];
 }
 
 /** `flag` is the value of `--llm` (or undefined). Returns null when no backend can be chosen. */
@@ -29,8 +33,8 @@ export function resolveBackend(flag: string | undefined, env: Readonly<Record<st
 export function createBackendClient(backend: LlmBackend, opts: { vault?: PiiVault; piiGate?: boolean } = {}): BackendClient {
   if (backend === "api") {
     const client = new AnthropicLlmClient(opts);
-    return { backend, client, usageLine: (s) => (client.totals(s).calls ? JSON.stringify(client.totals(s)) : null), close: () => undefined };
+    return { backend, client, usageLine: (s) => (client.totals(s).calls ? JSON.stringify(client.totals(s)) : null), close: () => undefined, usageRecords: () => toUsageRecords(client.usageLog) };
   }
   const client = new ClaudeCodeLlmClient(opts);
-  return { backend, client, usageLine: (s) => (client.totals(s).calls ? JSON.stringify(client.totals(s)) : null), close: () => client.close() };
+  return { backend, client, usageLine: (s) => (client.totals(s).calls ? JSON.stringify(client.totals(s)) : null), close: () => client.close(), usageRecords: () => toUsageRecords(client.usageLog) };
 }

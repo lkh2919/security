@@ -1,6 +1,6 @@
 import type { FreshnessTargets } from "./run";
 
-/** Default watch list (design R5.6; kb/jurisdictions/kr/statutes/law-targets.json). */
+/** Fallback watch list (design R5.6). The live list is `kb/jurisdictions/kr/statutes/law-targets.watch.json`, read by `loadWatchTargets`; this list is used only when that file is missing. */
 export const DEFAULT_FRESHNESS_TARGETS: FreshnessTargets = {
   laws: [
     { sourceId: "law:pipa", name: "개인정보 보호법", target: "law", lawCode: "PIPA" },

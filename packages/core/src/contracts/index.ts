@@ -24,3 +24,7 @@ export * from "./ingested-policy";
 export * from "./amendment-diff";
 export * from "./monitor-report";
 export * from "./watch-registry";
+export * from "./usage";
+export * from "./legalref-map";
+export * from "./org-config";
+export * from "./watch-targets";

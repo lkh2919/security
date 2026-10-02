@@ -10,16 +10,21 @@
  *     worded as possible impact, capped at Medium, and its suggested wording is never final. A quote that is not verbatim is
  *     cleared and the finding drops to Confirm.
  *
+ * Units whose law prefix the legal-ref map marks `manualReview` (finance, design C6) skip steps 1-3: they yield one Confirm finding per
+ * policy labelled "금융 법령 해당 – 수동 검토", with no suggested wording and no model call.
+ *
  * Without an LLM client the deterministic part runs: affected sections become Confirm findings that say the judgement was skipped.
  */
 import { z } from "zod";
 import type { AmendmentDiff, AmendmentUnit } from "../../contracts/amendment-diff";
 import { UNMAPPED_SECTION, type IngestedPara, type IngestedPolicy } from "../../contracts/ingested-policy";
 import type { MonitorFinding, MonitorSeverity, MonitorTier } from "../../contracts/monitor-report";
+import type { LegalRefMap } from "../../contracts/legalref-map";
 import type { Rule, RuleSection } from "../../contracts/rulepack";
 import type { LlmClient } from "../../llm/client";
 import { loadPromptFile, type PromptFile } from "../extract/prompt";
-import { UNTRUSTED_POLICY_NOTICE, capSeverity, clean, daysUntil, digestRules, fenceText, numberFindings, paraOfQuote, verifyVerbatimQuote } from "./common";
+import { isManualReviewPrefix } from "./legalref-map";
+import { FINANCE_MANUAL_LABEL, UNTRUSTED_POLICY_NOTICE, capSeverity, clean, daysUntil, digestRules, fenceText, numberFindings, paraOfQuote, verifyVerbatimQuote } from "./common";
 
 export const IMPACT_PROMPT_PATH = "monitor/impact-v1.md";
 
@@ -106,6 +111,8 @@ export interface ImpactInput {
   readonly ruleSections: ReadonlyMap<string, RuleSection>;
   /** True only after the domain expert verified the amendment and updated the rule pack (design M4). */
   readonly confirmed?: boolean;
+  /** Prefix -> law (statutes/legalref-map.json). Absent or empty: every prefix is `mapped`. */
+  readonly legalRefMap?: LegalRefMap;
   readonly now?: Date;
 }
 
@@ -157,7 +164,13 @@ export async function runImpact(deps: ImpactDeps, input: ImpactInput): Promise<I
   const confirmed = input.confirmed === true;
   const tier: MonitorTier = confirmed ? "confirmed" : "provisional";
   const { diff } = input;
-  const mapping = mapUnitsToSections(diff.units, input.ruleSections);
+  const legalRefMap = input.legalRefMap ?? {};
+  const isManual = (u: AmendmentUnit): boolean => {
+    const law = parseLegalRef(u.key)?.law;
+    return law !== undefined && isManualReviewPrefix(legalRefMap, law);
+  };
+  const manualUnits = diff.units.filter(isManual);
+  const mapping = mapUnitsToSections(diff.units.filter((u) => !isManual(u)), input.ruleSections);
   const adjustments: string[] = [];
   const warnings: string[] = [];
   const perPolicy = new Map<string, MonitorFinding[]>();
@@ -175,9 +188,23 @@ export async function runImpact(deps: ImpactDeps, input: ImpactInput): Promise<I
     ),
   );
 
+  // One finding per (policy, change) for finance units: no suggested wording (empty fixHint), no model call.
+  const manualDraft = (): Draft => ({
+    mode: "B",
+    tier: "provisional",
+    layer: "deterministic",
+    ruleId: "MON-FINANCE-MANUAL",
+    sectionId: UNMAPPED_SECTION,
+    severity: "confirm",
+    message: `${FINANCE_MANUAL_LABEL}: ${diff.law} 개정 조문(${manualUnits.slice(0, 5).map((u) => u.key).join(", ")}${manualUnits.length > 5 ? " 외" : ""})은 금융 법령 개정입니다. 규칙 팩으로 자동 판단하지 않으며 사람이 영향을 검토해야 합니다.`,
+    fixHint: "",
+    location: { sectionId: UNMAPPED_SECTION, para: null, quote: "" },
+    trigger: trigger(manualUnits[0]!.key),
+  });
+
   for (const policy of input.policies) {
-    const drafts: Draft[] = [];
-    perPolicy.set(policy.policyId, []);
+    const drafts: Draft[] = manualUnits.length > 0 ? [manualDraft()] : [];
+    perPolicy.set(policy.policyId, numberFindings("B", drafts));
     if (mapping.sections.length === 0) continue;
     if (policy.status !== "ok") {
       const first = mapping.sections[0]!.units[0]!;

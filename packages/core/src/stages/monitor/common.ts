@@ -8,6 +8,9 @@ import type { IngestedPara } from "../../contracts/ingested-policy";
 import { UNTRUSTED_TAG } from "../intake/sanitize";
 import { maskContacts } from "../ingest/segment-policy";
 
+/** Label of every finance item (design C6): the law is monitored, never judged, and a person decides. */
+export const FINANCE_MANUAL_LABEL = "금융 법령 해당 – 수동 검토";
+
 export const SEVERITY_RANK: Readonly<Record<MonitorSeverity, number>> = { critical: 0, high: 1, medium: 2, low: 3, confirm: 4 };
 
 /** Lower of two severities (critical is highest, confirm lowest). */

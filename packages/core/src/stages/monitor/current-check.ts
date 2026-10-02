@@ -8,6 +8,10 @@
  *     text only: no ledger, no transcript). Every quote must be a verbatim substring of the section text or the finding is
  *     dropped; findings under conditional rules are capped at Confirm.
  *
+ *  4. Finance (design C6): a section with a paragraph tagged `financeFlag` (finance lexicon) yields one Confirm finding
+ *     "금융 법령 해당 – 수동 검토" (no suggested wording). The model's PIPA "missing"/"wrong" findings that quote a flagged paragraph, or
+ *     that concern a section whose paragraphs are all flagged, are dropped: finance is monitored by people only.
+ *
  * Rule packs are reviewed, so Mode A findings are tier `confirmed`. A policy that could not be read (`needs_manual_review`)
  * yields one Confirm finding instead of a clean report. Without an LLM client only steps 1 and 2 run, and the report says so.
  */
@@ -25,7 +29,7 @@ import type { RulePackItem } from "../coverage/load-kb";
 import { loadPromptFile, type PromptFile } from "../extract/prompt";
 import { fullTextMentions, type HeadingPatterns } from "../ingest/segment-policy";
 import { locateAstPath, policyToAst } from "../ingest/to-ast";
-import { UNTRUSTED_POLICY_NOTICE, buildReport, capSeverity, clean, digestRules, fenceText, numberFindings, paraOfQuote, verifyVerbatimQuote, type DigestRule } from "./common";
+import { FINANCE_MANUAL_LABEL, UNTRUSTED_POLICY_NOTICE, buildReport, capSeverity, clean, digestRules, fenceText, numberFindings, paraOfQuote, verifyVerbatimQuote, type DigestRule } from "./common";
 
 export const CHECK_PROMPT_PATH = "monitor/check-v1.md";
 
@@ -132,6 +136,29 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
     }
   }
 
+  // --- finance flag: one Confirm per flagged section ---------------------------------------------------
+  const flaggedParasOf = new Map<string, number[]>();
+  for (const sec of policy.sections) {
+    if (!sec.paras.some((p) => p.financeFlag)) continue;
+    const merged = sec.sectionId === UNMAPPED_SECTION ? undefined : sectionParas.get(sec.sectionId);
+    if (merged) flaggedParasOf.set(sec.sectionId, merged.filter((p) => p.financeFlag).map((p) => p.n));
+    else if (!flaggedParasOf.has(sec.sectionId)) flaggedParasOf.set(sec.sectionId, []);
+  }
+  for (const [sectionId, nums] of flaggedParasOf) {
+    drafts.push(
+      draft({
+        layer: "deterministic",
+        ruleId: "MON-FINANCE",
+        sectionId,
+        severity: "confirm",
+        message: `${FINANCE_MANUAL_LABEL}: ${sectionId}(${titleOf(sectionId)}) 항목에 금융 법령(신용정보법, 전자금융거래법 등) 관련 내용이 있습니다. 개인정보 보호법 규칙 팩으로 판단하지 않으며 사람이 검토해야 합니다.`,
+        fixHint: "",
+        para: nums[0] ?? null,
+        quote: "",
+      }),
+    );
+  }
+
   // --- LLM judge per present mandatory section ----------------------------------------------------
   let llmUsed = false;
   if (!deps.llm) {
@@ -155,6 +182,7 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
         drafts.push(draft({ layer: "llm", ruleId: "MON-JUDGE", sectionId, severity: "confirm", message: `${sectionId}(${section.title.ko})를 자동으로 판단하지 못했습니다. 사람이 검토해야 합니다.`, fixHint: "해당 항목을 수동으로 확인하십시오.", para: null, quote: "" }));
         continue;
       }
+      const allFlagged = paras.every((p) => p.financeFlag);
       const byId = new Map(digest.map((r) => [r.ruleId, r]));
       const seen = new Set<string>();
       for (const f of out.findings) {
@@ -167,6 +195,10 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
         const quote = verifyVerbatimQuote(text, f.quote);
         if (quote === null) {
           adjustments.push(`dropped ${f.ruleId} in ${sectionId}: the quote is not a verbatim substring of the section`);
+          continue;
+        }
+        if ((f.verdict === "missing" || f.verdict === "wrong") && (allFlagged || paras.find((p) => p.n === paraOfQuote(paras, quote))?.financeFlag)) {
+          adjustments.push(`dropped ${f.ruleId} ${f.verdict} in ${sectionId}: finance-flagged text is reviewed by people, not judged against the PIPA packs`);
           continue;
         }
         const key = `${f.ruleId}|${f.verdict}`;

@@ -10,6 +10,7 @@ import { EMPTY_REGISTRY, WatchRegistrySchema, type WatchEntry, type WatchRegistr
 import type { IngestedPolicy } from "../../contracts/ingested-policy";
 import type { MonitorReport } from "../../contracts/monitor-report";
 
+/** Legacy single-tenant location; the tenant-prefixed path is `tenantPaths(runsRoot, tenantId).registryPath`. */
 export const REGISTRY_RELATIVE_PATH = join("runs", "monitor", "registry.json");
 
 export function loadRegistry(path: string): WatchRegistry {

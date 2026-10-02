@@ -8,6 +8,7 @@
  * (also saved as runs/<ID>/*-interview.q<round>.json); `answer` folds an AnswerSet in and continues.
  * Outputs land in runs/<ID>/output/ (MD, HTML, DOCX, Reviewer Sheet). Backend: ANTHROPIC_API_KEY (API) or `--llm claude-code` (Claude Code login, no API key); skipped (exit 0) with neither.
  * Masking is off by default (user decision 2026-09-30); pass `--masking basic` to mask before any model call.
+ * Each invocation appends its model calls to runs/<ID>/usage.jsonl (tokens and cost, no prompts).
  * Never prints the key, transcript text or vault values.
  */
 import { readFile } from "node:fs/promises";
@@ -15,6 +16,7 @@ import { join } from "node:path";
 import { TextFileSttAdapter } from "../packages/core/src/adapters/stt";
 import { AnswerSetSchema } from "../packages/core/src/contracts/question-set";
 import { createBackendClient, resolveBackend } from "../packages/core/src/llm/factory";
+import { USAGE_FILE, appendUsageJsonl } from "../packages/core/src/llm/usage-log";
 import { continueRun, startRun, type PipelineOutcome } from "../packages/core/src/stages/orchestrate";
 
 const [command, ...rest] = process.argv.slice(2);
@@ -40,7 +42,9 @@ if (!backend) {
 const backendClient = createBackendClient(backend);
 const deps = { llm: backendClient.client, runsRoot, root };
 
+let lastRunId: string | undefined;
 function report(o: PipelineOutcome): void {
+  lastRunId = o.runId;
   if (o.status === "awaiting_answers") {
     console.log(`awaiting answers: run ${o.runId}, round ${o.round}, ${o.questionSet.questions.length} question(s)`);
     for (const q of o.questionSet.questions) console.log(`  [${q.priority}] ${q.id} (${q.answerType}): ${q.text}`);
@@ -77,4 +81,5 @@ for (const stage of ["R2", "R3", "R4-fallback", "R5P", "R5T", "R7"] as const) {
   const line = backendClient.usageLine(stage);
   if (line) console.log(stage, line);
 }
+if (lastRunId) await appendUsageJsonl(join(runsRoot, lastRunId, USAGE_FILE), backendClient.usageRecords());
 backendClient.close();

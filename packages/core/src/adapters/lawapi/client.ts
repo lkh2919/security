@@ -233,4 +233,9 @@ export class LawApiClient {
     if (parts.length === 0) throw new LawApiError("PARSE", "article text not found");
     return parts.join("\n");
   }
+
+  /** Full text XML of one law version by MST (법령일련번호), for the article diff (Mode B). Laws only. */
+  async getFullTextXml(mst: string): Promise<string> {
+    return this.getXml("lawService.do", { target: "law", MST: mst }, ["법령", "Law"]);
+  }
 }

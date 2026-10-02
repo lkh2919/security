@@ -4,6 +4,7 @@
  */
 import { IngestError, MAX_INGEST_BYTES, detectFormat, parsePolicySource, sha256OfBytes } from "../../adapters/ingest";
 import { IngestedPolicySchema, PolicyIdSchema, type IngestedPolicy } from "../../contracts/ingested-policy";
+import { tagFinanceParas, type FinanceLexicon } from "./finance-lexicon";
 import { segmentDocument, type HeadingPatterns } from "./segment-policy";
 
 export interface IngestRequest {
@@ -24,7 +25,8 @@ export function policyIdFor(name: string, sha256: string): string {
   return PolicyIdSchema.safeParse(id).success ? id : `policy-${sha256.slice(0, 8)}`;
 }
 
-export function ingestPolicy(req: IngestRequest, patterns: HeadingPatterns): IngestedPolicy {
+/** With a finance lexicon, paragraphs that hit it are tagged `financeFlag` (design C6). */
+export function ingestPolicy(req: IngestRequest, patterns: HeadingPatterns, financeLexicon?: FinanceLexicon): IngestedPolicy {
   const fetchedAt = (req.fetchedAt ?? new Date()).toISOString();
   const bytes = typeof req.content === "string" ? Buffer.from(req.content, "utf8") : req.content;
   const sha256 = sha256OfBytes(bytes);
@@ -42,5 +44,6 @@ export function ingestPolicy(req: IngestRequest, patterns: HeadingPatterns): Ing
   if (!parsed.supported) return manual(parsed.doc.warnings[0] ?? "unsupported format; manual review required");
   if (parsed.doc.paras.length === 0) return manual("no text could be extracted; manual review required (수동 검토 필요)");
   const seg = segmentDocument(parsed.doc, patterns);
-  return IngestedPolicySchema.parse({ ...base, source: { ...base.source, format: parsed.format }, status: "ok", sections: seg.sections, text: seg.text, warnings: seg.warnings });
+  const policy = IngestedPolicySchema.parse({ ...base, source: { ...base.source, format: parsed.format }, status: "ok", sections: seg.sections, text: seg.text, warnings: seg.warnings });
+  return financeLexicon ? IngestedPolicySchema.parse(tagFinanceParas(policy, financeLexicon)) : policy;
 }

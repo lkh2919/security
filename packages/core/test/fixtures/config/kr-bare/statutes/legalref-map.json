@@ -1,0 +1,7 @@
+{
+  "version": "1",
+  "note": "wrapped shape",
+  "entries": {
+    "EFTA": { "sourceId": "law:efta", "lawNameKo": "전자금융거래법", "kind": "act", "aliases": [], "monitorMode": "manualReview" }
+  }
+}

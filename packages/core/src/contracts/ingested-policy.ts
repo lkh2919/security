@@ -34,6 +34,8 @@ export const IngestedParaSchema = z.strictObject({
   cells: z.array(z.string()).optional(),
   /** Table header row (`<th>` cells or the first Markdown table row). */
   header: z.boolean().optional(),
+  /** Paragraph hit the finance lexicon (design C6): monitored by people only, never judged against the PIPA packs. */
+  financeFlag: z.boolean().optional(),
 });
 export type IngestedPara = z.infer<typeof IngestedParaSchema>;
 
