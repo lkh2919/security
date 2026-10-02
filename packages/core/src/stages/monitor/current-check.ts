@@ -9,8 +9,8 @@
  *     dropped; findings under conditional rules are capped at Confirm.
  *
  *  4. Finance (design C6): a section with a paragraph tagged `financeFlag` (finance lexicon) yields one Confirm finding
- *     "금융 법령 해당 – 수동 검토" (no suggested wording). The model's PIPA "missing"/"wrong" findings that quote a flagged paragraph, or
- *     that concern a section whose paragraphs are all flagged, are dropped: finance is monitored by people only.
+ *     "금융 법령 해당 – 수동 검토" (no suggested wording). Flagged paragraphs are never sent to the model (a section whose
+ *     paragraphs are all flagged gets no model call): finance is reviewed by people only.
  *
  * Rule packs are reviewed, so Mode A findings are tier `confirmed`. A policy that could not be read (`needs_manual_review`)
  * yields one Confirm finding instead of a clean report. Without an LLM client only steps 1 and 2 run, and the report says so.
@@ -166,10 +166,14 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
   } else {
     const prompt = deps.prompt ?? loadPromptFile(CHECK_PROMPT_PATH);
     for (const [sectionId, section] of ruleSections) {
-      const paras = sectionParas.get(sectionId);
-      if (section.classification !== "mandatory" || !paras || paras.length === 0) continue;
+      const all = sectionParas.get(sectionId);
+      if (section.classification !== "mandatory" || !all || all.length === 0) continue;
       const digest = digestRules(section);
       if (digest.length === 0) continue;
+      // Finance-flagged paragraphs never go to the model (design C6, user decision 2026-10-02): no finance rule pack can
+      // judge them, they already carry a manual-review finding, and credit-information text stays out of prompts.
+      const paras = all.filter((p) => !p.financeFlag);
+      if (paras.length === 0) continue;
       const text = paras.map((p) => p.text).join("\n");
       llmUsed = true;
       let out: CheckJudgeOutput;
@@ -182,7 +186,6 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
         drafts.push(draft({ layer: "llm", ruleId: "MON-JUDGE", sectionId, severity: "confirm", message: `${sectionId}(${section.title.ko})를 자동으로 판단하지 못했습니다. 사람이 검토해야 합니다.`, fixHint: "해당 항목을 수동으로 확인하십시오.", para: null, quote: "" }));
         continue;
       }
-      const allFlagged = paras.every((p) => p.financeFlag);
       const byId = new Map(digest.map((r) => [r.ruleId, r]));
       const seen = new Set<string>();
       for (const f of out.findings) {
@@ -195,10 +198,6 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
         const quote = verifyVerbatimQuote(text, f.quote);
         if (quote === null) {
           adjustments.push(`dropped ${f.ruleId} in ${sectionId}: the quote is not a verbatim substring of the section`);
-          continue;
-        }
-        if ((f.verdict === "missing" || f.verdict === "wrong") && (allFlagged || paras.find((p) => p.n === paraOfQuote(paras, quote))?.financeFlag)) {
-          adjustments.push(`dropped ${f.ruleId} ${f.verdict} in ${sectionId}: finance-flagged text is reviewed by people, not judged against the PIPA packs`);
           continue;
         }
         const key = `${f.ruleId}|${f.verdict}`;

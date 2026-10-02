@@ -38,7 +38,7 @@ describe("finance flag (Mode A)", () => {
     expect(f[0]!.location.para).toBe(2);
   });
 
-  test("PIPA missing/wrong findings that quote a flagged paragraph are dropped; others stay", async () => {
+  test("flagged paragraphs never reach the model; a quote from them is dropped as not verbatim", async () => {
     const flaggedQuote = "충전포인트 이용 내역은 전자금융거래법에 따라 5년간 보관합니다.";
     const plainQuote = "회원 정보는 회원 탈퇴 시까지 보유합니다.";
     const llm = new MockLlmClient({
@@ -54,9 +54,10 @@ describe("finance flag (Mode A)", () => {
       },
     });
     const { report, adjustments } = await checkCurrentPolicy({ llm }, { ...base, policy: ingest(lexicon) });
+    expect(llm.calls.some((c) => c.user.includes("충전포인트"))).toBe(false);
     const s05 = report.findings.filter((x) => x.sectionId === "S05" && x.mode === "A" && x.layer === "llm");
     expect(s05.map((x) => x.ruleId)).toEqual(["R-S05-004"]);
-    expect(adjustments.join(" ")).toContain("finance-flagged");
+    expect(adjustments.join(" ")).toContain("not a verbatim substring");
   });
 });
 
