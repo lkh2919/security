@@ -50,6 +50,12 @@ High findings by rule:
 Not yet verified by a person: every finding above is a reference for 정보보호실 review, and no label set exists for real policies yet
 (the eval gate "real-policy segmentation" stays skipped until a person labels these 10 pages).
 
+## Worklist for 정보보호실
+
+`runs/lotte-real/롯데_처리방침_점검_작업목록_2026-10-02.xlsx` (gitignored, built from the run JSON): 안내, 요약 (COUNTIFS over the list,
+review progress), 공통 패턴 (the two 10/10 patterns with each affiliate's wording), 지적 목록 (167 rows with review columns:
+수정 필요 / 해당 없음 / 오탐 / 보류). Formulas recalculate on open; LibreOffice could not run in the cloud container.
+
 ## Follow-ups
 
 1. Domain expert: severity of guideline-only `must` rules (R-S06-003); fact-dependent split of R-S16-001 (전송요구권).
