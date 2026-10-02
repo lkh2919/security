@@ -248,7 +248,9 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
           confirms.push({ ruleId: rule.ruleId, question, para: paraOfQuote(paras, quote), quote });
           continue;
         }
-        let severity: MonitorSeverity = rule.level === "should" ? "low" : verdict === "missing" ? "critical" : "high";
+        // Critical is reserved for a mandatory section absent from the whole policy (C2-M). An element missing inside a section
+        // that exists is High: the model sees one section, and the review of 2026-10-02 found partial lists judged "missing".
+        let severity: MonitorSeverity = rule.level === "should" ? "low" : "high";
         if (rule.upcoming) severity = capSeverity(severity, "medium");
         const guidelineOnly = rule.level === "must" && !hasStatutoryRef(rule.legalRefs);
         if (guidelineOnly) severity = capSeverity(severity, "medium");
