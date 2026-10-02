@@ -31,7 +31,7 @@ import type { RulePackItem } from "../coverage/load-kb";
 import { loadPromptFile, type PromptFile } from "../extract/prompt";
 import { fullTextMentions, headingLineMentions, type HeadingPatterns } from "../ingest/segment-policy";
 import { locateAstPath, policyToAst } from "../ingest/to-ast";
-import { FINANCE_MANUAL_LABEL, UNTRUSTED_POLICY_NOTICE, buildReport, capSeverity, clean, digestRules, fenceText, numberFindings, paraOfQuote, verifyVerbatimQuote, type DigestRule } from "./common";
+import { FINANCE_MANUAL_LABEL, UNTRUSTED_POLICY_NOTICE, sectionModelText, buildReport, capSeverity, clean, digestRules, fenceText, numberFindings, paraOfQuote, verifyVerbatimQuote, type DigestRule } from "./common";
 
 export const CHECK_PROMPT_PATH = "monitor/check-v1.md";
 
@@ -188,9 +188,8 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
       if (digest.length === 0) continue;
       // Finance-flagged paragraphs never go to the model (design C6, user decision 2026-10-02): no finance rule pack can
       // judge them, they already carry a manual-review finding, and credit-information text stays out of prompts.
-      const paras = all.filter((p) => !p.financeFlag);
+      const { sent: paras, text } = sectionModelText(policy, sectionId);
       if (paras.length === 0) continue;
-      const text = paras.map((p) => p.text).join("\n");
       llmUsed = true;
       let out: CheckJudgeOutput;
       try {

@@ -112,6 +112,17 @@ describe("Mode A: LLM judge (mock)", () => {
     expect(adjustments.join(" ")).toContain("reported as Confirm");
   });
 
+  test("the model sees the policy's own headings and sub-headings (a right listed as a sub-heading is not 'missing')", async () => {
+    const clean = readFileSync(join(import.meta.dir, "fixtures", "monitor", "policy-clean.md"), "utf8");
+    const content = clean.replace("## 9. 정보주체와 법정대리인의 권리·의무 및 행사방법\n", "## 9. 정보주체와 법정대리인의 권리·의무 및 행사방법\n\n### 1) 개인정보 열람요구\n\n홈페이지에서 요구할 수 있습니다.\n");
+    const policy = ingestPolicy({ name: "policy-sub.md", content, fetchedAt: NOW }, patterns);
+    const llm = judge({});
+    await checkCurrentPolicy({ llm }, { ...base, policy });
+    const s16 = llm.calls.find((c) => sectionOf(c as never) === "S16")!;
+    expect(s16.user).toContain("9. 정보주체와 법정대리인의 권리·의무 및 행사방법");
+    expect(s16.user).toContain("1) 개인정보 열람요구");
+  });
+
   test("verdicts map to severities; a missing must element is Critical, a located wrong value High, should-level Low", async () => {
     const llm = judge({
       S05: [

@@ -6,6 +6,7 @@ import { LIST_PRICES_USD_PER_MTOK, MockLlmClient, listPriceUsd, type StructuredC
 import { USAGE_FILE, appendUsageJsonl, formatCostLine, readUsageJsonl, summarizeUsage, toUsageRecord, type UsageSource } from "../src/llm";
 import { UsageRecordSchema } from "../src/contracts/usage";
 import { checkCurrentPolicy, runMonitorFolder, renderSummaryMarkdown, type CheckJudgeOutput } from "../src/stages/monitor";
+import { sectionModelText } from "../src/stages/monitor/common";
 import { financeFlaggedSections, hitsFinanceLexicon, ingestPolicy, loadFinanceLexicon, parseFinanceLexicon } from "../src/stages/ingest";
 import { MON_RUN_ID, NOW, ROOT, kb, patterns, ruleSections } from "./monitor-fixtures";
 
@@ -27,6 +28,14 @@ describe("finance flag (Mode A)", () => {
     expect(flagged).toEqual(["충전포인트 이용 내역은 전자금융거래법에 따라 5년간 보관합니다."]);
     expect(financeFlaggedSections(tagged)).toEqual(["S05"]);
     expect(ingest().sections.some((s) => s.paras.some((p) => p.financeFlag))).toBe(false);
+  });
+
+  test("model text (Mode A and Mode B share it): headings in document order, finance paragraphs left out, numbering kept", () => {
+    const m = sectionModelText(ingest(lexicon), "S05");
+    expect(m.text).not.toContain("충전포인트");
+    expect(m.text.split("\n")[0]).toContain("보유");
+    expect(m.paras.length).toBe(m.sent.length + 1);
+    expect(m.paras.find((p) => p.financeFlag)!.n).toBe(2);
   });
 
   test("one Confirm finding per flagged section, no suggested wording", async () => {

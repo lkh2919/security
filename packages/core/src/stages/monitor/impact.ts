@@ -17,14 +17,14 @@
  */
 import { z } from "zod";
 import type { AmendmentDiff, AmendmentUnit } from "../../contracts/amendment-diff";
-import { UNMAPPED_SECTION, type IngestedPara, type IngestedPolicy } from "../../contracts/ingested-policy";
+import { UNMAPPED_SECTION, type IngestedPolicy } from "../../contracts/ingested-policy";
 import type { MonitorFinding, MonitorSeverity, MonitorTier } from "../../contracts/monitor-report";
 import type { LegalRefMap } from "../../contracts/legalref-map";
 import type { Rule, RuleSection } from "../../contracts/rulepack";
 import type { LlmClient } from "../../llm/client";
 import { loadPromptFile, type PromptFile } from "../extract/prompt";
 import { isManualReviewPrefix } from "./legalref-map";
-import { FINANCE_MANUAL_LABEL, UNTRUSTED_POLICY_NOTICE, capSeverity, clean, daysUntil, digestRules, fenceText, numberFindings, paraOfQuote, verifyVerbatimQuote } from "./common";
+import { FINANCE_MANUAL_LABEL, UNTRUSTED_POLICY_NOTICE, capSeverity, clean, daysUntil, digestRules, fenceText, numberFindings, paraOfQuote, sectionModelText, verifyVerbatimQuote } from "./common";
 
 export const IMPACT_PROMPT_PATH = "monitor/impact-v1.md";
 
@@ -129,12 +129,6 @@ export interface ImpactResult {
 type Draft = Omit<MonitorFinding, "id">;
 const MAX_TEXT = 2000;
 
-function mergedParas(policy: IngestedPolicy, sectionId: string): IngestedPara[] {
-  const out: IngestedPara[] = [];
-  for (const s of policy.sections) if (s.sectionId === sectionId) for (const p of s.paras) out.push({ ...p, n: out.length + 1 });
-  return out;
-}
-
 function impactUserTurn(impact: SectionImpact, section: RuleSection, text: string): string {
   const units = impact.units.map((u) => ({ key: u.key, change: u.change, oldText: u.oldText?.slice(0, MAX_TEXT), newText: u.newText?.slice(0, MAX_TEXT) }));
   const rules = digestRules(section, new Set(impact.rules.map((r) => r.ruleId)));
@@ -219,10 +213,14 @@ export async function runImpact(deps: ImpactDeps, input: ImpactInput): Promise<I
       const others = impact.rules.filter((r) => r.ruleId !== primary.ruleId).map((r) => r.ruleId);
       const relatedNote = others.length ? ` 관련 규칙: ${others.join(", ")}.` : "";
       const base = { mode: "B" as const, tier, ruleId: primary.ruleId, sectionId: impact.sectionId, trigger: trigger(keys[0]!) };
-      const paras = mergedParas(policy, impact.sectionId);
+      const { paras, sent, text } = sectionModelText(policy, impact.sectionId);
 
       if (paras.length === 0) {
         drafts.push({ ...base, layer: "deterministic", severity: "confirm", message: `개정 조문(${keys.join(", ")})과 연결된 ${impact.sectionId}(${section.title.ko}) 항목을 처리방침에서 찾지 못했습니다. 해당 항목이 필요한지 확인하십시오.${relatedNote}`, fixHint: "처리방침에 해당 항목이 있는지, 개정으로 새로 필요한지 검토하십시오.", location: { sectionId: impact.sectionId, para: null, quote: "" } });
+        continue;
+      }
+      if (sent.length === 0) {
+        drafts.push({ ...base, layer: "deterministic", severity: "confirm", message: `${FINANCE_MANUAL_LABEL}: 개정 조문(${keys.join(", ")})과 연결된 ${impact.sectionId}(${section.title.ko}) 항목이 모두 금융 법령 관련 내용이라 모델에 보내지 않았습니다. 사람이 검토해야 합니다.${relatedNote}`, fixHint: "해당 항목을 개정 내용과 대조해 검토하십시오.", location: { sectionId: impact.sectionId, para: null, quote: "" } });
         continue;
       }
       if (!deps.llm || !prompt) {
@@ -231,7 +229,6 @@ export async function runImpact(deps: ImpactDeps, input: ImpactInput): Promise<I
       }
 
       llmUsed = true;
-      const text = paras.map((p) => p.text).join("\n");
       let out: ImpactJudgeOutput;
       try {
         const res = await deps.llm.callStructured({ stageId: "M1", system: `${prompt.body}\n\n${UNTRUSTED_POLICY_NOTICE}`, user: impactUserTurn(impact, section, text), schema: ImpactJudgeSchema, schemaName: "MonitorImpactJudge", promptVersion: prompt.version });

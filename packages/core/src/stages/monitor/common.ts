@@ -4,7 +4,7 @@
  */
 import type { RuleSection } from "../../contracts/rulepack";
 import { MONITOR_DISCLAIMER, MonitorReportSchema, summarizeFindings, type MonitorFinding, type MonitorReport, type MonitorSeverity } from "../../contracts/monitor-report";
-import type { IngestedPara } from "../../contracts/ingested-policy";
+import type { IngestedPara, IngestedPolicy } from "../../contracts/ingested-policy";
 import { ruleClassOf, type RuleClass } from "./rule-classes";
 import { UNTRUSTED_TAG } from "../intake/sanitize";
 import { maskContacts } from "../ingest/segment-policy";
@@ -50,6 +50,37 @@ export function verifyVerbatimQuote(text: string, quote: string, maxLength = 300
 }
 
 /** 1-based number of the paragraph that contains `quote`; null for an empty quote or no single paragraph. */
+export interface SectionModelText {
+  /** Every paragraph of the section, numbered 1.. across its blocks (the numbering of `policyToAst`). */
+  readonly paras: IngestedPara[];
+  /** Paragraphs that may go to a model: finance-flagged ones never do (design C6, user decision 2026-10-02). */
+  readonly sent: IngestedPara[];
+  /** The text a model sees: each block's own heading, then its non-finance paragraphs, in document order. */
+  readonly text: string;
+}
+
+/**
+ * Model input for one section. Headings are included because real pages put content in them: a right listed as the
+ * sub-heading "1) 개인정보 열람요구", or the standard title itself. Without them the model reports present text as missing.
+ */
+export function sectionModelText(policy: IngestedPolicy, sectionId: string): SectionModelText {
+  const paras: IngestedPara[] = [];
+  const sent: IngestedPara[] = [];
+  const lines: string[] = [];
+  for (const s of policy.sections) {
+    if (s.sectionId !== sectionId) continue;
+    if (s.title.trim()) lines.push(s.title.trim());
+    for (const p of s.paras) {
+      const q = { ...p, n: paras.length + 1 };
+      paras.push(q);
+      if (q.financeFlag) continue;
+      sent.push(q);
+      lines.push(q.text);
+    }
+  }
+  return { paras, sent, text: lines.join("\n") };
+}
+
 export function paraOfQuote(paras: readonly IngestedPara[], quote: string): number | null {
   if (!quote) return null;
   return paras.find((p) => p.text.includes(quote))?.n ?? null;
