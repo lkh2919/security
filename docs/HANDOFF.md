@@ -145,7 +145,7 @@ and a verified `statutes/remedy-agencies.json` for S20 (original PC / privacy-do
 
 ## Contest package status (2026-10-02)
 
-- Deck (Slides artifact, private to the user): https://claude.ai/artifact/VQRWPLE2Y8MEGMnqjnekT8 — 13 slides, numbers from real runs, `[측정 예정]` and `[팀명 · 발표자]` left to fill.
+- Deck (Slides artifact, private to the user): https://claude.ai/artifact/VQRWPLE2Y8MEGMnqjnekT8 — 13 slides, numbers from real runs, team name is a placeholder ("팀 폴리시레이더(가칭)"), presenter still `[미정]`. The InfoSec time measurement is on hold, so slide 2 shows the measured scope cut (98 changed units → 5 linked to policies) instead of `[측정 예정]`.
 - Demo dashboard: `bun scripts/build-dashboard.ts --config config/orgs/example/org.json --monitor-dir <mode A run> --impact-dir <mode B runs>` → `runs/example/dashboard/index.html` (static, offline).
 - Demo script: `docs/ko/demo-script.md`. Pilot kit: `docs/pilot/`, `docs/ko/pilot/`. HUB docs: `docs/adopt-in-30-minutes.md`, `docs/hub/agent-card.md`, `skills/privacy-monitor/`.
 - Human items before 10/23: InfoSec pilot (items, 3 reviewers, expert key), domain-expert review (rule classes, legal-ref map, labels, alert wording), house style, team name.
