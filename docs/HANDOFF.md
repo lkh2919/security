@@ -142,3 +142,10 @@ and a verified `statutes/remedy-agencies.json` for S20 (original PC / privacy-do
 - Optional: InfoSec-annotated approved policies (for rubric calibration), a sample interview mp3, the InfoSec form.
 - House-style candidates (19 rules) need the user's approval; until then no house-style rule is enforced.
 - Done 2026-10-01: personal names, e-mail and phones in the capture index were replaced (QA report finding 1). Do not rebuild the index from raw captures without redacting again.
+
+## Contest package status (2026-10-02)
+
+- Deck (Slides artifact, private to the user): https://claude.ai/artifact/VQRWPLE2Y8MEGMnqjnekT8 — 13 slides, numbers from real runs, `[측정 예정]` and `[팀명 · 발표자]` left to fill.
+- Demo dashboard: `bun scripts/build-dashboard.ts --config config/orgs/example/org.json --monitor-dir <mode A run> --impact-dir <mode B runs>` → `runs/example/dashboard/index.html` (static, offline).
+- Demo script: `docs/ko/demo-script.md`. Pilot kit: `docs/pilot/`, `docs/ko/pilot/`. HUB docs: `docs/adopt-in-30-minutes.md`, `docs/hub/agent-card.md`, `skills/privacy-monitor/`.
+- Human items before 10/23: InfoSec pilot (items, 3 reviewers, expert key), domain-expert review (rule classes, legal-ref map, labels, alert wording), house style, team name.
