@@ -4,7 +4,7 @@
 
 This project scaffolds the Privacy Policy and Terms Drafting Agent (Phase 1).
 
-**See**: `docs/designs/2026-09-29-privacy-policy-agent-team-design.md` (approved) and `docs/decisions/DEC-20260929-01.md`
+**See**: `docs/designs/2026-10-02-confirmed-design.md` (confirmed v2: Check/Impact, Peer Watch, Draft), `docs/designs/2026-09-29-privacy-policy-agent-team-design.md` (drafting, approved), `docs/decisions/DEC-20261002-02.md`
 
 ## Project Agents
 

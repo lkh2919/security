@@ -10,7 +10,8 @@ interview transcript. It follows the PIPC guideline (April 2026), uses a Lotte-g
 policy clause library, checks law freshness through the law.go.kr Open API, and runs an
 independent audit before rendering MD/HTML/DOCX plus a Reviewer Sheet for the InfoSec office.
 
-- Approved design: `docs/designs/2026-09-29-privacy-policy-agent-team-design.md` (R15 = row plan).
+- **Confirmed design v2 (2026-10-02, wins on conflicts)**: `docs/designs/2026-10-02-confirmed-design.md` (Check/Impact first, Peer Watch, Draft; one core + thin apps; workflow harness; config packs; finance monitoring only; build order C9 to the 2026-10-23 contest submission). DEC-20261002-02.
+- Approved design: `docs/designs/2026-09-29-privacy-policy-agent-team-design.md` (R15 = row plan). Monitor: `docs/designs/2026-10-02-policy-monitor-design.md`.
 - Decisions: `docs/decisions/DEC-20260929-01.md`, `DEC-20260929-02.md`.
 - Team roster and skills: `AGENTS.md`, `agents/`, `skills/`. The session acts as PM and dispatches specialists.
 
