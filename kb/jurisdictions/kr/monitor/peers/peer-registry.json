@@ -1,5 +1,5 @@
 {
-  "version": "0.2.0",
+  "version": "0.3.0",
   "updated": "2026-10-02",
   "note": "Peer privacy policies are public by PIPA Art. 30(2); fetching is reference only, change detection only, no rating or ranking of any company. Peer list user-approved 2026-10-02. robots checked with UA 'LottePolicyMonitor/0.1'; disallowed means excluded, unreachable robots means skipped until verified. Contains no personal data. Seven robots-excluded peers were replaced by comparable companies on 2026-10-02 (see excludedHistory); unresolved to_verify entries were replaced the same way.",
   "groups": [
@@ -21,7 +21,26 @@
           "robots": "allowed",
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
-          "status": "active"
+          "status": "active",
+          "history": {
+            "currentEffectiveDate": "2019-08-12",
+            "versions": [
+              {
+                "effectiveDate": "2019-08-12",
+                "url": "https://www.orionworld.com/terms/101?ver=0",
+                "fetch": "http"
+              },
+              {
+                "effectiveDate": "2008-10-10",
+                "url": "https://www.orionworld.com/terms/101?ver=1",
+                "fetch": "http",
+                "formNote": "dropdown label date; the page text gives announcement 2008-10-10, effective 2008-10-15"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11 (page states last revision 2019-08-12). Only two versions exist. Dropdown is a plain ?ver= link."
+          }
         },
         {
           "peerId": "ottogi",
@@ -33,7 +52,27 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "ottogi.co.kr redirects to otoki.com; policy text not in initial HTML"
+          "note": "ottogi.co.kr redirects to otoki.com; policy text not in initial HTML",
+          "history": {
+            "currentEffectiveDate": "2026-06-01",
+            "versions": [
+              {
+                "effectiveDate": "2026-06-01",
+                "url": "https://www.otoki.com/site/otg_privacy_policy_content?termsIdx=22",
+                "fetch": "http",
+                "formNote": "JSON endpoint behind the page dropdown (termsIdx=22, notice date 2026-05-25); field termsContent holds the HTML"
+              },
+              {
+                "effectiveDate": "2025-04-23",
+                "url": "https://www.otoki.com/site/otg_privacy_policy_content?termsIdx=21",
+                "fetch": "http",
+                "formNote": "termsIdx=21, notice date 2025-04-16"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. Page itself is JS-only; the dropdown calls the JSON endpoint, which a plain HTTP GET can read."
+          }
         },
         {
           "peerId": "dongwon-fnb",
@@ -44,7 +83,25 @@
           "robots": "allowed",
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
-          "status": "active"
+          "status": "active",
+          "history": {
+            "currentEffectiveDate": "2025-03-20",
+            "versions": [
+              {
+                "effectiveDate": "2025-03-20",
+                "url": "https://www.dongwonfnb.com/services/Etc/Privacy",
+                "fetch": "http"
+              },
+              {
+                "effectiveDate": "2022-11-07",
+                "url": "https://www.dongwonfnb.com/services/Etc/Privacy_ver1_4",
+                "fetch": "http"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. Previous versions are separate URLs linked from article 13 (ver1_1 2016-06-24, ver1_2 2018-07-06, ver1_3 2018-07-09, ver1_4 2022-11-07)."
+          }
         },
         {
           "peerId": "binggrae",
@@ -55,7 +112,25 @@
           "robots": "allowed",
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
-          "status": "active"
+          "status": "active",
+          "history": {
+            "currentEffectiveDate": "2026-04-24",
+            "versions": [
+              {
+                "effectiveDate": "2026-04-24",
+                "url": "https://www.bing.co.kr/support/privacy",
+                "fetch": "http"
+              },
+              {
+                "effectiveDate": "2026-03-03",
+                "url": "https://www.bing.co.kr/support/privacy/20260303",
+                "fetch": "http"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. Dated URLs /support/privacy/YYYYMMDD for older versions (2025-09-01, 2024-05-31, 2023-06-23, 2022-06-30, 2021-07-19, 2019-09-20)."
+          }
         },
         {
           "peerId": "pulmuone",
@@ -67,7 +142,27 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "large page holding several policy versions"
+          "note": "large page holding several policy versions",
+          "history": {
+            "currentEffectiveDate": "2025-11-14",
+            "versions": [
+              {
+                "effectiveDate": "2025-11-14",
+                "url": "https://www.pulmuone.co.kr/pulmuone/policy/v1.do",
+                "fetch": "http",
+                "formNote": "v8.0, first block of the page"
+              },
+              {
+                "effectiveDate": "2024-10-01",
+                "url": "https://www.pulmuone.co.kr/pulmuone/policy/v1.do",
+                "fetch": "http",
+                "formNote": "v7.0, second block of the same page (revised 2024-09-03); all versions are in the served HTML and the select only toggles them"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. All versions (v8.0 down to v4.0) are inline on one page; the select is client-side only."
+          }
         }
       ]
     },
@@ -95,7 +190,27 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "thehyundai.com (online mall, redirects to hi.thehyundai.com) disallows robots; ehyundai.com department store portal is used instead; page is large (multi-version)"
+          "note": "thehyundai.com (online mall, redirects to hi.thehyundai.com) disallows robots; ehyundai.com department store portal is used instead; page is large (multi-version)",
+          "history": {
+            "currentEffectiveDate": "2026-08-18",
+            "versions": [
+              {
+                "effectiveDate": "2026-08-18",
+                "url": "https://www.ehyundai.com/newPortal/member/HD/PV01_03.do",
+                "fetch": "http",
+                "formNote": "V.18.0, announced and effective 2026-08-18"
+              },
+              {
+                "effectiveDate": "2026-07-28",
+                "url": "https://www.ehyundai.com/newPortal/member/HD/PV01_03.do#popupPolicyOld20260728",
+                "fetch": "http",
+                "formNote": "V.17.0; older versions are hidden popup blocks (#popupPolicyOldYYYYMMDD) inside the same served HTML"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": 0,
+            "note": "Updated 2026-08-18 (V.18.0), so the in-force version before 2026-09-11 and the first version on/after 2026-08-01 are the same (index 0); the pre-update baseline is index 1. Multi-version page (about 2.6 MB) over plain HTTP."
+          }
         },
         {
           "peerId": "gs-retail",
@@ -107,7 +222,14 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "Vue SPA shell; needs JS fallback or manual capture"
+          "note": "Vue SPA shell; needs JS fallback or manual capture",
+          "history": {
+            "currentEffectiveDate": null,
+            "versions": [],
+            "beforeAmendment": null,
+            "afterAmendment": null,
+            "note": "No accessible history. The policy page is a Vue SPA whose content comes from /api/ endpoints, and robots.txt disallows /api/ (also Crawl-delay 10 and Visit-time 04:00-08:45 UTC), so neither the current nor any older text can be read within the robots rules. Re-check if the rules change."
+          }
         },
         {
           "peerId": "bgf-retail",
@@ -119,7 +241,27 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "CU service policy; page holds multiple versions (very large HTML); robots.txt absent (404)"
+          "note": "CU service policy; page holds multiple versions (very large HTML); robots.txt absent (404)",
+          "history": {
+            "currentEffectiveDate": "2026-06-24",
+            "versions": [
+              {
+                "effectiveDate": "2026-06-24",
+                "url": "https://cu.bgfretail.com/policy/policy/pc/privacyPolicy",
+                "fetch": "http",
+                "formNote": "first block; announced 2026-06-17"
+              },
+              {
+                "effectiveDate": "2026-03-19",
+                "url": "https://cu.bgfretail.com/policy/policy/pc/privacyPolicy",
+                "fetch": "http",
+                "formNote": "second block of the same page; the select #terms_select only toggles blocks"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. Plain HTTP works (about 3.4 MB, all versions back to 2014 inline); the browser fetch timed out."
+          }
         },
         {
           "peerId": "coupang",
@@ -130,7 +272,25 @@
           "robots": "allowed",
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
-          "status": "active"
+          "status": "active",
+          "history": {
+            "currentEffectiveDate": "2026-05-22",
+            "versions": [
+              {
+                "effectiveDate": "2026-05-22",
+                "url": "https://privacy.coupang.com/ko/center/coupang/coupang-privacy-notice-26-05-22/",
+                "fetch": "http"
+              },
+              {
+                "effectiveDate": "2026-02-06",
+                "url": "https://privacy.coupang.com/ko/center/coupang/coupang-privacy-notice-26-02-06/",
+                "fetch": "http"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. Each version has its own URL listed in the 'other versions' select (also 25-10-14-2, 25-09-30, 25-09-12 and older)."
+          }
         },
         {
           "peerId": "homeplus",
@@ -142,7 +302,27 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "robots.txt returned HTTP 400 (treated as absent); corporate.homeplus.co.kr policy page returns 400"
+          "note": "robots.txt returned HTTP 400 (treated as absent); corporate.homeplus.co.kr policy page returns 400",
+          "history": {
+            "currentEffectiveDate": "2026-07-01",
+            "versions": [
+              {
+                "effectiveDate": "2026-07-01",
+                "url": "https://my.homeplus.co.kr/setting/auth/ghsPrivate",
+                "fetch": "browser",
+                "formNote": "select #dropdown_select value 9.5 (current)"
+              },
+              {
+                "effectiveDate": "2026-06-23",
+                "url": "https://my.homeplus.co.kr/setting/auth/ghsPrivate",
+                "fetch": "browser",
+                "formNote": "set #dropdown_select to 9.4 and fire change (calls getTerms); verified text says effective 2026-06-23"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11 (v9.5). Very frequent revisions: 92 dropdown entries, weekly in late 2025."
+          }
         }
       ]
     },
@@ -164,7 +344,20 @@
           "robots": "allowed",
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
-          "status": "active"
+          "status": "active",
+          "history": {
+            "currentEffectiveDate": "2025-04-01",
+            "versions": [
+              {
+                "effectiveDate": "2025-04-01",
+                "url": "https://www.hanwhasolutions.com/ko/privacy",
+                "fetch": "http"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. Only V1.0 is published; the version select lists just this one, so no older text is accessible."
+          }
         },
         {
           "peerId": "hyundai-enc",
@@ -175,7 +368,27 @@
           "robots": "allowed",
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
-          "status": "active"
+          "status": "active",
+          "history": {
+            "currentEffectiveDate": "2025-09-29",
+            "versions": [
+              {
+                "effectiveDate": "2025-09-29",
+                "url": "https://www.hdec.kr/downloadfile/현대건설홈페이지_국문_개인정보처리방침_ver.10.pdf",
+                "fetch": "http",
+                "formNote": "PDF of the 10th revision; the page itself shows the same text"
+              },
+              {
+                "effectiveDate": "2024-07-26",
+                "url": "https://www.hdec.kr/downloadfile/현대건설홈페이지_국문_개인정보처리방침_ver.9.pdf",
+                "fetch": "http",
+                "formNote": "PDF of the 9th revision, in force 2024-07-26 to 2025-09-29"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. Older versions are PDFs (ver.1 to ver.10) in /downloadfile/, resolved by a script map behind the revision select."
+          }
         },
         {
           "peerId": "gs-enc",
@@ -187,7 +400,25 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "policy body not in initial HTML"
+          "note": "policy body not in initial HTML",
+          "history": {
+            "currentEffectiveDate": "2024-05-27",
+            "versions": [
+              {
+                "effectiveDate": "2024-05-27",
+                "url": "https://www.gsenc.com/Service/html/Policy6.html",
+                "fetch": "http"
+              },
+              {
+                "effectiveDate": "2024-01-30",
+                "url": "https://www.gsenc.com/Service/html/Policy5.html",
+                "fetch": "http"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. Each version is a static fragment /Service/html/PolicyN.html (N=1..6) loaded by the select."
+          }
         },
         {
           "peerId": "dl-enc",
@@ -199,7 +430,27 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "customer-inquiry policy; a separate finance-business policy exists (Person_jaemu.do)"
+          "note": "customer-inquiry policy; a separate finance-business policy exists (Person_jaemu.do)",
+          "history": {
+            "currentEffectiveDate": "2022-11-15",
+            "versions": [
+              {
+                "effectiveDate": "2022-11-15",
+                "url": "https://www.dlenc.co.kr/etc/Person.do",
+                "fetch": "http",
+                "formNote": "v4.7 (announced 2022-11-08), first block"
+              },
+              {
+                "effectiveDate": "2021-07-30",
+                "url": "https://www.dlenc.co.kr/etc/Person.do",
+                "fetch": "http",
+                "formNote": "v4.6 (announced 2021-07-23); all versions v2.0 to v4.7 are inline and the select #slsdate toggles them"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11 (policy last changed 2022-11-15). The Chromium fetch got a WAF block page ('접속 차단 안내'); a plain HTTP GET with the honest UA returns the policy."
+          }
         },
         {
           "peerId": "sk-innovation",
@@ -210,7 +461,26 @@
           "robots": "allowed",
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
-          "status": "active"
+          "status": "active",
+          "history": {
+            "currentEffectiveDate": "2026-06-05",
+            "versions": [
+              {
+                "effectiveDate": "2026-06-05",
+                "url": "https://www.skinnovation.com/privacy/kr/202606",
+                "fetch": "http",
+                "formNote": "HTML fragment behind the page select; the page script requests /privacy/kr/<value> (the page lang code is 'kr')"
+              },
+              {
+                "effectiveDate": "2026-04-09",
+                "url": "https://www.skinnovation.com/privacy/kr/202604",
+                "fetch": "http"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. Only three versions are published (202606, 202604, 202412)."
+          }
         }
       ]
     },
@@ -240,7 +510,26 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "Shilla Stay hub policy page; brand-level, corporate 호텔신라 policy location may differ"
+          "note": "Shilla Stay hub policy page; brand-level, corporate 호텔신라 policy location may differ",
+          "history": {
+            "currentEffectiveDate": "2026-06-12",
+            "versions": [
+              {
+                "effectiveDate": "2026-06-12",
+                "url": "https://www.shillahotels.com/ko/shillastay/hub/terms/privacy.do",
+                "fetch": "browser"
+              },
+              {
+                "effectiveDate": "2026-03-27",
+                "url": "https://www.shillahotels.com/ko/shillastay/hub/terms/privacy.do",
+                "fetch": "browser",
+                "formNote": "click the list button with data-id 216639 (fncSelectTerms('216639','FOOTER_TERMS02')); it POSTs /api/front/terms/select/dtl with a session token, plain curl gets 401. Verified in Chromium"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11 (current valid 2026-06-12 to now). Older: 2024-11-15, 2020-04-08, 2015-05-12 and earlier."
+          }
         },
         {
           "peerId": "shinsegae-chosun",
@@ -252,7 +541,27 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "company now operates as 조선호텔앤리조트"
+          "note": "company now operates as 조선호텔앤리조트",
+          "history": {
+            "currentEffectiveDate": "2026-08-11",
+            "versions": [
+              {
+                "effectiveDate": "2026-08-11",
+                "url": "https://josunhotel.com/policy/privacy.do",
+                "fetch": "http",
+                "formNote": "first .terms block; text says applies from 2026-08-11"
+              },
+              {
+                "effectiveDate": "2026-06-23",
+                "url": "https://josunhotel.com/policy/privacy.do",
+                "fetch": "http",
+                "formNote": "second .terms block (dropdown label '2026년 6월 23일 개정안'; effective date not stated separately, label date used). Older labelled blocks are hidden in the same served HTML"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": 0,
+            "note": "Updated 2026-08-11, so before and after are the same version (index 0); pre-update baseline is index 1. Dropdown also lists 2026-06-18, 2026-04-06, 2026-03-12, 2024-09-20 and older."
+          }
         },
         {
           "peerId": "hanatour",
@@ -263,7 +572,33 @@
           "robots": "allowed",
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
-          "status": "active"
+          "status": "active",
+          "history": {
+            "currentEffectiveDate": "2026-09-22",
+            "versions": [
+              {
+                "effectiveDate": "2026-09-22",
+                "url": "https://www.hanatour.com/els/prv/CHPC0PRV0002M200",
+                "fetch": "browser",
+                "formNote": "version 13.8, select #selectDefault02 value DS00100155 (current)"
+              },
+              {
+                "effectiveDate": "2026-07-29",
+                "url": "https://www.hanatour.com/els/prv/CHPC0PRV0002M200",
+                "fetch": "browser",
+                "formNote": "version 13.7, select #selectDefault02 value DS00100153, then click the 보기 button"
+              },
+              {
+                "effectiveDate": "2026-06-09",
+                "url": "https://www.hanatour.com/els/prv/CHPC0PRV0002M200",
+                "fetch": "browser",
+                "formNote": "version 13.6, value DS00100150"
+              }
+            ],
+            "beforeAmendment": 1,
+            "afterAmendment": 0,
+            "note": "Updated 2026-09-22 (13.8), after the amendment date; 13.7 (2026-07-29) was in force just before 2026-09-11. Caution: the version text is loaded from api.hanatour.com (getInfoDtcmSvcStplApi?dtcmSvcStplId=DS...), whose robots.txt is 'Disallow: /' and which answers 401 without a browser token, so the text is only reachable through the page itself. The date list is readable from the allowed page."
+          }
         },
         {
           "peerId": "ybtour",
@@ -275,7 +610,27 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "very large HTML (about 2 MB)"
+          "note": "very large HTML (about 2 MB)",
+          "history": {
+            "currentEffectiveDate": "2026-05-08",
+            "versions": [
+              {
+                "effectiveDate": "2026-05-08",
+                "url": "https://pkg.ybtour.co.kr/common/privacy.yb",
+                "fetch": "http",
+                "formNote": "block privacyUtilAgree_0 (select #sel_year value 0_1002401)"
+              },
+              {
+                "effectiveDate": "2026-04-17",
+                "url": "https://pkg.ybtour.co.kr/common/privacy.yb",
+                "fetch": "http",
+                "formNote": "block privacyUtilAgree_1 (select value 1_1002341), in force 2026-04-17 to 2026-05-08"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. About 30 versions are inline in the served HTML and the select only shows or hides them."
+          }
         },
         {
           "peerId": "verygoodtour",
@@ -287,7 +642,27 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "slow, large HTML (about 440 KB); needs a longer timeout"
+          "note": "slow, large HTML (about 440 KB); needs a longer timeout",
+          "history": {
+            "currentEffectiveDate": "2026-07-06",
+            "versions": [
+              {
+                "effectiveDate": "2026-07-06",
+                "url": "https://www.verygoodtour.com/Support/PrivacyPolicy?MenuCode=11008",
+                "fetch": "http",
+                "formNote": "v1.2, announced 2026-06-29"
+              },
+              {
+                "effectiveDate": null,
+                "url": "https://www.verygoodtour.com/Support/PrivacyPolicy?MenuCode=11008&ver=1.1",
+                "fetch": "http",
+                "formNote": "v1.1; the page does not state its dates"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. Only v1.1 is linked as the previous version, and its effective date is not stated in the text."
+          }
         }
       ]
     },
@@ -309,7 +684,27 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "entry page redirects via JavaScript to /pconts/html/helpdesk/privacyPolicy/CONFM90100/CONFM90100R01.html (also a thin shell); page ids in search results were stale (404)"
+          "note": "entry page redirects via JavaScript to /pconts/html/helpdesk/privacyPolicy/CONFM90100/CONFM90100R01.html (also a thin shell); page ids in search results were stale (404)",
+          "history": {
+            "currentEffectiveDate": "2026-07-30",
+            "versions": [
+              {
+                "effectiveDate": "2026-07-30",
+                "url": "https://www.shinhancard.com/pconts/html/helpdesk/privacyPolicy/CONFM90100/2013971_2386.html",
+                "fetch": "http",
+                "formNote": "dropdown label 2026-07-30 개정; text applies from 2026-07-30"
+              },
+              {
+                "effectiveDate": "2026-07-17",
+                "url": "https://www.shinhancard.com/pconts/html/helpdesk/privacyPolicy/CONFM90100/2013763_2386.html",
+                "fetch": "http",
+                "formNote": "dropdown label 2026-07-16 개정; text applies from 2026-07-17"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. Every version has its own static HTML URL (data-url of each select option; about 90 entries back to 2018)."
+          }
         },
         {
           "peerId": "kb-card",
@@ -320,7 +715,27 @@
           "robots": "allowed",
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
-          "status": "active"
+          "status": "active",
+          "history": {
+            "currentEffectiveDate": "2026-07-24",
+            "versions": [
+              {
+                "effectiveDate": "2026-07-24",
+                "url": "https://card.kbcard.com/SVC/DVIEW/HSFMCXCRSCSC0047?mainCC=a&isAjax=Y&isNoFrame=Y",
+                "fetch": "form",
+                "formNote": "POST form fields 게시판일련번호=1600 and 게시물일련번호=12269 (select #dateSelect value); the default page already shows this version"
+              },
+              {
+                "effectiveDate": "2026-06-30",
+                "url": "https://card.kbcard.com/SVC/DVIEW/HSFMCXCRSCSC0047?mainCC=a&isAjax=Y&isNoFrame=Y",
+                "fetch": "form",
+                "formNote": "same POST with 게시물일련번호=12232 (verified: text applies from 2026-06-30; valid to 2026-07-23)"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. Older ids: 12131 (2026-04-17), 12040, 12001 and so on."
+          }
         },
         {
           "peerId": "woori-card",
@@ -331,7 +746,27 @@
           "robots": "allowed",
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
-          "status": "active"
+          "status": "active",
+          "history": {
+            "currentEffectiveDate": "2026-08-20",
+            "versions": [
+              {
+                "effectiveDate": "2026-08-20",
+                "url": "https://pc.wooricard.com/dcpc/yh1/cct/cct12/psninfprotplcy/H1CCT212S08.do?scBbscttSn=54",
+                "fetch": "browser",
+                "formNote": "select #mngBbsList value 54 (current); the scBbscttSn query parameter selects a version directly"
+              },
+              {
+                "effectiveDate": "2026-05-28",
+                "url": "https://pc.wooricard.com/dcpc/yh1/cct/cct12/psninfprotplcy/H1CCT212S08.do?scBbscttSn=53",
+                "fetch": "browser",
+                "formNote": "value 53; verified text applies from 2026-05-28"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": 0,
+            "note": "Updated 2026-08-20, so before and after are the same version (index 0); pre-update baseline is index 1. Page is JS-driven (CommonPageObject ajax), so the browser fetch is needed."
+          }
         },
         {
           "peerId": "hana-card",
@@ -343,7 +778,26 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "charset euc-kr"
+          "note": "charset euc-kr",
+          "history": {
+            "currentEffectiveDate": "2026-01-01",
+            "versions": [
+              {
+                "effectiveDate": "2026-01-01",
+                "url": "https://www.hanacard.co.kr/img/individual/hana_privacy_rule_260101.pdf",
+                "fetch": "http",
+                "formNote": "PDF; the page also shows the text"
+              },
+              {
+                "effectiveDate": "2025-11-07",
+                "url": "https://www.hanacard.co.kr/img/individual/hana_privacy_rule_20251107.pdf",
+                "fetch": "http"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. The page lists a PDF per version (about 35 back to 2012). One plain HTTP request failed once and then worked."
+          }
         },
         {
           "peerId": "bc-card",
@@ -355,7 +809,27 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "robots.txt absent (404)"
+          "note": "robots.txt absent (404)",
+          "history": {
+            "currentEffectiveDate": "2026-09-11",
+            "versions": [
+              {
+                "effectiveDate": "2026-09-11",
+                "url": "https://www.bccard.com/app/card/ContentsLinkActn.do?pgm_id=ind0492",
+                "fetch": "http",
+                "formNote": "article 20 says applies from 2026.09.11"
+              },
+              {
+                "effectiveDate": "2026-04-10",
+                "url": "https://www.bccard.com/html/individual/membership/pop_pravicy_policy_treatment_pre_25.html",
+                "fetch": "http",
+                "formNote": "popup page '개인정보처리방침 (2026.04.10 개정)', text applies from 2026-04-10"
+              }
+            ],
+            "beforeAmendment": 1,
+            "afterAmendment": 0,
+            "note": "Current version takes effect on 2026-09-11 itself (the amendment date); the 2026-04-10 version was in force just before. Older popups pop_pravicy_policy_treatment_pre_N.html (pre_24 is 2025-11-27)."
+          }
         }
       ]
     },
@@ -374,7 +848,27 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "robots.txt returned an HTML page (treated as absent)"
+          "note": "robots.txt returned an HTML page (treated as absent)",
+          "history": {
+            "currentEffectiveDate": "2026-09-03",
+            "versions": [
+              {
+                "effectiveDate": "2026-09-03",
+                "url": "https://policy.naver.com/policy/privacy.html",
+                "fetch": "http",
+                "formNote": "announced 2026-08-27"
+              },
+              {
+                "effectiveDate": "2026-07-16",
+                "url": "https://policy.naver.com/rules/privacy_v12_1.html",
+                "fetch": "http",
+                "formNote": "announced 2026-07-09; the 'previous version' link of the current page"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": 0,
+            "note": "Updated 2026-09-03, before 2026-09-11, so before and after are the same version (index 0); baseline is index 1. Only the immediate predecessor is a static page; the full list is at https://notice.naver.com/notices/privacypolicy/13880 (JS list, not parsed)."
+          }
         },
         {
           "peerId": "toss",
@@ -385,7 +879,31 @@
           "robots": "allowed",
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
-          "status": "active"
+          "status": "active",
+          "history": {
+            "currentEffectiveDate": "2026-09-04",
+            "versions": [
+              {
+                "effectiveDate": "2026-09-04",
+                "url": "https://toss.im/privacy-policy?id=52401",
+                "fetch": "browser",
+                "formNote": "id is the version id from the dropdown; plain HTTP returns no policy text"
+              },
+              {
+                "effectiveDate": "2026-08-07",
+                "url": "https://toss.im/privacy-policy?id=51403",
+                "fetch": "browser"
+              },
+              {
+                "effectiveDate": "2026-07-03",
+                "url": "https://toss.im/privacy-policy?id=50459",
+                "fetch": "browser"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": 1,
+            "note": "Monthly revisions. Latest before 2026-09-11 is 2026-09-04 (index 0); first on/after 2026-08-01 is 2026-08-07 (index 1); baseline just before 2026-08-01 is 2026-07-03 (index 2). Dropdown dates are the effective dates ('부터 적용돼요')."
+          }
         },
         {
           "peerId": "daangn",
@@ -397,7 +915,31 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "redirects to privacy-policy.daangn.com; robots.txt absent (404)"
+          "note": "redirects to privacy-policy.daangn.com; robots.txt absent (404)",
+          "history": {
+            "currentEffectiveDate": "2026-09-19",
+            "versions": [
+              {
+                "effectiveDate": "2026-09-19",
+                "url": "https://privacy-policy.daangn.com/",
+                "fetch": "http",
+                "formNote": "the registry URL daangn.com/policy/privacy redirects here; effective 2026-09-19 per text"
+              },
+              {
+                "effectiveDate": "2026-07-07",
+                "url": "https://privacy-policy.daangn.com/previous_pp/20260707/",
+                "fetch": "http"
+              },
+              {
+                "effectiveDate": "2026-03-27",
+                "url": "https://privacy-policy.daangn.com/previous_pp/20260327/",
+                "fetch": "http"
+              }
+            ],
+            "beforeAmendment": 1,
+            "afterAmendment": 0,
+            "note": "Updated 2026-09-19 (after the amendment date); the 2026-07-07 version was in force just before 2026-09-11. Older versions at /previous_pp/YYYYMMDD/ (trailing slash; without it a 301)."
+          }
         },
         {
           "peerId": "yeogi",
@@ -409,7 +951,21 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "goodchoice.kr redirects to yeogi.com; policy is a section of the terms page"
+          "note": "goodchoice.kr redirects to yeogi.com; policy is a section of the terms page",
+          "history": {
+            "currentEffectiveDate": "2026-06-23",
+            "versions": [
+              {
+                "effectiveDate": "2026-06-23",
+                "url": "https://www.yeogi.com/term_project/contents/privacy_policy/privacy_policy-2026-06-23.html",
+                "fetch": "http",
+                "formNote": "the policy is an iframe on https://www.yeogi.com/policy/terms#PRIVACY_POLICY pointing to this dated file"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. No previous-version list on the page (only the current dated file); no accessible history."
+          }
         },
         {
           "peerId": "yanolja",
@@ -421,7 +977,26 @@
           "robotsCheckedAt": "2026-10-02",
           "termsNote": "",
           "status": "active",
-          "note": "this page is the recruitment-service policy only; the main consumer policy (policy.yanolja.com) returns 403"
+          "note": "this page is the recruitment-service policy only; the main consumer policy (policy.yanolja.com) returns 403",
+          "history": {
+            "currentEffectiveDate": "2026-04-01",
+            "versions": [
+              {
+                "effectiveDate": "2026-04-01",
+                "url": "https://www.yanoljagroup.com/ko/policy",
+                "fetch": "http"
+              },
+              {
+                "effectiveDate": "2026-02-09",
+                "url": "https://www.yanoljagroup.com/ko/policy?id=4",
+                "fetch": "http",
+                "formNote": "id=4 (2025-04-21 is id=2); current is id=7"
+              }
+            ],
+            "beforeAmendment": 0,
+            "afterAmendment": null,
+            "note": "No update since before 2026-09-11. Query parameter id selects the version."
+          }
         }
       ]
     }
