@@ -151,6 +151,18 @@ HTML entities, ...). Two group-wide patterns: destruction procedure without who 
 전송요구권/자동화된 결정 (10/10). Details and follow-ups: `docs/reports/2026-10-02-lotte-real-run.md`. Re-fetch:
 `bun scripts/agent.ts peers --config config/orgs/example/org.json --dry-run --with-lotte --save-lotte watch/lotte`.
 
+## Lotte fetch status (2026-10-03)
+
+- From the cloud: 10 of 26 fetched (see the real-run report). Not fetchable from here:
+  - 롯데칠성, 롯데마트 (+CCTV), 세븐일레븐 (+CCTV): upstream connection timeout through the proxy, likely a block of foreign IPs.
+    Fetch on the original PC (Korean network) with the same command.
+  - 롯데호텔 (+CCTV), 롯데 채용: bot-protection page (403). Never bypassed: manual capture into `watch/lotte/`.
+  - 롯데멤버스 (JS-only page) and 롯데월드 (modal, no URL): manual capture.
+- CCTV pages of fetched hosts (웰푸드, 백화점, 캐슬, 글로벌로지스, 이노베이트) and 롯데시네마 (now under the 8 MB cap):
+  run this first on a new UTC day, before any other fetch:
+  `bun scripts/agent.ts peers --config config/orgs/example/org.json --dry-run --with-lotte --save-lotte watch/lotte-new --ids lotte-wellfood-privacy-cctv,lotte-department-store-privacy-cctv,lotte-castle-privacy-cctv,lotte-global-logis-privacy-cctv,lotteinnovate-privacy-cctv,lotte-cinema-privacy`
+- The real-policy labels are pinned to the extracted text hash, so a page whose raw bytes change with session tokens still scores.
+
 ## Contest package status (2026-10-02)
 
 - Deck (Slides artifact, private to the user): https://claude.ai/artifact/VQRWPLE2Y8MEGMnqjnekT8 — 13 slides, numbers from real runs, team name is a placeholder ("팀 폴리시레이더(가칭)"), presenter still `[미정]`. The InfoSec time measurement is on hold, so slide 2 shows the measured scope cut (98 changed units → 5 linked to policies) instead of `[측정 예정]`.
