@@ -6,6 +6,7 @@
   var STATUS = { no_update: "개정 후 갱신 없음", compared: "변경 확인", no_history: "이력 없음", failed: "확인 실패", skipped: "건너뜀" };
   var CONF = { high: "높음", medium: "보통", low: "낮음" };
   var DISC = D.meta.disclaimer;
+  function nm(id) { return (D.meta.names && D.meta.names[id]) || id; }
 
   function h(tag, attrs, kids) {
     var e = document.createElement(tag);
@@ -53,7 +54,7 @@
     })));
     el.appendChild(h("h2", null, "등록된 처리방침"));
     el.appendChild(o.policies.length ? table(["처리방침", "마지막 점검", "치명", "높음", "중간", "낮음", "확인 필요", ""], o.policies.map(function (p) {
-      return [p.policyId, p.checkedAt.slice(0, 16).replace("T", " "), String(p.bySeverity.critical), String(p.bySeverity.high), String(p.bySeverity.medium), String(p.bySeverity.low), String(p.bySeverity.confirm),
+      return [nm(p.policyId), p.checkedAt.slice(0, 16).replace("T", " "), String(p.bySeverity.critical), String(p.bySeverity.high), String(p.bySeverity.medium), String(p.bySeverity.low), String(p.bySeverity.confirm),
         p.manualReview ? badge("금융: 수동 검토 필요", "b-info") : ""];
     })) : empty("점검 결과가 없습니다."));
     el.appendChild(h("div", { class: "card" }, [h("h3", null, "모델 사용량"), h("div", null, o.cost.line)]));
@@ -84,7 +85,7 @@
       if (a.policyFindings.length) {
         a.policyFindings.forEach(function (f) {
           c.appendChild(h("div", { class: "finding" }, [
-            h("div", { class: "row" }, [h("b", null, f.policyId), " ", loc({ sectionId: f.sectionId, sectionTitle: "", para: f.para }), badge(f.tier, f.tier === "확정" ? "b-ok" : "b-prov"), sevBadge(f.severity)]),
+            h("div", { class: "row" }, [h("b", null, nm(f.policyId)), " ", loc({ sectionId: f.sectionId, sectionTitle: "", para: f.para }), badge(f.tier, f.tier === "확정" ? "b-ok" : "b-prov"), sevBadge(f.severity)]),
             f.quote ? h("div", { class: "quote" }, f.quote) : null,
             h("div", { class: "fix" }, [h("b", null, "수정 방향: "), f.fixHint || f.message])
           ]));
@@ -95,7 +96,7 @@
           c.appendChild(h("div", { class: "mute", style: "margin-top:8px" }, "참고: 현재 점검(Mode A)에서 같은 항목에 이미 지적된 사항"));
           a.modeAOverlap.forEach(function (f) {
             c.appendChild(h("div", { class: "finding" }, [
-              h("div", { class: "row" }, [h("b", null, f.policyId), " ", f.sectionId + (f.para ? " 제" + f.para + "문단" : ""), sevBadge(f.severity)]),
+              h("div", { class: "row" }, [h("b", null, nm(f.policyId)), " ", f.sectionId + (f.para ? " 제" + f.para + "문단" : ""), sevBadge(f.severity)]),
               f.quote ? h("div", { class: "quote" }, f.quote) : null,
               h("div", { class: "fix" }, [h("b", null, "수정 방향: "), f.fixHint])
             ]));
@@ -127,7 +128,7 @@
     if (!D.policies.length) el.appendChild(empty("점검 결과가 없습니다. 점검 실행 후 다시 생성하세요."));
     D.policies.forEach(function (p) {
       var c = h("div", { class: "card" });
-      c.appendChild(h("div", { class: "row sp" }, [h("h3", null, p.policyId), h("div", { class: "row" }, [p.manualReview ? badge("금융: 수동 검토 필요", "b-info") : null, h("span", { class: "mute" }, p.checkedAt.slice(0, 16).replace("T", " ") + " · 규칙 팩 " + p.rulePackVersion)])]));
+      c.appendChild(h("div", { class: "row sp" }, [h("h3", null, nm(p.policyId)), h("div", { class: "row" }, [p.manualReview ? badge("금융: 수동 검토 필요", "b-info") : null, h("span", { class: "mute" }, p.checkedAt.slice(0, 16).replace("T", " ") + " · 규칙 팩 " + p.rulePackVersion)])]));
       c.appendChild(h("div", { class: "row" }, SEV.map(function (s) { return h("span", null, [sevBadge(s[0]), " ", h("b", null, String(p.bySeverity[s[0]]))]); })));
       [["critical", "high", "medium", "low"]].forEach(function (order) {
         order[0] && order.forEach(function (sv) {

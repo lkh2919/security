@@ -182,8 +182,12 @@ export async function runFreshnessDetailed(manifest: Manifest, targets: Freshnes
       changes.push(flag({ sourceId: t.sourceId, kind: "unstamped", severity: "warn", message: `${t.name}: 매니페스트에 기준값 없음 / no manifest stamp; ${label}`, newMst: cur.mst }));
       mark(t.sourceId, sections);
     } else {
-      const sameId = stamp.id === cur.mst || stamp.id === cur.lawId;
-      const idOnlyLaw = stamp.id === cur.lawId && stamp.id !== cur.mst;
+      // Manifest stamps read "011357/MST283839" (law id + MST); older stamps carry one of the two.
+      const compound = /^(\d+)\/MST(\d+)$/.exec(stamp.id);
+      const stampMst = compound ? compound[2]! : stamp.id;
+      const stampLawId = compound ? compound[1]! : stamp.id;
+      const sameId = stampMst === cur.mst || (!compound && stamp.id === cur.lawId);
+      const idOnlyLaw = !compound && stampLawId === cur.lawId && stampMst !== cur.mst;
       if (!sameId || (idOnlyLaw && stamp.effective !== cur.effectiveOn)) {
         st.outcome = "changed";
         const wasScheduled = cur.promulgatedOn !== null && cur.promulgatedOn <= stamp.effective && cur.effectiveOn !== null && cur.effectiveOn <= today;
@@ -199,7 +203,7 @@ export async function runFreshnessDetailed(manifest: Manifest, targets: Freshnes
     if (t.target === "law" && cur.lawId) {
       try {
         const scheduled = (await deps.lawApi.listScheduledVersions(cur.lawId))
-          .filter((v) => v.effectiveOn !== null && v.mst !== stamp?.id)
+          .filter((v) => v.effectiveOn !== null && v.mst !== stamp?.id && !(stamp && stamp.id.endsWith(`/MST${v.mst}`)))
           .filter((v) => {
             const d = daysBetween(today, v.effectiveOn!);
             return d >= 0 && d <= upcomingDays;

@@ -163,6 +163,13 @@ HTML entities, ...). Two group-wide patterns: destruction procedure without who 
   `bun scripts/agent.ts peers --config config/orgs/example/org.json --dry-run --with-lotte --save-lotte watch/lotte-new --ids lotte-wellfood-privacy-cctv,lotte-department-store-privacy-cctv,lotte-castle-privacy-cctv,lotte-global-logis-privacy-cctv,lotteinnovate-privacy-cctv,lotte-cinema-privacy`
 - The real-policy labels are pinned to the extracted text hash, so a page whose raw bytes change with session tokens still scores.
 
+## Real-policy dashboard (2026-10-03)
+
+User decision: the demo dashboard may show the real Lotte results with company names. Build it from the latest run:
+`bun scripts/build-dashboard.ts --config config/orgs/lotte-real/org.json --out runs/lotte-real/dashboard/index.html --monitor-dir runs/lotte-real/llm-v8/<stamp> --impact-dir runs/lotte-real/llm-v8/<stamp>`
+(copy `runs/example/peers` to `runs/lotte-real/peers` for the peer tab; freshness from `runs/_freshness`). Names come from the
+capture registry (`kb/.../_captures/sites.json`). The synthetic `config/orgs/example` dashboard still works for offline demos.
+
 ## Contest package status (2026-10-02)
 
 - Deck (Slides artifact, private to the user): https://claude.ai/artifact/VQRWPLE2Y8MEGMnqjnekT8 — 13 slides, numbers from real runs, team name is a placeholder ("팀 폴리시레이더(가칭)"), presenter still `[미정]`. The InfoSec time measurement is on hold, so slide 2 shows the measured scope cut (98 changed units → 5 linked to policies) instead of `[측정 예정]`.

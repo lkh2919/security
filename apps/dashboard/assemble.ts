@@ -291,7 +291,7 @@ function buildPolicies(reports: Json[], titles: Record<string, string>, finance:
         runId: r.runId,
         rulePackVersion: r.rulePackVersion,
         llmUsed: r.llmUsed ?? null,
-        manualReview: finance || /(card|bank|finance|insur|금융|카드)/i.test(String(r.policyId)),
+        manualReview: finance || /(card|bank|finance|insur|금융|카드)/i.test(String(r.policyId)) || (r.findings as Json[]).some((f) => f.ruleId === "MON-FINANCE"),
         bySeverity,
         warnings: r.warnings ?? [],
         findings: findings
@@ -432,6 +432,13 @@ function buildLaws(root: string, amendments: Json[]): Json[] {
   });
 }
 
+/** Display names for Lotte capture ids ("롯데백화점"), from the committed capture registry; other ids show as they are. */
+function policyNames(root: string, ids: readonly string[]): Record<string, string> {
+  const sites = (readJson(join(root, "kb", "jurisdictions", "kr", "clauses", "_captures", "sites.json"))?.sites ?? []) as Json[];
+  const byId = new Map(sites.map((x) => [String(x.id), String(x.site ?? "").replace(/\s*\([^)]*\)\s*$/, "")]));
+  return Object.fromEntries(ids.filter((id) => byId.get(id)).map((id) => [id, byId.get(id)!]));
+}
+
 export function assembleDashboard(opts: AssembleOptions): Json {
   const root = resolve(opts.root);
   const cfgPath = resolve(opts.configPath);
@@ -452,8 +459,9 @@ export function assembleDashboard(opts: AssembleOptions): Json {
   const usage = loadUsage(files);
   const bySeverity: Record<string, number> = Object.fromEntries(SEVERITIES.map((s) => [s, 0]));
   for (const p of policies) for (const s of SEVERITIES) bySeverity[s]! += (p.bySeverity as Record<string, number>)[s] ?? 0;
+  const names = policyNames(root, reports.map((r) => String(r.policyId)));
   const data = {
-    meta: { org: org.name ?? tenantId, tenantId, domainGroup: org.domainGroup ?? "", generatedAt: (opts.now ?? new Date()).toISOString(), rulePack: pack, disclaimer: DISCLAIMER, peerLabel: PEER_LABEL, monitorSource: files.length ? monitorDir.replace(root + "/", "") : null, impactSource: impact?.length ? impact.map((r) => `${r.law} ${r.stamp}`) : null },
+    meta: { names, org: org.name ?? tenantId, tenantId, domainGroup: org.domainGroup ?? "", generatedAt: (opts.now ?? new Date()).toISOString(), rulePack: pack, disclaimer: DISCLAIMER, peerLabel: PEER_LABEL, monitorSource: files.length ? monitorDir.replace(root + "/", "") : null, impactSource: impact?.length ? impact.map((r) => `${r.law} ${r.stamp}`) : null },
     overview: {
       laws: buildLaws(root, amendments),
       policies: policies.map((p) => ({ policyId: p.policyId, checkedAt: p.checkedAt, bySeverity: p.bySeverity, manualReview: p.manualReview })),

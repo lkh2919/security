@@ -184,6 +184,13 @@ const api = (cur: ReturnType<typeof ver> | null, sched: ReturnType<typeof ver>[]
 const deps = (lawApi: LawApiPort, pages: PagePort = okPage()) => ({ lawApi, pages, ruleIndex, now: () => TODAY, runId: "fresh-test" });
 
 describe("runFreshness", () => {
+  test("a manifest stamp in the compound form '011357/MST283839' matches the same version (2026-10-03 false 'changed')", async () => {
+    const same = await runFreshness(manifest({ id: "011357/MST283839" }), targets, deps(api(ver(), [ver({ mst: "289415", eff: "2027-03-09" })])));
+    expect(same.status).toBe("current");
+    const newer = await runFreshnessDetailed(manifest({ id: "011357/MST270351" }), targets, deps(api(ver())));
+    expect(newer.report.sources.find((x) => x.sourceId === "law:pipa")!.outcome).toBe("changed");
+  });
+
   test("current when stamps match and nothing is near", async () => {
     const r = await runFreshness(manifest(), targets, deps(api(ver(), [ver({ mst: "289415", eff: "2027-03-09" })])));
     expect(r.status).toBe("current");
