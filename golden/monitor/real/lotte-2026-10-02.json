@@ -2,7 +2,7 @@
  "fixture": "monitor real-policy segmentation slice",
  "labelStatus": "AI self-labelled 2026-10-02 (PM, privacy-domain-expert role) — human review pending",
  "scope": "Article-level headings of 10 published Lotte privacy policies fetched 2026-10-02. Sub-headings, tables of contents and document titles are not labelled. alsoAccept lists other ids that are right for a combined heading (for example 처리 목적, 항목 및 보유기간).",
- "pages": "Not in git (watch/ is gitignored). Fetch with: bun scripts/agent.ts peers --config config/orgs/example/org.json --dry-run --with-lotte --save-lotte watch/lotte. A page whose SHA-256 differs from sourceSha256 is skipped, because the site changed.",
+ "pages": "Not in git (watch/ is gitignored). Fetch with: bun scripts/agent.ts peers --config config/orgs/example/org.json --dry-run --with-lotte --save-lotte watch/lotte. A page is scored when the SHA-256 of its extracted policy text equals textSha256 (raw bytes change with session tokens; sourceSha256 is kept for reference). Otherwise the policy text changed and the page is skipped.",
  "policies": [
   {
    "policyId": "lotte-castle-privacy",
@@ -53,7 +53,8 @@
      "title": "10. 개인정보에 관한 민원서비스",
      "sectionId": "S18"
     }
-   ]
+   ],
+   "textSha256": "48df8f6df30ae4fa45683ffd5fd30fb7c7e9785572fd2375709e3ea53818760d"
   },
   {
    "policyId": "lotte-department-store-privacy",
@@ -111,7 +112,8 @@
      "title": "[제 12 조] 개인정보 처리방침의 변경",
      "sectionId": "S24"
     }
-   ]
+   ],
+   "textSha256": "7254065d20114c5d822b321973d1bf5acfa2d4f3acc95fb165bbb28e6a2ddfa7"
   },
   {
    "policyId": "lotte-enc-privacy",
@@ -162,7 +164,8 @@
      "title": "10. 개인정보 처리방침의 변경",
      "sectionId": "S24"
     }
-   ]
+   ],
+   "textSha256": "43aa7ae49195493d5a4b69ca732d09cf1bfe6ac56880a678fae1cd03dec155d7"
   },
   {
    "policyId": "lotte-global-logis-privacy",
@@ -221,7 +224,8 @@
      "title": "12. 개인정보 처리방침의 변경에 관한 사항(고지의 의무)",
      "sectionId": "S24"
     }
-   ]
+   ],
+   "textSha256": "0ec8907f0efb747bbe85a6dcf553b057a76f5856ce98670ce900c940aff7157e"
   },
   {
    "policyId": "lotte-himart-mall-privacy",
@@ -296,7 +300,8 @@
      "title": "18. 개인정보 처리방침 변경",
      "sectionId": "S24"
     }
-   ]
+   ],
+   "textSha256": "3d25067f2ed7967fb7773896ed5132592e4bdb7d8f3106c297044959b2c72f89"
   },
   {
    "policyId": "lotte-himart-privacy",
@@ -355,7 +360,8 @@
      "title": "13. 개인정보처리방침 변경",
      "sectionId": "S24"
     }
-   ]
+   ],
+   "textSha256": "6c47e07b54fe795b9a0b2eedcc7b82981598fe865f60b012c821608bc851f972"
   },
   {
    "policyId": "lotte-rental-privacy",
@@ -424,7 +430,8 @@
       "S18"
      ]
     }
-   ]
+   ],
+   "textSha256": "d839547051a71975eedadd79f35346a68eb63c598c99311dae00b453cd2e2854"
   },
   {
    "policyId": "lotte-wellfood-privacy",
@@ -479,7 +486,8 @@
      "title": "11. 개인정보 처리방침의 변경",
      "sectionId": "S24"
     }
-   ]
+   ],
+   "textSha256": "652375a2681790504bf16bae9318c5f4020d11efe197c1c7b504a60850113b2b"
   },
   {
    "policyId": "lotteinnovate-privacy",
@@ -534,7 +542,8 @@
      "title": "11. 개인정보처리방침의 변경",
      "sectionId": "S24"
     }
-   ]
+   ],
+   "textSha256": "122d183d6074267301542c9b123671fb032302df596d74db24585569f9e19a17"
   },
   {
    "policyId": "lpoint-privacy",
@@ -644,7 +653,8 @@
      "title": "제21조 고지의 의무",
      "sectionId": "S24"
     }
-   ]
+   ],
+   "textSha256": "2b54cf123e4fce49fb8123e6751cc096e00077e300b516ec2bf485da30c32f52"
   }
  ],
  "caveat": "Development slice: the segmenter fixes of 2026-10-02 were made while reading these same pages, so 0.985 here is not a held-out score. The 16 Lotte pages not yet fetched are the held-out slice."

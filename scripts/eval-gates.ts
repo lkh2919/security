@@ -125,7 +125,7 @@ const realSeg = (() => {
   const labelsFile = join(goldenDir, "real", "lotte-2026-10-02.json");
   const pagesDir = resolve(process.env["REAL_POLICY_DIR"] ?? join(root, "watch", "lotte"));
   if (!existsSync(labelsFile)) return null;
-  const doc = JSON.parse(readFileSync(labelsFile, "utf8")) as { policies: { policyId: string; file: string; sourceSha256: string; sections: SectionLabel[] }[] };
+  const doc = JSON.parse(readFileSync(labelsFile, "utf8")) as { policies: { policyId: string; file: string; sourceSha256: string; textSha256?: string; sections: SectionLabel[] }[] };
   let correct = 0;
   let total = 0;
   const wrong: string[] = [];
@@ -137,11 +137,13 @@ const realSeg = (() => {
       continue;
     }
     const bytes = readFileSync(file);
-    if (createHash("sha256").update(bytes).digest("hex") !== p.sourceSha256) {
-      skipped.push(`${p.policyId}: page changed since labelling`);
+    const policy = ingestPolicy({ name: p.file, policyId: p.policyId, content: bytes.toString("utf8"), fetchedAt: NOW }, patterns, lexicon);
+    // Raw bytes change with session tokens; the extracted policy text is what the labels describe.
+    const same = p.textSha256 ? createHash("sha256").update(policy.text).digest("hex") === p.textSha256 : createHash("sha256").update(bytes).digest("hex") === p.sourceSha256;
+    if (!same) {
+      skipped.push(`${p.policyId}: policy text changed since labelling`);
       continue;
     }
-    const policy = ingestPolicy({ name: p.file, policyId: p.policyId, content: bytes.toString("utf8"), fetchedAt: NOW }, patterns, lexicon);
     const r = segmentationAccuracy(p.sections, policy.sections.map((s) => ({ title: s.title, sectionId: s.sectionId })));
     correct += r.correct;
     total += r.total;
