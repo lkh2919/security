@@ -32,6 +32,7 @@ const ExpectedSchema = z.strictObject({
   forbiddenPhrases: z.array(z.string()),
   expectedVerdict: z.enum(["pass", "pass_with_warnings"]),
   notes: z.string(),
+  followUps: z.array(z.strictObject({ date: z.string(), reason: z.string().min(1) })).optional(),
 });
 
 const kb = loadKrKnowledge(krPaths(ROOT));

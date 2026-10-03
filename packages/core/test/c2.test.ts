@@ -186,6 +186,9 @@ describe("unfair-clause lexicon", () => {
     expect(flagged("U-ARTC6-02", "회사가 직접 작성하거나 제작한 서비스 내 콘텐츠와 상표 등 저작물에 대한 저작권은 회사에 귀속됩니다.")).toBe(false);
     expect(flagged("U-ECA18-01", "반품 상품이 도착한 날부터 3영업일 이내에 환급합니다.")).toBe(false);
     expect(flagged("U-ARTC12-01", "개정 약관을 알리면서 기간 안에 의사표시를 하지 않으면 동의한 것으로 본다는 내용을 별도로 분명하게 알렸는데도 거부하지 않으면 동의한 것으로 봅니다.")).toBe(false);
+    // live drafts 2026-10-03: the statutory exception list intro and the operator's own works
+    expect(flagged("U-ARTC9-01", "③ 이용자는 다음 각 호의 어느 하나에 해당하는 경우에는 청약철회를 할 수 없습니다.")).toBe(false);
+    expect(flagged("U-ARTC6-02", "회사가 만든 저작물에 대한 저작권과 그 밖의 지식재산권도 회사에 귀속됩니다.")).toBe(false);
   });
 
   test("real violations next to similar wording are still flagged", () => {

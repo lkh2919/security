@@ -29,7 +29,7 @@ import { wrapUntrusted, UNTRUSTED_NOTICE } from "../intake/sanitize";
 import { loadPromptFile, type PromptFile } from "../extract/prompt";
 import type { ClauseLibrary } from "../match/load-clauses";
 import { renderClause } from "./render-clause";
-import { rejoinRetentionGap } from "../check/consistency";
+import { passwordItemGap, rejoinRetentionGap } from "../check/consistency";
 
 export interface RemedyAgency {
   readonly id: string;
@@ -236,7 +236,10 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
     // outsourcing candidate rows and S07 the provision candidate rows for the parties whose role is unclear.
     const ambiguous = ambiguousPartiesFor(id);
     // A conflict between the two documents' facts goes to the sections that state either side, never drafted as settled.
-    const conflicts = (docType === "terms" && (id === "T06" || id === "T07")) || (docType === "privacy" && id === "S05") ? [rejoinRetentionGap(input.ledger)].filter((x): x is string => x !== null) : [];
+    const conflicts = [
+      ...((docType === "terms" && (id === "T06" || id === "T07")) || (docType === "privacy" && id === "S05") ? [rejoinRetentionGap(input.ledger)] : []),
+      ...(docType === "privacy" && (id === "S03" || id === "S11") ? [passwordItemGap(input.ledger)] : []),
+    ].filter((x): x is string => x !== null);
     for (const c of conflicts) missingFacts.push({ sectionId: id, text: c });
     if (item.state === "unknown" && ambiguous.length === 0) {
       // Slot ids go to the Reviewer Sheet (missingFacts), never into reader-facing text.

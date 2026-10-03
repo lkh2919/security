@@ -96,11 +96,17 @@ describe("draftDocument (privacy, G1)", () => {
 
   test("a rejoin bar without a retention basis is a fact conflict: T06/T07 and S05 get it, and it becomes a missing fact (G1 live run 2026-10-03)", async () => {
     const callOf = (r: { llm: MockLlmClient }, id: string) => r.llm.calls.find((c) => c.user.includes(`"section":{"id":"${id}"`));
-    const t = await run("terms", "G1");
+    // G1 as first answered (before the 2026-10-03 follow-up added the rejoin-check retention row).
+    const g1 = JSON.parse(readFileSync(join(ROOT, "golden", "cases", "G1", "expected.json"), "utf8")) as { slots: Record<string, unknown> };
+    const noRejoinRow = { "privacy.S05_retention": (g1.slots["privacy.S05_retention"] as unknown[]).filter((r) => !JSON.stringify(r).includes("재가입")) };
+    const mock = () => new MockLlmClient({ fixtures: { R5P: draftFixture, R5T: draftFixture } });
+    const completed = await run("terms", "G1");
+    expect(completed.llm.calls.some((c) => c.user.includes('"factConflicts"'))).toBe(false);
+    const t = await run("terms", "G1", library, mock(), noRejoinRow);
     expect(callOf(t, "T07")!.user).toContain('"factConflicts"');
     expect(t.llm.calls.filter((c) => !/"section":\{"id":"T0[67]"/.test(c.user)).every((c) => !c.user.includes('"factConflicts"'))).toBe(true);
     expect(t.missingFacts.some((m) => m.text.includes("재가입"))).toBe(true);
-    const p = await run("privacy", "G1");
+    const p = await run("privacy", "G1", library, mock(), noRejoinRow);
     expect(callOf(p, "S05")!.user).toContain('"factConflicts"');
   });
 

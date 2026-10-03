@@ -73,7 +73,7 @@
     "privacy.S03_items": [
       {
         "task": "회원가입",
-        "items": "이메일, 닉네임",
+        "items": "이메일, 닉네임, 비밀번호",
         "required": "필수",
         "basisType": "consent",
         "legalBasis": "정보주체의 동의",
@@ -109,6 +109,11 @@
       {
         "target": "서비스 접속 로그",
         "period": "3개월",
+        "basis": "contract"
+      },
+      {
+        "target": "재가입 제한 확인용 이메일 주소(자격 상실 회원)",
+        "period": "자격 상실일부터 90일",
         "basis": "contract"
       }
     ],
@@ -240,5 +245,11 @@
     "게시물을 임의로 삭제"
   ],
   "expectedVerdict": "pass",
-  "notes": "T12 keeps UGC copyright with the user and states a scoped licence and a removal procedure (R-T12-003, R-T12-004). T09 and T10 are drafted only if a paid feature appears (terms.paid false). Enriched 2026-10-01 (council stage 2): business identity, membership rules, notices, liability, privacy facts."
+  "notes": "T12 keeps UGC copyright with the user and states a scoped licence and a removal procedure (R-T12-003, R-T12-004). T09 and T10 are drafted only if a paid feature appears (terms.paid false). Enriched 2026-10-01 (council stage 2): business identity, membership rules, notices, liability, privacy facts.",
+  "followUps": [
+    {
+      "date": "2026-10-03",
+      "reason": "Live run: the interview was internally inconsistent, and the drafter correctly raised follow-up questions (rejoinRetentionGap, passwordItemGap). The case now includes the operator's answers, so the golden set represents a completed interview."
+    }
+  ]
 }

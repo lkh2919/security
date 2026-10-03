@@ -128,6 +128,11 @@
         "target": "서비스 접속 로그",
         "period": "3개월",
         "basis": "contract"
+      },
+      {
+        "target": "재가입 제한 확인용 이메일 주소(탈퇴·자격 상실 회원)",
+        "period": "탈퇴일 또는 자격 상실일부터 30일",
+        "basis": "contract"
       }
     ],
     "privacy.S05_retentionExceptions": [
@@ -308,5 +313,11 @@
     "제3자에게 제공"
   ],
   "expectedVerdict": "pass",
-  "notes": "S09 lists both processors by name; S07 and S10 are not processed and must be stated as such or omitted per applicability."
+  "notes": "S09 lists both processors by name; S07 and S10 are not processed and must be stated as such or omitted per applicability.",
+  "followUps": [
+    {
+      "date": "2026-10-03",
+      "reason": "Live run: the interview was internally inconsistent, and the drafter correctly raised follow-up questions (rejoinRetentionGap, passwordItemGap). The case now includes the operator's answers, so the golden set represents a completed interview."
+    }
+  ]
 }

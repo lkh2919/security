@@ -8,7 +8,7 @@ gate.thirdPartyProvision: 아니오
 gate.overseasTransfer: 아니오
 
 ## 데이터 흐름: 회원가입
-항목: 이메일, 닉네임
+항목: 이메일, 닉네임, 비밀번호
 목적: 회원 식별
 수신자: 없음
 보유기간: 탈퇴 즉시

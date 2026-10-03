@@ -7,7 +7,7 @@ import { TextFileSttAdapter } from "../src/adapters/stt";
 import type { DocAST, SectionAST } from "../src/contracts/ast";
 import { createFactLedgerSchema, type FactLedger, type SlotEntry } from "../src/contracts/fact-ledger";
 import type { FormSlots } from "../src/contracts/form-slots";
-import { rejoinRetentionGap } from "../src/stages/check/consistency";
+import { passwordItemGap, rejoinRetentionGap } from "../src/stages/check/consistency";
 import { HouseStyleFileSchema, type HouseStyleFile } from "../src/contracts/house-style";
 import type { QuestionSet } from "../src/contracts/question-set";
 import { RunStateSchema } from "../src/contracts/run-state";
@@ -330,6 +330,15 @@ describe("cross-document fact gap: rejoin bar vs retention", () => {
     expect(rejoinRetentionGap({ slots: { ...base, "privacy.S05_retention": slot([{ target: "회원 정보", period: "회원 탈퇴 시까지" }]) } as never })).toContain("재가입");
     expect(rejoinRetentionGap({ slots: { ...base, "privacy.S05_retention": slot([{ target: "회원 정보", period: "회원 탈퇴 시까지" }, { target: "재가입 제한 확인용 이메일", period: "탈퇴 후 30일" }]) } as never })).toBeNull();
     expect(rejoinRetentionGap({ slots: { "terms.membershipRules": slot("만 14세 이상만 가입할 수 있습니다."), "privacy.S05_retention": slot([{ target: "회원 정보", period: "회원 탈퇴 시까지" }]) } as never })).toBeNull();
+  });
+});
+
+describe("cross-section fact gap: password measure vs items", () => {
+  const slot = (value: unknown) => ({ status: "filled" as const, value, confidence: 1, evidence: [] });
+  test("password encryption without a password item is a gap; listing the item closes it", () => {
+    const m = { "privacy.S11_measures": slot(["접근 권한 관리", "비밀번호 암호화"]) };
+    expect(passwordItemGap({ slots: { ...m, "privacy.S03_items": slot([{ task: "회원가입", items: "이메일, 닉네임" }]) } as never })).toContain("비밀번호");
+    expect(passwordItemGap({ slots: { ...m, "privacy.S03_items": slot([{ task: "회원가입", items: "이메일, 닉네임, 비밀번호" }]) } as never })).toBeNull();
   });
 });
 

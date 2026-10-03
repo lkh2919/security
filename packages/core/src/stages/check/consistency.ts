@@ -141,3 +141,18 @@ export function rejoinRetentionGap(ledger: Pick<FactLedger, "slots">): string | 
   return "약관은 탈퇴(또는 자격 상실) 후 일정 기간 재가입을 제한하지만, 처리방침 보유기간에는 그 제한을 확인하려고 탈퇴 회원 정보를 보관한다는 내용(보관 항목·기간)이 없습니다. 보관 항목과 기간을 확인해 처리방침에 넣거나, 재가입 제한을 빼야 합니다.";
 }
 
+/**
+ * Cross-section fact gap: a security measure names passwords (비밀번호 암호화) but no processed item does. Either an item is
+ * missing from S03 or the measure describes processing that does not happen (G3 live run 2026-10-03, auditor R-S03-001).
+ */
+export function passwordItemGap(ledger: Pick<FactLedger, "slots">): string | null {
+  const text = (id: string): string => {
+    const e = ledger.slots[id];
+    return e && e.status === "filled" && e.value !== null ? JSON.stringify(e.value) : "";
+  };
+  if (!/비밀번호|패스워드/.test(text("privacy.S11_measures"))) return null;
+  const items = Object.keys(ledger.slots).filter((k) => k.startsWith("privacy.S03_")).map(text).join(" ");
+  if (!items || /비밀번호|패스워드/.test(items)) return null;
+  return "안전성 확보조치에는 비밀번호 암호화가 있지만 처리하는 개인정보 항목에는 비밀번호가 없습니다. 회원 비밀번호를 처리한다면 항목에 넣고, 관리자 계정 비밀번호를 뜻한다면 그렇게 적어야 합니다.";
+}
+
