@@ -130,8 +130,13 @@
         "basis": "contract"
       },
       {
-        "target": "재가입 제한 확인용 이메일 주소(탈퇴·자격 상실 회원)",
-        "period": "탈퇴일 또는 자격 상실일부터 30일",
+        "target": "재가입 제한 확인용 이메일 주소(탈퇴 회원)",
+        "period": "탈퇴일부터 7일",
+        "basis": "contract"
+      },
+      {
+        "target": "재가입 제한 확인용 이메일 주소(자격 상실 회원)",
+        "period": "자격 상실일부터 30일",
         "basis": "contract"
       }
     ],
@@ -317,7 +322,7 @@
   "followUps": [
     {
       "date": "2026-10-03",
-      "reason": "Live run: the interview was internally inconsistent, and the drafter correctly raised follow-up questions (rejoinRetentionGap, passwordItemGap). The case now includes the operator's answers, so the golden set represents a completed interview."
+      "reason": "Live run: the interview was internally inconsistent, and the drafter correctly raised follow-up questions (rejoinRetentionGap, passwordItemGap). The case now includes the operator's answers, so the golden set represents a completed interview. Second live run: one 30-day period for both groups outlasted the 7-day rejoin bar for withdrawn members (auditor X-03); the answer is now split per group."
     }
   ]
 }
