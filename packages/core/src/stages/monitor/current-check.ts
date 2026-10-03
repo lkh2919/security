@@ -77,6 +77,12 @@ type Draft = Omit<MonitorFinding, "id">;
 /** Rule elements that forbid something; a model may not call them "missing". */
 const NEGATIVE_ELEMENT = /(^|, )no /;
 
+/** Approval words in a destruction procedure (R-S06-005). */
+const APPROVAL_WORDS = /승인|결재|허가를\s*받아/;
+
+/** Rules decided by code in the monitor; the model never judges them. */
+const CODE_DECIDED_RULES: ReadonlySet<string> = new Set(["R-S06-005"]);
+
 /** Below this many characters a section is a stub (a table-of-contents line, a heading with one sentence). */
 const STUB_SECTION_CHARS = 200;
 
@@ -208,6 +214,16 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
     );
   }
 
+  // --- R-S06-005 (should): approval step in the destruction procedure, decided by keywords, not the model ----------------
+  // The model caught it on 5-7 of 10 real pages although none named an approver (self-review 2026-10-03, §10.5 #10).
+  const s06 = sectionParas.get("S06");
+  if (s06 && s06.length > 0 && ruleSections.get("S06")?.rules.some((r) => r.ruleId === "R-S06-005")) {
+    const s06Text = sectionModelText(policy, "S06").text;
+    if (!APPROVAL_WORDS.test(s06Text)) {
+      drafts.push(draft({ layer: "deterministic", ruleId: "R-S06-005", sectionId: "S06", severity: "low", message: "파기 대상 선정·승인 절차: 파기 대상을 누가 선정하고 누가 승인하는지 적혀 있지 않습니다 (권장 사항, 규칙 R-S06-005).", fixHint: "예: '파기 사유가 발생한 개인정보를 선정하고, 개인정보 보호책임자의 승인을 받아 파기합니다.'", para: null, quote: "" }));
+    }
+  }
+
   // --- LLM judge per present mandatory section ----------------------------------------------------
   let llmUsed = false;
   if (!deps.llm) {
@@ -224,7 +240,7 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
     for (const [sectionId, section] of ruleSections) {
       const all = sectionParas.get(sectionId);
       if (section.classification !== "mandatory" || !all || all.length === 0) continue;
-      const digest = digestRules(section);
+      const digest = digestRules(section).filter((r) => !CODE_DECIDED_RULES.has(r.ruleId));
       if (digest.length === 0) continue;
       // Finance-flagged paragraphs never go to the model (design C6, user decision 2026-10-02): no finance rule pack can
       // judge them, they already carry a manual-review finding, and credit-information text stays out of prompts.

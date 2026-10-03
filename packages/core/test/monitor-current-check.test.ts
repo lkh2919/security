@@ -176,6 +176,18 @@ describe("Mode A: LLM judge (mock)", () => {
     expect(llm2.calls.every((c) => c.user.includes("SOURCE: a privacy policy page published on the operator's website"))).toBe(true);
   });
 
+  test("R-S06-005 (destruction approval) is decided by code: Low when no approval word, never sent to the model", async () => {
+    const clean = readFileSync(join(import.meta.dir, "fixtures", "monitor", "policy-clean.md"), "utf8");
+    const noApproval = clean.replace(" 파기 사유가 발생한 개인정보를 선정하고 개인정보 보호책임자의 승인을 받아 파기합니다.", "");
+    expect(noApproval).not.toBe(clean);
+    const llm = judge({});
+    const { report } = await checkCurrentPolicy({ llm }, { ...base, policy: ingestPolicy({ name: "p.md", content: noApproval, fetchedAt: NOW }, patterns) });
+    expect(report.findings.filter((f) => f.ruleId === "R-S06-005").map((f) => [f.severity, f.layer])).toEqual([["low", "deterministic"]]);
+    expect(llm.calls.some((c) => c.user.includes("R-S06-005"))).toBe(false);
+    const ok = await checkCurrentPolicy({}, { ...base, policy: ingestFixture("policy-clean.md") });
+    expect(ok.report.findings.some((f) => f.ruleId === "R-S06-005")).toBe(false);
+  });
+
   test("verdicts map to severities; a missing must element is High (Critical is for an absent section), a located wrong value High, should-level Low", async () => {
     const llm = judge({
       S05: [
