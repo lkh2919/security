@@ -207,6 +207,10 @@ describe("registry and targets", () => {
     expect(skipped.map((s) => [s.id, s.reason.split(":")[0]])).toEqual([["peer-x", "status_excluded"], ["peer-pdf", "render_pdf"], ["lotte-modal-privacy", "capture_url_not_direct"], ["lotte-missing", "capture_not_found"]]);
     expect(buildTargets(REGISTRY, CAPTURES, { group: "retail", limit: 2 }).targets.map((t) => t.id)).toEqual(["peer-1", "peer-2"]);
     expect(buildTargets(REGISTRY, CAPTURES, { group: "retail", includeLotte: false }).targets.every((t) => t.kind === "peer")).toBe(true);
+    // targeted re-fetch: only the named ids, targets and skipped alike
+    const only = buildTargets(REGISTRY, CAPTURES, { ids: ["lotte-b-privacy", "lotte-modal-privacy"] });
+    expect(only.targets.map((t) => t.id)).toEqual(["lotte-b-privacy"]);
+    expect(only.skipped.map((t) => t.id)).toEqual(["lotte-modal-privacy"]);
   });
 });
 

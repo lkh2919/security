@@ -61,6 +61,8 @@ export interface TargetOptions {
   readonly limit?: number;
   /** Include the Lotte captures of each group (default true). The standalone `peers` command leaves them to the daily chain. */
   readonly includeLotte?: boolean;
+  /** Only these target ids (peer ids or Lotte capture ids), for a targeted re-fetch such as the CCTV pages of a host. */
+  readonly ids?: readonly string[];
 }
 
 const DIRECT_URL = /^https?:\/\/\S+$/;
@@ -87,5 +89,8 @@ export function buildTargets(registry: PeerRegistry, captures: readonly CaptureE
       else targets.push({ ...base, url, render: registry.lotteFetch[id] === "browser" ? "browser" : "html" });
     }
   }
-  return { targets: opts.limit !== undefined ? targets.slice(0, Math.max(0, opts.limit)) : targets, skipped };
+  const only = opts.ids ? new Set(opts.ids) : null;
+  const picked = only ? targets.filter((t) => only.has(t.id)) : targets;
+  const skippedPicked = only ? skipped.filter((t) => only.has(t.id)) : skipped;
+  return { targets: opts.limit !== undefined ? picked.slice(0, Math.max(0, opts.limit)) : picked, skipped: skippedPicked };
 }

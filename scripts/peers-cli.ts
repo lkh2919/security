@@ -10,6 +10,7 @@
  *                                         from the local snapshots under runs/<tenant>/peers/snapshots; fetches nothing
  *   --with-lotte                          dry run only: also fetch the group's Lotte captures. Lotte captures are re-checked
  *                                         (Mode A) by `daily`, never by this command, so a real run leaves them alone.
+ *   --ids a,b                             only these peer or Lotte capture ids (e.g. the CCTV pages a host's daily limit skipped)
  *   --save-lotte <dir>                    with --with-lotte: write each fetched Lotte page to <dir>/<id>.html for a folder-mode
  *                                         check (`monitor.ts --watch <dir>`). Use a gitignored folder such as watch/lotte.
  *
@@ -42,6 +43,7 @@ export interface PeersCliArgs {
   readonly withLotte: boolean;
   readonly exportBaselines: boolean;
   readonly saveLotteDir?: string;
+  readonly ids?: readonly string[];
 }
 
 /** Parses `--group`, `--limit`, `--dry-run`, `--with-lotte` from an argv tail. Throws a usage message on bad input. */
@@ -59,10 +61,11 @@ export function parsePeersArgs(root: string, argv: readonly string[]): PeersCliA
   const withLotte = argv.includes("--with-lotte");
   if (withLotte && !dryRun) throw new Error("--with-lotte is only available with --dry-run: Lotte captures are re-checked by the daily chain (agent.ts daily)");
   const saveLotte = opt("save-lotte");
+  const ids = opt("ids")?.split(",").map((x) => x.trim()).filter(Boolean);
   if (saveLotte !== undefined && !withLotte) throw new Error("--save-lotte needs --dry-run --with-lotte");
   const group = opt("group");
   const exportBaselines = argv.includes("--export-baselines");
-  return { root, configFile, dryRun, withLotte, exportBaselines, ...(saveLotte ? { saveLotteDir: resolve(saveLotte) } : {}), ...(group ? { group } : {}), ...(limit !== undefined ? { limit } : {}) };
+  return { root, configFile, dryRun, withLotte, exportBaselines, ...(saveLotte ? { saveLotteDir: resolve(saveLotte) } : {}), ...(ids && ids.length > 0 ? { ids } : {}), ...(group ? { group } : {}), ...(limit !== undefined ? { limit } : {}) };
 }
 
 export async function runPeersCommand(args: PeersCliArgs, log: (line: string) => void = console.log): Promise<number> {
@@ -99,6 +102,7 @@ export async function runPeersCommand(args: PeersCliArgs, log: (line: string) =>
       tenantId: tenant.tenantId,
       ...(group ? { group } : {}),
       ...(args.limit !== undefined ? { limit: args.limit } : {}),
+      ...(args.ids ? { ids: args.ids } : {}),
       includeLotte: args.withLotte,
       dryRun: args.dryRun,
       log,

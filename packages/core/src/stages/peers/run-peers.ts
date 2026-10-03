@@ -41,6 +41,8 @@ export interface WatchPeersInput {
   readonly tenantId: string;
   readonly group?: string;
   readonly limit?: number;
+  /** Only these target ids (see TargetOptions.ids). */
+  readonly ids?: readonly string[];
   /** Default true. */
   readonly includeLotte?: boolean;
   readonly dryRun?: boolean;
@@ -79,7 +81,7 @@ export async function watchPeers(input: WatchPeersInput): Promise<WatchPeersResu
   const baselines = input.baselinesDir ? new BaselineStore(input.baselinesDir) : null;
   const startedAt = now();
   const date = startedAt.toISOString().slice(0, 10);
-  const { targets, skipped } = buildTargets(input.registry, input.captures, { ...(input.group ? { group: input.group } : {}), ...(input.limit !== undefined ? { limit: input.limit } : {}), ...(input.includeLotte === false ? { includeLotte: false } : {}) });
+  const { targets, skipped } = buildTargets(input.registry, input.captures, { ...(input.group ? { group: input.group } : {}), ...(input.limit !== undefined ? { limit: input.limit } : {}), ...(input.includeLotte === false ? { includeLotte: false } : {}), ...(input.ids ? { ids: input.ids } : {}) });
 
   const outcomes: PeerOutcome[] = skipped.map((s) => ({ id: s.id, groupId: s.groupId, name: s.name, kind: s.kind, status: "skipped", reason: s.reason }));
   const events: PolicyChangeEvent[] = [];

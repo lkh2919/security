@@ -20,7 +20,8 @@ import { evaluateRobots, looksLikeHtml, parseRobots, EMPTY_ROBOTS, type RobotsFi
 import type { FetchStateStore } from "./state";
 
 export const PEER_USER_AGENT = "LottePolicyMonitor/0.1 (+internal research; contact via repository owner)";
-export const MAX_FETCH_BYTES = 5 * 1024 * 1024;
+/** 8 MB: some policy pages inline their whole site chrome (롯데시네마 5.2 MB, 2026-10-03). */
+export const MAX_FETCH_BYTES = 8 * 1024 * 1024;
 export const FETCH_TIMEOUT_MS = 20_000;
 export const MAX_REDIRECTS = 5;
 const MAX_ROBOTS_BYTES = 512 * 1024;
