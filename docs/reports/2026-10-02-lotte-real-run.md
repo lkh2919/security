@@ -99,3 +99,10 @@ Against the 2026-10-03 labels (AI self-review):
   publishing the request method on the homepage (the policy page does that); a PIPA 38(4) breach needs collection through
   the website, which the text cannot show. R-S16-002 is fact-dependent again (Confirm) after this run, so v7's High count
   overstates by those 5 (about 25 High under the current rules).
+
+## Current result for 정보보호실 (2026-10-03, v8, rules after `804bd3e`)
+
+No failed model calls. Critical 0, High 24, Medium 5, Low 23, Confirm 88 (Mode B Confirm 4; the 11 terminology-only units
+are listed once). Worklist rebuilt from this run: `runs/lotte-real/롯데_처리방침_점검_작업목록_2026-10-03.xlsx` (140 rows,
+counts checked against the run JSON). High by rule: R-S02-002 5, R-S03-002 5, R-S16-001 5, R-S05-003 4, R-S05-005 4,
+R-S06-001 1. Not re-labelled; the v7 comparison above is the latest precision evidence.
