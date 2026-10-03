@@ -15,6 +15,9 @@
  *
  * Without an LLM client the deterministic part runs: affected sections become Confirm findings that say the judgement was skipped.
  */
+import { createHash } from "node:crypto";
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import { z } from "zod";
 import type { AmendmentDiff, AmendmentUnit } from "../../contracts/amendment-diff";
 import { UNMAPPED_SECTION, type IngestedPolicy } from "../../contracts/ingested-policy";
@@ -106,6 +109,8 @@ export interface ImpactDeps {
 }
 
 export interface ImpactInput {
+  /** Reviewed wording-only units (default: kb/jurisdictions/kr/statutes/amendment-classes.json). */
+  readonly terminologyOverrides?: readonly TerminologyOverride[];
   readonly diff: AmendmentDiff;
   readonly policies: readonly IngestedPolicy[];
   readonly ruleSections: ReadonlyMap<string, RuleSection>;
@@ -183,6 +188,45 @@ export function compactUnitKeys(keys: readonly string[]): string {
     .join("; ");
 }
 
+// --- terminology-only changes (domain self-review 2026-10-03, §10.5 #1-2) -------------------------------------------------
+
+/** The 2026 PIPA amendment replaced the six-word harm list with the defined term 유출등 throughout the Act. */
+const HARM_LIST = /분실\s*[ㆍ·]\s*도난\s*[ㆍ·]\s*유출\s*[ㆍ·]\s*위조\s*[ㆍ·]\s*변조\s*또는\s*훼손/g;
+
+/** Text with amendment-history tags, the 유출등 swap and cross-reference numbers neutralized; spaces and punctuation dropped. */
+export function normalizeForTerminology(text: string): string {
+  return text
+    .replace(/<(?:개정|신설|본조신설|전문개정|삭제)[^>]*>/g, "")
+    .replace(HARM_LIST, "유출등")
+    .replace(/유출등(?:이)?\s*되지\s*(?:아니하|않)도록/g, "유출등방지")
+    .replace(/(?:되지\s*(?:아니하|않)도록)/g, "")
+    .replace(/제\d+조(?:의\d+)?(?:제\d+항)?(?:제\d+호)?(?:부터)?/g, "")
+    .replace(/[^\p{L}\p{N}]/gu, "");
+}
+
+export interface TerminologyOverride {
+  readonly key: string;
+  readonly newTextSha256: string;
+}
+
+/** Reviewed wording-only units the normalization cannot see (`kb/jurisdictions/kr/statutes/amendment-classes.json`). */
+export function loadAmendmentClasses(repoRoot: string): TerminologyOverride[] {
+  const file = join(repoRoot, "kb", "jurisdictions", "kr", "statutes", "amendment-classes.json");
+  if (!existsSync(file)) return [];
+  const doc = JSON.parse(readFileSync(file, "utf8")) as { terminology?: TerminologyOverride[] };
+  return doc.terminology ?? [];
+}
+
+const REPO_ROOT = join(import.meta.dir, "..", "..", "..", "..", "..");
+
+/** An amended unit whose text differs only by terminology or renumbering. Added and deleted units are always substantive. */
+export function isTerminologyUnit(u: AmendmentUnit, overrides: readonly TerminologyOverride[]): boolean {
+  if (u.change !== "amended" || u.oldText === undefined || u.newText === undefined) return false;
+  const sha = createHash("sha256").update(u.newText).digest("hex");
+  if (overrides.some((o) => o.key === u.key && o.newTextSha256 === sha)) return true;
+  return normalizeForTerminology(u.oldText) === normalizeForTerminology(u.newText);
+}
+
 export async function runImpact(deps: ImpactDeps, input: ImpactInput): Promise<ImpactResult> {
   const now = input.now ?? new Date();
   const confirmed = input.confirmed === true;
@@ -194,7 +238,10 @@ export async function runImpact(deps: ImpactDeps, input: ImpactInput): Promise<I
     return law !== undefined && isManualReviewPrefix(legalRefMap, law);
   };
   const manualUnits = diff.units.filter(isManual);
-  const mapping = mapUnitsToSections(diff.units.filter((u) => !isManual(u)), input.ruleSections);
+  // Terminology-only units are listed once per run and never alert per policy (no policy wording depends on them).
+  const overrides = input.terminologyOverrides ?? loadAmendmentClasses(REPO_ROOT);
+  const terminologyUnits = diff.units.filter((u) => !isManual(u) && isTerminologyUnit(u, overrides));
+  const mapping = mapUnitsToSections(diff.units.filter((u) => !isManual(u) && !terminologyUnits.includes(u)), input.ruleSections);
   const adjustments: string[] = [];
   const warnings: string[] = [];
   const perPolicy = new Map<string, MonitorFinding[]>();
@@ -209,9 +256,14 @@ export async function runImpact(deps: ImpactDeps, input: ImpactInput): Promise<I
 
   const unmapped = numberFindings(
     "BU",
-    mapping.unmapped.map(
+    [
+      ...terminologyUnits.map(
+        (u): Draft => ({ mode: "B", tier: "provisional", layer: "deterministic", ruleId: "MON-TERMINOLOGY", sectionId: UNMAPPED_SECTION, severity: "confirm", message: `개정 조문 ${u.key}: 용어(유출등) 또는 인용 조문 번호만 바뀌었습니다. 처리방침 수정이 필요 없는 변경으로 보고 처리방침별 알림을 보내지 않습니다 (참고).`, fixHint: "", location: { sectionId: UNMAPPED_SECTION, para: null, quote: "" }, trigger: trigger(u.key) }),
+      ),
+      ...mapping.unmapped.map(
       (u): Draft => ({ mode: "B", tier: "provisional", layer: "deterministic", ruleId: "MON-UNMAPPED", sectionId: UNMAPPED_SECTION, severity: "confirm", message: `개정 조문 ${u.key}(${CHANGE_KO[u.change] ?? u.change})은(는) 현재 규칙 팩의 어느 규칙과도 연결되지 않습니다. 처리방침에 미치는 영향은 도메인 검토가 필요합니다.`, fixHint: "정보보호실·법무 검토 후 규칙 팩 반영 여부를 결정하십시오.", location: { sectionId: UNMAPPED_SECTION, para: null, quote: "" }, trigger: trigger(u.key) }),
     ),
+    ]
   );
 
   // One finding per (policy, change) for finance units: no suggested wording (empty fixHint), no model call.
@@ -248,6 +300,11 @@ export async function runImpact(deps: ImpactDeps, input: ImpactInput): Promise<I
       const { paras, sent, text } = sectionModelText(policy, impact.sectionId);
 
       if (paras.length === 0) {
+        // A conditional section (가명정보 S13, 국내대리인 S19 ...) that the policy does not have is no question for this amendment.
+        if (section.classification !== "mandatory") {
+          adjustments.push(`${policy.policyId} ${impact.sectionId}: conditional section not in the policy, no amendment question`);
+          continue;
+        }
         drafts.push({ ...base, layer: "deterministic", severity: "confirm", message: `개정 범위(${compactUnitKeys(keys)})에 연결된 ${impact.sectionId}(${section.title.ko}) 항목을 처리방침에서 찾지 못했습니다. 해당 항목이 필요한지 확인하십시오.${relatedNote}`, fixHint: "처리방침에 해당 항목이 있는지, 개정으로 새로 필요한지 검토하십시오.", location: { sectionId: impact.sectionId, para: null, quote: "" } });
         continue;
       }

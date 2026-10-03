@@ -3,7 +3,8 @@ import { AmendmentDiffSchema } from "../src/contracts/amendment-diff";
 import { MockLlmClient, type StructuredCallRequest } from "../src/llm";
 import { formatLegalRefKey } from "../src/stages/render/resolve";
 import { diffArticles, flattenArticles, impactSeverity, mapUnitsToSections, parseLawXml, refsRelated, runImpact, type ImpactJudgeOutput } from "../src/stages/monitor";
-import { compactUnitKeys } from "../src/stages/monitor/impact";
+import { compactUnitKeys, isTerminologyUnit } from "../src/stages/monitor/impact";
+import { createHash } from "node:crypto";
 import { NOW, ingestFixture, readFixture, ruleSections } from "./monitor-fixtures";
 
 const oldArticles = parseLawXml(readFixture("law-old.xml"));
@@ -109,15 +110,16 @@ describe("Mode B runner (mock LLM)", () => {
   const run = (llm: MockLlmClient | undefined, extra: { confirmed?: boolean; effectiveOn?: string | null } = {}) =>
     runImpact({ ...(llm ? { llm } : {}) }, { diff: { ...diff, effectiveOn: extra.effectiveOn ?? null }, policies, ruleSections, now: NOW, ...(extra.confirmed ? { confirmed: true } : {}) });
 
-  test("one call per (policy, affected section that the policy contains); absent sections are 'not located' without a call", async () => {
+  test("one call per (policy, affected section that the policy contains); an absent conditional section gets no question", async () => {
     const llm = llmFor(must("회원 가입 및 관리: 본인 확인, 서비스 제공"));
     const r = await run(llm);
     // affected sections: S01, S02, S04; the fixtures contain S01 and S02 but not S04
     expect(llm.callCount("M1")).toBe(4);
     expect(llm.calls.every((c) => c.modelId === "claude-opus-5-5" && c.user.includes("AMENDED PROVISIONS"))).toBe(true);
     const a = r.perPolicy.get("policy-a")!;
-    const s04 = a.find((f) => f.sectionId === "S04")!;
-    expect([s04.severity, s04.location.para]).toEqual(["confirm", null]);
+    // S04 (children) is conditional: a policy without it is not asked about the amendment (self-review 2026-10-03)
+    expect(a.some((f) => f.sectionId === "S04")).toBe(false);
+    expect(r.adjustments.join(" ")).toContain("conditional section not in the policy");
   });
 
   test("provisional findings: capped at Medium, located, trigger set, wording marked non-final, contacts masked", async () => {
@@ -173,7 +175,7 @@ describe("Mode B runner (mock LLM)", () => {
     expect(r.llmUsed).toBe(false);
     expect(r.warnings.join(" ")).toContain("without a model judgement");
     const f = r.perPolicy.get("policy-a")!.filter((x) => x.severity === "confirm");
-    expect(f.map((x) => x.sectionId).sort()).toEqual(["S01", "S02", "S04"]);
+    expect(f.map((x) => x.sectionId).sort()).toEqual(["S01", "S02"]);
   });
 
   test("an unreadable policy gets one manual-review finding instead of a silent pass", async () => {
@@ -188,6 +190,28 @@ describe("Mode B wording (domain self-review 2026-10-02)", () => {
     const keys = ["PIPA:31(1)", "PIPA:31(3)", "PIPA:31(3)1", "PIPA:31(4)", "PIPA:31(5)", "PIPA:31(6)", "PIPA:31(10)", "PIPA:28-4(1)", "PIPA:29"];
     expect(compactUnitKeys(keys)).toBe("제31조 제1항, 제3항~제6항, 제10항; 제28조의4 제1항; 제29조");
     expect(compactUnitKeys(["PIPA:26(4)", "PIPA:26(5)"])).toBe("제26조 제4항, 제5항");
+  });
+});
+
+describe("terminology-only amendment units (domain self-review 2026-10-03)", () => {
+  const unit = (key: string, oldText: string, newText: string) => ({ key, change: "amended" as const, oldText, newText });
+  test("the 유출등 swap, history tags and cross-reference renumbering are terminology; a new duty is not", () => {
+    expect(isTerminologyUnit(unit("PIPA:29", "개인정보가 분실ㆍ도난ㆍ유출ㆍ위조ㆍ변조 또는 훼손되지 아니하도록 조치를 하여야 한다. <개정 2015.7.24>", "개인정보가 유출등이 되지 아니하도록 조치를 하여야 한다. <개정 2015.7.24, 2026.3.10>"), [])).toBe(true);
+    expect(isTerminologyUnit(unit("PIPA:31-2(1)1", "1. 제31조제3항제3호에 따른 불만의 처리", "1. 제31조제4항제5호에 따른 불만의 처리"), [])).toBe(true);
+    expect(isTerminologyUnit(unit("PIPA:31(4)", "보호책임자는 다음 업무를 수행한다.", "보호책임자는 다음 업무를 수행하고 이사회에 보고한다."), [])).toBe(false);
+    expect(isTerminologyUnit({ key: "PIPA:30-3", change: "added", newText: "신설 조문" }, [])).toBe(false);
+  });
+  test("a reviewed override is pinned to the new text: a later amendment of the same unit is substantive again", () => {
+    const u = unit("PIPA:31(1)", "총괄해서 책임질", "총괄해서 담당할");
+    const sha = createHash("sha256").update(u.newText).digest("hex");
+    expect(isTerminologyUnit(u, [{ key: "PIPA:31(1)", newTextSha256: sha }])).toBe(true);
+    expect(isTerminologyUnit({ ...u, newText: "총괄해서 지휘할" }, [{ key: "PIPA:31(1)", newTextSha256: sha }])).toBe(false);
+  });
+  test("terminology units are listed once per run as MON-TERMINOLOGY, never per policy", async () => {
+    const d = { ...diff, units: [unit("PIPA:29", "분실ㆍ도난ㆍ유출ㆍ위조ㆍ변조 또는 훼손되지 아니하도록", "유출등이 되지 아니하도록")] };
+    const r = await runImpact({}, { diff: d as never, policies: [ingestFixture("policy-clean.md", "policy-a")], ruleSections, now: NOW, terminologyOverrides: [] });
+    expect(r.unmapped.map((f) => f.ruleId)).toEqual(["MON-TERMINOLOGY"]);
+    expect(r.perPolicy.get("policy-a")).toEqual([]);
   });
 });
 

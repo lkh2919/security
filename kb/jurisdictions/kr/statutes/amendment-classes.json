@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-10-03",
+  "status": "AI self-review 2026-10-03 (docs/reviews/2026-10-02-domain-self-review.md §10.5 #1-2); human review pending",
+  "note": "Amendment units whose change is wording only but that the automatic normalization (history tags, the 유출등 defined term, cross-reference numbers) cannot detect. Pinned to the SHA-256 of the new text: a later amendment of the same unit is substantive again until reviewed.",
+  "terminology": [
+    {
+      "key": "PIPA:31(1)",
+      "newTextSha256": "ef9975ef73f08fe3f7abbca1131b0059ecb691dbd2ed5cb62a2ec717166ea9d2",
+      "reason": "'처리에 관한 업무를 총괄해서 책임질' → '처리 및 보호에 관한 업무를 총괄해서 담당할': the duty to designate an officer is unchanged; the new duties are in 31(3)-(4)."
+    }
+  ]
+}

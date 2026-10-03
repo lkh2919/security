@@ -51,7 +51,7 @@ describe("dashboard data assembly", () => {
     const d = assembleDashboard({ root: ROOT, configPath: CONFIG, monitorDir: join(tmpdir(), "no-such-dir-dashboard") });
     const pipa = d.amendments.find((x: any) => x.law === "PIPA");
     const neta = d.amendments.find((x: any) => x.law === "NETA");
-    expect(pipa.sections.map((s: any) => s.sectionId)).toEqual(["S09", "S11", "S13", "S18", "S19"]);
+    expect(pipa.sections.map((s: any) => s.sectionId)).toEqual(["S18", "S19"]); // terminology-only units (S09, S11, S13) are listed once, not as affected sections
     expect(pipa.articles.find((x: any) => x.article === "31").sectionIds).toContain("S18");
     expect(neta.noImpact).toBe(true);
     expect(neta.noImpactLabel).toBe(NO_IMPACT_LABEL);

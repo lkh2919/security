@@ -193,10 +193,14 @@ const fixtureIntegrity = {
 };
 detail["fixtureIntegrity"] = fixtureIntegrity;
 
-// Impact is scored on the clean policy: every affected section is alerted whether or not the policy carries it (an absent section is a Confirm finding).
+// Impact is scored on the clean policy: every affected section the policy carries is alerted, and an affected mandatory section is
+// alerted even when absent (Confirm). An absent conditional section (S13, S19 ...) gets no question (self-review 2026-10-03).
 const impactOnClean = pipa.impact.perPolicy.get("clean") ?? [];
+const cleanSections = new Set(ingested.get("clean")?.sections.map((s) => s.sectionId) ?? []);
 const amendmentB = amendmentImpactScores(
-  labelPipa.expectedSections.map((e) => ({ sectionId: e.sectionId, must: labelPipa.mustRuleSections.includes(e.sectionId) })),
+  labelPipa.expectedSections
+    .filter((e) => ruleSections.get(e.sectionId)?.classification === "mandatory" || cleanSections.has(e.sectionId as never))
+    .map((e) => ({ sectionId: e.sectionId, must: labelPipa.mustRuleSections.includes(e.sectionId) })),
   impactOnClean.map((f) => f.sectionId),
 );
 const decoyA = decoyAlerts([...neta.impact.perPolicy].map(([policyId, findings]) => ({ policyId, findings })));
