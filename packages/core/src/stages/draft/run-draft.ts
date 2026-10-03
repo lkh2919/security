@@ -11,6 +11,8 @@
  * The drafters never see the transcript, the auditor prompt, the rubric or the vault. A fix loop passes `previous` and
  * `fixFindings`; only sections with findings are redrafted, the rest are copied.
  */
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import { z } from "zod";
 import { BlockSchema, collectCitationIds, collectSlotRefs, type Block, type DocAST, type DocMeta, type Inline, type SectionAST } from "../../contracts/ast";
 import type { ApplicabilityMap } from "../../contracts/applicability";
@@ -27,6 +29,23 @@ import { wrapUntrusted, UNTRUSTED_NOTICE } from "../intake/sanitize";
 import { loadPromptFile, type PromptFile } from "../extract/prompt";
 import type { ClauseLibrary } from "../match/load-clauses";
 import { renderClause } from "./render-clause";
+
+export interface RemedyAgency {
+  readonly id: string;
+  readonly name: string;
+  readonly phone: string;
+  readonly url: string;
+  /** Only `verified` (or `verified_secondary`) bodies are written as current facts; `pending` ones go to a person. */
+  readonly status: "verified" | "verified_secondary" | "pending";
+}
+
+export function loadRemedyAgencies(repoRoot: string): RemedyAgency[] {
+  const file = join(repoRoot, "kb", "jurisdictions", "kr", "statutes", "remedy-agencies.json");
+  if (!existsSync(file)) return [];
+  return ((JSON.parse(readFileSync(file, "utf8")) as { agencies?: RemedyAgency[] }).agencies ?? []);
+}
+
+const REPO_ROOT = join(import.meta.dir, "..", "..", "..", "..", "..");
 
 export const DRAFT_PROMPT_PATHS = { privacy: "draft-privacy/v1.md", terms: "draft-terms/v1.md" } as const;
 export const DRAFT_CONCURRENCY = 4;
@@ -59,6 +78,8 @@ export interface DraftInput {
   readonly ruleSections: ReadonlyMap<string, RuleSection>;
   readonly houseStyle: HouseStyleFile;
   readonly citations: readonly Citation[];
+  /** S20 remedy bodies (default: kb/jurisdictions/kr/statutes/remedy-agencies.json). */
+  readonly remedyAgencies?: readonly RemedyAgency[];
   /** Redraft only sections named in `fixFindings`, copying the rest from `previous`. */
   readonly previous?: DocAST;
   readonly fixFindings?: readonly Finding[];
@@ -272,6 +293,9 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
       ...(docType === "terms" ? { documentOutline: outline.filter((o) => o.id !== id) } : {}),
       ...(related.length > 0 ? { relatedSections: related } : {}),
       ...(ambiguous.length > 0 ? { ambiguousParties: ambiguous } : {}),
+      // S20: remedy bodies from the KB (verified on the bodies' sites or law.go.kr); never from model memory, which still
+      // names 대검찰청 (abolished 2026-10-02).
+      ...(docType === "privacy" && id === "S20" ? { remedyAgencies: (input.remedyAgencies ?? loadRemedyAgencies(REPO_ROOT)).map(({ name, phone, url, status }) => ({ name, phone, url, status })) } : {}),
     };
     const res = await deps.llm.callStructured({
       stageId,

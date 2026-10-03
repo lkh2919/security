@@ -188,6 +188,20 @@ describe("Mode A: LLM judge (mock)", () => {
     expect(ok.report.findings.some((f) => f.ruleId === "R-S06-005")).toBe(false);
   });
 
+  test("a public body renamed by law and still named in the policy is reported from its effective date (대검찰청 → 공소청)", async () => {
+    const clean = readFileSync(join(import.meta.dir, "fixtures", "monitor", "policy-clean.md"), "utf8");
+    const content = clean.replace("## 12. 개인정보 처리방침의 변경", "- 대검찰청 사이버수사과: (국번없이) 1301\n\n## 12. 개인정보 처리방침의 변경");
+    const policy = ingestPolicy({ name: "p.md", content, fetchedAt: NOW }, patterns);
+    const body = { id: "spo-2026", oldPatterns: ["대검찰청"], newName: "공소청", effectiveFrom: "2026-10-02", basis: "공소청법 부칙 제1조; 승계", ruleId: "R-S20-002", advice: "현행 기관명으로 바꾸십시오." };
+    const after = await checkCurrentPolicy({}, { ...base, policy, renamedBodies: [body], now: new Date("2026-10-03T00:00:00Z") });
+    const f = after.report.findings.filter((x) => x.message.includes("구제기관 안내"));
+    expect(f.map((x) => [x.ruleId, x.severity, x.sectionId])).toEqual([["R-S20-002", "medium", "S20"]]);
+    expect(policy.text).toContain(f[0]!.location.quote);
+    expect(f[0]!.message).toContain("'대검찰청'은(는) 2026-10-02부터 '공소청'");
+    const before = await checkCurrentPolicy({}, { ...base, policy, renamedBodies: [body], now: new Date("2026-10-01T00:00:00Z") });
+    expect(before.report.findings.some((x) => x.message.includes("구제기관 안내"))).toBe(false);
+  });
+
   test("verdicts map to severities; a missing must element is High (Critical is for an absent section), a located wrong value High, should-level Low", async () => {
     const llm = judge({
       S05: [

@@ -83,6 +83,17 @@ describe("draftDocument (privacy, G1)", () => {
     expect(s09.system).not.toMatch(/rubric|auditor/i);
   });
 
+  test("S20 gets the remedy bodies from the KB (verified status included); other sections do not", async () => {
+    const r = await run("privacy", "G2");
+    const s20 = r.llm.calls.find((c) => c.user.includes('"id":"S20"'));
+    expect(s20).toBeDefined();
+    expect(s20!.user).toContain('"remedyAgencies"');
+    expect(s20!.user).toContain("공소청");
+    expect(s20!.user).not.toContain("대검찰청");
+    expect(s20!.user).toContain('"status":"pending"');
+    expect(r.llm.calls.filter((c) => !c.user.includes('"id":"S20"')).every((c) => !c.user.includes('"remedyAgencies"'))).toBe(true);
+  });
+
   test("a vetted clause with full coverage renders in code with no LLM call", async () => {
     const vetted: ClauseLibrary = {
       version: "0.1.0",

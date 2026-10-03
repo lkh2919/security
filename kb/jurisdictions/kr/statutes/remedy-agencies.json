@@ -1,0 +1,65 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-10-03",
+  "status": "PM; contacts are organisational (no personal data). Bodies whose site is unreachable from the cloud stay pending until checked on the original PC.",
+  "note": "S20 remedy bodies for drafting and checks. Only `verified` entries may be written into a draft as current facts; `pending` entries are shown to a person as 'confirm before use'.",
+  "agencies": [
+    {
+      "id": "kopico",
+      "name": "개인정보분쟁조정위원회",
+      "phone": "(국번없이) 1833-6972",
+      "url": "www.kopico.go.kr",
+      "status": "pending",
+      "note": "kopico.go.kr unreachable from the cloud 2026-10-03 (connection timeout); value as printed in the PIPC guideline and in all 10 Lotte policies"
+    },
+    {
+      "id": "kisa-118",
+      "name": "개인정보침해신고센터 (한국인터넷진흥원)",
+      "phone": "(국번없이) 118",
+      "url": "privacy.kisa.or.kr",
+      "status": "verified_secondary",
+      "verifiedBy": [
+        {
+          "url": "https://ecrm.police.go.kr/",
+          "fetched": "2026-10-03",
+          "version": "경찰청 ECRM page names 한국인터넷진흥원 (www.kisa.or.kr / 118)"
+        }
+      ],
+      "note": "privacy.kisa.or.kr itself unreachable from the cloud"
+    },
+    {
+      "id": "spo",
+      "name": "공소청",
+      "phone": "(국번없이) 1301",
+      "url": "www.spo.go.kr",
+      "status": "verified",
+      "verifiedBy": [
+        {
+          "url": "https://www.spo.go.kr/",
+          "fetched": "2026-10-03",
+          "version": "site title '공소청(본청)', 대표전화 국번없이 1301"
+        },
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=290007",
+          "fetched": "2026-10-03",
+          "version": "공소청법 (법률 제21490호, 시행 2026-10-02)"
+        }
+      ],
+      "note": "replaces 대검찰청 from 2026-10-02 (검찰청법 폐지). Whether cyber-crime reports still go here is for InfoSec/legal to confirm."
+    },
+    {
+      "id": "police-ecrm",
+      "name": "경찰청 사이버범죄 신고시스템 (ECRM)",
+      "phone": "(국번없이) 182",
+      "url": "ecrm.police.go.kr",
+      "status": "verified",
+      "verifiedBy": [
+        {
+          "url": "https://ecrm.police.go.kr/",
+          "fetched": "2026-10-03",
+          "version": "민원상담 182(유료), 긴급신고 112"
+        }
+      ]
+    }
+  ]
+}

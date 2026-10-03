@@ -17,6 +17,8 @@
  * Rule packs are reviewed, so Mode A findings are tier `confirmed`. A policy that could not be read (`needs_manual_review`)
  * yields one Confirm finding instead of a clean report. Without an LLM client only steps 1 and 2 run, and the report says so.
  */
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import { z } from "zod";
 import type { FactLedger } from "../../contracts/fact-ledger";
 import type { ApplicabilityMap } from "../../contracts/applicability";
@@ -63,6 +65,8 @@ export interface CurrentCheckInput {
   readonly rulePackVersion: string;
   readonly patterns: HeadingPatterns;
   readonly now?: Date;
+  /** Abolished or renamed public bodies (default: kb/jurisdictions/kr/statutes/renamed-bodies.json). */
+  readonly renamedBodies?: readonly RenamedBody[];
 }
 
 export interface CurrentCheckResult {
@@ -76,6 +80,38 @@ type Draft = Omit<MonitorFinding, "id">;
 
 /** Rule elements that forbid something; a model may not call them "missing". */
 const NEGATIVE_ELEMENT = /(^|, )no /;
+
+export interface RenamedBody {
+  readonly id: string;
+  readonly oldPatterns: readonly string[];
+  readonly newName: string;
+  readonly effectiveFrom: string;
+  readonly basis: string;
+  readonly ruleId: string;
+  readonly advice: string;
+}
+
+const REPO_ROOT = join(import.meta.dir, "..", "..", "..", "..", "..");
+
+export function loadRenamedBodies(repoRoot: string): RenamedBody[] {
+  const file = join(repoRoot, "kb", "jurisdictions", "kr", "statutes", "renamed-bodies.json");
+  if (!existsSync(file)) return [];
+  return ((JSON.parse(readFileSync(file, "utf8")) as { bodies?: RenamedBody[] }).bodies ?? []);
+}
+
+/** First paragraph naming one of the patterns: its section, merged paragraph number and a verbatim excerpt (<= 200 chars). */
+function findBodyMention(policy: IngestedPolicy, patterns: readonly string[]): { sectionId: string; para: number | null; quote: string } | null {
+  const ids = [...new Set(policy.sections.map((s) => s.sectionId))].filter((id) => id !== UNMAPPED_SECTION);
+  for (const id of ids) {
+    for (const p of sectionModelText(policy, id).paras) {
+      const at = Math.min(...patterns.map((x) => p.text.indexOf(x)).filter((i) => i >= 0));
+      if (!Number.isFinite(at)) continue;
+      const start = Math.max(0, at - 60);
+      return { sectionId: id, para: p.n, quote: p.text.slice(start, start + 200) };
+    }
+  }
+  return null;
+}
 
 /** Approval words in a destruction procedure (R-S06-005). */
 const APPROVAL_WORDS = /승인|결재|허가를\s*받아/;
@@ -212,6 +248,17 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
         quote: "",
       }),
     );
+  }
+
+  // --- renamed or abolished public bodies still named in the policy (R-S20-002, keep contacts current) ----------------------
+  // First case: 대검찰청 → 공소청 (공소청법 시행 2026-10-02, 검찰청법 폐지); all 10 real Lotte policies still named it.
+  const today = now.toISOString().slice(0, 10);
+  for (const body of input.renamedBodies ?? loadRenamedBodies(REPO_ROOT)) {
+    if (body.effectiveFrom > today) continue;
+    const hit = findBodyMention(policy, body.oldPatterns);
+    if (!hit) continue;
+    const old = body.oldPatterns.find((x) => hit.quote.includes(x)) ?? body.oldPatterns[0]!;
+    drafts.push(draft({ layer: "deterministic", ruleId: body.ruleId, sectionId: hit.sectionId, severity: "medium", message: `구제기관 안내: '${old}'은(는) ${body.effectiveFrom}부터 '${body.newName}'(으)로 바뀌었습니다 (${body.basis.split(";")[0]}). 처리방침에 옛 기관명이 남아 있습니다 (규칙 ${body.ruleId}).`, fixHint: body.advice, para: hit.para, quote: hit.quote }));
   }
 
   // --- R-S06-005 (should): approval step in the destruction procedure, decided by keywords, not the model ----------------
