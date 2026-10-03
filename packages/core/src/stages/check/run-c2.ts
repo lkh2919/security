@@ -159,7 +159,9 @@ export function runC2(input: C2Input): CheckResults {
   for (const u of units(ast)) {
     const blank = /\S\s{2,}(이내|일|개월|년|원|회|%)/u.test(u.text) || /[○◯]{1,3}\s*(일|개월|년|원|회|%)|\(\s*\)|\[\s*\]/u.test(u.text);
     const garbled = /[가-힣][a-z]{2,}(?=[\s가-힣])/u.test(u.text);
-    const slotKey = /\b(profile|gate|privacy|terms)\.[A-Za-z][A-Za-z0-9_]*\b/.test(u.text);
+    // A host name (privacy.kisa.or.kr, https://terms.example.com) is not a slot id: no host or path character before it, and
+    // no further ".label" after it (real slot ids end the token: privacy.S20_includeRemedies).
+    const slotKey = /(?<![\w./@-])(profile|gate|privacy|terms)\.[A-Za-z][A-Za-z0-9_]*(?![A-Za-z0-9_]|\.[A-Za-z])/.test(u.text);
     if (slotKey) blanks.push(finding({ ruleId: "C2-BLANK", docType, sectionId: u.sectionId, severity: "major", message: "An internal slot id appears in reader-facing text.", fixHint: "Write the fact itself, or a manual-review note naming what is missing; never the slot id.", astPath: u.path, quote: u.text }));
     if (blank || garbled) blanks.push(finding({ ruleId: "C2-BLANK", docType, sectionId: u.sectionId, severity: blank ? "major" : "minor", message: blank ? "A value is missing in the middle of a sentence (blank placeholder)." : "Garbled text: Latin letters inside a Korean word.", fixHint: blank ? "State the value from the facts, or drop it and add a manual-review note naming the missing value." : "Rewrite the word.", astPath: u.path, quote: u.text }));
   }
@@ -250,7 +252,9 @@ export function runC2(input: C2Input): CheckResults {
       for (const u of units(ast)) {
         if (u.isNote) continue; // manual-review and disclaimer notes are reviewer text, not clauses
         if (entry.sections && !entry.sections.includes(u.sectionId)) continue;
-        for (const sentence of u.text.split(/(?<=[.다])\s+/)) {
+        // Sentences end at a period or a polite ending (…니다); a bare "다" also ends comparisons ("법에서 정한 내용보다 짧은"),
+        // and splitting there cut the clause from its suppressing negation (G1 live run 2026-10-03).
+        for (const sentence of u.text.split(/(?<=[.!?]|니다)\s+/)) {
           if (re.test(sentence) && !suppress.some((x) => x.test(sentence))) unfair.push(finding({ ruleId: entry.id, docType, sectionId: u.sectionId, severity: entry.severity, message: `Unfair-clause pattern ${entry.id} matched${entry.statuteRef?.length ? ` (${entry.statuteRef.join(", ")})` : ""}.`, fixHint: entry.explanation_ko ?? "Rewrite the clause so it does not exclude or shift liability without a substantial reason.", astPath: u.path, quote: sentence }));
         }
       }

@@ -112,6 +112,10 @@ describe("C2", () => {
     expect(failed(run(asNote, { rulePackItems: [] }, "terms"))).not.toContain("safety.unfair_clauses");
     const asPara: DocAST = { docType: "terms", meta, warnings: [], sections: [sec("T10", [{ t: "para", runs: [{ t: "text", text: "청약철회는 할 수 없습니다." }] }, disclaimer])] };
     expect(failed(run(asPara, { rulePackItems: [] }, "terms"))).toContain("safety.unfair_clauses");
+    // "…보다" is a comparison, not a sentence end: the clause keeps its suppressing "효력이 없습니다" (G1 live run 2026-10-03)
+    const protective: DocAST = { docType: "terms", meta, warnings: [], sections: [sec("T10", [{ t: "para", runs: [{ t: "text", text: "⑪ 회사는 청약철회의 기간, 환급, 손해배상에 관하여 법에서 정한 내용보다 짧은 기간을 정하거나 조건을 덧붙이지 않으며, 이와 다르게 이용자에게 불리하게 정한 약정은 효력이 없습니다." }] }, disclaimer])] };
+    const pr = run(protective, { rulePackItems: [] }, "terms");
+    expect(pr.checks.find((c) => c.checkId === "safety.unfair_clauses")!.findings.map((f) => f.ruleId)).not.toContain("U-ECA18-02");
   });
 
   test("terms: a period that contradicts the confirmed facts fails evidence.repeated_values in that article", () => {

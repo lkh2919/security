@@ -256,6 +256,8 @@ describe("live-run tuning (loop 4)", () => {
     expect(failedIds(terms([{ t: "para", runs: [{ t: "text", text: "1. 공급자의 신원(terms.businessIdentity)", strong: true }] }]))).toContain("structure.blank_values");
     expect(failedIds(terms([{ t: "para", runs: [{ t: "text", text: "금지하거나 공serve양속에 반하는 행위", strong: true }] }]))).toContain("structure.blank_values");
     expect(failedIds(terms([{ t: "para", runs: [{ t: "text", text: "상품을 받은 날부터 7일 이내에 청약철회를 할 수 있습니다. PG사와 앱 푸시는 괜찮습니다.", strong: true }] }]))).not.toContain("structure.blank_values");
+    // a host name is not a slot id (G3 live run 2026-10-03: the KISA remedy URL was flagged)
+    expect(failedIds(terms([{ t: "para", runs: [{ t: "text", text: "개인정보침해신고센터 (국번없이) 118 (https://privacy.kisa.or.kr) 및 terms.example.com 안내", strong: true }] }]))).not.toContain("structure.blank_values");
   });
 
   test("a drafted T10 needs bold withdrawal or refund text", () => {
