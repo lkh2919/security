@@ -7,6 +7,7 @@ import { TextFileSttAdapter } from "../src/adapters/stt";
 import type { DocAST, SectionAST } from "../src/contracts/ast";
 import { createFactLedgerSchema, type FactLedger, type SlotEntry } from "../src/contracts/fact-ledger";
 import type { FormSlots } from "../src/contracts/form-slots";
+import { rejoinRetentionGap } from "../src/stages/check/consistency";
 import { HouseStyleFileSchema, type HouseStyleFile } from "../src/contracts/house-style";
 import type { QuestionSet } from "../src/contracts/question-set";
 import { RunStateSchema } from "../src/contracts/run-state";
@@ -321,3 +322,14 @@ describe("rendering fixes from the live run", () => {
     expect(renderMarkdown(bare)).toContain("사실관계를 확인해야 하는 내용이 있습니다");
   });
 });
+
+describe("cross-document fact gap: rejoin bar vs retention", () => {
+  const slot = (value: unknown) => ({ status: "filled" as const, value, confidence: 1, evidence: [] });
+  test("a rejoin wait with member data kept only until withdrawal is a gap; a retention row for the bar closes it", () => {
+    const base = { "terms.membershipRules": slot("회원 탈퇴 후 재가입은 탈퇴일부터 7일이 지나면 가능합니다.") };
+    expect(rejoinRetentionGap({ slots: { ...base, "privacy.S05_retention": slot([{ target: "회원 정보", period: "회원 탈퇴 시까지" }]) } as never })).toContain("재가입");
+    expect(rejoinRetentionGap({ slots: { ...base, "privacy.S05_retention": slot([{ target: "회원 정보", period: "회원 탈퇴 시까지" }, { target: "재가입 제한 확인용 이메일", period: "탈퇴 후 30일" }]) } as never })).toBeNull();
+    expect(rejoinRetentionGap({ slots: { "terms.membershipRules": slot("만 14세 이상만 가입할 수 있습니다."), "privacy.S05_retention": slot([{ target: "회원 정보", period: "회원 탈퇴 시까지" }]) } as never })).toBeNull();
+  });
+});
+

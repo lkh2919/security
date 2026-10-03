@@ -94,6 +94,16 @@ describe("draftDocument (privacy, G1)", () => {
     expect(r.llm.calls.filter((c) => !c.user.includes('"id":"S20"')).every((c) => !c.user.includes('"remedyAgencies"'))).toBe(true);
   });
 
+  test("a rejoin bar without a retention basis is a fact conflict: T06/T07 and S05 get it, and it becomes a missing fact (G1 live run 2026-10-03)", async () => {
+    const callOf = (r: { llm: MockLlmClient }, id: string) => r.llm.calls.find((c) => c.user.includes(`"section":{"id":"${id}"`));
+    const t = await run("terms", "G1");
+    expect(callOf(t, "T07")!.user).toContain('"factConflicts"');
+    expect(t.llm.calls.filter((c) => !/"section":\{"id":"T0[67]"/.test(c.user)).every((c) => !c.user.includes('"factConflicts"'))).toBe(true);
+    expect(t.missingFacts.some((m) => m.text.includes("재가입"))).toBe(true);
+    const p = await run("privacy", "G1");
+    expect(callOf(p, "S05")!.user).toContain('"factConflicts"');
+  });
+
   test("a vetted clause with full coverage renders in code with no LLM call", async () => {
     const vetted: ClauseLibrary = {
       version: "0.1.0",

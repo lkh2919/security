@@ -120,3 +120,24 @@ export function findInconsistencies(stated: readonly StatedValue[], ledger: Read
   }
   return out;
 }
+
+/**
+ * Cross-document fact gap: the terms bar re-joining for a period after withdrawal or loss of membership, but the privacy
+ * retention keeps member data only "until withdrawal" and names nothing kept for that bar. Enforcing the bar needs some
+ * identifying data after withdrawal, so the policy must say what and for how long (G1 live run 2026-10-03, auditor X-03).
+ * Returns the conflict text, or null.
+ */
+export function rejoinRetentionGap(ledger: Pick<FactLedger, "slots">): string | null {
+  const text = (id: string): string => {
+    const e = ledger.slots[id];
+    return e && e.status === "filled" && e.value !== null ? JSON.stringify(e.value) : "";
+  };
+  const terms = Object.keys(ledger.slots).filter((k) => k.startsWith("terms.")).map(text).join(" ");
+  const bar = terms.split(/(?<=[.다])\s+|","/).find((x) => REJOIN.test(x) && /\d+\s*(일|개월|년)/.test(x));
+  if (!bar) return null;
+  const retention = text("privacy.S05_retention");
+  if (!retention) return null;
+  if (/재가입|다시\s*가입|부정\s*가입|탈퇴\s*(후|일부터)/.test(retention)) return null;
+  return "약관은 탈퇴(또는 자격 상실) 후 일정 기간 재가입을 제한하지만, 처리방침 보유기간에는 그 제한을 확인하려고 탈퇴 회원 정보를 보관한다는 내용(보관 항목·기간)이 없습니다. 보관 항목과 기간을 확인해 처리방침에 넣거나, 재가입 제한을 빼야 합니다.";
+}
+
