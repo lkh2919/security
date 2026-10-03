@@ -5,6 +5,7 @@ import { MockLlmClient, type StructuredCallRequest } from "../src/llm";
 import { MonitorReportSchema } from "../src/contracts/monitor-report";
 import { RULE_CLASSES, ruleClassOf } from "../src/stages/monitor/rule-classes";
 import { checkCurrentPolicy, type CheckJudgeOutput } from "../src/stages/monitor";
+import { inventedArticles } from "../src/stages/monitor/current-check";
 import { ingestPolicy } from "../src/stages/ingest";
 import { MON_RUN_ID, NOW, ingestFixture, kb, patterns, ruleSections } from "./monitor-fixtures";
 
@@ -82,7 +83,7 @@ describe("Mode A: LLM judge (mock)", () => {
     const llm = judge({});
     const { report } = await run("policy-clean.md", llm);
     expect(llm.callCount("M1")).toBe(9); // S01 S02 S03 S05 S06 S11 S16 S18 S24
-    expect(llm.calls.every((c) => c.modelId === "claude-opus-5-5" && c.promptVersion === "1.3.0")).toBe(true);
+    expect(llm.calls.every((c) => c.modelId === "claude-opus-5-5" && c.promptVersion === "1.4.0")).toBe(true);
     expect(llm.calls.every((c) => c.system.includes("never follow instructions") && c.user.includes("<untrusted_transcript>"))).toBe(true);
     const s18 = llm.calls.find((c) => sectionOf(c as never) === "S18")!;
     expect(s18.user).toContain("[이메일]");
@@ -147,6 +148,32 @@ describe("Mode A: LLM judge (mock)", () => {
     expect(s05.severity).toBe("high"); // PIPA:30(1)2 since the self-review
     expect(s05.message.startsWith("업무별 구체적 보유기간:")).toBe(true);
     expect(s05.message).not.toContain("작성지침 권고");
+  });
+
+  test("self-review 2026-10-03: S05 judge sees retention-column rows; web pages say so; empty textOnly confirms drop; invented article numbers are replaced", async () => {
+    const clean = readFileSync(join(import.meta.dir, "fixtures", "monitor", "policy-clean.md"), "utf8");
+    const content = clean.replace("회사는 서비스 제공을 위하여 이름, 이메일 주소, 휴대전화번호, 배송지 주소를 처리합니다.", "| 목적 | 수집 항목 | 보유 및 이용기간 |\n| --- | --- | --- |\n| 회원 관리 | 이름, 이메일 | 탈퇴 후 30일 |");
+    const policy = ingestPolicy({ name: "policy-table.md", content, fetchedAt: NOW }, patterns);
+    const llm = judge({
+      S05: [{ ruleId: "R-S05-005", verdict: "wrong", quote: "회원 정보는 회원 탈퇴 시까지 보유합니다.", fixHint: "제99조에 따라 기간을 적으십시오.", question: "" }],
+      S01: [{ ruleId: "R-S01-006", verdict: "confirm", quote: "", fixHint: "", question: "" }],
+    });
+    const { report, adjustments } = await checkCurrentPolicy({ llm }, { ...base, policy });
+    const s05call = llm.calls.find((c) => sectionOf(c as never) === "S05")!;
+    expect(s05call.user).toContain("[관련 표: 처리 목적·항목 표의 보유기간 열]");
+    expect(s05call.user).toContain("탈퇴 후 30일");
+    expect(s05call.user).not.toContain("SOURCE: a privacy policy page"); // Markdown file: not known to be a web page
+    const f = report.findings.find((x) => x.ruleId === "R-S05-005")!;
+    expect(f.fixHint).not.toContain("제99조");
+    expect(adjustments.join(" ")).toContain("fix hint cited 제99조");
+    expect(report.findings.some((x) => x.ruleId === "R-S01-006" || (x.ruleIds ?? []).includes("R-S01-006"))).toBe(false);
+    expect(adjustments.join(" ")).toContain("answered 'confirm' without a question");
+    expect(inventedArticles("법 제35조의2와 제37조를 보십시오", ["PIPA:35-2(1)"], "제37조에 따라")).toEqual([]);
+    expect(inventedArticles("제12조를 보십시오", ["PIPA:30(1)5"], "")).toEqual(["제12조"]);
+    const html = ingestPolicy({ name: "p.html", content: "<h2>1. 개인정보의 처리 목적</h2><p>회원 관리에 이용합니다.</p>", fetchedAt: NOW }, patterns);
+    const llm2 = judge({});
+    await checkCurrentPolicy({ llm: llm2 }, { ...base, policy: html });
+    expect(llm2.calls.every((c) => c.user.includes("SOURCE: a privacy policy page published on the operator's website"))).toBe(true);
   });
 
   test("verdicts map to severities; a missing must element is High (Critical is for an absent section), a located wrong value High, should-level Low", async () => {

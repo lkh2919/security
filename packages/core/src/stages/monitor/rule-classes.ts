@@ -114,6 +114,7 @@ export const RULE_CLASSES: Readonly<Record<string, RuleClass>> = {
   "R-S16-005": "factDependent", // must: transmission request (if transmitter)
   "R-S16-006": "factDependent", // should: agents, limits, identity check, response time
   "R-S16-007": "factDependent", // should: minors
+  "R-S16-009": "textOnly", // should: consent withdrawal named as a right (self-review 2026-10-03)
   "R-S16-008": "factDependent", // should: automated-decision rights pointer (only if fully automated decisions are made)
   // S17 Automated decisions (conditional)
   "R-S17-001": "textOnly", // must: fact, purpose, scope of subjects

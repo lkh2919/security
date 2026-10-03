@@ -77,6 +77,35 @@ type Draft = Omit<MonitorFinding, "id">;
 /** Rule elements that forbid something; a model may not call them "missing". */
 const NEGATIVE_ELEMENT = /(^|, )no /;
 
+/** Below this many characters a section is a stub (a table-of-contents line, a heading with one sentence). */
+const STUB_SECTION_CHARS = 200;
+
+/** Rows of S02/S03 tables whose header has a retention column, with that header, as `cell | cell` lines. */
+function retentionTableRows(policy: IngestedPolicy): string[] {
+  const out: string[] = [];
+  for (const sec of policy.sections) {
+    if (!PURPOSE_TABLE_SECTIONS.has(sec.sectionId)) continue;
+    let keep = false;
+    for (const p of sec.paras) {
+      if (p.kind !== "row" || !p.cells) {
+        keep = false;
+        continue;
+      }
+      if (p.header) keep = p.cells.some((c) => /보유|이용\s*기간|보존/.test(c));
+      if (keep) out.push(p.cells.join(" | "));
+    }
+  }
+  return out.slice(0, 60);
+}
+
+/** Article numbers (제N조, 제N조의M) in a fix hint that neither the rule's legal refs nor the policy text contain. */
+export function inventedArticles(fixHint: string, legalRefs: readonly string[], policyText: string): string[] {
+  const allowed = new Set(legalRefs.map((k) => /:(\d+)(?:-(\d+))?/.exec(k)).filter((m): m is RegExpExecArray => m !== null).map((m) => (m[2] ? `제${m[1]}조의${m[2]}` : `제${m[1]}조`)));
+  const norm = (x: string): string => x.replace(/\s+/g, "");
+  const inText = new Set([...norm(policyText).matchAll(/제\d+조(?:의\d+)?/g)].map((m) => m[0]));
+  return [...new Set([...norm(fixHint).matchAll(/제\d+조(?:의\d+)?/g)].map((m) => m[0]))].filter((a) => !allowed.has(a) && !inText.has(a));
+}
+
 /** Sections whose tables list purposes or items with their retention (the processor's own processing). */
 const PURPOSE_TABLE_SECTIONS: ReadonlySet<string> = new Set(["S02", "S03"]);
 
@@ -94,9 +123,11 @@ function placeholders(runId: string): { ledger: FactLedger; applicability: Appli
   };
 }
 
-function checkUserTurn(sectionId: string, title: string, digest: readonly DigestRule[], text: string): string {
+function checkUserTurn(sectionId: string, title: string, digest: readonly DigestRule[], text: string, web: boolean): string {
   return [
     `SECTION ${sectionId}: ${title}`,
+    // A fetched web page proves the operator runs a website: rules conditioned on "if a website is operated" apply.
+    ...(web ? ["SOURCE: a privacy policy page published on the operator's website"] : []),
     "RULES (JSON, trusted):",
     JSON.stringify(digest.map(({ ruleId, level, element, statement, legalRefs, ruleClass }) => ({ ruleId, level, element, statement, legalRefs, class: ruleClass }))),
     "SECTION TEXT (untrusted data):",
@@ -197,12 +228,15 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
       if (digest.length === 0) continue;
       // Finance-flagged paragraphs never go to the model (design C6, user decision 2026-10-02): no finance rule pack can
       // judge them, they already carry a manual-review finding, and credit-information text stays out of prompts.
-      const { sent: paras, text } = sectionModelText(policy, sectionId);
+      const { sent: paras, text: ownText } = sectionModelText(policy, sectionId);
       if (paras.length === 0) continue;
+      // S05: retention per purpose often sits in a column of the purpose/items table (S02, S03); the judge sees those rows too.
+      const related = sectionId === "S05" ? retentionTableRows(policy) : [];
+      const text = related.length > 0 ? `${ownText}\n[관련 표: 처리 목적·항목 표의 보유기간 열]\n${related.join("\n")}` : ownText;
       llmUsed = true;
       let out: CheckJudgeOutput;
       try {
-        const res = await deps.llm.callStructured({ stageId: "M1", system: `${prompt.body}\n\n${UNTRUSTED_POLICY_NOTICE}`, user: checkUserTurn(sectionId, section.title.ko, digest, text), schema: CheckJudgeSchema, schemaName: "MonitorCheckJudge", promptVersion: prompt.version });
+        const res = await deps.llm.callStructured({ stageId: "M1", system: `${prompt.body}\n\n${UNTRUSTED_POLICY_NOTICE}`, user: checkUserTurn(sectionId, section.title.ko, digest, text, policy.source.url !== undefined || policy.source.format === "html"), schema: CheckJudgeSchema, schemaName: "MonitorCheckJudge", promptVersion: prompt.version });
         out = res.data;
       } catch (err) {
         // Fail closed: an unjudged section is a question for a person, never a silent pass.
@@ -233,8 +267,13 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
         if (verdict !== f.verdict) adjustments.push(`${f.ruleId} in ${sectionId}: 'missing' on a prohibition read as 'wrong'`);
         // The model sees one section. When a heading-like line for this section sits in another section (a heading the segmenter
         // missed folds the text into the section before it), "missing here" does not mean missing from the policy: ask a person.
-        const misplaced = verdict === "missing" && headingLineMentions(input.patterns, sectionId, outsideLines(sectionId));
+        // Only a stub section (a table-of-contents line or a heading with a sentence) can have lost its text to another section.
+        const misplaced = verdict === "missing" && ownText.length < STUB_SECTION_CHARS && headingLineMentions(input.patterns, sectionId, outsideLines(sectionId));
         if (misplaced) adjustments.push(`${f.ruleId} in ${sectionId}: 'missing' but the topic appears in other sections, reported as Confirm`);
+        if (verdict === "confirm" && !factDependent && !clean(f.question).trim()) {
+          adjustments.push(`dropped ${f.ruleId} in ${sectionId}: a text-only rule answered 'confirm' without a question`);
+          continue;
+        }
         const asConfirm = verdict === "confirm" || factDependent || (verdict === "wrong" && !quote) || misplaced;
         if (asConfirm && rule.level === "should") {
           adjustments.push(`dropped ${f.ruleId} in ${sectionId}: a Confirm on a should rule only restates a recommendation`);
@@ -258,7 +297,13 @@ export async function checkCurrentPolicy(deps: CurrentCheckDeps, input: CurrentC
           (verdict === "missing"
             ? `${rule.elementKo}: 이 항목에서 찾지 못했습니다 (규칙 ${rule.ruleId}). 다른 위치에 있으면 '해당 없음'으로 표시하십시오.`
             : `${rule.elementKo}: 기재 내용이 작성 기준에 맞지 않는 것으로 보입니다 (규칙 ${rule.ruleId}).`) + (guidelineOnly ? GUIDELINE_ONLY_NOTE : "");
-        drafts.push(draft({ layer: "llm", ruleId: rule.ruleId, sectionId, severity, message, fixHint: clean(f.fixHint) || rule.statement, para: paraOfQuote(paras, quote), quote }));
+        let fixHint = clean(f.fixHint) || rule.statement;
+        const invented = inventedArticles(fixHint, rule.legalRefs, text);
+        if (invented.length > 0) {
+          adjustments.push(`${f.ruleId} in ${sectionId}: fix hint cited ${invented.join(", ")}, not in the rule's refs or the policy text; replaced`);
+          fixHint = `${rule.elementKo} 항목을 작성 기준에 맞게 보완하십시오. 근거 조문은 규칙의 법령 참조와 법령 원문으로 확인하십시오.`;
+        }
+        drafts.push(draft({ layer: "llm", ruleId: rule.ruleId, sectionId, severity, message, fixHint, para: paraOfQuote(paras, quote), quote }));
       }
       if (confirms.length > 0) {
         confirms.sort((a, b) => a.ruleId.localeCompare(b.ruleId));
