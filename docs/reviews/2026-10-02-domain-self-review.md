@@ -245,3 +245,85 @@ The user asked to apply the review at once. Applied, with tests (1008 pass, eval
 | R-S01-001 | check regex accepts "개인정보처리방침" without spaces |
 
 Deferred: R-S06-002 reclass; alias context-only rule (§4 #2); PIPCGL/NETA mode naming (§4 #4-5); STDG article text; `elementKo` for the remaining rules; R-S16-002 statement wording; "치명 → 심각" (optional). Human items in §8 stay open.
+
+## 10. Re-run verification (2026-10-03)
+
+> **AI 자체 검토 — 사람 전문가 검증 전.** Same role and rules as above. Not legal advice.
+
+Runs: `runs/lotte-real/llm-v5/2026-10-02T23-26-36-722Z` (9 policies) and `runs/lotte-real/llm-v6-rental/2026-10-02T23-49-08-991Z` (롯데렌탈).
+Labels: `golden/monitor/real-run-labels-2026-10-03.json` (51 findings: 29 High, 7 Medium incl. 1 Mode B, 15 Low; ids and reasons only).
+
+### 10.1 Numbers
+
+| Set | TP | FP | unc. | Precision | Earlier (2026-10-02) |
+|---|---|---|---|---|---|
+| High | 22 | 7 | 0 | **75.9%** | 83.9% (26/31), 39 High |
+| Medium | 6 | 0 | 1 | 100% | — |
+| High + Medium | 28 | 7 | 1 | **80.0%** | 85.3% (29/34) |
+| Low | 11 | 4 | 0 | 73.3% | not labelled |
+| TP with wrong severity (High/Medium) | 8 | | | | 12 |
+| High TP with the right severity | 15 | | | | 14 |
+
+Read this with care. Precision fell because the easy TPs left: the 10 R-S06-003 findings are now Low (R-S06-005), and 7 uncertain R-S16-001 findings are gone. The FP count rose from 5 to 7 on 10 fewer High findings. Uncertain fell from 8 to 1. The alert set is smaller and better-graded, but the FP pool did not shrink.
+
+### 10.2 FPs: gone, kept, new
+
+| | Finding | Why |
+|---|---|---|
+| Gone | 웰푸드 R-S16-001 | 2b split: 전송요구권 is now R-S16-005 (Confirm). |
+| Kept | L.POINT R-S05-001 | A./B. sub-lines still split from their numbered item. |
+| Kept | 건설 R-S02-002 | Summary label with a "see body" pointer still judged as purposes. |
+| Kept | 캐슬 R-S05-005 | Event-based end point still read as "no period". |
+| Kept | 캐슬 R-S16-001 | General channel for all rights; model wants per-right menus. |
+| New | 백화점 R-S06-001 | "Without delay" is in paragraph 1; the model attached the vague "stored for a period under internal policy" wording to this rule. That gap belongs to R-S06-002 / R-S05-003. |
+| New | 하이마트 R-S05-001 | Periods sit in the items table's retention column; the S05 judge does not see it (fix 569ac44 covers headings only, not this rule). |
+| New | 이노베이트 R-S05-003 | Statute, article and period present; only numbering style is off. The fix hint asserts article numbers that are in neither the page nor the rule pack. |
+
+Low FPs: 글로벌로지스 and 하이마트몰 R-S01-005 (a linked table of contents exists: anchors or script links), 렌탈 R-S01-003 (preamble exists after site menu), L.POINT R-S01-003 (defined term "회사" is fine).
+
+### 10.3 Severity corrections (TP)
+
+R-S16-001 at 백화점, 하이마트, 하이마트몰: consent withdrawal is reachable through membership withdrawal but not named as a right → Medium. 웰푸드 R-S06-001 → Medium. L.POINT R-S05-003 (law named, article missing) → Medium. 렌탈 R-S16-002 (same gap as R-S16-001, double-counted) → Medium. 하이마트몰 R-S05-003 (heading names a record type with no row) → Low. L.POINT Mode B S18 (content is R-S18-006, should; duplicates Mode A A-0011) → Low.
+
+### 10.4 Confirm spot-check (15 items)
+
+| # | Item | Verdict |
+|---|---|---|
+| 1 | 캐슬 B-0012 S13 "가명정보 항목을 찾지 못함" (28-4(1) "유출등") | useless: terminology-only change |
+| 2 | 캐슬 B-0016 S19 국내대리인 (31-2 cross-ref) | useless: renumbering; domestic company |
+| 3 | 백화점 B-0013 S09 (26(4), 26(8)) | useless: terminology / 준용 list |
+| 4 | L.POINT B-0021 S11 (29 "유출등") | useless: terminology |
+| 5 | 캐슬 A-0009 R-S03-002 "해당 사실이 있는지 확인하십시오" | useless: placeholder question on a textOnly rule |
+| 6 | 글로벌로지스 A-0009 R-S16-001 "이 항목에서는 확인되지 않지만…" | misleading: core rights are in the section (table rows) |
+| 7 | 웰푸드 A-0008 R-S16-001 same wording | misleading: rights sentence is in S16 |
+| 8 | 하이마트몰 A-0012 R-S16-002 "웹사이트를 운영합니까?" | useless: the page was fetched from the website |
+| 9 | 캐슬 A-0013 R-S16-005 정보전송자 여부 | sensible |
+| 10 | 백화점 A-0010 R-S03-001 계좌번호 실제 수집 여부 | sensible |
+| 11 | L.POINT A-0025 R-S24-001 (last version 2018) | sensible, useful |
+| 12 | 캐슬 A-0017 C2-M-S24 not located | sensible |
+| 13 | 글로벌로지스 A-0005 R-S05-005 제보 정보 보관기간 | sensible |
+| 14 | 렌탈 A-0017 R-S11-002 "기재되지 않은 조치를…" | sensible but leading (hints at a gap) |
+| 15 | 백화점 B-0018 S18 제31조 영향 | sensible |
+
+8 of 15 are useless or misleading. Across the whole run, 21 Mode B Confirms come from terminology or renumbering units (S13 ×9, S19 ×9, S09 ×2, S11 ×1).
+
+### 10.5 Systematic issues and fixes
+
+| # | Pattern (policies) | Fix |
+|---|---|---|
+| 1 | Mode B asks about absent S13/S19/S09/S11 for terminology-only units (all 10) | Code (`article-diff.ts` / `impact.ts`): classify a unit `terminology` when old and new texts are equal after normalizing the defined-term swap ("분실ㆍ도난ㆍ유출ㆍ위조ㆍ변조 또는 훼손" → "유출등") and cross-reference renumbering; list such units once per run, never per policy. Do not ask "section not found" for a conditional section (S13, S19) at all. |
+| 2 | Mode B primary rule picks R-S18-001 because 31(1) (wording only) maps there (5 policies; L.POINT Medium) | Code: choose the primary rule from substantive units only (after #1); 31(1) becomes terminology, so S18 maps to R-S18-005/006 (should). Drop a Mode B finding that duplicates a Mode A finding on the same rule. |
+| 3 | Retention judged without the retention column or with split sub-lines (L.POINT, 하이마트: 2 FPs, 2 runs) | Code: for S05 rules give the judge the S02/S03 table rows that carry a retention column (`PURPOSE_TABLE_SECTIONS`), and join `A.`/`B.` sub-lines to the numbered parent in the segmenter. Prompt: "a record counts as stated if any line under the same item gives its type, basis or period." |
+| 4 | "Without delay" rule used for vague "internal policy, a period" storage (백화점) | Prompt: R-S06-001 is met if the section says 지체 없이 anywhere. Rule: apply the deferred R-S06-002 reclass (judge sees S05) so that wording has the right home. |
+| 5 | Consent withdrawal only via 탈퇴 reported High (백화점, 하이마트, 하이마트몰) | Rule: R-S16-001 statement: "a stated membership-withdrawal path counts as a withdrawal procedure". New `should` R-S16-009 "name consent withdrawal as a right" (PIPA 37(1)) → Low. Keep High when there is no withdrawal path (이노베이트, 렌탈). |
+| 6 | Fix hints cite article numbers not in the page or the rule pack (이노베이트) | Prompt: "never cite an article number unless it is in the rule's legalRefs or the quoted text". Code: flag `제\d+조` in fixHint not found in either; replace with the rule statement. |
+| 7 | Misplaced-missing Confirms on rights present (글로벌로지스, 웰푸드) and placeholder questions on textOnly rules (캐슬) | Code: a textOnly rule with model verdict `confirm` is re-judged or dropped, never emitted with the generic question; skip the misplaced path when the section text itself contains the element keywords (열람, 정정, 삭제, 처리정지). Include table rows in S16 model text. |
+| 8 | R-S16-002 asked "do you run a website?" (하이마트, 하이마트몰) | Code: add "published on the operator's website (fetched URL)" to the user turn for web-fetched policies. |
+| 9 | Table of contents links invisible to the judge (글로벌로지스, 하이마트몰) | Code: ingest records `doc.toc.linked` from `href="#…"` or `javascript:` links; make R-S01-005 deterministic. |
+| 10 | Recall gap: R-S06-005 fired on 5 of 10 although no policy names an approver | Low priority (should rule). Make R-S06-005 deterministic on approval keywords (승인, 결재) in S06. |
+
+Note for InfoSec: the 롯데렌탈 page states it took effect 2020-12-03, and the version list in L.POINT's static page ends in 2018 (the list may be stale; check the live page). Text that old predates the 2026.4 guideline, which explains many of their findings.
+
+### 10.6 Still for a human
+
+Items in §8 remain open. Add: whether withdrawal-through-탈퇴 should be Medium or Low (10.5 #5); whether article numbers in statutory retention rows deserve High (렌탈, L.POINT).
