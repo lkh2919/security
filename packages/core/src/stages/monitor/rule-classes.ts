@@ -108,7 +108,7 @@ export const RULE_CLASSES: Readonly<Record<string, RuleClass>> = {
   "R-S15-003": "factDependent", // should: periodic review (operational)
   // S16 Rights of data subjects and legal representatives (mandatory)
   "R-S16-001": "textOnly", // must: core rights and how to exercise (전송요구·자동화된 결정 split out, self-review 2026-10-02)
-  "R-S16-002": "textOnly", // must: website self-service (a fetched web policy proves the website exists; self-review 2026-10-02)
+  "R-S16-002": "factDependent", // must: website self-service. A breach of PIPA 38(4) needs collection through the website, which the text cannot show (re-run 2026-10-03: High on 5 policies)
   "R-S16-003": "factDependent", // must: no harder than collection
   "R-S16-004": "textOnly", // should: request form and contact
   "R-S16-005": "factDependent", // must: transmission request (if transmitter)

@@ -327,3 +327,10 @@ Note for InfoSec: the 롯데렌탈 page states it took effect 2020-12-03, and th
 ### 10.6 Still for a human
 
 Items in §8 remain open. Add: whether withdrawal-through-탈퇴 should be Medium or Low (10.5 #5); whether article numbers in statutory retention rows deserve High (렌탈, L.POINT).
+
+## 11. Applied by PM (2026-10-03)
+
+§10.5 #1-8 applied (`51f7a07`, `5270528`); #9 (linked table of contents) and #10 (deterministic R-S06-005) deferred, and the
+R-S06-002 reclass stays deferred. After the v7 re-run, R-S16-002 went back to factDependent: with the website hint it fired
+High on 5 policies whose pages publish the request method; 38(4) needs collection through the website, a fact the text
+cannot show. Results: `docs/reports/2026-10-02-lotte-real-run.md` (v7 section).

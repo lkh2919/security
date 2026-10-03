@@ -80,3 +80,22 @@ numbering, element-missing = High). 109 + 8 model calls, list-price estimate $5.
 - Rights (R-S16-001, core rights only): High on 6. Transmission and automated decisions are now conditional questions.
 - 롯데렌탈 R-S16-001 first came out Critical ('missing' on a partial list); fixed in `c390cf9` and re-run: High with the incomplete list quoted.
 - Not yet re-labelled: the 42-finding labels apply to the v3 run; precision of this run needs a new pass.
+
+## Re-run after the verification fixes (2026-10-03, v7)
+
+Code `51f7a07`, `5270528`. 롯데이노베이트 and L.POINT were re-run once: every model call for them failed in the first pass
+(ClaudeCodeError, transient; the run failed closed with "자동으로 판단하지 못했습니다" per section).
+
+| | High | Medium | Low | Confirm (A) | Confirm (B) |
+|---|---|---|---|---|---|
+| v5/v6 (after review) | 29 | 7 | 15 | 81 | 29 |
+| v7 | 30 | 6 | 31 | 83 | 4 |
+
+Against the 2026-10-03 labels (AI self-review):
+- High/Medium false positives: 7 → 4 still at High/Medium (캐슬 R-S16-001, 건설 R-S02-002, 이노베이트 R-S05-003, L.POINT R-S05-001).
+- High/Medium true positives: 25 of 28 kept; the 3 that dropped were the ones the reviewer said should be lower.
+- Mode B Confirms 29 → 4: the 11 terminology-only units are listed once per run.
+- New: R-S16-002 (website self-service) High on 5 policies once the judge knew the page is on a website. The decree requires
+  publishing the request method on the homepage (the policy page does that); a PIPA 38(4) breach needs collection through
+  the website, which the text cannot show. R-S16-002 is fact-dependent again (Confirm) after this run, so v7's High count
+  overstates by those 5 (about 25 High under the current rules).
