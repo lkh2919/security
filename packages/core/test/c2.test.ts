@@ -189,6 +189,8 @@ describe("unfair-clause lexicon", () => {
     // live drafts 2026-10-03: the statutory exception list intro and the operator's own works
     expect(flagged("U-ARTC9-01", "③ 이용자는 다음 각 호의 어느 하나에 해당하는 경우에는 청약철회를 할 수 없습니다.")).toBe(false);
     expect(flagged("U-ARTC6-02", "회사가 만든 저작물에 대한 저작권과 그 밖의 지식재산권도 회사에 귀속됩니다.")).toBe(false);
+    // G1 live draft 2026-10-04: a protective clause that names 손해배상 next to 청약철회
+    expect(flagged("U-ECA18-02", "⑪ 이 약관의 어떤 규정도 청약철회, 환급, 손해배상에 관한 기간을 줄이거나 조건을 추가하는 방식으로 적용되지 않습니다.")).toBe(false);
   });
 
   test("real violations next to similar wording are still flagged", () => {

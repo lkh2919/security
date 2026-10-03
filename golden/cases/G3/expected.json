@@ -68,6 +68,11 @@
         "task": "서비스 이용 기록",
         "purpose": "부정 이용 방지",
         "service": "모두의광장"
+      },
+      {
+        "task": "재가입 제한 확인",
+        "purpose": "자격 상실 회원의 재가입 제한 확인",
+        "service": "모두의광장"
       }
     ],
     "privacy.S03_items": [
@@ -83,6 +88,14 @@
         "task": "커뮤니티 이용",
         "items": "게시글, 사진, 댓글",
         "required": "선택",
+        "basisType": "no_consent",
+        "legalBasis": "계약의 이행",
+        "category": "일반"
+      },
+      {
+        "task": "재가입 제한 확인",
+        "items": "이메일(자격 상실 회원)",
+        "required": "필수",
         "basisType": "no_consent",
         "legalBasis": "계약의 이행",
         "category": "일반"
@@ -249,7 +262,7 @@
   "followUps": [
     {
       "date": "2026-10-03",
-      "reason": "Live run: the interview was internally inconsistent, and the drafter correctly raised follow-up questions (rejoinRetentionGap, passwordItemGap). The case now includes the operator's answers, so the golden set represents a completed interview."
+      "reason": "Live run: the interview was internally inconsistent, and the drafter correctly raised follow-up questions (rejoinRetentionGap, passwordItemGap). The case now includes the operator's answers, so the golden set represents a completed interview. Second live run: the 90-day retention had no S02/S03 row (auditor R-S03-004); the operator now states the purpose and that it rests on the terms (계약의 이행), not consent."
     }
   ]
 }
