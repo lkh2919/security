@@ -66,6 +66,10 @@
       "statement": "Limit exceptions to the statutory list (loss/damage by the consumer except opening packaging to inspect; value loss by use or consumption; value loss by time; opened packaging of copyable goods; started services/digital content except unstarted divisible parts) and state that exceptions 2-5 do not apply unless the operator clearly marked the restriction or offered a trial.",
       "legalRefs": [
         "ECA:17(2)",
+        "ECA:17(2)1",
+        "ECA:17(2)2",
+        "ECA:17(2)3",
+        "ECA:17(2)4",
         "ECA:17(2)5",
         "ECA:17(6)",
         "STD10023:15(2)",
@@ -408,6 +412,42 @@
       "paragraph": "2",
       "verifiedBy": "lawgokr-eca-MST282793",
       "at": "제17조 제2항",
+      "lawGoKr": true
+    },
+    "ECA:17(2)1": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "2",
+      "item": "1",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제17조 제2항 제1호",
+      "lawGoKr": true
+    },
+    "ECA:17(2)2": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "2",
+      "item": "2",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제17조 제2항 제2호",
+      "lawGoKr": true
+    },
+    "ECA:17(2)3": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "2",
+      "item": "3",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제17조 제2항 제3호",
+      "lawGoKr": true
+    },
+    "ECA:17(2)4": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "2",
+      "item": "4",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제17조 제2항 제4호",
       "lawGoKr": true
     },
     "ECA:17(2)5": {

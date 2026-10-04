@@ -83,7 +83,7 @@ describe("draftDocument (privacy, G1)", () => {
     expect(s09.system).not.toMatch(/rubric|auditor/i);
   });
 
-  test("S20 gets the remedy bodies from the KB (verified status included); other sections do not", async () => {
+  test("S20 gets the remedy bodies from the KB (status included, withheld bodies without contacts); other sections do not", async () => {
     const r = await run("privacy", "G2");
     const s20 = r.llm.calls.find((c) => c.user.includes('"id":"S20"'));
     expect(s20).toBeDefined();
@@ -91,7 +91,10 @@ describe("draftDocument (privacy, G1)", () => {
     expect(s20!.user).toContain("공소청");
     expect(s20!.user).not.toContain("대검찰청");
     expect(s20!.user).toContain('"status":"pending"');
-    expect(s20!.user).toContain('"name":"공소청","phone":"(국번없이) 1301","url":"www.spo.go.kr","status":"verified","verifiedOn":"2026-10-03"');
+    expect(s20!.user).toContain('"name":"경찰청 사이버범죄 신고시스템 (ECRM)","phone":"(국번없이) 182","url":"ecrm.police.go.kr","status":"verified","verifiedOn":"2026-10-03"');
+    // 공소청 is withheld until InfoSec/legal confirm it takes crime reports (G3 live run 2026-10-04): name and reason only.
+    expect(s20!.user).toContain('"name":"공소청","status":"withheld","holdReason":"공소청은 기소를 맡는 기관이어서');
+    expect(s20!.user).not.toContain("1301");
     expect(r.llm.calls.filter((c) => !c.user.includes('"id":"S20"')).every((c) => !c.user.includes('"remedyAgencies"'))).toBe(true);
   });
 

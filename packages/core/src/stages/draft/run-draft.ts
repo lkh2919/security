@@ -36,8 +36,12 @@ export interface RemedyAgency {
   readonly name: string;
   readonly phone: string;
   readonly url: string;
-  /** Only `verified` (or `verified_secondary`) bodies are written as current facts; `pending` ones go to a person. */
-  readonly status: "verified" | "verified_secondary" | "pending";
+  /**
+   * Only `verified` (or `verified_secondary`) bodies are written as current facts; `pending` ones go to a person; `withheld`
+   * ones stay out of the draft until a person confirms their role (`holdReason`).
+   */
+  readonly status: "verified" | "verified_secondary" | "pending" | "withheld";
+  readonly holdReason?: string;
   readonly verifiedBy?: readonly { readonly url: string; readonly fetched: string; readonly version?: string }[];
 }
 
@@ -309,7 +313,7 @@ export async function draftDocument(deps: DraftDeps, input: DraftInput): Promise
       ...(conflicts.length > 0 ? { factConflicts: conflicts } : {}),
       // S20: remedy bodies from the KB (verified on the bodies' sites or law.go.kr); never from model memory, which still
       // names 대검찰청 (abolished 2026-10-02).
-      ...(docType === "privacy" && id === "S20" ? { remedyAgencies: (input.remedyAgencies ?? loadRemedyAgencies(REPO_ROOT)).map((a) => ({ name: a.name, phone: a.phone, url: a.url, status: a.status, ...(remedyVerifiedOn(a) ? { verifiedOn: remedyVerifiedOn(a) } : {}) })) } : {}),
+      ...(docType === "privacy" && id === "S20" ? { remedyAgencies: (input.remedyAgencies ?? loadRemedyAgencies(REPO_ROOT)).map((a) => (a.status === "withheld" ? { name: a.name, status: a.status, holdReason: a.holdReason ?? "" } : { name: a.name, phone: a.phone, url: a.url, status: a.status, ...(remedyVerifiedOn(a) ? { verifiedOn: remedyVerifiedOn(a) } : {}) })) } : {}),
     };
     const res = await deps.llm.callStructured({
       stageId,

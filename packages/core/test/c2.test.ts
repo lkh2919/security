@@ -176,6 +176,14 @@ describe("citationsFromRulePacks", () => {
     expect(citations.length).toBeGreaterThan(100);
     expect(citations.find((c) => c.citationId === "PIPA:30(1)1")?.law).toContain("개인정보");
   });
+  test("R-T10-002 offers each ECA 17(2) exception item, so the packaging exception can cite item 4 (G1 live run 2026-10-04)", () => {
+    const t10 = JSON.parse(readFileSync(join(KR, "rulepacks", "terms-kftc-10023", "T10.json"), "utf8")) as { rules: { ruleId: string; legalRefs: string[] }[] };
+    const refs = t10.rules.find((r) => r.ruleId === "R-T10-002")!.legalRefs;
+    for (const n of [1, 2, 3, 4, 5]) {
+      expect(refs).toContain(`ECA:17(2)${n}`);
+      expect(citations.find((c) => c.citationId === `ECA:17(2)${n}`)).toBeDefined();
+    }
+  });
 });
 
 describe("unfair-clause lexicon", () => {
