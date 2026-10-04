@@ -11,7 +11,7 @@
   "rules": [
     { "ruleId": "R-S04-001", "sectionId": "S04", "level": "must", "element": "guardian data items", "statement": "State the personal data processed to obtain the legal guardian's consent (e.g. guardian name, mobile number).", "legalRefs": ["PIPA:22-2(1)"], "check": { "kind": "deterministic", "expr": "count(section.S04.guardianItems) >= 1" }, "sourceSpan": "L889-892", "verifiedAt": "2026-09-29" },
     { "ruleId": "R-S04-002", "sectionId": "S04", "level": "should", "element": "consent fact and verification method", "statement": "Separately state that guardian consent is obtained and how it is verified, describing the procedure actually used rather than restating the law.", "legalRefs": [], "check": { "kind": "llm", "expr": "describesActualProcedure(section.S04, slot(privacy.S04_guardianVerifyMethod))" }, "sourceSpan": "L893-898", "verifiedAt": "2026-09-29" },
-    { "ruleId": "R-S04-003", "sectionId": "S04", "level": "must", "element": "child-readable wording", "statement": "Use an easy-to-understand format and clear, plain language for this section.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L900-902", "verifiedAt": "2026-09-29" },
+    { "ruleId": "R-S04-003", "sectionId": "S04", "level": "must", "element": "child-readable wording", "statement": "Use an easy-to-understand format and clear, plain language for this section.", "legalRefs": ["PIPA:22-2(3)"], "check": { "kind": "llm" }, "sourceSpan": "L900-902", "verifiedAt": "2026-10-02" },
     { "ruleId": "R-S04-004", "sectionId": "S04", "level": "should", "element": "separate children's policy", "statement": "If the main users are children under 14, provide a separate children's version of the policy (Appendix 2).", "legalRefs": [], "check": { "kind": "deterministic", "expr": "if(slot(privacy.S04_childFriendlyVersion)) flag('render_child_version')" }, "sourceSpan": "L903-905", "verifiedAt": "2026-09-29" },
     { "ruleId": "R-S04-005", "sectionId": "S04", "level": "may", "element": "guardian data collected from the child", "statement": "Guardian data collected directly from the child without guardian consent may be listed under S03.", "legalRefs": [], "check": { "kind": "llm" }, "sourceSpan": "L915-917", "verifiedAt": "2026-09-29" }
   ],
@@ -27,7 +27,8 @@
   "extractionHints": ["\"만 14세 미만\", \"법정대리인\", \"보호자 동의\"", "age gate, birth-date check", "SMS/phone verification of guardian", "kids service, school, academy"],
   "interviewNodes": ["Q-S04-01", "Q-S04-80", "Q-S04-81", "Q-S04-82", "Q-S14-83", "Q-T06-06"],
   "legalRefs": {
-    "PIPA:22-2(1)": { "law": "개인정보 보호법", "article": "22-2", "paragraph": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p29 L889", "lawGoKr": false }
+    "PIPA:22-2(1)": { "law": "개인정보 보호법", "article": "22-2", "paragraph": "1", "verifiedBy": "pipc-guideline-2026-04", "at": "p29 L889", "lawGoKr": false },
+    "PIPA:22-2(3)": { "law": "개인정보 보호법", "article": "22-2", "paragraph": "3", "verifiedBy": [{ "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=283839", "fetched": "2026-10-02", "version": "법률 제21445호, 시행 2026-09-11" }], "at": "provision text read in the law.go.kr XML (domain self-review)", "lawGoKr": true }
   },
   "warnNote": "Handling = warn: drafter emits a manual-review placeholder plus the guideline-backed elements; legal review confirms the verification method.",
   "needsVerification": [

@@ -1,0 +1,158 @@
+/**
+ * Repeated-value consistency (C2 `evidence.repeated_values`): the same fact stated in two articles must carry the same value.
+ *
+ * Sections are drafted one by one, so a period that two articles both mention (the rejoin wait in T06 and T07, the notice
+ * period of a terms change) can drift. Each sentence is matched against a small topic table; a sentence that names exactly
+ * one period for exactly one topic contributes a value. Values are compared with the ledger (when its text states the topic
+ * unambiguously) and across sections. Sentences with two different periods ("7일 전, 불리한 경우 30일 전") are skipped.
+ */
+import type { DocAST, Inline } from "../../contracts/ast";
+import type { FactLedger } from "../../contracts/fact-ledger";
+
+interface Topic {
+  readonly key: string;
+  readonly label: string;
+  readonly all: readonly RegExp[];
+  readonly none: readonly RegExp[];
+}
+
+const REJOIN = /재가입|다시\s*가입/;
+const LOSS = /상실|제명|박탈/;
+const CHANGE = /(약관|이용약관).{0,40}(개정|변경)|(개정|변경).{0,40}(약관)/;
+
+export const CONSISTENCY_TOPICS: readonly Topic[] = [
+  { key: "rejoin_after_withdrawal", label: "탈퇴 후 재가입 대기 기간", all: [REJOIN, /탈퇴/], none: [LOSS] },
+  { key: "rejoin_after_loss", label: "자격 상실 후 재가입 제한 기간", all: [REJOIN, LOSS], none: [/탈퇴/] },
+  { key: "terms_change_notice", label: "약관 개정 공지 기간", all: [CHANGE, /시행일|적용일/], none: [/불리/] },
+  { key: "terms_change_notice_adverse", label: "불리한 약관 개정 공지 기간", all: [CHANGE, /시행일|적용일/, /불리/], none: [] },
+];
+
+const DATE = /\d{4}\s*년\s*\d{1,2}\s*월\s*\d{1,2}\s*일|\d{4}[.\-/]\s*\d{1,2}[.\-/]\s*\d{1,2}/g;
+const PERIOD = /(\d+)\s*(영업일|일|개월|년)/g;
+
+/** The single period a sentence states, or null when it states none or several different ones. */
+export function singlePeriod(sentence: string): string | null {
+  const values = new Set([...sentence.replace(DATE, " ").matchAll(PERIOD)].map((m) => `${m[1]}${m[2]}`));
+  return values.size === 1 ? [...values][0]! : null;
+}
+
+/** The topic a sentence is about, or null when it matches none or more than one. */
+export function topicOf(sentence: string): Topic | null {
+  const hits = CONSISTENCY_TOPICS.filter((t) => t.all.every((r) => r.test(sentence)) && !t.none.some((r) => r.test(sentence)));
+  return hits.length === 1 ? hits[0]! : null;
+}
+
+export const sentencesOf = (text: string): string[] => text.split(/(?<=[.。])\s+|\n+/).map((s) => s.trim()).filter(Boolean);
+
+export interface StatedValue {
+  readonly topic: string;
+  readonly label: string;
+  readonly value: string;
+  readonly sectionId: string;
+  readonly path: string;
+  readonly sentence: string;
+}
+
+const runsText = (runs: readonly Inline[]): string => runs.map((r) => (r.t === "text" || r.t === "link" ? r.text : "")).join("");
+
+/** Topic values the reader-facing text states (manual-review and other notes are not reader text and are skipped). */
+export function statedValues(ast: DocAST): StatedValue[] {
+  const out: StatedValue[] = [];
+  ast.sections.forEach((sec, s) => {
+    sec.blocks.forEach((block, b) => {
+      const base = `sections[${s}].blocks[${b}]`;
+      const parts: { path: string; text: string }[] =
+        block.t === "para" ? [{ path: `${base}.runs`, text: runsText(block.runs) }]
+        : block.t === "list" ? block.items.map((it, i) => ({ path: `${base}.items[${i}]`, text: runsText(it) }))
+        : block.t === "table" ? block.rows.map((row, r) => ({ path: `${base}.rows[${r}]`, text: row.map(runsText).join(" ") }))
+        : [];
+      for (const p of parts) {
+        for (const sentence of sentencesOf(p.text)) {
+          const topic = topicOf(sentence);
+          const value = topic ? singlePeriod(sentence) : null;
+          if (topic && value) out.push({ topic: topic.key, label: topic.label, value, sectionId: sec.id, path: p.path, sentence });
+        }
+      }
+    });
+  });
+  return out;
+}
+
+/** Topic values the confirmed ledger text states unambiguously (one value per topic). */
+export function ledgerValues(ledger: Pick<FactLedger, "slots">, prefix: string): Record<string, string> {
+  const seen = new Map<string, Set<string>>();
+  for (const [id, e] of Object.entries(ledger.slots)) {
+    if (!id.startsWith(prefix) || e.status !== "filled" || typeof e.value !== "string") continue;
+    for (const sentence of sentencesOf(e.value)) {
+      const topic = topicOf(sentence);
+      const value = topic ? singlePeriod(sentence) : null;
+      if (topic && value) seen.set(topic.key, (seen.get(topic.key) ?? new Set()).add(value));
+    }
+  }
+  return Object.fromEntries([...seen].filter(([, v]) => v.size === 1).map(([k, v]) => [k, [...v][0]!]));
+}
+
+export interface Inconsistency {
+  readonly stated: StatedValue;
+  /** The value the text should carry, and where it comes from. */
+  readonly expected: string;
+  readonly source: "ledger" | readonly string[];
+}
+
+/**
+ * Stated values that disagree with the ledger, or (when the ledger is silent on the topic) with the value stated in the most
+ * sections (ties go to the first section in document order).
+ */
+export function findInconsistencies(stated: readonly StatedValue[], ledger: Readonly<Record<string, string>>): Inconsistency[] {
+  const out: Inconsistency[] = [];
+  for (const topic of [...new Set(stated.map((v) => v.topic))]) {
+    const rows = stated.filter((v) => v.topic === topic);
+    const truth = ledger[topic];
+    if (truth !== undefined) {
+      for (const v of rows) if (v.value !== truth) out.push({ stated: v, expected: truth, source: "ledger" });
+      continue;
+    }
+    const sectionsBy = new Map<string, Set<string>>();
+    for (const v of rows) sectionsBy.set(v.value, (sectionsBy.get(v.value) ?? new Set()).add(v.sectionId));
+    if (sectionsBy.size < 2) continue;
+    const [majority, where] = [...sectionsBy].sort((a, b) => b[1].size - a[1].size)[0]!;
+    for (const v of rows) if (v.value !== majority) out.push({ stated: v, expected: majority, source: [...where].sort() });
+  }
+  return out;
+}
+
+/**
+ * Cross-document fact gap: the terms bar re-joining for a period after withdrawal or loss of membership, but the privacy
+ * retention keeps member data only "until withdrawal" and names nothing kept for that bar. Enforcing the bar needs some
+ * identifying data after withdrawal, so the policy must say what and for how long (G1 live run 2026-10-03, auditor X-03).
+ * Returns the conflict text, or null.
+ */
+export function rejoinRetentionGap(ledger: Pick<FactLedger, "slots">): string | null {
+  const text = (id: string): string => {
+    const e = ledger.slots[id];
+    return e && e.status === "filled" && e.value !== null ? JSON.stringify(e.value) : "";
+  };
+  const terms = Object.keys(ledger.slots).filter((k) => k.startsWith("terms.")).map(text).join(" ");
+  const bar = terms.split(/(?<=[.다])\s+|","/).find((x) => REJOIN.test(x) && /\d+\s*(일|개월|년)/.test(x));
+  if (!bar) return null;
+  const retention = text("privacy.S05_retention");
+  if (!retention) return null;
+  if (/재가입|다시\s*가입|부정\s*가입|탈퇴\s*(후|일부터)/.test(retention)) return null;
+  return "약관은 탈퇴(또는 자격 상실) 후 일정 기간 재가입을 제한하지만, 처리방침 보유기간에는 그 제한을 확인하려고 탈퇴 회원 정보를 보관한다는 내용(보관 항목·기간)이 없습니다. 보관 항목과 기간을 확인해 처리방침에 넣거나, 재가입 제한을 빼야 합니다.";
+}
+
+/**
+ * Cross-section fact gap: a security measure names passwords (비밀번호 암호화) but no processed item does. Either an item is
+ * missing from S03 or the measure describes processing that does not happen (G3 live run 2026-10-03, auditor R-S03-001).
+ */
+export function passwordItemGap(ledger: Pick<FactLedger, "slots">): string | null {
+  const text = (id: string): string => {
+    const e = ledger.slots[id];
+    return e && e.status === "filled" && e.value !== null ? JSON.stringify(e.value) : "";
+  };
+  if (!/비밀번호|패스워드/.test(text("privacy.S11_measures"))) return null;
+  const items = Object.keys(ledger.slots).filter((k) => k.startsWith("privacy.S03_")).map(text).join(" ");
+  if (!items || /비밀번호|패스워드/.test(items)) return null;
+  return "안전성 확보조치에는 비밀번호 암호화가 있지만 처리하는 개인정보 항목에는 비밀번호가 없습니다. 회원 비밀번호를 처리한다면 항목에 넣고, 관리자 계정 비밀번호를 뜻한다면 그렇게 적어야 합니다.";
+}
+

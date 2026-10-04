@@ -6,12 +6,12 @@
     {
       "id": "privacy-2026.04",
       "version": "privacy-2026.04",
-      "sha256": "d2cddbc0e2c1915be6ee08f974af60f7d0705e19a338b50873373b8fa8fe6c79"
+      "sha256": "e7c285c19d19f2f9a1e9d4da5e85a30a0e493c40171d97f12f1eadb77cfb3d17"
     },
     {
       "id": "terms-kftc-10023",
       "version": "terms-kftc-10023",
-      "sha256": "9044d7ba2913d76ecd6d932824e58eef2d7ae7f8d1182b30eb9b9d7e627f64ae"
+      "sha256": "69abc0054109546a4607ca26c6404bef72d038ad02ebb77ed33df81f72778578"
     }
   ],
   "lawSnapshot": {
@@ -105,7 +105,7 @@
     ],
     "vettedClauses": 0,
     "count": 153,
-    "captureIndexSha256": "1255bad8f7b787439e1b232489dca372f3c51d91b6613b263caa2a0c59a138b7"
+    "captureIndexSha256": "8c7886e28d9e3648cd8b7b4018fc8ad75d9f6abf5b69834d4261601b24218d97"
   },
   "houseStyle": {
     "version": "0.0.0-candidate",

@@ -1,0 +1,23 @@
+{
+  "id": "D1",
+  "docType": "privacy",
+  "baseCase": "G1",
+  "defectClass": "missing retention basis",
+  "sectionId": "S05",
+  "mutation": {
+    "kind": "replace",
+    "instruction": "In S05 replace the retention table cell that names the basis and period for order records with a bare period and no basis.",
+    "defectiveText": "주문 정보: 보관합니다 (기간은 회사 내부 기준에 따릅니다)"
+  },
+  "expected": {
+    "ruleId": "R-S05-001",
+    "docType": "privacy",
+    "sectionId": "S05",
+    "severity": "major",
+    "layer": "llm"
+  },
+  "rationale": "S05 must state the period agreed with the data subject, needed for the contract, or set by law for each item; a period with no basis and no concrete length fails R-S05-001 and R-S05-005.",
+  "sources": [
+    "PIPA:30(1)2"
+  ]
+}

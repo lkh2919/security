@@ -21,6 +21,10 @@ Every object is `z.strictObject`: unknown keys are rejected, never stripped.
 | `audit-envelope.ts` | `AuditEnvelope` (auditor allowlist) |
 | `freshness-report.ts`, `manifest.ts` | `FreshnessReport`, `Manifest`, `VersionStamps` |
 | `run-state.ts` | `RunState`, pipeline stage list |
+| `ingested-policy.ts` | `IngestedPolicy` (published policy as masked text, paragraphs and section map; Policy Monitor) |
+| `amendment-diff.ts` | `AmendmentDiff` (항/호-level units keyed by legal-ref keys) |
+| `monitor-report.ts` | `MonitorFinding`, `MonitorReport`, `MONITOR_DISCLAIMER` |
+| `watch-registry.ts` | `WatchRegistry` (`runs/monitor/registry.json`) |
 
 ## Decisions where R4 was a sketch
 

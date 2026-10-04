@@ -1,4 +1,4 @@
-# Handoff — privacy-agent (snapshot 2026-10-01)
+# Handoff — privacy-agent (snapshot 2026-10-01, updated after the cloud session)
 
 Read this first when you continue this project in a new session (local or cloud).
 
@@ -10,7 +10,8 @@ interview transcript. It follows the PIPC guideline (April 2026), uses a Lotte-g
 policy clause library, checks law freshness through the law.go.kr Open API, and runs an
 independent audit before rendering MD/HTML/DOCX plus a Reviewer Sheet for the InfoSec office.
 
-- Approved design: `docs/designs/2026-09-29-privacy-policy-agent-team-design.md` (R15 = row plan).
+- **Confirmed design v2 (2026-10-02, wins on conflicts)**: `docs/designs/2026-10-02-confirmed-design.md` (Check/Impact first, Peer Watch, Draft; one core + thin apps; workflow harness; config packs; finance monitoring only; build order C9 to the 2026-10-23 contest submission). DEC-20261002-02.
+- Approved design: `docs/designs/2026-09-29-privacy-policy-agent-team-design.md` (R15 = row plan). Monitor: `docs/designs/2026-10-02-policy-monitor-design.md`.
 - Decisions: `docs/decisions/DEC-20260929-01.md`, `DEC-20260929-02.md`.
 - Team roster and skills: `AGENTS.md`, `agents/`, `skills/`. The session acts as PM and dispatches specialists.
 
@@ -45,32 +46,136 @@ independent audit before rendering MD/HTML/DOCX plus a Reviewer Sheet for the In
 | 4b | Terms rule packs T01–T15; unfair-clause lexicon | done |
 | 4c | Intake sheet, delegation flag, HR retention, Act 21445 | done |
 | 5 | Zod contracts, model registry, run store, stage cache | done |
-| 5b | Integrate `src/index.ts` exports; rule-pack/house-style/clause/manifest schemas; `applyAnswers`; KB integrity test; fix root scripts | **interrupted — redo** |
+| 5b | Integrate `src/index.ts` exports; rule-pack/house-style/clause/manifest schemas; `applyAnswers`; KB integrity test; fix root scripts | done (`stages/interview/apply-answers.ts`, `test/kb-integrity.test.ts`) |
 | 6a | Lotte corpus capture (47 index entries) | done |
-| 6b | Clause library normalization, house-style candidates, manifest | **interrupted — check partial output in `kb/jurisdictions/kr/clauses/{privacy,terms}` and finish** |
+| 6b | Clause library normalization, house-style candidates, manifest | done: 153 clauses validate (`bun scripts/validate-clauses.ts`), manifest and candidates present. Open: user approval of house style; vetting of clauses (none vetted); 9 clauses with unbound variables (see KB gap) |
 | 7 | Intake (STT adapter, segmenter, form parser, masker) | done, but a masking rework was interrupted |
-| 7-off | Add `masking: "off" \| "basic"` (default off); make the client `assertNoPii` gate optional (`piiGate`, default false); smoke script accepts an input path | **interrupted — `src/stages/intake/sanitize.ts` is mid-edit and breaks tsc; fix first** |
-| 8 | Golden cases G1–G3, W1–W3, seeded defects, rubric v1 | **interrupted — check `golden/` and `kb/jurisdictions/kr/rubric/`** |
+| 7-off | Add `masking: "off" \| "basic"` (default off); make the client `assertNoPii` gate optional (`piiGate`, default false); smoke script accepts an input path | done (PR #2) |
+| 8 | Golden cases G1–G3 (+G1b, G2b), W1–W4, seeded defects D1–D8, rubric v1 | done for inputs, expectations, defect specs and rubric (`golden/cases`, `golden/defects`, `kb/jurisdictions/kr/rubric/rubric-v1.json`, `test/golden-cases.test.ts`, `test/rubric.test.ts`). Reference drafts (`golden/cases/*/reference/`) wait for the Row 11 drafters; the privacy-domain-expert reviews them before they become the baseline. House style is still candidate, so the rubric's houseStyle score is not assessed. |
 | 9a | Anthropic client, R2 extract, C1 coverage, R3 gap | done |
 | 10 | Renderer MD/HTML/DOCX + Reviewer Sheet | done |
 | 12 | Law freshness watcher (`scripts/freshness-check.ts`) | done |
-| 9b | R4 clause matcher | next (after 6b) |
-| 11 | Drafters R5P/R5T (clause-first), C2 checker, R7 isolated auditor | next |
-| 13 | Golden-set regression and calibration | next |
+| O0 | Orchestrator and CLI: `stages/orchestrate` (`startRun`, `continueRun`), `scripts/run-pipeline.ts` | done, mock-tested end to end (interview rounds, resume, render, masking off/basic); live run needs the API key. Freshness stage is marked skipped (run `scripts/freshness-check.ts` on the original PC). |
+| 9b | R4 clause matcher (`stages/match`: group classification, library loader, ranking, approved-only house style) | done; committed library has 0 vetted clauses, so every section falls back to the rule pack until the privacy-domain-expert vets clauses (`vetted` + `vettedAgainst` in the clause files) |
+| 11 | Drafters R5P/R5T (clause-first), C2 checker, R7 isolated auditor, draft-C2-audit fix loop | done in code with mock-LLM tests (`stages/draft`, `stages/check`, `stages/audit`, `stages/loop`, `prompts/draft-*`, `prompts/audit`). Not yet run against the live API. C2 implements AST-native generic checks; the rule packs' `check.expr` pseudo-DSL is not evaluated (R7 covers those rules). |
+| 13 | Golden-set regression and calibration | harness done. **Live G1 tuning via Claude Code (`--llm claude-code`, no API key), 8 runs**: blocking findings 19 -> 16 -> 6 -> 3 -> 3 -> 2 -> 1; deterministic findings 0; traceability 1.0. Run 8: privacy has 0 blocker/major (7 minor) but fails on auditor scores (legal 3, accuracy 3, clarity 3; pass needs 4/4/3); terms has 1 major (rejoin wait stated differently in two articles drafted separately). **Seeded defects D1-D8 (auditor calibration, live)**: recall 0.75 with audit prompt 1.0.0 (D6 missed because the auditor deferred to C2's lexicon hit; D8 reported under R-T06 instead of X-02), then 1.00 (8/8) with audit prompt 1.1.0; about USD 3.6 per full run. **Run 9 (after stage 1, 2026-10-01)**: terms 0 blocker/major (T06 now refers to the membership article for rejoin waits; T07 states 7 and 30 days), scores legal 4 / accuracy 3 / clarity 4; privacy has 1 major, the known Decree Art.45 gap in S16 (needs the original PC), scores legal 2 / accuracy 3 / clarity 4. Not yet run live: other cases, stability (3 runs), `--source extract`. Cost about USD 5-6 list price and 40 min per G1 run. |
+| M-A1 | Policy Monitor Phase A1 (design `docs/designs/2026-10-02-policy-monitor-design.md`, DEC-20261002-01): contracts, MD/HTML ingest, heading segmenter (`kb/jurisdictions/kr/segmentation/heading-patterns.json`), C2 `published` profile, Mode A current check, law XML parser + 항/호 article diff, Mode B impact mapping, registry, Korean reports, `scripts/monitor.ts --watch <dir> [--diff old.xml,new.xml --law PIPA] [--llm claude-code]` | done with mock LLM (849 tests). Open: heading patterns and conditional-rule heuristic need privacy-domain-expert review; legal-ref map for Network Act/ARTC/ECA/safety notice; live LLM tuning, eval set and DOCX/PDF are Phase A2 |
 | 14 | Router skill, README, operator guide, PPTX outline | next |
-| 15 | Final QA, security scan | next |
+| 15 | Final QA, security scan | local part done: `docs/reports/2026-10-01-final-qa.md` (gates green, scan clean except finding 1). Freeze not declared: live regression (3 runs), freshness, clause vetting and house-style approval are open. |
 
-Known snapshot state: root tsc fails in `packages/core/src/stages/intake/sanitize.ts` (partial edit), and 4 tests fail.
-First action in a new session: repair or revert that file, then finish Row 7-off.
+Known state: root tsc and `bun test` are green. Open KB gap (pinned in `test/kb-integrity.test.ts`, `KNOWN_UNBOUND`): 11 clause variables have no interview slot
+(document metadata such as announceDate/versionNumber/tableOfContents, and collectionMethods, siteUrl, pointPolicy, customerCenter). The privacy-domain-expert decides new slots vs renderer-filled metadata.
 
-## What only works on the original PC
+## Council stage 2 live results (2026-10-01/02, one run each, `--source expected`)
 
-- law.go.kr calls (freshness watcher, statute fetches): the OC key is bound to the registered IP.
-- Raw sources under `kb/_sources/` (guideline text, Lotte captures, statute texts) are gitignored and not in the repo.
-  Rebuilding clauses from raw captures, re-capturing, or re-reading statutes must run on that PC.
-  Everything derived from them (rule packs, clause records, captures index, analyses) is committed.
+| Case | Privacy | Terms | Open blocker/major |
+|------|---------|-------|--------------------|
+| G1 | fail (2/3/3) | pass_with_warnings (4/4/4) | 1 (S02 access-log purpose; data fixed after the run) |
+| G2 | fail (2/4/3) | n/a | 2: S20 remedy-agency contacts, S16 Decree Art.45 (both KB gaps) |
+| G3 | fail (2/4/3) | pass-level scores (4/4/4) | 1: S16 Decree Art.45 (KB gap) |
+| G2b | fail (3/4/3) | n/a | 0 — **gate passed** (candidate rows for the ambiguous payroll party) |
+| G1b | fail (2/3/3) | fail (3/3/3) | 3: S16 (run started before the Decree 45 fix), T10 lexicon hit on a manual-review note (fixed: notes are skipped), T09 citation precision (needs `covers` notes) |
+| W1-W4 | warn sections correct | | gate changed: W cases are judged on warn-only bodies, not traceability |
+
+Fixed during stage 2: effective date as a ledger fact in the regression; per-article terms applicability
+(T09/T10 paid, T12 UGC); privacy task facts shared across S02/S03/S05; S07/S09 candidate rows for
+ambiguous parties; T13 refers to the policy by title without a link; golden G-case inputs enriched.
+What blocks a full G pass now is KB content, not prompts: verified Decree Art.45 ref for S16 (R-S16-006)
+and a verified `statutes/remedy-agencies.json` for S20 (original PC / privacy-domain-expert).
+
+## Peer Watch status (2026-10-02)
+
+- Registry v0.3 (30 peers, 6 groups, 5 active each) with version history; hash-only baselines for 25 peers in
+  `kb/jurisdictions/kr/monitor/peers/baselines/` (no daily schedule for the PoC, user decision: rerun by hand).
+- First historical run, PIPA 270351 -> 283839 (`scripts/peer-history.ts`): 8 peers compared, 4 with substantive changes;
+  당근 S18 changes align with PIPA Art. 31 (privacy officer, Act 21445) at medium confidence; no group reaches the P2
+  threshold (k>=3, 60%). Most peers had no update across the amendment.
+- Known issues to fix next: hyundai-dept and shinsegae-chosun compared with 0 changes (check that the before URL really
+  serves the older text); toss before/after dates are inverted in the registry; woori-card history blocked by robots;
+  report lists one row per 항/호 (collapse per article); segmentation put BC카드 '연계정보(CI)' text under S21.
+
+## law.go.kr access (updated 2026-10-01)
+
+- 2026-10-02: the user set the cloud environment's internet access to unrestricted. Official sources (law.go.kr,
+  pipc.go.kr, privacy.go.kr, kftc.go.kr, remedy-agency sites) can be fetched from cloud sessions; work listed below as
+  "original PC only" is now limited to the raw files under `kb/_sources/`.
+
+- The cloud environment reaches law.go.kr once `www.law.go.kr` is allowed in the environment's Network access; the
+  OC key then works from the cloud (no IP binding observed). Earlier 403s were the cloud network policy, not the key.
+- The OC key is not in the repository. Set `LAW_GO_KR_OC` as an environment secret (cloud) or in `.env` (local).
+- Freshness run 2026-10-01: DRIFT. Action item: 정보통신망법 amendment 제21988호 (promulgated 2026-09-29, in force
+  2026-10-02) must be reviewed by the privacy-domain-expert. The other warnings are amendments already reflected (PIPA,
+  its Decree, ECA 2026-07-21) and missing manifest stamps (ECA Decree, guideline pages, KFTC pages). Some calls drop
+  through the proxy (socket closed); rerun or retry when a source reports unreachable.
+- Raw sources under `kb/_sources/` are still only on the original PC (gitignored).
+
+## Eval gates and law-amendment fixtures (2026-10-02)
+
+`bun scripts/eval-gates.ts [--llm claude-code|api]` runs the M8/C7 gates (M8.seg.real scores `golden/monitor/real/` labels when the gitignored pages are in `watch/lotte` with the labelled SHA-256, else it skips) (deterministic by default, no model) and writes `runs/eval/eval-gates-<stamp>.json`; exit 1 when a gate fails. Metrics are pure functions in `packages/core/src/eval/monitor-metrics.ts`; labels and fixtures live in `golden/monitor/` (`laws/`, `expected/`, `policies/<id>/{policy,expected.json}`). All labels are **pending privacy-domain-expert review**.
+
+- **Law fixtures** (live law.go.kr, parsed articles that differ, raw-XML SHA-256 recorded): PIPA MST 270351 -> 283839 (Act 21445, 98 changed units; mapped sections S09, S11, S13, S18, S19 incl. Art. 31 -> S18; 67 units unmapped). Network Act: the label compares MST **285199** (Act 21500) with 290001 (Act 21988), because 283843 -> 290001 spans 246 units (Act 21500 sits between them); the 285199 -> 290001 diff is exactly NETA:44-7(4)1 and 49-3(1), no rule cites NETA, zero findings on any policy (decoy).
+- **Seeded policies**: the four monitor test fixtures, the HTML one and three variants of the clean policy (S18 contact removed, S09 list with "등", S06 deleted). The S18 seed is judge-only: a deterministic run skips it (named in the table); `--llm` counts it.
+- Not yet measurable: segmentation on real policies (needs the `kb/_sources` slice), model-run stability, judge-path recall. Run `--llm claude-code` once before relying on the numbers.
+- Peer gates use pages rendered from the golden clean policy (`peerPageHtml`): 7 cosmetic variants (whitespace, markup, nav/footer, renumbering, section reorder, date-only, replay) and 5 seeded edits.
+
+## Live-run findings that need a person (KB or design gaps, not prompt tuning)
+
+- **Interview Template has no slots** for cookie refusal steps / retention / items (S14), and no KB of statutory remedy agencies (S20: names, phone numbers, URLs). G1 supplies these values by hand; real interviews cannot extract them. The privacy-domain-expert should add slots and a verified `statutes/remedy-agencies.json`.
+- **Rule-pack legalRefs carry only article/paragraph/item, not what each item covers.** The drafter sometimes attaches an item-level citation to the wrong element (for example ECA 17(2) item 5). Prompts 1.3.0 tell it to use paragraph-level IDs when unsure; the durable fix is a verified `covers` note per legal ref.
+- **PG / payment provider** is an ambiguous party type by user decision (always manual review, both candidates shown in S07 and S09). The drafter currently writes a manual-review note only; it does not yet draft the two candidate rows. G1 avoids the case (bank transfer only); add a golden case for it.
+- **Rule-pack key notation**: `PIPA:2(2)` was fixed to `PIPA:2[2]` (2026-10-01, manifest re-stamped). A scan of every legal-ref key against its `paragraph`/`item` fields found no other mismatch.
+- **S16 agents ref (fixed 2026-10-01)**: R-S16-006 now cites PIPA 38(1), Decree 45(1)/(2) and PIPA 36(1), read on law.go.kr (Decree 제36671호, Act 제21445호, both in force 2026-09-11); manifest re-stamped.
+- **Cross-section consistency** (stage 1 of the 2026-10-01 council plan): terms calls get a `documentOutline` (which sibling article owns which fact slots) and, on fix passes, `relatedSections` (current text of articles a finding names); draft-terms prompt 1.6.0 tells the drafter to restate an owned fact completely or refer to its article. C2 `evidence.repeated_values` flags a period (rejoin waits, terms-change notice) that differs from the ledger or between articles (`stages/check/consistency.ts`).
+- Lexicon `suppress` patterns (20 entries) were added from live drafts; extend them the same way when a lawful sentence is flagged, and keep every `testPositive` flagged (test).
+
+## What the next session should do first
+
+0. Long live runs: `bun scripts/golden-batch.ts --cases G2,G3,W1` runs one case per process and, on a Claude Code usage limit, sleeps until the reset time and retries (exit 3 with the remaining cases if the wait exceeds `--max-wait-min`, default 110).
+0. Backend choice: no API key is needed. `bun scripts/<script> --llm claude-code` runs on the Claude Code login; `--llm api` or `ANTHROPIC_API_KEY` uses the API.
+1. Pull `claude/stoic-darwin-b7yuee`; `bun install` sets `core.hooksPath` to `.githooks` (PII pre-commit guard) ([PR #2](https://github.com/lkh2919/security/pull/2)); run `bun install`, `bun x tsc --noEmit`, `cd packages/core && bun test` (expect 763 pass).
+2. `bun scripts/smoke-extract.ts --llm claude-code` (passes), then `bun scripts/golden-regression.ts --cases G1 --runs 1 --no-defects`, then the full set with `--runs 3`. Tune prompts only where a gate metric fails (max 3 loops per defect class).
+3. Human gates: vet clauses (privacy-domain-expert), approve house style (user), review `golden/cases/*/reference/` once the first live drafts exist.
+4. On the original PC: `bun scripts/freshness-check.ts`. If `scripts/capture-lotte.ts` / `build-clauses.ts` are rerun, redact the officer contact lines of the capture index again (QA report finding 1).
 
 ## Open items for the user
 
 - Optional: InfoSec-annotated approved policies (for rubric calibration), a sample interview mp3, the InfoSec form.
-- House-style candidates need the user's approval once Row 6b finishes.
+- House-style candidates (19 rules) need the user's approval; until then no house-style rule is enforced.
+- Done 2026-10-01: personal names, e-mail and phones in the capture index were replaced (QA report finding 1). Do not rebuild the index from raw captures without redacting again.
+
+## Real-policy run (2026-10-02)
+
+10 of 26 published Lotte policies checked with the model (Mode A + PIPA 21445 Mode B): Critical 0, High 39, Confirm 89 after
+fixing 8 defects that only real pages exposed (segmenter depth, headings not sent to the model, finance text in Mode B prompts,
+HTML entities, ...). Two group-wide patterns: destruction procedure without who selects/approves (10/10) and rights list without
+전송요구권/자동화된 결정 (10/10). Details and follow-ups: `docs/reports/2026-10-02-lotte-real-run.md`. Re-fetch:
+`bun scripts/agent.ts peers --config config/orgs/example/org.json --dry-run --with-lotte --save-lotte watch/lotte`.
+
+## Lotte fetch status (2026-10-03)
+
+- From the cloud: 10 of 26 fetched (see the real-run report). Not fetchable from here:
+  - 롯데칠성, 롯데마트, 세븐일레븐: upstream connection timeout through the proxy, likely a block of foreign IPs.
+    Fetch on the original PC (Korean network) with the same command.
+  - 롯데호텔, 롯데 채용: bot-protection page (403). Never bypassed: manual capture into `watch/lotte/`.
+  - 롯데멤버스 (JS-only page) and 롯데월드 (modal, no URL): manual capture.
+- Done 2026-10-04: the 5 CCTV pages of fetched hosts and 롯데시네마 were fetched into `watch/lotte-heldout/` (the CCTV ids are no
+  longer targets after the decision below).
+- Held-out segmentation (2026-10-04): 5 CCTV policies labelled blind scored 0.522. User decision `DEC-20261004-01`:
+  standalone CCTV operation policies are out of scope; the 8 CCTV captures left the watch list (registry 0.4.0, 18 Lotte
+  captures remain) and the slice is not scored. A privacy-policy held-out slice still needs the 7 pages not fetchable from
+  the cloud. 롯데시네마 (5.5 MB, every past version on one page) is over the 2 MB ingest cap and goes to manual review.
+- The real-policy labels are pinned to the extracted text hash, so a page whose raw bytes change with session tokens still scores.
+
+## Real-policy dashboard (2026-10-03)
+
+User decision: the demo dashboard may show the real Lotte results with company names. Build it from the latest run:
+`bun scripts/build-dashboard.ts --config config/orgs/lotte-real/org.json --out runs/lotte-real/dashboard/index.html --monitor-dir runs/lotte-real/llm-v8/<stamp> --impact-dir runs/lotte-real/llm-v8/<stamp>`
+(copy `runs/example/peers` to `runs/lotte-real/peers` for the peer tab; freshness from `runs/_freshness`). Names come from the
+capture registry (`kb/.../_captures/sites.json`). The synthetic `config/orgs/example` dashboard still works for offline demos.
+
+## Contest package status (2026-10-02)
+
+- Deck (Slides artifact, private to the user): https://claude.ai/artifact/VQRWPLE2Y8MEGMnqjnekT8 — 13 slides, numbers from real runs, team name is a placeholder ("팀 폴리시레이더(가칭)"), presenter still `[미정]`. The InfoSec time measurement is on hold, so slide 2 shows the measured scope cut (98 changed units → 5 linked to policies) instead of `[측정 예정]`.
+- Demo dashboard: `bun scripts/build-dashboard.ts --config config/orgs/example/org.json --monitor-dir <mode A run> --impact-dir <mode B runs>` → `runs/example/dashboard/index.html` (static, offline).
+- Demo script: `docs/ko/demo-script.md`. Pilot kit: `docs/pilot/`, `docs/ko/pilot/`. HUB docs: `docs/adopt-in-30-minutes.md`, `docs/hub/agent-card.md`, `skills/privacy-monitor/`.
+- Human items before 10/23: InfoSec pilot (items, 3 reviewers, expert key), domain-expert review (rule classes, legal-ref map, labels, alert wording), house style, team name.

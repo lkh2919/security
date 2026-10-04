@@ -1,0 +1,7 @@
+{
+  "version": "1.0.0",
+  "laws": [
+    { "sourceId": "law:cia", "name": "신용정보의 이용 및 보호에 관한 법률", "target": "law", "monitorMode": "manualReview" },
+    { "sourceId": "law:artc", "name": "duplicate of the main file", "target": "law" }
+  ]
+}

@@ -17,6 +17,8 @@ export interface LawWatchTarget {
   readonly target: LawTargetKind;
   /** Key of `lawCodes` in the rule-pack index (PIPA, DEC, STDG, ...), used to map changes to sections. */
   readonly lawCode?: string;
+  /** `manualReview`: changes are reported with `manualReview: true` and never mapped to rule-pack sections (design C6). Default `mapped`. */
+  readonly monitorMode?: "mapped" | "manualReview";
 }
 export interface PageWatchTarget extends PageTarget {
   /** Changed pages map to all rule-pack sections (the guideline is the pack source). */
@@ -57,6 +59,15 @@ export interface FreshnessChange {
   readonly severity: "info" | "warn" | "error";
   /** Korean + English one-liner. */
   readonly message: string;
+  /** Set (true) on changes of a `manualReview` law target: `affectedSections` is then always []. */
+  readonly manualReview?: boolean;
+  /** Rule-pack sections this change maps to; set on manualReview changes (always []). */
+  readonly affectedSections?: readonly string[];
+  /** law.go.kr MSTs for fetching the old and new text (Mode B); absent when unknown. */
+  readonly oldMst?: string;
+  readonly newMst?: string;
+  /** Effective date (ISO) of the new version, when known. */
+  readonly newEffectiveOn?: string;
 }
 
 export interface Observed {
@@ -160,23 +171,30 @@ export async function runFreshnessDetailed(manifest: Manifest, targets: Freshnes
     }
     observed.laws[t.sourceId] = cur;
     st.observed = cur.mst;
-    const sections = sectionsForLawCode(deps.ruleIndex, t.lawCode);
+    const manual = t.monitorMode === "manualReview";
+    const sections = manual ? [] : sectionsForLawCode(deps.ruleIndex, t.lawCode);
+    const flag = (c: FreshnessChange): FreshnessChange => (manual ? { ...c, manualReview: true, affectedSections: [] } : c);
+    const oldMst = stamp && stamp.id !== cur.lawId ? stamp.id : undefined;
     const label = `${t.name} (MST ${cur.mst}, 공포 ${cur.promulgatedOn ?? "?"} 제${cur.promulgationNo}호, 시행 ${cur.effectiveOn ?? "?"}, ${cur.revisionType})`;
 
     if (!stamp) {
       st.outcome = "changed";
-      changes.push({ sourceId: t.sourceId, kind: "unstamped", severity: "warn", message: `${t.name}: 매니페스트에 기준값 없음 / no manifest stamp; ${label}` });
+      changes.push(flag({ sourceId: t.sourceId, kind: "unstamped", severity: "warn", message: `${t.name}: 매니페스트에 기준값 없음 / no manifest stamp; ${label}`, newMst: cur.mst }));
       mark(t.sourceId, sections);
     } else {
-      const sameId = stamp.id === cur.mst || stamp.id === cur.lawId;
-      const idOnlyLaw = stamp.id === cur.lawId && stamp.id !== cur.mst;
+      // Manifest stamps read "011357/MST283839" (law id + MST); older stamps carry one of the two.
+      const compound = /^(\d+)\/MST(\d+)$/.exec(stamp.id);
+      const stampMst = compound ? compound[2]! : stamp.id;
+      const stampLawId = compound ? compound[1]! : stamp.id;
+      const sameId = stampMst === cur.mst || (!compound && stamp.id === cur.lawId);
+      const idOnlyLaw = !compound && stampLawId === cur.lawId && stampMst !== cur.mst;
       if (!sameId || (idOnlyLaw && stamp.effective !== cur.effectiveOn)) {
         st.outcome = "changed";
         const wasScheduled = cur.promulgatedOn !== null && cur.promulgatedOn <= stamp.effective && cur.effectiveOn !== null && cur.effectiveOn <= today;
         if (wasScheduled) {
-          changes.push({ sourceId: t.sourceId, kind: "effective_date_reached", severity: "warn", message: `${t.name}: 시행일 도래 / effective date reached; ${label}` });
+          changes.push(flag({ sourceId: t.sourceId, kind: "effective_date_reached", severity: "warn", message: `${t.name}: 시행일 도래 / effective date reached; ${label}`, newMst: cur.mst, ...(cur.effectiveOn ? { newEffectiveOn: cur.effectiveOn } : {}), ...(oldMst ? { oldMst } : {}) }));
         } else {
-          changes.push({ sourceId: t.sourceId, kind: "amendment_promulgated", severity: "warn", message: `${t.name}: 새 개정 공포 / new amendment; ${label}` });
+          changes.push(flag({ sourceId: t.sourceId, kind: "amendment_promulgated", severity: "warn", message: `${t.name}: 새 개정 공포 / new amendment; ${label}`, newMst: cur.mst, ...(cur.effectiveOn ? { newEffectiveOn: cur.effectiveOn } : {}), ...(oldMst ? { oldMst } : {}) }));
         }
         mark(t.sourceId, sections);
       }
@@ -185,7 +203,7 @@ export async function runFreshnessDetailed(manifest: Manifest, targets: Freshnes
     if (t.target === "law" && cur.lawId) {
       try {
         const scheduled = (await deps.lawApi.listScheduledVersions(cur.lawId))
-          .filter((v) => v.effectiveOn !== null && v.mst !== stamp?.id)
+          .filter((v) => v.effectiveOn !== null && v.mst !== stamp?.id && !(stamp && stamp.id.endsWith(`/MST${v.mst}`)))
           .filter((v) => {
             const d = daysBetween(today, v.effectiveOn!);
             return d >= 0 && d <= upcomingDays;
@@ -197,12 +215,17 @@ export async function runFreshnessDetailed(manifest: Manifest, targets: Freshnes
             st.outcome = "changed";
             st.observed = next.mst;
           }
-          changes.push({
-            sourceId: t.sourceId,
-            kind: "upcoming_effective",
-            severity: "warn",
-            message: `${t.name}: ${daysBetween(today, next.effectiveOn!)}일 내 시행 예정 / takes effect within ${upcomingDays} days: MST ${next.mst}, 제${next.promulgationNo}호, 시행 ${next.effectiveOn}`,
-          });
+          changes.push(
+            flag({
+              sourceId: t.sourceId,
+              kind: "upcoming_effective",
+              severity: "warn",
+              message: `${t.name}: ${daysBetween(today, next.effectiveOn!)}일 내 시행 예정 / takes effect within ${upcomingDays} days: MST ${next.mst}, 제${next.promulgationNo}호, 시행 ${next.effectiveOn}`,
+              newMst: next.mst,
+              newEffectiveOn: next.effectiveOn!,
+              oldMst: oldMst ?? cur.mst,
+            }),
+          );
           mark(t.sourceId, sections);
         }
       } catch (err) {

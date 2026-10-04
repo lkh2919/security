@@ -1,0 +1,5 @@
+{
+  "PIPA": { "sourceId": "law:pipa", "lawNameKo": "개인정보 보호법", "lawId": "011357", "currentMst": "100", "kind": "act", "aliases": ["PIPA", "개인정보보호법"], "monitorMode": "mapped", "verifiedAt": "2026-10-02", "verifiedBy": "fixture" },
+  "DEC": { "sourceId": "law:pipa-decree", "lawNameKo": "개인정보 보호법 시행령", "kind": "decree", "aliases": [], "monitorMode": "mapped" },
+  "CIA": { "sourceId": "law:cia", "lawNameKo": "신용정보의 이용 및 보호에 관한 법률", "lawId": "001540", "kind": "act", "aliases": ["신용정보법"], "monitorMode": "manualReview" }
+}

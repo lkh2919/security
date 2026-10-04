@@ -1,0 +1,32 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-10-03",
+  "status": "PM, verified on law.go.kr and the body's own site 2026-10-03; human review pending",
+  "note": "Public bodies that a privacy policy names (usually in S20 remedies) and that were abolished or renamed by law. The monitor reports a policy that still names the old body after the effective date (R-S20-002, keep contacts current). Patterns are matched on the extracted policy text.",
+  "bodies": [
+    {
+      "id": "spo-2026",
+      "oldPatterns": [
+        "대검찰청",
+        "sppo.go.kr"
+      ],
+      "newName": "공소청",
+      "effectiveFrom": "2026-10-02",
+      "basis": "공소청법 부칙 제1조(시행일 2026-10-02), 제2조(검찰청법 폐지); 다른 법률이 대검찰청을 인용한 경우 승계 사무에 대해서는 공소청을 인용한 것으로 봄",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=290007",
+          "fetched": "2026-10-03",
+          "version": "공소청법 (법률 제21490호, 시행 2026-10-02)"
+        },
+        {
+          "url": "https://www.spo.go.kr/",
+          "fetched": "2026-10-03",
+          "version": "site title '공소청(본청)', 대표전화 국번없이 1301"
+        }
+      ],
+      "ruleId": "R-S20-002",
+      "advice": "구제기관 안내의 기관명·부서·연락처를 현행으로 바꾸십시오. 수사 기능의 이관 여부에 따라 안내할 기관이 달라질 수 있으므로 정보보호실·법무가 확인하십시오. (공소청 대표전화 국번없이 1301, www.spo.go.kr — 2026-10-03 공식 사이트 확인)"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "laws": [
+    { "sourceId": "law:pipa", "name": "개인정보 보호법", "target": "law", "lawCode": "PIPA" },
+    { "sourceId": "law:artc", "name": "약관의 규제에 관한 법률", "target": "law" }
+  ],
+  "pages": []
+}

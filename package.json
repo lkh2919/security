@@ -11,7 +11,8 @@
     "build": "bun run -r build",
     "test": "bun run --filter '*' test",
     "lint": "bun run -r lint",
-    "typecheck": "bun x tsc --noEmit"
+    "typecheck": "bun x tsc --noEmit",
+    "prepare": "git config core.hooksPath .githooks || true"
   },
   "devDependencies": {
     "typescript": "^5.4.0",

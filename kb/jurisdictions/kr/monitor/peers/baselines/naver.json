@@ -1,0 +1,88 @@
+{
+  "peerId": "naver",
+  "url": "https://policy.naver.com/policy/privacy.html",
+  "fetchedAt": "2026-10-02T06:49:43.191Z",
+  "contentSha256": "f36767361e73fca7957c8262ab5f8ce7f5a72ef3493dd9f56386d783baeae422",
+  "neutralContentSha256": "b7103662687311c83caea95b9093c7a5772edb8a3a9b235a2d8d7cfeb48f767f",
+  "sections": [
+    {
+      "sectionId": "PREAMBLE",
+      "sha256": "d8ffe9a4195b0ef6f22e2648424b1c9a4528e519ffcefa2425da59900234442b",
+      "neutralSha256": "d8ffe9a4195b0ef6f22e2648424b1c9a4528e519ffcefa2425da59900234442b",
+      "charCount": 13
+    },
+    {
+      "sectionId": "S01",
+      "sha256": "229ba0dcdc95707f05c1596743c37d80eccf5c9beb90f5dffe4b839a74284b47",
+      "neutralSha256": "229ba0dcdc95707f05c1596743c37d80eccf5c9beb90f5dffe4b839a74284b47",
+      "charCount": 7018
+    },
+    {
+      "sectionId": "S02",
+      "sha256": "17c82eeaf8f3de2ad0b9ae8fcf60608bb668ec260348417e572b7d0c1578063b",
+      "neutralSha256": "17c82eeaf8f3de2ad0b9ae8fcf60608bb668ec260348417e572b7d0c1578063b",
+      "charCount": 1311
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "383486bb4072ad5cbd5e9136eb0deb431718b8101c997d511000f751a70ecb9d",
+      "neutralSha256": "383486bb4072ad5cbd5e9136eb0deb431718b8101c997d511000f751a70ecb9d",
+      "charCount": 250
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "4cbda137fd81561c87db10a01d46a7c501e290786ba30121bdef25c7ebcb66f3",
+      "neutralSha256": "4cbda137fd81561c87db10a01d46a7c501e290786ba30121bdef25c7ebcb66f3",
+      "charCount": 237
+    },
+    {
+      "sectionId": "S08",
+      "sha256": "faa81c7ffaac22130e828217195803275179634b8b036c418764772e489758dc",
+      "neutralSha256": "faa81c7ffaac22130e828217195803275179634b8b036c418764772e489758dc",
+      "charCount": 445
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "bb5e9ba803fb0e1f54c7b76f38124e9b02746d225b6c0d1f14c62faf82f6258b",
+      "neutralSha256": "bb5e9ba803fb0e1f54c7b76f38124e9b02746d225b6c0d1f14c62faf82f6258b",
+      "charCount": 246
+    },
+    {
+      "sectionId": "S13",
+      "sha256": "55e9620f9ff03f3667a709d38a8a68b6972a0f040dded4e461ba3b386b63bac0",
+      "neutralSha256": "55e9620f9ff03f3667a709d38a8a68b6972a0f040dded4e461ba3b386b63bac0",
+      "charCount": 225
+    },
+    {
+      "sectionId": "S15",
+      "sha256": "bdf6b8c1874ebef7363a765fcd78673dbadcf2f38b615d385ce0f1198952e090",
+      "neutralSha256": "bdf6b8c1874ebef7363a765fcd78673dbadcf2f38b615d385ce0f1198952e090",
+      "charCount": 1552
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "ee8d36766557f65908f253cae1a501f33b10e64e261db3e258c3f037e9a01583",
+      "neutralSha256": "ee8d36766557f65908f253cae1a501f33b10e64e261db3e258c3f037e9a01583",
+      "charCount": 771
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "175523d23488e31f9c5a71ffca5c1b715222b87149c748865393c0515eeecffc",
+      "neutralSha256": "175523d23488e31f9c5a71ffca5c1b715222b87149c748865393c0515eeecffc",
+      "charCount": 460
+    },
+    {
+      "sectionId": "X1",
+      "sha256": "bb21ddc4920be8d8917bf228942b4ed11bbb0d5fce23dda05d1e5c8e6fadeb80",
+      "neutralSha256": "bb21ddc4920be8d8917bf228942b4ed11bbb0d5fce23dda05d1e5c8e6fadeb80",
+      "charCount": 2056
+    },
+    {
+      "sectionId": "UNMAPPED",
+      "sha256": "6768b7a877e0c06d704025e9cf7b69131e3bdaebb636e0efe1f3ce769c5ff722",
+      "neutralSha256": "d3907b0c44b5c6fc885e3b27a2347855b2b89d4e786a4825a8b3678dd0d4b555",
+      "charCount": 1956
+    }
+  ],
+  "effectiveDateText": "2026년 09월 03일"
+}

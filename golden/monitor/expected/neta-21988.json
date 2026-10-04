@@ -1,0 +1,15 @@
+{
+  "fixture": "golden/monitor/laws/neta-21500-to-21988.json",
+  "law": "NETA",
+  "labelStatus": "UNVERIFIED OPINION of privacy-domain-expert (not legal advice), recorded in kb/jurisdictions/kr/statutes/legalref-map.json NETA.pendingReview.impactOpinion; awaiting confirmation per monitor design M4",
+  "expectedClass": "no_policy_impact",
+  "expectedChangedKeys": [
+    "NETA:44-7(4)1",
+    "NETA:49-3(1)"
+  ],
+  "expectedFindings": [],
+  "expectedMustChangeFindings": 0,
+  "expectedSectionAlerts": 0,
+  "expectedAlertsPerPolicy": 0,
+  "note": "Decoy: the two changed provisions only rename requesting authorities (공소청, 중대범죄수사청). No rule-pack legalRef cites NETA, so the monitor lists both once as UNMAPPED (Confirm, provisional); that is not an alert on any policy."
+}

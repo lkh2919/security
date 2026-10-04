@@ -1,0 +1,24 @@
+{
+  "id": "D7",
+  "docType": "terms",
+  "baseCase": "G1",
+  "defectClass": "wrong citation",
+  "sectionId": "T10",
+  "mutation": {
+    "kind": "replace",
+    "instruction": "In T10 change the statute cited for the 7-day withdrawal right to an unrelated article.",
+    "defectiveText": "청약철회는 「전자상거래 등에서의 소비자보호에 관한 법률」 제21조에 따라 7일 이내에 할 수 있습니다."
+  },
+  "expected": {
+    "ruleId": "R-T10-001",
+    "docType": "terms",
+    "sectionId": "T10",
+    "severity": "major",
+    "layer": "llm"
+  },
+  "rationale": "The 7-day withdrawal right is Article 17(1) of the E-Commerce Act; Article 21 lists prohibited acts. The citation must resolve to the right article.",
+  "sources": [
+    "ECA:17(1)",
+    "STD10023:15(1)"
+  ]
+}

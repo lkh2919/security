@@ -1,0 +1,99 @@
+{
+  "peerId": "shinsegae-chosun",
+  "url": "https://josunhotel.com/policy/privacy.do",
+  "fetchedAt": "2026-10-02T06:48:00.120Z",
+  "contentSha256": "02c4924b2b41dbc0f242a0e7186f4b3970d3d16a1b50d4e8fbc6c4e2ff103a23",
+  "neutralContentSha256": "da1364ba97c36e9e5cd6f43b8698dd2c8a6c78d674d7964dd85092d2b5f30a18",
+  "sections": [
+    {
+      "sectionId": "PREAMBLE",
+      "sha256": "5f3d2d5aec5a99041b878c8b8519bdb3deab895ebbe2e339d33baaa1b7395749",
+      "neutralSha256": "5f3d2d5aec5a99041b878c8b8519bdb3deab895ebbe2e339d33baaa1b7395749",
+      "charCount": 637
+    },
+    {
+      "sectionId": "S01",
+      "sha256": "800fe0cdebf6e74df1bcb3501d1b1bc0fcd06339f999fb92b49472a1d53a7a5c",
+      "neutralSha256": "363e61c954f884faac61d3c211579a8c79490583825981c127ce948c2f04b4e7",
+      "charCount": 561
+    },
+    {
+      "sectionId": "S03",
+      "sha256": "e0befffdcfd1a642fbada614d90e6739c3b9c54c3ad48e83103f2bac5f124c9a",
+      "neutralSha256": "e0befffdcfd1a642fbada614d90e6739c3b9c54c3ad48e83103f2bac5f124c9a",
+      "charCount": 14038
+    },
+    {
+      "sectionId": "S04",
+      "sha256": "9ed4106f0bc94c2fb8467abda07a604fd5c1d8dabdb779339d3b0ad79a6f0b8d",
+      "neutralSha256": "8d09228999456445cb4608f8728b9a4c064a094b9a16dad032ce6f5983bad742",
+      "charCount": 10783
+    },
+    {
+      "sectionId": "S05",
+      "sha256": "f5ba3ca04e1d1ee9cd773f1861d6a1ae234e276ebb7922037f39dbd4263c92ba",
+      "neutralSha256": "f5ba3ca04e1d1ee9cd773f1861d6a1ae234e276ebb7922037f39dbd4263c92ba",
+      "charCount": 1480
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "51f2ca085b0711f5a3b3072625c96a67e408f234566df7eff3343ca1872a463c",
+      "neutralSha256": "51f2ca085b0711f5a3b3072625c96a67e408f234566df7eff3343ca1872a463c",
+      "charCount": 4396
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "7f6e8f36fe4bd00dab762b85633d0b99baea3c76a7ffd3c5d07fed269edc2869",
+      "neutralSha256": "7f6e8f36fe4bd00dab762b85633d0b99baea3c76a7ffd3c5d07fed269edc2869",
+      "charCount": 9009
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "cbbc0d1b7b4c1869cb276f6a6eb9fdbe2e860afceac4eac67324bee3ceca9d8f",
+      "neutralSha256": "cbbc0d1b7b4c1869cb276f6a6eb9fdbe2e860afceac4eac67324bee3ceca9d8f",
+      "charCount": 8319
+    },
+    {
+      "sectionId": "S11",
+      "sha256": "10d2c8e5daeec7167b9fdd07b3f6e95fe09b32b14e20c56d18604229655b6bf6",
+      "neutralSha256": "10d2c8e5daeec7167b9fdd07b3f6e95fe09b32b14e20c56d18604229655b6bf6",
+      "charCount": 4450
+    },
+    {
+      "sectionId": "S12",
+      "sha256": "8a165a45faf92e68719b53ea774973c32ab39cce4830c1135c343cae8a35173c",
+      "neutralSha256": "8a165a45faf92e68719b53ea774973c32ab39cce4830c1135c343cae8a35173c",
+      "charCount": 2488
+    },
+    {
+      "sectionId": "S14",
+      "sha256": "243342363d38ee48da8473c28e55a5b75413b97b53240c0634783f9d179cea56",
+      "neutralSha256": "243342363d38ee48da8473c28e55a5b75413b97b53240c0634783f9d179cea56",
+      "charCount": 11464
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "e123f9050ab84508ce3d78890b408318ed3c4a9fce7b20f0c07c35d6192c9e95",
+      "neutralSha256": "e123f9050ab84508ce3d78890b408318ed3c4a9fce7b20f0c07c35d6192c9e95",
+      "charCount": 7262
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "d6764093256ccaeffd1f68b5292e32faa899c0a9b18fea2cf56f8f4393a40d5e",
+      "neutralSha256": "d6764093256ccaeffd1f68b5292e32faa899c0a9b18fea2cf56f8f4393a40d5e",
+      "charCount": 2529
+    },
+    {
+      "sectionId": "S24",
+      "sha256": "24203ebf296d1768db839a23c5714d31cbabd27701bf881439688bcc98fd4e9f",
+      "neutralSha256": "7ee0650e78c2798aed9ab061818bff0c8c2e01eed42eacbc4d40e1f092e33553",
+      "charCount": 35821
+    },
+    {
+      "sectionId": "UNMAPPED",
+      "sha256": "eca29231d9b0b10d56c3b8c823f66e930f2e48a91f33fc7b115964bbd9143344",
+      "neutralSha256": "eca29231d9b0b10d56c3b8c823f66e930f2e48a91f33fc7b115964bbd9143344",
+      "charCount": 102
+    }
+  ]
+}

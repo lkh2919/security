@@ -2,7 +2,7 @@
   "packVersion": "terms-kftc-10023",
   "version": "1.0.0",
   "generated": "2026-09-29",
-  "usage": "C2 deterministic pass: compile each pattern with new RegExp(pattern, 'u'), match per sentence (split on '.', '다.' boundaries), then apply falsePositiveNotes suppressions; severity 'info' and check 'llm' entries only route text to the R7 LLM layer. testPositive is a synthetic self-test string that must match.",
+  "usage": "C2 deterministic pass: compile each pattern with new RegExp(pattern, 'u'), match per sentence (split on '.', '다.' boundaries), then apply falsePositiveNotes suppressions; severity 'info' and check 'llm' entries only route text to the R7 LLM layer. testPositive is a synthetic self-test string that must match. Entries with `suppress` (regex sources) are not flagged when the SAME sentence also matches a suppress pattern: these encode the lawful wording that falsePositiveNotes describes (compliant exceptions, separate-notice deemed consent, negated penalties). testPositive strings must never be suppressed.",
   "lawCodes": {
     "ARTC": "약관의 규제에 관한 법률",
     "ECA": "전자상거래 등에서의 소비자보호에 관한 법률",
@@ -25,7 +25,11 @@
       ],
       "explanation_ko": "사업자의 책임을 포괄적으로 배제하는 조항은 고의·중과실 책임 배제(제7조제1호) 또는 상당한 이유 없는 배상범위 제한(제2호)에 해당하여 무효가 될 수 있습니다.",
       "falsePositiveNotes": "Sentences that exclude liability only when the operator proves no intent or negligence (std 4④, 5②) are acceptable; the checker should suppress a match if the same sentence contains '고의 또는 과실이 없' or '입증'.",
-      "testPositive": "회사는 서비스 이용과 관련하여 어떠한 책임도 지지 않습니다."
+      "testPositive": "회사는 서비스 이용과 관련하여 어떠한 책임도 지지 않습니다.",
+      "suppress": [
+        "고의\\s*(또는|나)\\s*(중대한\\s*)?과실이\\s*없",
+        "입증"
+      ]
     },
     {
       "id": "U-ARTC7-02",
@@ -39,7 +43,10 @@
       ],
       "explanation_ko": "사업자·이행보조자·피고용자의 고의 또는 중대한 과실로 인한 법률상 책임을 배제·제한하는 조항은 무효입니다.",
       "falsePositiveNotes": "Rare. Check that the clause is not the opposite ('고의 또는 중과실이 있는 경우에는 책임을 집니다').",
-      "testPositive": "회사의 고의 또는 중과실이 있는 경우에도 손해배상 책임은 1만원을 한도로 합니다."
+      "testPositive": "회사의 고의 또는 중과실이 있는 경우에도 손해배상 책임은 1만원을 한도로 합니다.",
+      "suppress": [
+        "고의\\s*(또는|나)\\s*중(대한\\s*)?과실이\\s*있는\\s*경우에는[^.]{0,30}책임을\\s*(집|지며|진다|부담)"
+      ]
     },
     {
       "id": "U-ARTC7-03",
@@ -53,7 +60,10 @@
       ],
       "explanation_ko": "상당한 이유 없이 사업자의 손해배상 범위를 제한하는 조항은 무효가 될 수 있습니다.",
       "falsePositiveNotes": "Caps on the CONSUMER's liability (ECA 19) are protective, not unfair. A cap with a stated substantial reason needs LLM/legal review rather than automatic failure.",
-      "testPositive": "손해배상은 이용자가 지급한 금액을 한도로 합니다."
+      "testPositive": "손해배상은 이용자가 지급한 금액을 한도로 합니다.",
+      "suppress": [
+        "(청구|부담)[^.]{0,40}(넘을|초과할)\\s*수\\s*없"
+      ]
     },
     {
       "id": "U-ARTC7-04",
@@ -68,7 +78,10 @@
       ],
       "explanation_ko": "사업자가 부담하여야 할 위험을 고객에게 포괄적으로 떠넘기는 조항은 무효가 될 수 있습니다.",
       "falsePositiveNotes": "Member responsibility for own credentials is standard (std 19①) when the operator's own fault is carved out ('제17조의 경우를 제외한'). Suppress when the sentence carves out operator fault.",
-      "testPositive": "서비스 이용으로 발생하는 모든 책임은 회원에게 있습니다."
+      "testPositive": "서비스 이용으로 발생하는 모든 책임은 회원에게 있습니다.",
+      "suppress": [
+        "(회사의\\s*(고의|과실|귀책)|회사에\\s*책임이\\s*있는)[^.]{0,40}(제외|경우는|경우에는)"
+      ]
     },
     {
       "id": "U-ARTC7-05",
@@ -99,7 +112,13 @@
       ],
       "explanation_ko": "표준약관은 설비 보수·장애로 인한 서비스 중단 손해를 배상하되 사업자가 고의·과실 없음을 입증한 경우에만 면책하도록 정합니다. 해킹·장애를 이유로 한 일률적 면책은 불공정할 수 있습니다.",
       "falsePositiveNotes": "Force majeure (천재지변) exclusions and clauses conditioned on proof of no fault are acceptable; check for '입증' or '고의 또는 과실이 없'.",
-      "testPositive": "해킹 등으로 인한 손해에 대하여 회사는 책임을 지지 않습니다."
+      "testPositive": "해킹 등으로 인한 손해에 대하여 회사는 책임을 지지 않습니다.",
+      "suppress": [
+        "고의\\s*(또는|나)\\s*(중대한\\s*)?과실이\\s*없",
+        "입증",
+        "천재지변",
+        "(면제|면책)하지\\s*않"
+      ]
     },
     {
       "id": "U-ARTC7-07",
@@ -115,7 +134,10 @@
       ],
       "explanation_ko": "상당한 이유 없이 담보책임을 배제하거나, 견본·품질 표시로 보장된 내용에 대한 책임을 배제하는 조항은 무효가 될 수 있습니다.",
       "falsePositiveNotes": "Disclaimers about accuracy of third-party or user-posted content (not goods sold) are usually acceptable.",
-      "testPositive": "회사는 판매 상품의 품질에 대하여 보증하지 않습니다."
+      "testPositive": "회사는 판매 상품의 품질에 대하여 보증하지 않습니다.",
+      "suppress": [
+        "(이용자|회원|제3자)[^.]{0,15}(게시|작성|제공)한[^.]{0,20}(정보|게시물|자료|콘텐츠)"
+      ]
     },
     {
       "id": "U-ARTC8-01",
@@ -147,7 +169,19 @@
       ],
       "explanation_ko": "법률에 따른 고객의 해제권(청약철회권)을 배제·제한하는 조항은 무효이며, 전자상거래법 제17조~제19조보다 소비자에게 불리한 약정은 효력이 없습니다.",
       "falsePositiveNotes": "Lawful exceptions of ECA 17(2) (damage by consumer, value loss by use or time, opened copyable packaging, started digital content/service) are allowed ONLY if the 17(6) measures (clear marking, trial) are taken. Suppress when the sentence cites those grounds, but still require R-T10-002.",
-      "testPositive": "구매 후에는 환불이 불가합니다."
+      "testPositive": "구매 후에는 환불이 불가합니다.",
+      "suppress": [
+        "표시하지\\s*않",
+        "시험\\s*사용",
+        "제한되지\\s*않",
+        "제한할\\s*수\\s*없",
+        "효력이\\s*없",
+        "(멸실|훼손|가치가?\\s*현저|복제가\\s*가능|사용\\s*개시|포장을\\s*훼손)",
+        "(그\\s*사실을\\s*안\\s*날|알\\s*수\\s*있었던\\s*날)",
+        "(줄이거나|단축하거나)[^.]{0,40}(해석되지|적용되지)\\s*않",
+        "(단축|줄이)[^.]{0,40}(추가하지|붙이지|적용하지|하지)\\s*않",
+        "다음\\s*각\\s*호의?\\s*(어느\\s*하나에\\s*해당하는\\s*)?경우"
+      ]
     },
     {
       "id": "U-ARTC9-02",
@@ -198,7 +232,10 @@
       ],
       "explanation_ko": "해지 시 고객의 원상회복 청구권을 부당하게 포기하게 하거나 사업자의 원상회복 의무를 부당하게 경감하는 조항은 무효입니다. 표준약관은 서비스 종료 시 적립금 등을 현물·현금으로 보상하도록 정합니다.",
       "falsePositiveNotes": "Free promotional points may lawfully expire; paid balances must remain refundable. Needs slot terms.pointsMileage.",
-      "testPositive": "탈퇴 시 잔여 포인트는 소멸되며 환불되지 않습니다."
+      "testPositive": "탈퇴 시 잔여 포인트는 소멸되며 환불되지 않습니다.",
+      "suppress": [
+        "(무상|무료|이벤트|프로모션)[^.]{0,10}(적립|지급|제공)"
+      ]
     },
     {
       "id": "U-ARTC10-01",
@@ -214,7 +251,10 @@
       ],
       "explanation_ko": "상당한 이유 없이 급부 내용을 사업자가 일방적으로 결정·변경하거나 중지할 수 있게 하는 조항은 무효입니다.",
       "falsePositiveNotes": "Std 4② allows changes for 품절 or 기술적 사양 변경 with immediate notice; suppress when such a concrete reason and notice are stated.",
-      "testPositive": "회사의 사정에 따라 서비스 내용을 변경할 수 있습니다."
+      "testPositive": "회사의 사정에 따라 서비스 내용을 변경할 수 있습니다.",
+      "suppress": [
+        "(품절|기술적\\s*사양)[^.]{0,80}(통지|알리|알립|공지)"
+      ]
     },
     {
       "id": "U-ARTC10-02",
@@ -230,7 +270,10 @@
       ],
       "explanation_ko": "사업자가 언제든지 서비스를 변경·중단할 수 있다는 조항은 일방적 급부 변경·중지 권한으로 무효가 될 수 있습니다.",
       "falsePositiveNotes": "Member-side rights ('회원은 언제든지 탈퇴') are protective; pattern requires the operator as subject but check the grammatical subject.",
-      "testPositive": "회사는 언제든지 서비스를 중단할 수 있습니다."
+      "testPositive": "회사는 언제든지 서비스를 중단할 수 있습니다.",
+      "suppress": [
+        "(회원|이용자)(은|는)\\s*언제든지"
+      ]
     },
     {
       "id": "U-ARTC11-01",
@@ -260,7 +303,12 @@
       ],
       "explanation_ko": "업무상 알게 된 고객의 비밀을 정당한 이유 없이 누설하도록 허용하는 조항은 무효이며, 전자상거래법은 허락 범위를 넘는 소비자 정보 이용을 금지합니다. 제3자 제공은 개인정보 처리방침과 별도 동의 절차로 다룹니다.",
       "falsePositiveNotes": "Suppress when the sentence makes provision conditional on consent ('동의를 받아') or a statute ('법령에 따라').",
-      "testPositive": "회원 정보는 제휴사에 제공할 수 있습니다."
+      "testPositive": "회원 정보는 제휴사에 제공할 수 있습니다.",
+      "suppress": [
+        "동의를\\s*받",
+        "법령에\\s*(따라|따른|의한|의하여)",
+        "(제공|공유)하지\\s*않"
+      ]
     },
     {
       "id": "U-ARTC11-03",
@@ -288,7 +336,11 @@
       ],
       "explanation_ko": "일정한 작위·부작위로 고객의 의사표시가 있는 것으로 보는 조항은, 상당한 기한 내 의사표시가 없으면 그렇게 본다는 뜻을 명확하게 따로 고지하지 않은 한 무효입니다.",
       "falsePositiveNotes": "Acceptable when the terms require separate, explicit notice with a reasonable deadline (std 3④: 7 days, 30 days for unfavourable changes). Cross-check R-T03-004/005.",
-      "testPositive": "이의를 제기하지 않으면 개정약관에 동의한 것으로 봅니다."
+      "testPositive": "이의를 제기하지 않으면 개정약관에 동의한 것으로 봅니다.",
+      "suppress": [
+        "명확(하게)?\\s*(별도로|따로)",
+        "(별도로|따로|구분하여)[^.]{0,30}(알린|알리|알렸|고지|통지)"
+      ]
     },
     {
       "id": "U-ARTC12-02",
@@ -320,7 +372,10 @@
       ],
       "explanation_ko": "고객의 의사표시 형식·요건에 부당하게 엄격한 제한을 두는 조항은 무효이며, 가입과 다른 방법으로만 탈퇴·해지하게 하는 것은 온라인 인터페이스 금지행위입니다.",
       "falsePositiveNotes": "Operator-side formalities (company sends written notice) are not affected; check who must use the form.",
-      "testPositive": "해지는 서면으로만 신청할 수 있습니다."
+      "testPositive": "해지는 서면으로만 신청할 수 있습니다.",
+      "suppress": [
+        "회사(가|는)[^.]{0,20}서면으로\\s*(통지|알)"
+      ]
     },
     {
       "id": "U-ARTC14-01",
@@ -335,7 +390,10 @@
       ],
       "explanation_ko": "통신판매업자와의 거래에 관한 소는 소비자 주소지(없으면 거소지) 지방법원의 전속관할입니다. 사업자 소재지 법원으로 정한 관할 합의는 고객에게 부당하게 불리하여 무효가 될 수 있습니다.",
       "falsePositiveNotes": "For B2B-only services (terms.customerType=business) a venue agreement may be valid; downgrade to major and route to legal review.",
-      "testPositive": "분쟁은 회사 본점 소재지를 관할하는 법원을 관할 법원으로 합니다."
+      "testPositive": "분쟁은 회사 본점 소재지를 관할하는 법원을 관할 법원으로 합니다.",
+      "suppress": [
+        "민사소송법"
+      ]
     },
     {
       "id": "U-ARTC14-02",
@@ -350,7 +408,10 @@
       ],
       "explanation_ko": "특정 법원(예: 서울중앙지방법원)을 전속관할로 정하는 조항은 전자상거래 소비자 거래에서 전속관할 규정에 반합니다.",
       "falsePositiveNotes": "Same as U-ARTC14-01 for B2B; also acceptable as a fallback only for users with unclear address or abroad (std 24① proviso refers to the Civil Procedure Act instead).",
-      "testPositive": "모든 분쟁은 서울중앙지방법원을 전속관할로 합니다."
+      "testPositive": "모든 분쟁은 서울중앙지방법원을 전속관할로 합니다.",
+      "suppress": [
+        "민사소송법"
+      ]
     },
     {
       "id": "U-ARTC14-03",
@@ -413,7 +474,11 @@
       ],
       "explanation_ko": "이용자가 작성한 게시물의 저작권을 사업자에게 귀속·양도시키는 조항은 고객에게 부당하게 불리한 조항으로 추정될 수 있습니다. 필요한 범위의 이용 허락으로 정하는 것이 원칙입니다.",
       "falsePositiveNotes": "Copyright in works created by the operator belongs to the operator (std 22①); suppress when the subject is operator-created works.",
-      "testPositive": "회원이 작성한 게시물의 저작권은 회사에 귀속됩니다."
+      "testPositive": "회원이 작성한 게시물의 저작권은 회사에 귀속됩니다.",
+      "suppress": [
+        "회사(가|의)\\s*(직접\\s*)?(작성|제작|창작)",
+        "회사가\\s*(직접\\s*)?(만든|작성한|제작한|창작한)"
+      ]
     },
     {
       "id": "U-ARTC6-03",
@@ -443,7 +508,10 @@
       ],
       "explanation_ko": "디지털콘텐츠는 제공이 개시된 경우에만 청약철회가 제한되며(가분적인 경우 미개시 부분 제외), 사업자는 철회 불가 사실 표시와 시험 사용 상품 제공 등의 조치를 해야 합니다.",
       "falsePositiveNotes": "Lawful when limited to content whose provision has started and the 17(6) measures are stated.",
-      "testPositive": "디지털 콘텐츠는 구매 후 환불이 불가합니다."
+      "testPositive": "디지털 콘텐츠는 구매 후 환불이 불가합니다.",
+      "suppress": [
+        "(개시|시작)(된|되기)[^.]{0,80}(표시|시험\\s*사용|체험)"
+      ]
     },
     {
       "id": "U-ECA18-01",
@@ -458,7 +526,11 @@
       "explanation_ko": "청약철회 시 대금은 재화를 반환받은 날(용역·디지털콘텐츠는 철회한 날)부터 3영업일 이내에 환급해야 하며, 지연 시 지연배상금을 지급해야 합니다.",
       "falsePositiveNotes": "Numeric check: flag only when the captured period exceeds 3 business days (or uses calendar days/weeks exceeding it). Card-issuer processing times after a timely cancellation request are not a violation.",
       "check": "deterministic+numeric: group2 with unit group3 > 3 영업일",
-      "testPositive": "환불은 반품 확인 후 7영업일 이내에 처리됩니다."
+      "testPositive": "환불은 반품 확인 후 7영업일 이내에 처리됩니다.",
+      "suppress": [
+        "(?<!\\d)[1-3]\\s*영업일",
+        "카드사|결제업자|결제대행"
+      ]
     },
     {
       "id": "U-ECA18-02",
@@ -472,7 +544,14 @@
       ],
       "explanation_ko": "청약철회를 이유로 소비자에게 위약금이나 손해배상을 청구할 수 없습니다(반품 비용은 소비자 부담 가능).",
       "falsePositiveNotes": "Return shipping cost borne by the consumer is lawful; the pattern targets penalties and fees. Also matches protective sentences ('위약금을 청구하지 않습니다'): suppress on negation.",
-      "testPositive": "청약철회 시 위약금 10%를 부과합니다."
+      "testPositive": "청약철회 시 위약금 10%를 부과합니다.",
+      "suppress": [
+        "(청구|부과)하지\\s*않",
+        "(청구|부과)할\\s*수\\s*없",
+        "효력이\\s*없",
+        "불리하게\\s*적용되지\\s*않",
+        "(단축|줄이)[^.]{0,40}(추가하지|붙이지|적용하지|적용되지|해석되지|하지)\\s*않"
+      ]
     },
     {
       "id": "U-ECA21-2-01",
@@ -488,7 +567,10 @@
       "explanation_ko": "정당한 사유 없이 가입·구매 절차보다 탈퇴·해지 절차를 복잡하게 하거나, 가입과 다른 방법으로만 탈퇴·해지하게 하는 것은 금지행위입니다.",
       "falsePositiveNotes": "Acceptable if sign-up also happened only through that channel; check terms.membershipRules.",
       "effectiveFrom": "2025-02-14",
-      "testPositive": "회원탈퇴는 고객센터 전화로만 가능합니다."
+      "testPositive": "회원탈퇴는 고객센터 전화로만 가능합니다.",
+      "suppress": [
+        "가입한\\s*방법|가입과\\s*같은\\s*방법|가입\\s*때와\\s*같은"
+      ]
     },
     {
       "id": "U-STD11-01",

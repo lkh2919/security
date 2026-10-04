@@ -14,7 +14,7 @@
  *  - `vettedAgainst` is absent on disk until the privacy-domain-expert vets the clause.
  */
 import { z } from "zod";
-import { CondSchema, DocTypeSchema, IsoDateSchema, ItemIdSchema, NonEmptyString, Sha256Schema, SlotIdSchema, type SlotRegistry } from "./common";
+import { CondSchema, DocTypeSchema, IsoDateSchema, ItemIdSchema, NonEmptyString, Sha256Schema, SlotIdSchema, VersionSchema, type SlotRegistry } from "./common";
 import { ClauseRecordSchema, type ClauseRecord } from "./clause-selection";
 
 export const KbClauseProvenanceSchema = z.strictObject({
@@ -23,7 +23,8 @@ export const KbClauseProvenanceSchema = z.strictObject({
   affiliate: NonEmptyString,
   businessGroup: NonEmptyString,
   captureDate: IsoDateSchema,
-  policyVersionOrEffectiveDate: z.string(),
+  /** `null` when the captured page states no version or effective date. */
+  policyVersionOrEffectiveDate: z.string().nullable(),
   contentHash: Sha256Schema,
 });
 
@@ -34,7 +35,7 @@ export const KbClauseFileSchema = z.strictObject({
   domainGroup: NonEmptyString,
   sourceCaptureIds: z.array(NonEmptyString).min(1),
   sourceSites: z.array(NonEmptyString).min(1),
-  policyVersionOrDate: z.string(),
+  policyVersionOrDate: z.string().nullable(),
   layout: z.enum(["legacy_article", "guideline_numbered"]),
   text: NonEmptyString,
   variables: z.array(
@@ -48,8 +49,10 @@ export const KbClauseFileSchema = z.strictObject({
   conditions: z.array(CondSchema),
   /** Rule IDs the clause covers (`R-S02-001`). */
   coversElements: z.array(z.string().regex(/^R-/)),
-  gapsVsGuideline: z.array(z.strictObject({ ruleId: z.string().regex(/^R-/).optional(), level: z.enum(["must", "should", "may"]).optional(), note: NonEmptyString })),
+  gapsVsGuideline: z.array(z.strictObject({ ruleId: z.string().regex(/^R-/).nullish(), level: z.enum(["must", "should", "may"]).nullish(), note: NonEmptyString })),
   vetted: z.boolean(),
+  /** Rule pack version the clause was vetted against; set by the privacy-domain-expert together with `vetted`. */
+  vettedAgainst: VersionSchema.optional(),
   vettingNotes: z.string(),
   frequency: z.number().int().nonnegative(),
   frequencyBase: z.number().int().nonnegative(),
@@ -92,6 +95,7 @@ export function kbClauseToRecord(file: KbClauseFile): ClauseRecord {
     conditions: file.conditions,
     provenance: { sourceUrl: p.sourceUrl, affiliate: p.affiliate, businessGroup: p.businessGroup, captureDate: p.captureDate, contentHash: p.contentHash },
     vetted: file.vetted,
+    ...(file.vettedAgainst ? { vettedAgainst: file.vettedAgainst } : {}),
     styleRefs: file.houseStyleTags,
   });
 }

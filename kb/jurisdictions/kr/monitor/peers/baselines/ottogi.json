@@ -1,0 +1,81 @@
+{
+  "peerId": "ottogi",
+  "url": "https://www.otoki.com/site/privacy-policy",
+  "fetchedAt": "2026-10-02T06:47:12.234Z",
+  "contentSha256": "57881b111acf90d55376f553ede4f0910730e7c1c94e7767c56c8101b858f957",
+  "neutralContentSha256": "c73dcc3869f52ed611da7eb52d0925ce64514f47b67825765495c116181137f2",
+  "sections": [
+    {
+      "sectionId": "PREAMBLE",
+      "sha256": "4fc7dd59b21ece22fe9d8cd8e5e8189fa79903e92b731a06a6a147d7597c8653",
+      "neutralSha256": "46021e14c67e791cc3af655049f4c436d7cc430bbd9ffc512050a409a336ec6d",
+      "charCount": 237
+    },
+    {
+      "sectionId": "S02",
+      "sha256": "39b62290eb24a11def835a60cc0391bf2ccf986ce1fe753e59687c8a44c277ae",
+      "neutralSha256": "39b62290eb24a11def835a60cc0391bf2ccf986ce1fe753e59687c8a44c277ae",
+      "charCount": 160
+    },
+    {
+      "sectionId": "S03",
+      "sha256": "116ef35432443d6c0c1b5da37584b128ab6ecaa136a7bd0d11af9fb15f0ca037",
+      "neutralSha256": "116ef35432443d6c0c1b5da37584b128ab6ecaa136a7bd0d11af9fb15f0ca037",
+      "charCount": 2251
+    },
+    {
+      "sectionId": "S04",
+      "sha256": "1305535013b1658be50e6cebbd01df8a1cebcb5351a5cc5803208293f22b2cd6",
+      "neutralSha256": "1305535013b1658be50e6cebbd01df8a1cebcb5351a5cc5803208293f22b2cd6",
+      "charCount": 316
+    },
+    {
+      "sectionId": "S05",
+      "sha256": "f7f7b46e09e2e679c5b1f0c6c80bef1c4ab7f07bd4b931699e11d80429008ef4",
+      "neutralSha256": "f7f7b46e09e2e679c5b1f0c6c80bef1c4ab7f07bd4b931699e11d80429008ef4",
+      "charCount": 472
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "46b7659f24bef2507a70359556b88fd586fd3b1d90526921cce291aa037f31fc",
+      "neutralSha256": "46b7659f24bef2507a70359556b88fd586fd3b1d90526921cce291aa037f31fc",
+      "charCount": 531
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "6f5e2e201561e13f1b4c3f76de232655e03d3e4ab8e07929400f26faa734335e",
+      "neutralSha256": "6f5e2e201561e13f1b4c3f76de232655e03d3e4ab8e07929400f26faa734335e",
+      "charCount": 951
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "743580b402251b1def33c14ecc13efb5658d579775898553daae2345beee1e5b",
+      "neutralSha256": "743580b402251b1def33c14ecc13efb5658d579775898553daae2345beee1e5b",
+      "charCount": 1484
+    },
+    {
+      "sectionId": "S11",
+      "sha256": "89a8d630f86c907d7cf7c302e2056e19055b1614a000d10ffaab5207140b8833",
+      "neutralSha256": "89a8d630f86c907d7cf7c302e2056e19055b1614a000d10ffaab5207140b8833",
+      "charCount": 600
+    },
+    {
+      "sectionId": "S14",
+      "sha256": "2fe1a2c72e9a383436580b616c3a450eec189f7560686f9a14f8ea011f56abae",
+      "neutralSha256": "2fe1a2c72e9a383436580b616c3a450eec189f7560686f9a14f8ea011f56abae",
+      "charCount": 1019
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "0a8669669938685d9912f1517d5b30d06b096976e090cffd55af4dc7d239de84",
+      "neutralSha256": "0a8669669938685d9912f1517d5b30d06b096976e090cffd55af4dc7d239de84",
+      "charCount": 695
+    },
+    {
+      "sectionId": "UNMAPPED",
+      "sha256": "6f403e1a7d385ddaf5294e37351004dca27efae8ee388c3d9f21338b047b6b5b",
+      "neutralSha256": "a800951570afd612720235b24a0f3a3b5fd52885660ce6621f910ba581338fd0",
+      "charCount": 1219
+    }
+  ]
+}

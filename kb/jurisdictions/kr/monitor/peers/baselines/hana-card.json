@@ -1,0 +1,130 @@
+{
+  "peerId": "hana-card",
+  "url": "https://www.hanacard.co.kr/OSA75350000N.web",
+  "fetchedAt": "2026-10-02T06:49:36.355Z",
+  "contentSha256": "2db71347fc916b9ae27ac87a729d8cad4f22639f758957d5d1665c9cbf92da61",
+  "neutralContentSha256": "5805c0589e6230af5912d5168c5a9fb6352008a69b1d41f2ffd30bb432ade596",
+  "sections": [
+    {
+      "sectionId": "PREAMBLE",
+      "sha256": "4ea5f2c92937e826c63ba77ea649df62fc0a4d57ff4e08d0145fc7c3eea268c5",
+      "neutralSha256": "4ea5f2c92937e826c63ba77ea649df62fc0a4d57ff4e08d0145fc7c3eea268c5",
+      "charCount": 85
+    },
+    {
+      "sectionId": "S01",
+      "sha256": "d64789c7e148143323d118f289125b56a3448226a619899577c6d7f766119842",
+      "neutralSha256": "48d2049f20b3da7a58f42081e9a72970c5898ce7fad015326011c372e6ab2e6f",
+      "charCount": 905
+    },
+    {
+      "sectionId": "S02",
+      "sha256": "1943364cfde5fb15c826cfb29c1a11870356848e13e8b74795233d8183a308fb",
+      "neutralSha256": "1943364cfde5fb15c826cfb29c1a11870356848e13e8b74795233d8183a308fb",
+      "charCount": 665
+    },
+    {
+      "sectionId": "S03",
+      "sha256": "53ca1af70618447dd734aa6ace22853a92565fb3b47340463245548ea8ab7a07",
+      "neutralSha256": "53ca1af70618447dd734aa6ace22853a92565fb3b47340463245548ea8ab7a07",
+      "charCount": 1752
+    },
+    {
+      "sectionId": "S04",
+      "sha256": "c6436c2a0b88136082216f8faf3e35a0a0ca52948a416ba803944134c8be3d1a",
+      "neutralSha256": "c6436c2a0b88136082216f8faf3e35a0a0ca52948a416ba803944134c8be3d1a",
+      "charCount": 0
+    },
+    {
+      "sectionId": "S05",
+      "sha256": "d1f7255d8d71e0386325ca784152dc04bbc3291bb9bab5f3441cf993a4e10bab",
+      "neutralSha256": "d1f7255d8d71e0386325ca784152dc04bbc3291bb9bab5f3441cf993a4e10bab",
+      "charCount": 772
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "52190d75ea56bb159de0de8b567a20de1852117c1db1c01fe6798697a3a13aeb",
+      "neutralSha256": "52190d75ea56bb159de0de8b567a20de1852117c1db1c01fe6798697a3a13aeb",
+      "charCount": 1263
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "708813f811f060503c6221d6a1e919c9ba220e4b764bd30e02ec5a2e41a3614c",
+      "neutralSha256": "708813f811f060503c6221d6a1e919c9ba220e4b764bd30e02ec5a2e41a3614c",
+      "charCount": 769
+    },
+    {
+      "sectionId": "S08",
+      "sha256": "8f8690f3e7fddc45434efb3b3eb83cff8fe2a3361999ebb6f761f0be62129537",
+      "neutralSha256": "8f8690f3e7fddc45434efb3b3eb83cff8fe2a3361999ebb6f761f0be62129537",
+      "charCount": 0
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "be26b0789efebf8831f39ede3375e7534d084b17a4a2108c3394d35bfa83e4d5",
+      "neutralSha256": "be26b0789efebf8831f39ede3375e7534d084b17a4a2108c3394d35bfa83e4d5",
+      "charCount": 290
+    },
+    {
+      "sectionId": "S11",
+      "sha256": "46965cbd0c823ad432168b4b6c4f72e375db56a941c2f8c66510395cfe143ed9",
+      "neutralSha256": "46965cbd0c823ad432168b4b6c4f72e375db56a941c2f8c66510395cfe143ed9",
+      "charCount": 156
+    },
+    {
+      "sectionId": "S13",
+      "sha256": "23a514702ded59614ee6ce413a546e9420bba0b41a846c25c19c3dd2252dad81",
+      "neutralSha256": "23a514702ded59614ee6ce413a546e9420bba0b41a846c25c19c3dd2252dad81",
+      "charCount": 920
+    },
+    {
+      "sectionId": "S14",
+      "sha256": "037f4b07cfc2827e8c56919aff9fdec63a2bf8cfdfca902e91fec0b0d87b8f0a",
+      "neutralSha256": "037f4b07cfc2827e8c56919aff9fdec63a2bf8cfdfca902e91fec0b0d87b8f0a",
+      "charCount": 0
+    },
+    {
+      "sectionId": "S15",
+      "sha256": "0696b496613cd6c570aa2bafdfe853b90a305e46946e1bf5a3fee8b0d75c8f18",
+      "neutralSha256": "0696b496613cd6c570aa2bafdfe853b90a305e46946e1bf5a3fee8b0d75c8f18",
+      "charCount": 0
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "2f64470168366345d086c82abf08a3ab1c8b19aaee15aed12050bf146869620f",
+      "neutralSha256": "2f64470168366345d086c82abf08a3ab1c8b19aaee15aed12050bf146869620f",
+      "charCount": 4007
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "18eb318767405a3dff65f02e8820394d8080cc24b3e8b1e723398d59d15a40ea",
+      "neutralSha256": "18eb318767405a3dff65f02e8820394d8080cc24b3e8b1e723398d59d15a40ea",
+      "charCount": 639
+    },
+    {
+      "sectionId": "S20",
+      "sha256": "8ac1a026396c2c74314829215c28ced3892e7d1b7297dbfb1065c90ebf7f92c5",
+      "neutralSha256": "8ac1a026396c2c74314829215c28ced3892e7d1b7297dbfb1065c90ebf7f92c5",
+      "charCount": 234
+    },
+    {
+      "sectionId": "S23",
+      "sha256": "7aa3c2c226390a44aee3a1aa434c074d90568f690987b5e84da1517dfddaa570",
+      "neutralSha256": "7aa3c2c226390a44aee3a1aa434c074d90568f690987b5e84da1517dfddaa570",
+      "charCount": 986
+    },
+    {
+      "sectionId": "S24",
+      "sha256": "668b2fe9b8741406bd3645887658103e70d04dce83b8fd57eed0bc42ee5b82fd",
+      "neutralSha256": "668b2fe9b8741406bd3645887658103e70d04dce83b8fd57eed0bc42ee5b82fd",
+      "charCount": 106
+    },
+    {
+      "sectionId": "UNMAPPED",
+      "sha256": "06cefbf85a3d145200a81109cb749b312d947364d18cc32fffdc53928ddb265a",
+      "neutralSha256": "06cefbf85a3d145200a81109cb749b312d947364d18cc32fffdc53928ddb265a",
+      "charCount": 2226
+    }
+  ],
+  "effectiveDateText": "2026년 1월 1일"
+}

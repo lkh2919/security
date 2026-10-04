@@ -1,0 +1,14 @@
+# 서비스 설명서 (가상 데이터)
+서비스명: 워크허브
+양식버전: infosec-2026.1
+설명: 임직원 전용 사내 그룹웨어입니다. 전자결재, 메일, 근태 관리를 제공합니다.
+gate.membership: 아니오
+gate.outsourcing: 아니오
+gate.thirdPartyProvision: 아니오
+gate.overseasTransfer: 아니오
+
+## 데이터 흐름: 근태
+항목: 사번, 출퇴근 시각
+목적: 근태 관리
+수신자: 없음
+보유기간: 3년

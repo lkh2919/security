@@ -10,11 +10,28 @@ function runMd(run: RRun, inTable: boolean): string {
     case "link":
       return /^(https?:|mailto:|#)/.test(run.href ?? "") ? `[${t}](${run.href})` : t;
     default:
-      return t;
+      if (!run.strong || !t.trim()) return t;
+      {
+        // CommonMark: the markers must hug non-space text, so leading/trailing spaces stay outside.
+        const lead = t.match(/^\s*/)![0];
+        const trail = t.match(/\s*$/)![0];
+        return `${lead}**${t.trim()}**${trail}`;
+      }
   }
 }
 
-export const runsMd = (runs: readonly RRun[], inTable = false): string => runs.map((r) => runMd(r, inTable)).join("");
+/** Adjacent strong text runs are merged first, so the output never contains "****". */
+function mergeStrong(runs: readonly RRun[]): RRun[] {
+  const out: RRun[] = [];
+  for (const r of runs) {
+    const prev = out[out.length - 1];
+    if (prev && prev.kind === "text" && r.kind === "text" && prev.strong && r.strong) out[out.length - 1] = { ...prev, text: prev.text + r.text };
+    else out.push(r);
+  }
+  return out;
+}
+
+export const runsMd = (runs: readonly RRun[], inTable = false): string => mergeStrong(runs).map((r) => runMd(r, inTable)).join("");
 
 export function tableMd(header: readonly string[], rows: readonly (readonly string[])[]): string[] {
   const esc = (s: string) => s.replace(/\|/g, "\\|").replace(/\r?\n/g, "<br>");

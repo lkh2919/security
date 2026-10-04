@@ -43,17 +43,20 @@
       "sectionId": "T10",
       "level": "must",
       "element": "7-day withdrawal",
-      "statement": "Consumers may withdraw within 7 days of receiving the contract document, or of supply if later (longer if agreed); special starting points apply when the document or seller address is missing.",
+      "statement": "Consumers may withdraw within 7 days (or a longer agreed period) counted from: (1) receiving the contract document, or supply if later than the document; (2) the day the consumer knew or could have known the seller's address, when no contract document was received, the document lacks the seller's address, or a change of address etc. made withdrawal within (1) impossible; (3) the end of any obstruction of withdrawal. Never count case (2) from 'receiving the document'.",
       "legalRefs": [
         "ECA:17(1)",
-        "STD10023:15(1)"
+        "STD10023:15(1)",
+        "ECA:17(1)1",
+        "ECA:17(1)2",
+        "ECA:17(1)3"
       ],
       "check": {
         "kind": "deterministic",
         "expr": "mentions(section.T10, ['7일']) && !match(section.T10, lex.U-ARTC9-01)"
       },
       "sourceSpan": "ECA 제17조제1항; STD10023 제15조①",
-      "verifiedAt": "2026-09-29"
+      "verifiedAt": "2026-10-03"
     },
     {
       "ruleId": "R-T10-002",
@@ -63,6 +66,10 @@
       "statement": "Limit exceptions to the statutory list (loss/damage by the consumer except opening packaging to inspect; value loss by use or consumption; value loss by time; opened packaging of copyable goods; started services/digital content except unstarted divisible parts) and state that exceptions 2-5 do not apply unless the operator clearly marked the restriction or offered a trial.",
       "legalRefs": [
         "ECA:17(2)",
+        "ECA:17(2)1",
+        "ECA:17(2)2",
+        "ECA:17(2)3",
+        "ECA:17(2)4",
         "ECA:17(2)5",
         "ECA:17(6)",
         "STD10023:15(2)",
@@ -407,6 +414,42 @@
       "at": "제17조 제2항",
       "lawGoKr": true
     },
+    "ECA:17(2)1": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "2",
+      "item": "1",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제17조 제2항 제1호",
+      "lawGoKr": true
+    },
+    "ECA:17(2)2": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "2",
+      "item": "2",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제17조 제2항 제2호",
+      "lawGoKr": true
+    },
+    "ECA:17(2)3": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "2",
+      "item": "3",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제17조 제2항 제3호",
+      "lawGoKr": true
+    },
+    "ECA:17(2)4": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "2",
+      "item": "4",
+      "verifiedBy": "lawgokr-eca-MST282793",
+      "at": "제17조 제2항 제4호",
+      "lawGoKr": true
+    },
     "ECA:17(2)5": {
       "law": "전자상거래 등에서의 소비자보호에 관한 법률",
       "article": "17",
@@ -585,6 +628,51 @@
       "verifiedBy": "kftc-10023-2015-06-26",
       "at": "제5조 제3항",
       "lawGoKr": false
+    },
+    "ECA:17(1)1": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "1",
+      "item": "1",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=282793",
+          "fetched": "2026-10-03",
+          "version": "전자상거래 등에서의 소비자보호에 관한 법률, 시행 2026-07-21"
+        }
+      ],
+      "at": "제17조제1항제1호 (read 2026-10-03)",
+      "lawGoKr": true
+    },
+    "ECA:17(1)2": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "1",
+      "item": "2",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=282793",
+          "fetched": "2026-10-03",
+          "version": "전자상거래 등에서의 소비자보호에 관한 법률, 시행 2026-07-21"
+        }
+      ],
+      "at": "제17조제1항제2호 (read 2026-10-03)",
+      "lawGoKr": true
+    },
+    "ECA:17(1)3": {
+      "law": "전자상거래 등에서의 소비자보호에 관한 법률",
+      "article": "17",
+      "paragraph": "1",
+      "item": "3",
+      "verifiedBy": [
+        {
+          "url": "https://www.law.go.kr/DRF/lawService.do?target=law&type=XML&MST=282793",
+          "fetched": "2026-10-03",
+          "version": "전자상거래 등에서의 소비자보호에 관한 법률, 시행 2026-07-21"
+        }
+      ],
+      "at": "제17조제1항제3호 (read 2026-10-03)",
+      "lawGoKr": true
     }
   },
   "needsVerification": [

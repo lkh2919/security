@@ -1,0 +1,117 @@
+{
+  "peerId": "woori-card",
+  "url": "https://pc.wooricard.com/dcpc/yh1/cct/cct12/psninfprotplcy/H1CCT212S08.do",
+  "fetchedAt": "2026-10-02T06:49:31.905Z",
+  "contentSha256": "e4b1fa532aa2b79d829ed44d49e96bff4abc25349f6dee45f263041cd8ed1472",
+  "neutralContentSha256": "6f47441000c6ac57e21afb070e7c47a92c3814dc11d1e8016259297a91844a1e",
+  "sections": [
+    {
+      "sectionId": "PREAMBLE",
+      "sha256": "ee11f0b6318b6bdb11d5f63bbbc95a334a88850a155d962249779a24cd0e8a98",
+      "neutralSha256": "ee11f0b6318b6bdb11d5f63bbbc95a334a88850a155d962249779a24cd0e8a98",
+      "charCount": 378
+    },
+    {
+      "sectionId": "S01",
+      "sha256": "291aa6f3e22181835f71601809f8285d060aa02a2950a5039b7723ed83c175b9",
+      "neutralSha256": "1a48eced0521ddc1ea89467d265d0a9e2a906ccd0dd403928c76ce5f1ab1205e",
+      "charCount": 1071
+    },
+    {
+      "sectionId": "S02",
+      "sha256": "d5ae54b40b5d30edffbd80b6e3d3184379c2a54922bf3a8473a982d7abbf956c",
+      "neutralSha256": "d5ae54b40b5d30edffbd80b6e3d3184379c2a54922bf3a8473a982d7abbf956c",
+      "charCount": 563
+    },
+    {
+      "sectionId": "S03",
+      "sha256": "69fe4e31731a55c4416417696b5c8ea7a2f50f1f3faab1ea3e40ff4d0bb26b28",
+      "neutralSha256": "69fe4e31731a55c4416417696b5c8ea7a2f50f1f3faab1ea3e40ff4d0bb26b28",
+      "charCount": 4287
+    },
+    {
+      "sectionId": "S05",
+      "sha256": "128f26f8bd5ab737b7b96c16b2334269b4cf7f6ec6e02269db4ac072c0651a97",
+      "neutralSha256": "128f26f8bd5ab737b7b96c16b2334269b4cf7f6ec6e02269db4ac072c0651a97",
+      "charCount": 746
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "fe85f480ae64cc46da6c7e0ae459ad6b1004ed92a871420f7be343968b5acd89",
+      "neutralSha256": "fe85f480ae64cc46da6c7e0ae459ad6b1004ed92a871420f7be343968b5acd89",
+      "charCount": 1323
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "7f5a360974bf05d1fea90755700ab24a3d912de0e19a38948e5588e6e1ed3b67",
+      "neutralSha256": "7f5a360974bf05d1fea90755700ab24a3d912de0e19a38948e5588e6e1ed3b67",
+      "charCount": 628
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "e51e078391a83f4ea7e0529b23e47eb05e8f3a74ee038f121df60b418d308f25",
+      "neutralSha256": "e51e078391a83f4ea7e0529b23e47eb05e8f3a74ee038f121df60b418d308f25",
+      "charCount": 1179
+    },
+    {
+      "sectionId": "S10",
+      "sha256": "d49815c4db05b930f62099f2d05f562c30f9ab07a8096a251c54cc745b579088",
+      "neutralSha256": "d49815c4db05b930f62099f2d05f562c30f9ab07a8096a251c54cc745b579088",
+      "charCount": 1024
+    },
+    {
+      "sectionId": "S11",
+      "sha256": "56e9895d5f44f84fa696029ee46f13beb2dee3d92801aaaaa3da823f30eb849c",
+      "neutralSha256": "56e9895d5f44f84fa696029ee46f13beb2dee3d92801aaaaa3da823f30eb849c",
+      "charCount": 1824
+    },
+    {
+      "sectionId": "S13",
+      "sha256": "2f8f7c78b9044436c3715b6fae2ecc537b3de610f3299a1e06adc6d00e6f580c",
+      "neutralSha256": "2f8f7c78b9044436c3715b6fae2ecc537b3de610f3299a1e06adc6d00e6f580c",
+      "charCount": 667
+    },
+    {
+      "sectionId": "S14",
+      "sha256": "9a50d6d31c80dd109822da09239ca32923f964ee87dfe5077577a0cf805ddf2e",
+      "neutralSha256": "9a50d6d31c80dd109822da09239ca32923f964ee87dfe5077577a0cf805ddf2e",
+      "charCount": 2241
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "0c61ab78ecc05b6feca750bb02882e293e202a7094ed2cd9725c30f794462077",
+      "neutralSha256": "0c61ab78ecc05b6feca750bb02882e293e202a7094ed2cd9725c30f794462077",
+      "charCount": 2278
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "04fd9d002d465de4a36d0f3d14658a9dc7989d5a9a0ed7382b4a83e7e988a7c8",
+      "neutralSha256": "04fd9d002d465de4a36d0f3d14658a9dc7989d5a9a0ed7382b4a83e7e988a7c8",
+      "charCount": 320
+    },
+    {
+      "sectionId": "S20",
+      "sha256": "90e6088f6482a4b306b250f05ebe74abcd0e63afd7d7ed7c141ab9796ae13138",
+      "neutralSha256": "90e6088f6482a4b306b250f05ebe74abcd0e63afd7d7ed7c141ab9796ae13138",
+      "charCount": 306
+    },
+    {
+      "sectionId": "S23",
+      "sha256": "cfe44bbd6ea2c80286fe4d2936e4aed878f82069625c0c1d34d42116af0a8af1",
+      "neutralSha256": "cfe44bbd6ea2c80286fe4d2936e4aed878f82069625c0c1d34d42116af0a8af1",
+      "charCount": 0
+    },
+    {
+      "sectionId": "S24",
+      "sha256": "9ee59a17f48c4c652929e15c8ce6e1d2e1832456286d50c241207d5d87756965",
+      "neutralSha256": "d325aae6c4783475f53dce3d9aca63c0d972494a18ba86b2cba6ae38877ab34b",
+      "charCount": 137
+    },
+    {
+      "sectionId": "UNMAPPED",
+      "sha256": "1b15fbf946ce765bf48e8bd1916df1717cfe5cd6f8d5b20f4169ae70fde60e85",
+      "neutralSha256": "1b15fbf946ce765bf48e8bd1916df1717cfe5cd6f8d5b20f4169ae70fde60e85",
+      "charCount": 812
+    }
+  ]
+}

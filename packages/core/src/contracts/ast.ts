@@ -9,7 +9,8 @@ import { z } from "zod";
 import { IsoDateSchema, ItemIdSchema, NonEmptyString, RunIdSchema, SlotIdSchema, VersionSchema, WarningSchema, type DocType } from "./common";
 
 export const InlineSchema = z.discriminatedUnion("t", [
-  z.strictObject({ t: z.literal("text"), text: z.string(), slotRef: SlotIdSchema.optional() }),
+  /** `strong`: important content the reader must notice (ARTC 3(1): withdrawal, refund, liability, fees); rendered bold. */
+  z.strictObject({ t: z.literal("text"), text: z.string(), slotRef: SlotIdSchema.optional(), strong: z.boolean().optional() }),
   z.strictObject({ t: z.literal("placeholder"), key: NonEmptyString }),
   /** Statute citation, e.g. `PIPA-25`. */
   z.strictObject({ t: z.literal("cite"), citationId: NonEmptyString }),

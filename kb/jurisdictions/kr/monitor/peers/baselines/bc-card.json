@@ -1,0 +1,135 @@
+{
+  "peerId": "bc-card",
+  "url": "https://www.bccard.com/app/card/ContentsLinkActn.do?pgm_id=ind0492",
+  "fetchedAt": "2026-10-02T06:49:40.469Z",
+  "contentSha256": "d4eadc60a6f8b334b597c846a35cd753d2e8bf46b90967e6779936a2f06b1bfd",
+  "neutralContentSha256": "d158ac2890a47adc12bfe1e178fb27201b286f0a9f94693c258980503eaa8180",
+  "sections": [
+    {
+      "sectionId": "PREAMBLE",
+      "sha256": "3d4158abe981751ecd5b8c0785037f4f84f3816affaef94930d509b7d9c3ef24",
+      "neutralSha256": "3d4158abe981751ecd5b8c0785037f4f84f3816affaef94930d509b7d9c3ef24",
+      "charCount": 1499
+    },
+    {
+      "sectionId": "S01",
+      "sha256": "7c32facb1315606f8242e564387eb7573aaeb998c5cb2849c52c242fef4e9d4b",
+      "neutralSha256": "7c32facb1315606f8242e564387eb7573aaeb998c5cb2849c52c242fef4e9d4b",
+      "charCount": 943
+    },
+    {
+      "sectionId": "S02",
+      "sha256": "6021335bba53e66a3bc7c24753b1cde1152677a23a9dea2b674def46a5a1b25e",
+      "neutralSha256": "6021335bba53e66a3bc7c24753b1cde1152677a23a9dea2b674def46a5a1b25e",
+      "charCount": 1110
+    },
+    {
+      "sectionId": "S03",
+      "sha256": "e15b80781efe12c0d9367199f82b60caafe886a9d929809a24b400092269b12b",
+      "neutralSha256": "e15b80781efe12c0d9367199f82b60caafe886a9d929809a24b400092269b12b",
+      "charCount": 12513
+    },
+    {
+      "sectionId": "S04",
+      "sha256": "37f7ae04bcc991e5a90fb4a742230adeeb46067e2dc848a32f917589e14ff589",
+      "neutralSha256": "37f7ae04bcc991e5a90fb4a742230adeeb46067e2dc848a32f917589e14ff589",
+      "charCount": 159
+    },
+    {
+      "sectionId": "S05",
+      "sha256": "ff39fda747432e819b3abfee52cc14d1c5abe1376fefba7704e7fc069c42fe82",
+      "neutralSha256": "ff39fda747432e819b3abfee52cc14d1c5abe1376fefba7704e7fc069c42fe82",
+      "charCount": 3162
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "19472d31b2e3c3ca0b5648aa4e129ca024579d03534c65564cccd1d9940eb162",
+      "neutralSha256": "19472d31b2e3c3ca0b5648aa4e129ca024579d03534c65564cccd1d9940eb162",
+      "charCount": 1197
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "af85b1a7e1d7514261454fd0414fd0e8128071b840f03596092b3b5f1eb01766",
+      "neutralSha256": "af85b1a7e1d7514261454fd0414fd0e8128071b840f03596092b3b5f1eb01766",
+      "charCount": 365
+    },
+    {
+      "sectionId": "S08",
+      "sha256": "9e7ebff45420106f9aa1e4eb65452b69e97a0d9e9c52db8d57ba44cd0076a22c",
+      "neutralSha256": "9e7ebff45420106f9aa1e4eb65452b69e97a0d9e9c52db8d57ba44cd0076a22c",
+      "charCount": 168
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "fe54ac310307673e801a4a732611883e89ff549b5b1c84530b9dc730a3aabd2e",
+      "neutralSha256": "fe54ac310307673e801a4a732611883e89ff549b5b1c84530b9dc730a3aabd2e",
+      "charCount": 382
+    },
+    {
+      "sectionId": "S10",
+      "sha256": "902e86d91824e93803df32b68f833b9695c30bbe3b23a359a1adfb39e67ad8f7",
+      "neutralSha256": "902e86d91824e93803df32b68f833b9695c30bbe3b23a359a1adfb39e67ad8f7",
+      "charCount": 107
+    },
+    {
+      "sectionId": "S11",
+      "sha256": "deb5841026c95cc1e772c82e0207a652cd499a9679d3606b7d3544cf013825b7",
+      "neutralSha256": "deb5841026c95cc1e772c82e0207a652cd499a9679d3606b7d3544cf013825b7",
+      "charCount": 1657
+    },
+    {
+      "sectionId": "S13",
+      "sha256": "d92911e867a3cbfe8833d55a551cf8e4ce69a559f356a8245affc6a0cbf93c1d",
+      "neutralSha256": "d92911e867a3cbfe8833d55a551cf8e4ce69a559f356a8245affc6a0cbf93c1d",
+      "charCount": 300
+    },
+    {
+      "sectionId": "S14",
+      "sha256": "f6678b4a51518db658afad01fea95c60e934b91a7830bd24f7e8e31a5601a1ff",
+      "neutralSha256": "f6678b4a51518db658afad01fea95c60e934b91a7830bd24f7e8e31a5601a1ff",
+      "charCount": 1432
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "ae632c8d0f0e34b671b73a39756a82db4fd39aa97b69253429c6ac07be8645f9",
+      "neutralSha256": "ae632c8d0f0e34b671b73a39756a82db4fd39aa97b69253429c6ac07be8645f9",
+      "charCount": 4839
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "b1ed2f7f4ae6596dae04868e275df2988a86d2c64ca737cb3fc25c3f895538d1",
+      "neutralSha256": "b1ed2f7f4ae6596dae04868e275df2988a86d2c64ca737cb3fc25c3f895538d1",
+      "charCount": 217
+    },
+    {
+      "sectionId": "S20",
+      "sha256": "6a7a563743089d7c89358e0c63a0d92f4653508f8be4c5831541b5b24ed9be18",
+      "neutralSha256": "6a7a563743089d7c89358e0c63a0d92f4653508f8be4c5831541b5b24ed9be18",
+      "charCount": 213
+    },
+    {
+      "sectionId": "S21",
+      "sha256": "a542cd5c7c2199f21bc16d18224a8b6f68d6cf72620a2cf17b7701e7a7845ed7",
+      "neutralSha256": "a542cd5c7c2199f21bc16d18224a8b6f68d6cf72620a2cf17b7701e7a7845ed7",
+      "charCount": 104
+    },
+    {
+      "sectionId": "S24",
+      "sha256": "6b199eb6f04b99f4875801a026425ce41064644daa371884833efc1ba8889c65",
+      "neutralSha256": "3f5120b6002a344cbd3d933bdbcd641cd0177e7493db21ee8cdcc009c157f4ca",
+      "charCount": 749
+    },
+    {
+      "sectionId": "X1",
+      "sha256": "4d5f1da0f5bea990a1bc9e5c016a2ce9c24db68d4ce8a7becbb958f806ef944b",
+      "neutralSha256": "4d5f1da0f5bea990a1bc9e5c016a2ce9c24db68d4ce8a7becbb958f806ef944b",
+      "charCount": 0
+    },
+    {
+      "sectionId": "UNMAPPED",
+      "sha256": "8a2a7bbd45d8f4ce8c83f0231a88d0b601928485c513b8a295ce53a3eb1ba8b5",
+      "neutralSha256": "8a2a7bbd45d8f4ce8c83f0231a88d0b601928485c513b8a295ce53a3eb1ba8b5",
+      "charCount": 1230
+    }
+  ]
+}

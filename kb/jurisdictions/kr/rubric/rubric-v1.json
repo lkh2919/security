@@ -1,0 +1,693 @@
+{
+  "version": "1.0.0",
+  "status": "draft",
+  "effective": "2026-09-30",
+  "rulePackVersions": [
+    "privacy-2026.04",
+    "terms-kftc-10023"
+  ],
+  "sharedLayer": {
+    "principles": [
+      {
+        "id": "P1",
+        "name": "Legal compliance",
+        "description": "Every mandatory element of the applicable rule-pack sections is present and correct; statute citations resolve to the right article; effective-dated rules are marked."
+      },
+      {
+        "id": "P2",
+        "name": "Accuracy against evidence",
+        "description": "Every factual statement traces to a fact-ledger slot with valid evidence. Nothing is invented; unknown facts become manual-review markers. The auditor also checks the masked transcript for facts the extractor missed."
+      },
+      {
+        "id": "P3",
+        "name": "Clarity",
+        "description": "Concrete, plain wording a data subject can act on: who, where, how, by when. No open-ended phrases such as \"등\" in lists of recipients or purposes."
+      },
+      {
+        "id": "P4",
+        "name": "House style",
+        "description": "Approved house-style rules only. Candidate rules are never enforced until the user approves them."
+      },
+      {
+        "id": "P5",
+        "name": "Consistency",
+        "description": "Values shared by both documents are equal and the terms link to the privacy policy."
+      }
+    ],
+    "scoreAnchors": {
+      "legal": {
+        "0": "A blocker: a mandatory item is missing, or a clause contradicts a statute (e.g. \"회사는 어떠한 경우에도 책임을 지지 않습니다\").",
+        "1": "Several mandatory elements missing or wrong; a reader would be misled about a right or a duty.",
+        "2": "One mandatory element missing or one statutory citation wrong, others fine.",
+        "3": "Every mandatory element present; some should-level elements missing; citations resolve but one is imprecise (article right, paragraph omitted).",
+        "4": "Every must rule satisfied; at most one should-level omission with a stated reason; all citations resolve to the right article.",
+        "5": "Every must and should rule satisfied; effective-dated rules marked correctly (e.g. 2026-09-11 amendments); citations exact."
+      },
+      "accuracy": {
+        "0": "Most facts contradict the fact ledger or are invented (a recipient or period that no source states).",
+        "1": "Several facts unsupported or wrong; a recipient, country or period differs from the ledger.",
+        "2": "One factual claim is unsupported or contradicts the ledger (e.g. a processor name not in the ledger).",
+        "3": "Facts match the ledger; one claim is broader than the evidence (\"등\" where the ledger lists two names).",
+        "4": "Every factual inline traces to a ledger slot with valid evidence; unknown facts are shown as manual-review markers, not guessed.",
+        "5": "Fully traceable; each ambiguity (delegation vs provision, unknown period) surfaced with both candidates and a manual-review marker."
+      },
+      "clarity": {
+        "0": "Unreadable: undefined terms, broken structure, unresolved placeholders.",
+        "1": "Readable only with legal background; long sentences and nested conditions throughout.",
+        "2": "Understandable but wordy; some abstract phrases (\"목적 달성 시까지\").",
+        "3": "Clear for a typical user; a few heavy sentences or repeated phrases.",
+        "4": "Plain wording, concrete periods and channels, consistent terms, tables where rules call for them.",
+        "5": "As 4, and a data subject can exercise each right from the text alone (who, where, how, by when)."
+      },
+      "houseStyle": {
+        "0": "Ignores approved house-style rules entirely.",
+        "1": "Follows fewer than half of the approved deterministic and structural rules.",
+        "2": "Follows most deterministic rules, structural rules mixed.",
+        "3": "Follows all deterministic rules; one structural rule deviates.",
+        "4": "Follows all approved rules; wording tone matches the group policies.",
+        "5": "As 4, and section order, defined terms and table layouts match the approved examples."
+      },
+      "consistency": {
+        "0": "Privacy policy and terms contradict each other on several values.",
+        "1": "Two cross-document checks fail (e.g. organization name and minimum age).",
+        "2": "One cross-document check fails (e.g. terms say minimum age 14, policy says 19).",
+        "3": "Cross-document values equal; wording differs for the same concept.",
+        "4": "All four cross-document checks pass; one defined term used throughout.",
+        "5": "As 4, and the terms link to the policy exactly once with the current title and path."
+      }
+    },
+    "severityGuide": {
+      "blocker": "Would make a clause void or unlawful, or omits a mandatory element that cannot be recovered by the reader (blanket liability exclusion, missing S05).",
+      "major": "Wrong or unsupported statement on a must rule (wrong recipient, missing transfer field, wrong citation, unresolved ambiguity presented as fact).",
+      "minor": "Should-level omission, imprecise wording, style deviation with no legal effect. Goes to the Reviewer Sheet.",
+      "info": "Observation or pointer for the human reviewer; no change required."
+    },
+    "houseStyleNote": "No house-style rule is approved yet (status candidate in house-style/lotte-innovate.candidates.json). Until the user approves rules, the houseStyle score is reported as not_assessed in prose and set to 5 in the structured report; no houseStyle finding may be raised."
+  },
+  "profiles": {
+    "privacy": {
+      "sectionChecks": [
+        {
+          "sectionId": "A1",
+          "title": "Generative-AI service appendix",
+          "classification": "conditional",
+          "mustRuleIds": [],
+          "shouldRuleIds": [
+            "R-A1-001",
+            "R-A1-002",
+            "R-A1-003",
+            "R-A1-004",
+            "R-A1-005",
+            "R-A1-006",
+            "R-A1-007",
+            "R-A1-008",
+            "R-A1-009",
+            "R-A1-011"
+          ]
+        },
+        {
+          "sectionId": "S01",
+          "title": "Title and preamble",
+          "classification": "mandatory",
+          "mustRuleIds": [
+            "R-S01-001",
+            "R-S01-006"
+          ],
+          "shouldRuleIds": [
+            "R-S01-002",
+            "R-S01-003",
+            "R-S01-004",
+            "R-S01-005"
+          ]
+        },
+        {
+          "sectionId": "S02",
+          "title": "Processing purposes",
+          "classification": "mandatory",
+          "mustRuleIds": [
+            "R-S02-001",
+            "R-S02-002",
+            "R-S02-003",
+            "R-S02-004"
+          ],
+          "shouldRuleIds": []
+        },
+        {
+          "sectionId": "S03",
+          "title": "Items processed",
+          "classification": "mandatory",
+          "mustRuleIds": [
+            "R-S03-001",
+            "R-S03-002",
+            "R-S03-003",
+            "R-S03-004",
+            "R-S03-005",
+            "R-S03-006",
+            "R-S03-008"
+          ],
+          "shouldRuleIds": [
+            "R-S03-007",
+            "R-S03-009"
+          ]
+        },
+        {
+          "sectionId": "S04",
+          "title": "Children under 14",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-S04-001",
+            "R-S04-003"
+          ],
+          "shouldRuleIds": [
+            "R-S04-002",
+            "R-S04-004"
+          ]
+        },
+        {
+          "sectionId": "S05",
+          "title": "Processing and retention period",
+          "classification": "mandatory",
+          "mustRuleIds": [
+            "R-S05-001",
+            "R-S05-002",
+            "R-S05-003",
+            "R-S05-005",
+            "R-S05-007"
+          ],
+          "shouldRuleIds": [
+            "R-S05-004",
+            "R-S05-006"
+          ]
+        },
+        {
+          "sectionId": "S06",
+          "title": "Destruction procedure and method",
+          "classification": "mandatory",
+          "mustRuleIds": [
+            "R-S06-001",
+            "R-S06-002",
+            "R-S06-003"
+          ],
+          "shouldRuleIds": [
+            "R-S06-004",
+            "R-S06-005"
+          ]
+        },
+        {
+          "sectionId": "S07",
+          "title": "Provision to third parties",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-S07-001",
+            "R-S07-002",
+            "R-S07-003",
+            "R-S07-007"
+          ],
+          "shouldRuleIds": []
+        },
+        {
+          "sectionId": "S08",
+          "title": "Criteria for ongoing additional use or provision",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-S08-001",
+            "R-S08-002"
+          ],
+          "shouldRuleIds": []
+        },
+        {
+          "sectionId": "S09",
+          "title": "Outsourcing of processing",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-S09-001",
+            "R-S09-002",
+            "R-S09-007"
+          ],
+          "shouldRuleIds": []
+        },
+        {
+          "sectionId": "S10",
+          "title": "Overseas collection and transfer",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-S10-001",
+            "R-S10-002",
+            "R-S10-003",
+            "R-S10-004",
+            "R-S10-005",
+            "R-S10-007"
+          ],
+          "shouldRuleIds": []
+        },
+        {
+          "sectionId": "S11",
+          "title": "Safety measures",
+          "classification": "mandatory",
+          "mustRuleIds": [
+            "R-S11-001",
+            "R-S11-002"
+          ],
+          "shouldRuleIds": []
+        },
+        {
+          "sectionId": "S12",
+          "title": "Sensitive-data disclosure risk and opt-out",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-S12-001",
+            "R-S12-002"
+          ],
+          "shouldRuleIds": []
+        },
+        {
+          "sectionId": "S13",
+          "title": "Pseudonymized information",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-S13-001",
+            "R-S13-002",
+            "R-S13-003",
+            "R-S13-004",
+            "R-S13-005",
+            "R-S13-006"
+          ],
+          "shouldRuleIds": []
+        },
+        {
+          "sectionId": "S14",
+          "title": "Automatic collection devices",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-S14-001",
+            "R-S14-002",
+            "R-S14-003",
+            "R-S14-007"
+          ],
+          "shouldRuleIds": [
+            "R-S14-005",
+            "R-S14-006"
+          ]
+        },
+        {
+          "sectionId": "S15",
+          "title": "Third-party behavioral data collection",
+          "classification": "recommended",
+          "mustRuleIds": [],
+          "shouldRuleIds": [
+            "R-S15-001",
+            "R-S15-002",
+            "R-S15-003"
+          ]
+        },
+        {
+          "sectionId": "S16",
+          "title": "Rights of data subjects and legal representatives",
+          "classification": "mandatory",
+          "mustRuleIds": [
+            "R-S16-001",
+            "R-S16-002",
+            "R-S16-003",
+            "R-S16-005"
+          ],
+          "shouldRuleIds": [
+            "R-S16-004",
+            "R-S16-006",
+            "R-S16-007",
+            "R-S16-008",
+            "R-S16-009"
+          ]
+        },
+        {
+          "sectionId": "S17",
+          "title": "Automated decisions",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-S17-001",
+            "R-S17-002",
+            "R-S17-003",
+            "R-S17-004",
+            "R-S17-005"
+          ],
+          "shouldRuleIds": [
+            "R-S17-006"
+          ]
+        },
+        {
+          "sectionId": "S18",
+          "title": "Privacy officer and complaint department",
+          "classification": "mandatory",
+          "mustRuleIds": [
+            "R-S18-001",
+            "R-S18-003"
+          ],
+          "shouldRuleIds": [
+            "R-S18-002",
+            "R-S18-004",
+            "R-S18-005",
+            "R-S18-006",
+            "R-S18-007"
+          ]
+        },
+        {
+          "sectionId": "S19",
+          "title": "Domestic representative",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-S19-001",
+            "R-S19-002"
+          ],
+          "shouldRuleIds": [
+            "R-S19-003"
+          ]
+        },
+        {
+          "sectionId": "S20",
+          "title": "Remedies for infringement",
+          "classification": "recommended",
+          "mustRuleIds": [
+            "R-S20-002"
+          ],
+          "shouldRuleIds": [
+            "R-S20-001",
+            "R-S20-003"
+          ]
+        },
+        {
+          "sectionId": "S21",
+          "title": "Fixed video devices (CCTV)",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-S21-002"
+          ],
+          "shouldRuleIds": [
+            "R-S21-003"
+          ]
+        },
+        {
+          "sectionId": "S22",
+          "title": "Mobile video devices",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-S22-002"
+          ],
+          "shouldRuleIds": [
+            "R-S22-003"
+          ]
+        },
+        {
+          "sectionId": "S23",
+          "title": "Voluntary items",
+          "classification": "recommended",
+          "mustRuleIds": [
+            "R-S23-003"
+          ],
+          "shouldRuleIds": [
+            "R-S23-002"
+          ]
+        },
+        {
+          "sectionId": "S24",
+          "title": "Policy changes (versioned change notice)",
+          "classification": "mandatory",
+          "mustRuleIds": [
+            "R-S24-001",
+            "R-S24-002",
+            "R-S24-004"
+          ],
+          "shouldRuleIds": [
+            "R-S24-003"
+          ]
+        }
+      ],
+      "extraChecks": [
+        "Only applicable sections appear; a conditional section whose gate is false is omitted or stated as not processed (ApplicabilityMap).",
+        "Ambiguous delegation vs third-party provision (DELEGATION_VS_PROVISION) shows both candidates with a manual-review marker (R-S07-007, R-S09-007).",
+        "Special types (children under 14, CCTV, gen-AI, location) are warn-only placeholders, never fabricated clauses.",
+        "Statutory retention rows cite only entries of statutes/retention-periods.json (R-S05-007)."
+      ]
+    },
+    "terms": {
+      "sectionChecks": [
+        {
+          "sectionId": "T01",
+          "title": "Purpose and scope",
+          "classification": "mandatory",
+          "mustRuleIds": [
+            "R-T01-001",
+            "R-T01-002"
+          ],
+          "shouldRuleIds": [
+            "R-T01-003",
+            "R-T01-004"
+          ]
+        },
+        {
+          "sectionId": "T02",
+          "title": "Definitions",
+          "classification": "mandatory",
+          "mustRuleIds": [
+            "R-T02-001"
+          ],
+          "shouldRuleIds": [
+            "R-T02-002",
+            "R-T02-003"
+          ]
+        },
+        {
+          "sectionId": "T03",
+          "title": "Posting, explanation and amendment of terms",
+          "classification": "mandatory",
+          "mustRuleIds": [
+            "R-T03-001",
+            "R-T03-002",
+            "R-T03-003",
+            "R-T03-005"
+          ],
+          "shouldRuleIds": [
+            "R-T03-004",
+            "R-T03-006"
+          ]
+        },
+        {
+          "sectionId": "T04",
+          "title": "Provision and change of service",
+          "classification": "mandatory",
+          "mustRuleIds": [
+            "R-T04-001",
+            "R-T04-002",
+            "R-T04-003"
+          ],
+          "shouldRuleIds": []
+        },
+        {
+          "sectionId": "T05",
+          "title": "Suspension of service",
+          "classification": "recommended",
+          "mustRuleIds": [
+            "R-T05-002"
+          ],
+          "shouldRuleIds": [
+            "R-T05-001",
+            "R-T05-003"
+          ]
+        },
+        {
+          "sectionId": "T06",
+          "title": "Membership registration",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-T06-001",
+            "R-T06-002"
+          ],
+          "shouldRuleIds": [
+            "R-T06-003",
+            "R-T06-004"
+          ]
+        },
+        {
+          "sectionId": "T07",
+          "title": "Withdrawal and loss of membership",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-T07-001",
+            "R-T07-002",
+            "R-T07-003"
+          ],
+          "shouldRuleIds": []
+        },
+        {
+          "sectionId": "T08",
+          "title": "Notices to members",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-T08-001",
+            "R-T08-002"
+          ],
+          "shouldRuleIds": []
+        },
+        {
+          "sectionId": "T09",
+          "title": "Order, contract formation, payment and supply",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-T09-001",
+            "R-T09-002",
+            "R-T09-003",
+            "R-T09-004",
+            "R-T09-006",
+            "R-T09-007",
+            "R-T09-008",
+            "R-T09-009"
+          ],
+          "shouldRuleIds": [
+            "R-T09-005",
+            "R-T09-010"
+          ]
+        },
+        {
+          "sectionId": "T10",
+          "title": "Withdrawal of offer and refund",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-T10-001",
+            "R-T10-002",
+            "R-T10-003",
+            "R-T10-004",
+            "R-T10-005",
+            "R-T10-006",
+            "R-T10-007",
+            "R-T10-008"
+          ],
+          "shouldRuleIds": [
+            "R-T10-009",
+            "R-T10-010"
+          ]
+        },
+        {
+          "sectionId": "T11",
+          "title": "Obligations of operator and users",
+          "classification": "mandatory",
+          "mustRuleIds": [
+            "R-T11-001",
+            "R-T11-004"
+          ],
+          "shouldRuleIds": [
+            "R-T11-002",
+            "R-T11-003"
+          ]
+        },
+        {
+          "sectionId": "T12",
+          "title": "Posts, IP and copyright",
+          "classification": "conditional",
+          "mustRuleIds": [
+            "R-T12-001",
+            "R-T12-002"
+          ],
+          "shouldRuleIds": [
+            "R-T12-003",
+            "R-T12-004"
+          ]
+        },
+        {
+          "sectionId": "T13",
+          "title": "Privacy protection (link to privacy policy)",
+          "classification": "mandatory",
+          "mustRuleIds": [
+            "R-T13-001",
+            "R-T13-002",
+            "R-T13-003"
+          ],
+          "shouldRuleIds": [
+            "R-T13-004"
+          ]
+        },
+        {
+          "sectionId": "T14",
+          "title": "Limitation of liability",
+          "classification": "recommended",
+          "mustRuleIds": [
+            "R-T14-001",
+            "R-T14-002",
+            "R-T14-003",
+            "R-T14-006"
+          ],
+          "shouldRuleIds": [
+            "R-T14-004",
+            "R-T14-005"
+          ]
+        },
+        {
+          "sectionId": "T15",
+          "title": "Disputes, jurisdiction and governing law",
+          "classification": "mandatory",
+          "mustRuleIds": [
+            "R-T15-001",
+            "R-T15-003",
+            "R-T15-005"
+          ],
+          "shouldRuleIds": [
+            "R-T15-002",
+            "R-T15-004"
+          ]
+        }
+      ],
+      "unfairClauseLexicon": "kb/jurisdictions/kr/rulepacks/terms-kftc-10023/unfair-clause-lexicon.json",
+      "extraChecks": [
+        "Lexicon hits (U-* ids) are reported with the lexicon severity; an entry marked check llm only routes text to the auditor.",
+        "No clause shortens withdrawal or refund periods below the E-Commerce Act (R-T10-008)."
+      ]
+    }
+  },
+  "crossDocumentChecks": [
+    {
+      "id": "X-01",
+      "name": "Organization name",
+      "description": "The operator name is identical in both documents.",
+      "defaultSeverity": "major"
+    },
+    {
+      "id": "X-02",
+      "name": "Minimum age",
+      "description": "The age limit stated in the terms (terms.minAge) equals the age treatment in the privacy policy (children under 14 section or absence of it).",
+      "defaultSeverity": "major"
+    },
+    {
+      "id": "X-03",
+      "name": "Withdrawal versus retention",
+      "description": "Data kept after withdrawal of membership (T07) matches the retention periods and statutory bases in the privacy policy (S05).",
+      "defaultSeverity": "major"
+    },
+    {
+      "id": "X-04",
+      "name": "Link to the policy",
+      "description": "T13 refers to the privacy policy by its current title and path instead of restating its content.",
+      "defaultSeverity": "major"
+    }
+  ],
+  "passRule": {
+    "maxBlocker": 0,
+    "maxMajor": 0,
+    "minScore": 4,
+    "minClarityScore": 3,
+    "c2MustPass": true
+  },
+  "seededDefects": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7",
+    "D8"
+  ],
+  "changelog": [
+    {
+      "version": "1.0.0",
+      "date": "2026-09-30",
+      "note": "First rubric: shared layer with 0-5 anchors, privacy and terms profiles derived from the rule packs, four cross-document checks, seeded defects D1-D8. House style not yet approved."
+    }
+  ]
+}

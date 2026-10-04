@@ -20,7 +20,7 @@ import type { FactLedger, SlotEntry } from "../../contracts/fact-ledger";
 import { GapListSchema, type Gap, type GapList } from "../../contracts/gap-list";
 import type { InterviewTemplate, QuestionNode } from "../../contracts/interview-template";
 import { detectDelegationAmbiguity } from "./delegation";
-import { contextFromLedger, evalCond, looseCondSlotIds, type Tri } from "./eval-cond";
+import { contextFromLedger, evalCond, looseCondSlotIds, type LooseCond, type Tri } from "./eval-cond";
 import type { RulePackItem } from "./load-kb";
 
 /** Slots below this confidence are re-asked (`low_confidence`). R2 maps high/medium/low to 0.9/0.7/0.4. */
@@ -36,6 +36,8 @@ export interface CoverageInput {
   readonly rulePackVersion: string;
   /** False (default) while terms packs are absent: T01-T15 become `pending` plus a TERMS_PACK_PENDING warning. */
   readonly termsPackAvailable?: boolean;
+  /** Per-article conditions from the terms pack (T10 only when paid, T12 only with user content). Omitted -> every article follows the document. */
+  readonly termsItems?: readonly { readonly id: string; readonly when: LooseCond }[];
   /** Interview round this list is computed for (0 = after first extraction). */
   readonly round?: 0 | 1 | 2;
   /** Node id -> slot ids already answered by an intake sheet. */
@@ -107,6 +109,14 @@ function specialTypeWarnings(ledger: FactLedger): Warning[] {
   return w;
 }
 
+/** The document-level decision already covers `terms.applicable`; an article's own condition is evaluated without it. */
+function withoutTermsApplicable(c: LooseCond): LooseCond {
+  if ("all" in c) return { all: c.all.filter((x) => !("slot" in x && x.slot === "terms.applicable")).map(withoutTermsApplicable) };
+  if ("any" in c) return { any: c.any.map(withoutTermsApplicable) };
+  if ("not" in c) return { not: withoutTermsApplicable(c.not) };
+  return c;
+}
+
 function termsDocument(ledger: FactLedger): { applicable: boolean; reason?: string } {
   const ctx = contextFromLedger(ledger);
   if (evalCond({ slot: "terms.applicable", op: "eq", value: false }, ctx) === true) {
@@ -131,7 +141,14 @@ export function runCoverage(input: CoverageInput): CoverageResult {
     items[item.id] = { state: tri(evalCond(item.when, ctx)), basisSlots: [...new Set(looseCondSlotIds(item.when))] };
   }
   for (const id of TERMS_ITEM_IDS) {
-    items[id] = !termsPack ? { state: "pending", basisSlots: [] } : { state: terms.applicable ? "yes" : "no", basisSlots: terms.applicable ? [] : ["terms.applicable", "profile.serviceTypes"] };
+    const own = input.termsItems?.find((t) => t.id === id);
+    items[id] = !termsPack
+      ? { state: "pending", basisSlots: [] }
+      : !terms.applicable
+        ? { state: "no", basisSlots: ["terms.applicable", "profile.serviceTypes"] }
+        : own
+          ? { state: tri(evalCond(withoutTermsApplicable(own.when), ctx)), basisSlots: [...new Set(looseCondSlotIds(withoutTermsApplicable(own.when)))] }
+          : { state: "yes", basisSlots: [] };
   }
 
   const warnings: Warning[] = specialTypeWarnings(ledger);

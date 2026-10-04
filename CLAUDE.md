@@ -4,7 +4,7 @@
 
 This project scaffolds the Privacy Policy and Terms Drafting Agent (Phase 1).
 
-**See**: `docs/designs/2026-09-29-privacy-policy-agent-team-design.md` (approved) and `docs/decisions/DEC-20260929-01.md`
+**See**: `docs/designs/2026-10-02-confirmed-design.md` (confirmed v2: Check/Impact, Peer Watch, Draft), `docs/designs/2026-09-29-privacy-policy-agent-team-design.md` (drafting, approved), `docs/decisions/DEC-20261002-02.md`
 
 ## Project Agents
 
@@ -33,11 +33,10 @@ Ensure `$OutputEncoding = [Console]::OutputEncoding = [System.Text.Encoding]::UT
 
 ## Next Steps
 
-Rows 1-3 are done: scaffold, agents and skills (Row 2), and the law source spike (Row 3). Remaining rows follow design R15:
+Rows 1-15 are implemented and tested with mock models (see `docs/HANDOFF.md` for the row table and `docs/reports/2026-10-01-final-qa.md`). What remains needs the API key, the original PC, or a person:
 
-1. Row 4a: Korean privacy rule packs and Interview Template v1 (privacy-domain-expert).
-2. Row 4b: terms rule packs and rubric v1 (privacy-domain-expert).
-3. Row 5: Zod contracts, model registry, run store, stage cache (automation-engineer, `sonnet`).
-4. Row 6: corpus capture, provenance, clustering, house-style candidates (kb-curator). Waiting for the user's site list.
-5. Rows 7-12: R1 intake and masking, golden cases and clause vetting, R2-R4, R8 renderer, R5P/R5T drafters, R6 freshness watcher.
-6. Rows 13-15: golden-set regression, router skill and README, final QA gate and freeze.
+1. Live runs: `scripts/smoke-extract.ts`, `scripts/run-pipeline.ts`, then `scripts/golden-regression.ts --runs 3` (design R11.2 gate; max 3 tuning loops per defect class).
+2. Clause vetting (privacy-domain-expert, `opus`): set `vetted` and `vettedAgainst` in clause files; bind the 11 unbound variables to slots or renderer metadata.
+3. House-style approval (the user): candidates in `kb/jurisdictions/kr/house-style/`.
+4. Original PC only: `scripts/freshness-check.ts`; raw-source rebuilds (redact the capture-index officer contacts again if the index is regenerated, QA finding 1).
+5. Freeze (Row 15) only after the live and human gates pass.

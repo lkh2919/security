@@ -1,0 +1,71 @@
+{
+  "fixture": "golden/monitor/laws/pipa-20897-to-21445.json",
+  "law": "PIPA",
+  "labelStatus": "pending privacy-domain-expert review (AI self-reviewed 2026-10-03: 11 terminology-only units listed once, never per policy; S18 = 31(3)-(4); S19 = 31-2(1)2 adds notification under 34(2))",
+  "derivation": "article diff (diffArticles) intersected with rule-pack privacy-2026.04 legalRefs (mapUnitsToSections); sanity check: PIPA Art. 31 (privacy officer) maps to S18",
+  "rulePack": "privacy-2026.04",
+  "mustIncludeSections": [
+    "S18"
+  ],
+  "expectedDiffUnitCount": 98,
+  "expectedSections": [
+    {
+      "sectionId": "S18",
+      "units": [
+        "PIPA:31(3)",
+        "PIPA:31(3)1",
+        "PIPA:31(3)2",
+        "PIPA:31(3)3",
+        "PIPA:31(3)4",
+        "PIPA:31(3)5",
+        "PIPA:31(3)6",
+        "PIPA:31(3)7",
+        "PIPA:31(4)",
+        "PIPA:31(4)1",
+        "PIPA:31(4)2",
+        "PIPA:31(4)3",
+        "PIPA:31(4)4",
+        "PIPA:31(4)5",
+        "PIPA:31(4)6",
+        "PIPA:31(4)7",
+        "PIPA:31(4)8",
+        "PIPA:31(4)9"
+      ],
+      "rules": [
+        "R-S18-005",
+        "R-S18-006"
+      ],
+      "changeClass": "substantive"
+    },
+    {
+      "sectionId": "S19",
+      "units": [
+        "PIPA:31-2(1)2"
+      ],
+      "rules": [
+        "R-S19-001",
+        "R-S19-003"
+      ],
+      "changeClass": "substantive"
+    }
+  ],
+  "expectedUnmappedUnitCount": 79,
+  "mustRuleSections": [
+    "S18",
+    "S19"
+  ],
+  "changeClassNote": "Terminology-only units (유출등 defined term, cross-reference renumbering, PIPA:31(1) wording via kb/jurisdictions/kr/statutes/amendment-classes.json) are reported once per run as MON-TERMINOLOGY and counted in expectedUnmappedUnitCount.",
+  "expectedTerminologyUnits": [
+    "PIPA:24(3)",
+    "PIPA:24-2(2)",
+    "PIPA:25(6)",
+    "PIPA:26(4)",
+    "PIPA:26(8)",
+    "PIPA:28-4(1)",
+    "PIPA:29",
+    "PIPA:31(1)",
+    "PIPA:31-2(1)1",
+    "PIPA:58(3)",
+    "PIPA:75(2)18"
+  ]
+}

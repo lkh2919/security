@@ -1,0 +1,9 @@
+# 서비스 설명서 (가상 데이터)
+서비스명: 말벗AI
+양식버전: infosec-2026.1
+설명: 생성형 AI 상담 기능이 있는 서비스
+gate.membership: true
+gate.outsourcing: 아니오
+gate.thirdPartyProvision: 아니오
+gate.overseasTransfer: 아니오
+gate.genAI: true

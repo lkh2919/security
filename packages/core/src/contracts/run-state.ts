@@ -7,8 +7,11 @@ import { MAX_AUDIT_ITERATIONS } from "./audit-report";
 import { MAX_INTERVIEW_ROUNDS } from "./question-set";
 import { VersionStampsSchema } from "./manifest";
 
-/** Pipeline stages in execution order (design R7 state machine). */
-export const PIPELINE_STAGES = ["intake", "mask", "extract", "coverage", "interview", "freshness", "match", "draft", "check", "audit", "render"] as const;
+/**
+ * Pipeline stages in execution order (design R7 state machine). The `daily-*` stages are the steps of the daily monitor chain
+ * (design C3); they are appended so the artifact ordinals of the draft stages never change.
+ */
+export const PIPELINE_STAGES = ["intake", "mask", "extract", "coverage", "interview", "freshness", "match", "draft", "check", "audit", "render", "daily-freshness", "daily-impact", "daily-recheck", "daily-peers", "daily-digest"] as const;
 export const PipelineStageSchema = z.enum(PIPELINE_STAGES);
 export type PipelineStage = z.infer<typeof PipelineStageSchema>;
 

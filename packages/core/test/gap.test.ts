@@ -36,7 +36,7 @@ const ledgerOf = (facts: Record<string, JsonValue>, extra: Record<string, SlotEn
   slots: { ...Object.fromEntries(Object.entries(facts).map(([k, v]) => [k, entry(v)])), ...extra },
 });
 const coverage = (ledger: FactLedger, round: 0 | 1 | 2 = 0) =>
-  runCoverage({ runId: RUN_ID, ledger, template: kb.template, rulePackItems: kb.rulePackItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: false, round });
+  runCoverage({ runId: RUN_ID, ledger, template: kb.template, rulePackItems: kb.rulePackItems, termsItems: kb.termsItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: false, round });
 
 /** R3 mock: merges all low-confidence / conflict gaps that share a question-ID family into one follow-up. */
 function mergeByFamily(request: StructuredCallRequest): GapOutput {

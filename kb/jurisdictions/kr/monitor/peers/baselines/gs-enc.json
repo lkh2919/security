@@ -1,0 +1,93 @@
+{
+  "peerId": "gs-enc",
+  "url": "https://gsenc.com/Service/Policy.aspx",
+  "fetchedAt": "2026-10-02T06:47:41.436Z",
+  "contentSha256": "c70882dbda0367b2ba3fde8201055a9686e2a29114bed7ccbb43aea0fced292a",
+  "neutralContentSha256": "b58d6d06d000d416986a3113660eb12a5ec17013e093385cceedbe8d930cdf48",
+  "sections": [
+    {
+      "sectionId": "PREAMBLE",
+      "sha256": "5177a5b7ab8c77578ee91a45c45f38cd64a675863666e102399bc94d858bbbe8",
+      "neutralSha256": "5177a5b7ab8c77578ee91a45c45f38cd64a675863666e102399bc94d858bbbe8",
+      "charCount": 35
+    },
+    {
+      "sectionId": "S01",
+      "sha256": "303372f03b531dc4108e8abfa7099f0e72509a233c0fc2f8e0ed4462bf541185",
+      "neutralSha256": "303372f03b531dc4108e8abfa7099f0e72509a233c0fc2f8e0ed4462bf541185",
+      "charCount": 737
+    },
+    {
+      "sectionId": "S02",
+      "sha256": "0262c1205cc8b24695573b8ca88d7c23403668aa00cc59e8fbecdfb56caf3749",
+      "neutralSha256": "0262c1205cc8b24695573b8ca88d7c23403668aa00cc59e8fbecdfb56caf3749",
+      "charCount": 925
+    },
+    {
+      "sectionId": "S05",
+      "sha256": "071bd598d5b8517417ee8f36c21c22f8d837149de2e5006b33270e6cf2464184",
+      "neutralSha256": "071bd598d5b8517417ee8f36c21c22f8d837149de2e5006b33270e6cf2464184",
+      "charCount": 484
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "f0df6b2820d98a5284ff7b75da15f7feab646ce470517c1c3efcf18836a47b94",
+      "neutralSha256": "f0df6b2820d98a5284ff7b75da15f7feab646ce470517c1c3efcf18836a47b94",
+      "charCount": 1619
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "9c7f5cd704dc4b2ee34cc6196ec36d9ae8d1e92c6885e24222298ba62c1e2a08",
+      "neutralSha256": "9c7f5cd704dc4b2ee34cc6196ec36d9ae8d1e92c6885e24222298ba62c1e2a08",
+      "charCount": 268
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "56029609c18e647dfc2c423b19a48762a0c737b39fd4b735190287a5cf00b988",
+      "neutralSha256": "56029609c18e647dfc2c423b19a48762a0c737b39fd4b735190287a5cf00b988",
+      "charCount": 458
+    },
+    {
+      "sectionId": "S11",
+      "sha256": "8a23a1f9587fee7bf258c6123ab7e63fda7ed7d2b6f737ccef80c99b911414e3",
+      "neutralSha256": "8a23a1f9587fee7bf258c6123ab7e63fda7ed7d2b6f737ccef80c99b911414e3",
+      "charCount": 0
+    },
+    {
+      "sectionId": "S14",
+      "sha256": "f2f075958c3310f21d6b8a823de403a62211de59c7fb9513d4c39d0c913432e8",
+      "neutralSha256": "f2f075958c3310f21d6b8a823de403a62211de59c7fb9513d4c39d0c913432e8",
+      "charCount": 394
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "4f53dc9f9bd626edcd9d15c1dd10af846703763dda10df39bebb09c701ed2478",
+      "neutralSha256": "4f53dc9f9bd626edcd9d15c1dd10af846703763dda10df39bebb09c701ed2478",
+      "charCount": 834
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "3847073a11a438745f6e346acb4709e483ab72d85772322fcb0e7f8ef2df4537",
+      "neutralSha256": "3847073a11a438745f6e346acb4709e483ab72d85772322fcb0e7f8ef2df4537",
+      "charCount": 645
+    },
+    {
+      "sectionId": "S20",
+      "sha256": "be7d29940151413371a14a5449e699cacefce882416cf6963e27c6e4241071a7",
+      "neutralSha256": "be7d29940151413371a14a5449e699cacefce882416cf6963e27c6e4241071a7",
+      "charCount": 495
+    },
+    {
+      "sectionId": "S24",
+      "sha256": "4f6e79a05b3e102da2894b463a9554cc5b9c5387460c557779d758430d455f46",
+      "neutralSha256": "db161459c1be1f7e2ee0bddc2627d76913503ba7afa0039f7a577200d40f94de",
+      "charCount": 198
+    },
+    {
+      "sectionId": "UNMAPPED",
+      "sha256": "0b0f48678be1aa7d54eaddb1729039ae2028277122c60c68ce3b3d9e852e9bb2",
+      "neutralSha256": "0b0f48678be1aa7d54eaddb1729039ae2028277122c60c68ce3b3d9e852e9bb2",
+      "charCount": 404
+    }
+  ]
+}

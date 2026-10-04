@@ -32,6 +32,13 @@ export interface KrKnowledge {
   readonly rulePackVersion: string;
   readonly rulePackItems: readonly RulePackItem[];
   readonly termsPackAvailable: boolean;
+  /** Terms articles T01-T15 with their own applicability conditions (empty when the terms pack is absent). */
+  readonly termsItems: readonly TermsItem[];
+}
+
+export interface TermsItem {
+  readonly id: string;
+  readonly when: LooseCond;
 }
 
 /** X1 (location) has no rule pack file; its applicability is fixed here (design R4.1, X1 = warn-only). */
@@ -110,5 +117,11 @@ export function loadKrKnowledge(paths: KrKnowledgePaths): KrKnowledge {
   if (!items.some((i) => i.id === "X1")) items.push(X1_ITEM);
 
   const termsPackAvailable = paths.termsPackDir !== undefined && existsSync(join(paths.termsPackDir, "index.json"));
-  return { template, registry, slotHints: parseSlotHints(slotsJson), rulePackVersion: index.packVersion, rulePackItems: items, termsPackAvailable };
+  const termsItems: TermsItem[] = termsPackAvailable
+    ? z
+        .looseObject({ sections: z.array(z.looseObject({ id: z.string(), applicability: z.unknown() })) })
+        .parse(read(join(paths.termsPackDir!, "index.json")))
+        .sections.map((s) => ({ id: s.id, when: CondLooseSchema.parse(s.applicability) }))
+    : [];
+  return { template, registry, slotHints: parseSlotHints(slotsJson), rulePackVersion: index.packVersion, rulePackItems: items, termsPackAvailable, termsItems };
 }

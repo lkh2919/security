@@ -1,0 +1,11 @@
+{
+  "name": "Example Retail Co. (placeholder)",
+  "tenantId": "example",
+  "domainGroup": "retail-example",
+  "policyDir": "watch/example",
+  "reviewers": ["infosec-reviewer-1", "legal-reviewer-1"],
+  "apps": ["check", "impact", "peers", "draft"],
+  "llm": "none",
+  "rulePacks": ["privacy-2026.04"],
+  "peersFile": "../../../kb/jurisdictions/kr/monitor/peers/peer-registry.json"
+}

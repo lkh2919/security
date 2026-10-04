@@ -25,7 +25,7 @@ function ledgerOf(facts: Record<string, JsonValue>, extra: Record<string, SlotEn
 }
 
 function cover(ledger: FactLedger, over: Partial<Parameters<typeof runCoverage>[0]> = {}) {
-  return runCoverage({ runId: RUN_ID, ledger, template: kb.template, rulePackItems: kb.rulePackItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: kb.termsPackAvailable, ...over });
+  return runCoverage({ runId: RUN_ID, ledger, template: kb.template, rulePackItems: kb.rulePackItems, termsItems: kb.termsItems, rulePackVersion: kb.rulePackVersion, termsPackAvailable: kb.termsPackAvailable, ...over });
 }
 
 const gapIds = (r: ReturnType<typeof cover>): string[] => r.gapList.gaps.map((g) => g.questionId);
@@ -97,13 +97,17 @@ describe("C1 applicability and gaps", () => {
     expect(r.gapList.warnings).toEqual(r.applicability.warnings);
   });
 
-  test("terms packs absent: T01-T15 are pending with a TERMS_PACK_PENDING warning; present: they follow the document", () => {
+  test("terms packs absent: T01-T15 are pending with a TERMS_PACK_PENDING warning; present: each article follows its own condition", () => {
     const pending = cover(ledgerOf(cases.b2c_commerce), { termsPackAvailable: false });
     for (const id of TERMS_ITEM_IDS) expect(pending.applicability.items[id]).toEqual({ state: "pending", basisSlots: [] });
     expect(pending.applicability.warnings.map((w) => w.code)).toContain("TERMS_PACK_PENDING");
     const ready = cover(ledgerOf(cases.b2c_commerce), { termsPackAvailable: true });
-    for (const id of TERMS_ITEM_IDS) expect(ready.applicability.items[id].state).toBe("yes");
+    // The commerce sample confirms membership but not paid features or user content: T09/T10/T12 stay open, the rest apply.
+    const states = Object.fromEntries(TERMS_ITEM_IDS.map((id) => [id, ready.applicability.items[id].state]));
+    expect(Object.entries(states).filter(([, s]) => s !== "yes").map(([id, s]) => `${id}:${s}`)).toEqual(["T09:unknown", "T10:unknown", "T12:unknown"]);
     expect(ready.applicability.warnings.map((w) => w.code)).not.toContain("TERMS_PACK_PENDING");
+    const free = cover({ ...ledgerOf(cases.b2c_commerce), slots: { ...ledgerOf(cases.b2c_commerce).slots, "terms.paid": { status: "filled", value: false, confidence: 1, evidence: [{ source: "user_confirmed", ref: "t", quote: "" }] } } }, { termsPackAvailable: true });
+    expect(free.applicability.items["T10"]!.state).toBe("no");
   });
 
   test("internal HR: terms document not applicable with a reason, no terms nodes, HR nodes asked", () => {

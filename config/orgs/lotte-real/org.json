@@ -1,0 +1,11 @@
+{
+  "name": "롯데 계열사 공개 처리방침 (실제 점검 10건)",
+  "tenantId": "lotte-real",
+  "domainGroup": "lotte-group",
+  "policyDir": "watch/lotte",
+  "reviewers": ["infosec-reviewer-1", "legal-reviewer-1"],
+  "apps": ["check", "impact", "peers"],
+  "llm": "claude-code",
+  "rulePacks": ["privacy-2026.04"],
+  "peersFile": "../../../kb/jurisdictions/kr/monitor/peers/peer-registry.json"
+}

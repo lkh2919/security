@@ -1,0 +1,23 @@
+{
+  "id": "D3",
+  "docType": "privacy",
+  "baseCase": "G1b",
+  "defectClass": "missing transfer field",
+  "sectionId": "S10",
+  "mutation": {
+    "kind": "remove",
+    "instruction": "In the S10 table remove the destination country and the refusal method for the 크래시랩 row."
+  },
+  "expected": {
+    "ruleId": "R-S10-003",
+    "docType": "privacy",
+    "sectionId": "S10",
+    "severity": "major",
+    "layer": "llm"
+  },
+  "rationale": "Each overseas transfer must state legal basis, items, country, recipient, date and method, and how to refuse (R-S10-003).",
+  "sources": [
+    "PIPA:28-8(2)",
+    "DEC:31(1)2"
+  ]
+}

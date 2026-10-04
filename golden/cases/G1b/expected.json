@@ -1,0 +1,379 @@
+{
+  "caseId": "G1b",
+  "synthetic": true,
+  "scenario": "G1 plus overseas cloud and processors (S09 and S10 both drafted)",
+  "slots": {
+    "gate.membership": true,
+    "gate.childrenU14": false,
+    "gate.sensitiveData": false,
+    "gate.uniqueId": false,
+    "gate.onDevice": false,
+    "gate.marketing": false,
+    "gate.thirdPartyProvision": false,
+    "gate.additionalUseOngoing": false,
+    "gate.outsourcing": true,
+    "gate.overseasTransfer": true,
+    "gate.overseasDirectCollection": false,
+    "gate.sensitivePublicExposure": false,
+    "gate.pseudonymized": false,
+    "gate.autoCollection": true,
+    "gate.behavioralIdentified": false,
+    "gate.behavioralNonIdentified": false,
+    "gate.thirdPartyTrackers": false,
+    "gate.dataPortabilitySender": false,
+    "gate.automatedDecision": false,
+    "gate.foreignNoKrAddress": false,
+    "gate.domesticRepRequired": false,
+    "gate.cctvFixed": false,
+    "gate.cctvMobile": false,
+    "gate.genAI": false,
+    "gate.locationInfo": false,
+    "privacy.S20_includeRemedies": false,
+    "profile.serviceTypes": [
+      "b2c_commerce"
+    ],
+    "terms.applicable": true,
+    "terms.paid": true,
+    "terms.ugc": false,
+    "terms.customerType": "consumer",
+    "terms.minAge": 14,
+    "privacy.S09_processors": [
+      {
+        "name": "한빛택배",
+        "task": "상품 배송"
+      },
+      {
+        "name": "메시지허브",
+        "task": "주문 안내 문자 발송"
+      },
+      {
+        "name": "클라우드원",
+        "task": "주문 데이터 클라우드 저장"
+      },
+      {
+        "name": "크래시랩",
+        "task": "앱 오류 분석"
+      }
+    ],
+    "profile.orgNameRef": "주식회사 쇼핑나우",
+    "profile.serviceNames": [
+      "쇼핑나우"
+    ],
+    "profile.channels": [
+      "mobile_app",
+      "web",
+      "call_center"
+    ],
+    "profile.dataSubjectGroups": [
+      "회원"
+    ],
+    "privacy.S02_purposes": [
+      {
+        "task": "회원가입",
+        "purpose": "회원 식별 및 본인확인",
+        "service": "쇼핑나우"
+      },
+      {
+        "task": "주문",
+        "purpose": "상품 배송 및 주문 안내 문자 발송",
+        "service": "쇼핑나우"
+      },
+      {
+        "task": "고객문의",
+        "purpose": "문의 접수와 처리",
+        "service": "쇼핑나우"
+      },
+      {
+        "task": "앱 오류 분석",
+        "purpose": "앱 오류 분석과 서비스 안정화",
+        "service": "쇼핑나우"
+      },
+      {
+        "task": "서비스 이용",
+        "purpose": "부정 이용 방지",
+        "service": "쇼핑나우"
+      }
+    ],
+    "privacy.S03_items": [
+      {
+        "task": "회원가입",
+        "items": "이름, 이메일, 휴대폰번호",
+        "required": "필수",
+        "basisType": "consent",
+        "legalBasis": "정보주체의 동의",
+        "category": "일반"
+      },
+      {
+        "task": "주문",
+        "items": "배송지 주소, 수령인 휴대폰번호, 입금자명, 입금 금액",
+        "required": "필수",
+        "basisType": "no_consent",
+        "legalBasis": "계약의 이행",
+        "category": "일반"
+      },
+      {
+        "task": "고객문의",
+        "items": "이름, 연락처, 문의 내용",
+        "required": "필수",
+        "basisType": "consent",
+        "legalBasis": "정보주체의 동의",
+        "category": "일반"
+      },
+      {
+        "task": "앱 오류 분석",
+        "items": "앱 오류 로그, 기기 모델, OS 버전",
+        "required": "필수",
+        "basisType": "no_consent",
+        "legalBasis": "계약의 이행",
+        "category": "일반"
+      }
+    ],
+    "privacy.S05_retention": [
+      {
+        "target": "회원 정보",
+        "period": "회원 탈퇴 시까지",
+        "basis": "contract"
+      },
+      {
+        "target": "주문·결제 기록",
+        "period": "5년",
+        "basis": "statute",
+        "citationId": "NTBA:85-3(2)"
+      },
+      {
+        "target": "고객문의 기록",
+        "period": "문의 처리 완료 후 1년",
+        "basis": "consent"
+      },
+      {
+        "target": "서비스 접속 로그",
+        "period": "3개월",
+        "basis": "contract"
+      },
+      {
+        "target": "앱 오류 로그, 기기 모델, OS 버전",
+        "period": "수집 후 90일",
+        "basis": "contract"
+      }
+    ],
+    "privacy.S05_retentionExceptions": [
+      "분쟁 또는 수사가 진행 중인 경우 해당 절차가 끝날 때까지 보관합니다."
+    ],
+    "privacy.S06_destruction": "전자적 파일은 복구할 수 없는 방법으로 영구 삭제하고 종이 문서는 분쇄하거나 소각합니다. 파기는 개인정보 보호책임자의 승인을 받아 정보보호팀이 수행합니다.",
+    "privacy.S11_measures": [
+      "내부관리계획 수립·시행",
+      "접근 권한 관리와 접근통제 시스템 운영",
+      "개인정보 암호화",
+      "접속기록 1년 이상 보관",
+      "보안 프로그램 설치 및 주기적 갱신",
+      "전산실 출입통제"
+    ],
+    "privacy.S14_devices": [
+      {
+        "name": "쿠키",
+        "type": "웹 쿠키",
+        "purpose": "로그인 유지와 이용 환경 설정",
+        "items": "쿠키 식별값, 접속 환경 정보",
+        "retention": "로그아웃 또는 브라우저 종료 시까지(로그인 유지 쿠키는 30일)",
+        "refusal": "웹 브라우저 설정 메뉴에서 쿠키 저장을 차단하거나 삭제할 수 있습니다. 크롬은 설정 > 개인정보 및 보안 > 쿠키 및 기타 사이트 데이터, 엣지는 설정 > 쿠키 및 사이트 권한 > 쿠키 및 사이트 데이터 관리, 사파리는 설정 > 개인 정보 보호 > 모든 쿠키 차단에서 설정합니다. 쿠키를 차단하면 로그인 유지가 되지 않을 수 있습니다."
+      }
+    ],
+    "privacy.S16_rightsChannels": [
+      "앱·웹 내 '내 정보' 메뉴",
+      "고객센터 전화",
+      "이메일"
+    ],
+    "privacy.S16_selfServicePaths": "앱·웹 > 내 정보 > 개인정보 조회·수정·회원탈퇴",
+    "privacy.S16_requestDept": "고객지원팀 (privacy@example.com, 02-000-0000)",
+    "privacy.S18_officer": "개인정보 보호책임자: 정보보호팀장 (privacy@example.com, 02-000-0000)",
+    "privacy.S18_dept": "정보보호팀 (privacy@example.com, 02-000-0000)",
+    "privacy.S24_noticeMethod": [
+      "앱·웹 공지사항"
+    ],
+    "terms.definitions": [
+      "서비스",
+      "이용자",
+      "회원"
+    ],
+    "terms.serviceScope": "의류와 잡화 등 상품을 앱과 웹에서 판매하는 온라인 쇼핑 서비스",
+    "terms.noticePeriodDays": 7,
+    "terms.unfavourableChangeNoticeDays": 30,
+    "terms.memberNoticeChannels": [
+      "앱 푸시",
+      "이메일"
+    ],
+    "terms.membershipRules": "이메일 주소로 가입하며 만 14세 이상만 가입할 수 있습니다. 회원 탈퇴 후 재가입은 탈퇴일부터 7일이 지나면 가능합니다. 자격 제한 사유가 2회 이상 반복되거나 통지 후 30일 이내에 시정되지 않으면 회원 자격을 상실시킬 수 있습니다. 회원 자격을 상실한 사람은 상실일부터 30일이 지나면 다시 가입할 수 있습니다.",
+    "terms.suspensionCases": "시스템 점검이나 천재지변 등 불가항력으로 서비스 제공이 어려운 경우 일시 중단할 수 있습니다.",
+    "terms.paymentMethods": [
+      "무통장입금(주문 후 3일 이내 입금, 기한이 지나면 주문 자동 취소)"
+    ],
+    "terms.contractFormation": "이용자가 구매를 신청하고 회사의 주문 확인 안내가 이용자에게 도달한 때 계약이 성립합니다. 청약철회는 앱·웹의 주문내역 메뉴나 고객센터 전화·이메일로 신청합니다.",
+    "terms.refundPolicy": [
+      {
+        "case": "청약철회(단순 변심)",
+        "period": "상품을 받은 날부터 7일 이내",
+        "refund": "반품 상품이 회사에 도착한 날부터 3영업일 이내 환급",
+        "costBearer": "반품 비용은 이용자 부담"
+      }
+    ],
+    "terms.subscription": false,
+    "terms.userObligations": "타인 정보 도용, 허위 정보 등록, 서비스 운영 방해를 하지 않아야 합니다.",
+    "terms.ipPolicy": "서비스에 게시된 상표와 콘텐츠의 권리는 회사에 있습니다.",
+    "terms.privacyPolicyUrl": "https://shopnow.example.com/privacy",
+    "terms.liabilityPosture": "회사는 고의 또는 과실이 없음을 입증한 경우 책임을 지지 않습니다.",
+    "terms.disputeVenue": "소 제기 당시 이용자의 주소를 관할하는 지방법원(주소가 없으면 거소를 관할하는 지방법원). 주소나 거소가 분명하지 않거나 외국에 거주하는 경우에는 민사소송법에 따른 관할법원",
+    "terms.usesStdTerms": false,
+    "terms.nonMemberPurchase": false,
+    "terms.businessIdentity": "상호 주식회사 쇼핑나우, 대표자 홍길동, 사업장 주소 서울특별시 강남구 가상로 1, 고객 불만 처리 주소 서울특별시 강남구 가상로 1 고객지원팀, 사업자등록번호 000-00-00000, 통신판매업 신고번호 제0000-서울강남-00000호, 연락처 02-000-0000, 이메일 privacy@example.com",
+    "terms.pointsMileage": false,
+    "terms.minorPurchase": false,
+    "terms.goodsTypes": [
+      "physical_goods"
+    ],
+    "terms.deliveryPolicy": [
+      {
+        "means": "택배",
+        "costBearer": "3만원 이상 구매 시 회사 부담, 미만 시 이용자 부담",
+        "period": "결제 후 3일 이내 발송"
+      }
+    ],
+    "terms.marketplaceIntermediary": false,
+    "terms.complaintChannel": "고객센터 02-000-0000, help@example.com",
+    "privacy.S09_ambiguousPartyTypes": [
+      "none"
+    ],
+    "privacy.S09_roleAssessment": [
+      {
+        "party": "한빛택배",
+        "partyType": "택배사",
+        "taskForUs": "상품 배송",
+        "ownPurposeUse": "no",
+        "items": "배송지 주소, 수령인 휴대폰번호",
+        "overseas": "no"
+      },
+      {
+        "party": "메시지허브",
+        "partyType": "문자 발송 대행",
+        "taskForUs": "주문 안내 문자 발송",
+        "ownPurposeUse": "no",
+        "items": "수령인 휴대폰번호",
+        "overseas": "no"
+      },
+      {
+        "party": "클라우드원",
+        "partyType": "클라우드",
+        "taskForUs": "주문 데이터 저장",
+        "ownPurposeUse": "no",
+        "items": "배송지 주소, 수령인 휴대폰번호, 입금자명",
+        "overseas": "yes"
+      },
+      {
+        "party": "크래시랩",
+        "partyType": "앱 오류 분석",
+        "taskForUs": "앱 오류 분석",
+        "ownPurposeUse": "no",
+        "items": "앱 오류 로그, 기기 모델, OS 버전",
+        "overseas": "yes"
+      }
+    ],
+    "privacy.S03_generatedItems": [
+      {
+        "task": "서비스 이용",
+        "items": "접속 로그, 쿠키",
+        "legalBasis": "계약의 이행"
+      }
+    ],
+    "privacy.S24_effectiveDate": "2026-10-01",
+    "privacy.S10_overseas": [
+      {
+        "transferType": "처리위탁(보관)",
+        "legalBasis": "정보주체와의 계약 이행을 위한 처리위탁·보관",
+        "items": "배송지 주소, 수령인 휴대폰번호, 입금자명",
+        "countries": "싱가포르",
+        "timingMethod": "서비스 이용 시점마다 네트워크로 암호화하여 전송",
+        "recipientAndContact": "클라우드원 (privacy@example.com)",
+        "purpose": "주문 데이터 클라우드 저장",
+        "retention": "위탁 계약 종료 시까지"
+      },
+      {
+        "transferType": "처리위탁",
+        "legalBasis": "정보주체와의 계약 이행을 위한 처리위탁·보관",
+        "items": "앱 오류 로그, 기기 모델, OS 버전",
+        "countries": "미국",
+        "timingMethod": "앱 오류 발생 시마다 네트워크로 암호화하여 전송",
+        "recipientAndContact": "크래시랩 (privacy@example.org)",
+        "purpose": "앱 오류 분석",
+        "retention": "수집 후 90일"
+      }
+    ],
+    "privacy.S10_refusal": "고객센터 이메일(help@example.com)로 국외 이전을 거부할 수 있으며, 거부하면 주문과 앱 오류 분석 기능을 이용할 수 없습니다."
+  },
+  "applicability": {
+    "documents": {
+      "privacy": true,
+      "terms": true
+    },
+    "items": {
+      "S01": "yes",
+      "S02": "yes",
+      "S03": "yes",
+      "S05": "yes",
+      "S06": "yes",
+      "S11": "yes",
+      "S16": "yes",
+      "S18": "yes",
+      "S24": "yes",
+      "S04": "no",
+      "S07": "no",
+      "S08": "no",
+      "S09": "yes",
+      "S10": "yes",
+      "S12": "no",
+      "S13": "no",
+      "S14": "yes",
+      "S15": "no",
+      "S17": "no",
+      "S19": "no",
+      "S21": "no",
+      "S22": "no",
+      "S20": "no",
+      "S23": "no",
+      "A1": "no",
+      "X1": "no",
+      "T01": "yes",
+      "T02": "yes",
+      "T03": "yes",
+      "T04": "yes",
+      "T05": "yes",
+      "T06": "yes",
+      "T07": "yes",
+      "T08": "yes",
+      "T09": "yes",
+      "T10": "yes",
+      "T11": "yes",
+      "T12": "no",
+      "T13": "yes",
+      "T14": "yes",
+      "T15": "yes"
+    },
+    "warnings": []
+  },
+  "requiredPhrases": {
+    "privacy": [
+      "클라우드원",
+      "싱가포르",
+      "크래시랩",
+      "미국",
+      "거부"
+    ],
+    "terms": [
+      "7일"
+    ]
+  },
+  "forbiddenPhrases": [
+    "등",
+    "국외 이전 없음"
+  ],
+  "expectedVerdict": "pass",
+  "notes": "S10 states, per transfer: legal basis, items, destination country, recipient, date and method, refusal (R-S10-003, R-S10-004). Rebuilt 2026-10-01 (council stage 2) as G1 plus the overseas transfers, so every fact a pass needs is in the inputs."
+}

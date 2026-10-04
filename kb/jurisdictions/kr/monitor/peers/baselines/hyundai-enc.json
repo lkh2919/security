@@ -1,0 +1,99 @@
+{
+  "peerId": "hyundai-enc",
+  "url": "https://www.hdec.kr/kr/etc/policy.aspx",
+  "fetchedAt": "2026-10-02T06:47:27.867Z",
+  "contentSha256": "0f77e3701344462c49b1d9682660525416eb33fbbd798ea0704381ed4d7c218c",
+  "neutralContentSha256": "6c91379726e1ecc311a547b29d2ae05e9ebe72ec7bb8e9e97339680ef737d7c2",
+  "sections": [
+    {
+      "sectionId": "PREAMBLE",
+      "sha256": "bd68fac10ee6c6de0e3a3cc8aea6c5fc6d5dcc21a7287bc203978b40350e6be4",
+      "neutralSha256": "bd68fac10ee6c6de0e3a3cc8aea6c5fc6d5dcc21a7287bc203978b40350e6be4",
+      "charCount": 1151
+    },
+    {
+      "sectionId": "S01",
+      "sha256": "3eb21fcbdf53ac5affc55253b6fba9eb38911fc6d71df38cd5171c2fdba91f31",
+      "neutralSha256": "3eb21fcbdf53ac5affc55253b6fba9eb38911fc6d71df38cd5171c2fdba91f31",
+      "charCount": 356
+    },
+    {
+      "sectionId": "S02",
+      "sha256": "4b9298323dbf47069293598459eb9dea31379e1f5b9b4a6eb146731383c195be",
+      "neutralSha256": "4b9298323dbf47069293598459eb9dea31379e1f5b9b4a6eb146731383c195be",
+      "charCount": 556
+    },
+    {
+      "sectionId": "S03",
+      "sha256": "040b5113f31a7145c1e0a7d1253a62603b3d89f379c26945f9d961ff592fba10",
+      "neutralSha256": "040b5113f31a7145c1e0a7d1253a62603b3d89f379c26945f9d961ff592fba10",
+      "charCount": 79
+    },
+    {
+      "sectionId": "S05",
+      "sha256": "ae2ab93de0ff68ed22cefe693c160855ead3ebec41b7388c9d4151114623fd7d",
+      "neutralSha256": "ae2ab93de0ff68ed22cefe693c160855ead3ebec41b7388c9d4151114623fd7d",
+      "charCount": 1167
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "1ce66a3eb83461fc207e46efdd6baf5af11b45edab4ecba81e96333e2a92ca65",
+      "neutralSha256": "1ce66a3eb83461fc207e46efdd6baf5af11b45edab4ecba81e96333e2a92ca65",
+      "charCount": 640
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "da2836129fd99ef86f6abb404b9416769d4ece771ee5ce828906c6efddea41ff",
+      "neutralSha256": "da2836129fd99ef86f6abb404b9416769d4ece771ee5ce828906c6efddea41ff",
+      "charCount": 603
+    },
+    {
+      "sectionId": "S11",
+      "sha256": "54ede09f13d339a59c00591fc339f73308a5ba6abe31e21242b80390d74a84b4",
+      "neutralSha256": "54ede09f13d339a59c00591fc339f73308a5ba6abe31e21242b80390d74a84b4",
+      "charCount": 1086
+    },
+    {
+      "sectionId": "S14",
+      "sha256": "3bb40349a8597dbc8483a5dd16dfb15f3f46cac72f46baf2dbef9ac2b0ee865f",
+      "neutralSha256": "3bb40349a8597dbc8483a5dd16dfb15f3f46cac72f46baf2dbef9ac2b0ee865f",
+      "charCount": 410
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "0fbe9e512e55b00d141ce07590d65129dae0f69028502204ae67a75cb820fed6",
+      "neutralSha256": "0fbe9e512e55b00d141ce07590d65129dae0f69028502204ae67a75cb820fed6",
+      "charCount": 860
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "df3d1d5a6383bbefd2014fedef35b261c8598712bd3dfea44c3f6ce098ccef04",
+      "neutralSha256": "df3d1d5a6383bbefd2014fedef35b261c8598712bd3dfea44c3f6ce098ccef04",
+      "charCount": 892
+    },
+    {
+      "sectionId": "S20",
+      "sha256": "b6c85a412b86843beeedb02b6b6ade6356cff443b27f783ef8c44766dfeffc52",
+      "neutralSha256": "b6c85a412b86843beeedb02b6b6ade6356cff443b27f783ef8c44766dfeffc52",
+      "charCount": 464
+    },
+    {
+      "sectionId": "S21",
+      "sha256": "3684d2ed16e936d1565ce4a0b03d74e4597812fbaaba2ec180ff2b1e2b6017dd",
+      "neutralSha256": "3684d2ed16e936d1565ce4a0b03d74e4597812fbaaba2ec180ff2b1e2b6017dd",
+      "charCount": 260
+    },
+    {
+      "sectionId": "S24",
+      "sha256": "2d6df1c530b57eaa3ad0790ff43853c2dfc2fd6329fca02520c88cb745a5d8f7",
+      "neutralSha256": "e0a5f1e715317c63989e159a644cbba64eaf0d26e18b6a30308131c1a174c577",
+      "charCount": 146
+    },
+    {
+      "sectionId": "UNMAPPED",
+      "sha256": "2fabfe3d886f3767cc2bb2ab89332f912c824c943ebecbc812af64ac4dbaade3",
+      "neutralSha256": "36a50741b7770fd87637c3f83d6691e8f82fdb4b9db4ba339a2af319d485f358",
+      "charCount": 580
+    }
+  ]
+}

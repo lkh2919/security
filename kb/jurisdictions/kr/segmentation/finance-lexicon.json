@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-10-02",
+  "note": "Finance lexicon for Mode A (design C6). A paragraph containing any term (whitespace ignored) is tagged financeFlag: the monitor reports it as Confirm \"금융 법령 해당 – 수동 검토\" and never raises PIPA missing/wrong findings that quote it. Seeded by the automation engineer from the design list; the domain expert reviews it (design C10 item 2).",
+  "terms": [
+    "신용정보",
+    "개인신용정보",
+    "신용조회",
+    "충전포인트",
+    "선불전자지급",
+    "전자금융거래",
+    "신용정보법",
+    "전자금융거래법",
+    "금융소비자보호법"
+  ]
+}

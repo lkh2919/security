@@ -1,0 +1,73 @@
+{
+  "policyId": "seed-s18-no-contact",
+  "synthetic": true,
+  "labelStatus": "pending privacy-domain-expert review (AI self-reviewed 2026-10-02: removing every contact breaks PIPA 30(1)6 (전화번호 등 연락처), so R-S18-001 at High)",
+  "kind": "seeded",
+  "derivedFrom": "clean",
+  "seed": "S18: officer phone and e-mail lines removed (name only)",
+  "sections": [
+    {
+      "title": "예시몰 개인정보 처리방침",
+      "sectionId": "S01"
+    },
+    {
+      "title": "1. 개인정보의 처리 목적",
+      "sectionId": "S02"
+    },
+    {
+      "title": "2. 처리하는 개인정보의 항목",
+      "sectionId": "S03"
+    },
+    {
+      "title": "3. 개인정보의 처리 및 보유 기간",
+      "sectionId": "S05"
+    },
+    {
+      "title": "4. 개인정보의 제3자 제공",
+      "sectionId": "S07"
+    },
+    {
+      "title": "5. 개인정보 처리업무의 위탁",
+      "sectionId": "S09"
+    },
+    {
+      "title": "6. 개인정보의 파기 절차 및 방법",
+      "sectionId": "S06"
+    },
+    {
+      "title": "7. 개인정보의 안전성 확보조치",
+      "sectionId": "S11"
+    },
+    {
+      "title": "8. 개인정보 자동 수집 장치의 설치·운영 및 거부에 관한 사항",
+      "sectionId": "S14"
+    },
+    {
+      "title": "9. 정보주체와 법정대리인의 권리·의무 및 행사방법",
+      "sectionId": "S16"
+    },
+    {
+      "title": "10. 개인정보 보호책임자",
+      "sectionId": "S18"
+    },
+    {
+      "title": "11. 정보주체의 권익침해에 대한 구제방법",
+      "sectionId": "S20"
+    },
+    {
+      "title": "12. 개인정보 처리방침의 변경",
+      "sectionId": "S24"
+    }
+  ],
+  "findings": [
+    {
+      "anyOfRuleIds": [
+        "R-S18-001"
+      ],
+      "sectionId": "S18",
+      "severityFloor": "high",
+      "detect": "llm",
+      "major": false
+    }
+  ]
+}

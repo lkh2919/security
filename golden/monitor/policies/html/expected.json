@@ -1,0 +1,60 @@
+{
+  "policyId": "html",
+  "synthetic": true,
+  "labelStatus": "pending privacy-domain-expert review",
+  "kind": "seeded",
+  "derivedFrom": "packages/core/test/fixtures/monitor/policy.html",
+  "seed": "short HTML policy: mandatory sections S06, S11, S16, S24 absent; S05 wording present elsewhere (hidden elements must be ignored)",
+  "sections": [
+    {
+      "title": "예시몰 개인정보 처리방침",
+      "sectionId": "S01"
+    },
+    {
+      "title": "1. 개인정보의 처리 목적",
+      "sectionId": "S02"
+    },
+    {
+      "title": "2. 처리하는 개인정보의 항목",
+      "sectionId": "S03"
+    },
+    {
+      "title": "3. 개인정보의 제3자 제공",
+      "sectionId": "S07"
+    },
+    {
+      "title": "4. 개인정보 보호책임자",
+      "sectionId": "S18"
+    }
+  ],
+  "findings": [
+    {
+      "ruleId": "C2-M-S06",
+      "sectionId": "S06",
+      "severityFloor": "critical",
+      "detect": "deterministic",
+      "major": true
+    },
+    {
+      "ruleId": "C2-M-S11",
+      "sectionId": "S11",
+      "severityFloor": "critical",
+      "detect": "deterministic",
+      "major": true
+    },
+    {
+      "ruleId": "C2-M-S16",
+      "sectionId": "S16",
+      "severityFloor": "critical",
+      "detect": "deterministic",
+      "major": true
+    },
+    {
+      "ruleId": "C2-M-S24",
+      "sectionId": "S24",
+      "severityFloor": "critical",
+      "detect": "deterministic",
+      "major": true
+    }
+  ]
+}

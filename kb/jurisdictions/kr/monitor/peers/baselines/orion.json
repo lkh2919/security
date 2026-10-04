@@ -1,0 +1,88 @@
+{
+  "peerId": "orion",
+  "url": "https://www.orionworld.com/terms/101",
+  "fetchedAt": "2026-10-02T06:46:57.330Z",
+  "contentSha256": "256098e9343747ca5f0851fa26def1a46ba420a7b48715ccfcb63a4223e6c330",
+  "neutralContentSha256": "9ec3d131b1995b6707a0caf2cc37ca16c58d64394db0a0114f13954b5e1cbfc1",
+  "sections": [
+    {
+      "sectionId": "PREAMBLE",
+      "sha256": "04d74f145674d8eb84bce831367db1811dab48a10ced77b60e1353deb5572961",
+      "neutralSha256": "e9a138b1ad16a90de6e7d0bd0cb1f95d6b14da34bd3ed7c2b2da402b165fdd27",
+      "charCount": 359
+    },
+    {
+      "sectionId": "S02",
+      "sha256": "415e2958eb0141a870c4c7cd79f0d477aadf308864e4a01dc68475b62b692965",
+      "neutralSha256": "415e2958eb0141a870c4c7cd79f0d477aadf308864e4a01dc68475b62b692965",
+      "charCount": 526
+    },
+    {
+      "sectionId": "S03",
+      "sha256": "8a8480740fe12ef2efc89848b9a6df76d0d9e8212eec3804165e008902602de8",
+      "neutralSha256": "8a8480740fe12ef2efc89848b9a6df76d0d9e8212eec3804165e008902602de8",
+      "charCount": 105
+    },
+    {
+      "sectionId": "S05",
+      "sha256": "2fd771b6181f4881be6302bc961ff9977ac22a16a0e00a3488add9875a4303c8",
+      "neutralSha256": "2fd771b6181f4881be6302bc961ff9977ac22a16a0e00a3488add9875a4303c8",
+      "charCount": 412
+    },
+    {
+      "sectionId": "S06",
+      "sha256": "e06bbb4e8fa3b554baa6b1946fbf437d2da731c0988d8c665c6c6c66d7d1a848",
+      "neutralSha256": "e06bbb4e8fa3b554baa6b1946fbf437d2da731c0988d8c665c6c6c66d7d1a848",
+      "charCount": 318
+    },
+    {
+      "sectionId": "S07",
+      "sha256": "baf508bb15cee76e0be884919485b3f0493a24516f2d1350af583b7b6e15f33c",
+      "neutralSha256": "baf508bb15cee76e0be884919485b3f0493a24516f2d1350af583b7b6e15f33c",
+      "charCount": 151
+    },
+    {
+      "sectionId": "S09",
+      "sha256": "04089935ed978a096eb063a2f1b70c6c7cc279199bd60ba9ad463f79b45ae99b",
+      "neutralSha256": "04089935ed978a096eb063a2f1b70c6c7cc279199bd60ba9ad463f79b45ae99b",
+      "charCount": 116
+    },
+    {
+      "sectionId": "S11",
+      "sha256": "4899321bdd2d5c26ba62e95366e00e62380541231fb6f025dff20945d7a03f54",
+      "neutralSha256": "4899321bdd2d5c26ba62e95366e00e62380541231fb6f025dff20945d7a03f54",
+      "charCount": 837
+    },
+    {
+      "sectionId": "S14",
+      "sha256": "e28c9b2ce636065dd9d63c3aeb947d4de11c9c804795dab9aadbabb48c65d885",
+      "neutralSha256": "e28c9b2ce636065dd9d63c3aeb947d4de11c9c804795dab9aadbabb48c65d885",
+      "charCount": 418
+    },
+    {
+      "sectionId": "S16",
+      "sha256": "6eda985774e982a7f469c55e2d514c371daae0c2b98e07ae499820e08a231996",
+      "neutralSha256": "6eda985774e982a7f469c55e2d514c371daae0c2b98e07ae499820e08a231996",
+      "charCount": 417
+    },
+    {
+      "sectionId": "S18",
+      "sha256": "1929687b107da4474bafb0b6cea7abfa8bc947df3d4bcd65d5e21ca677c517f4",
+      "neutralSha256": "1929687b107da4474bafb0b6cea7abfa8bc947df3d4bcd65d5e21ca677c517f4",
+      "charCount": 256
+    },
+    {
+      "sectionId": "S20",
+      "sha256": "cc1dae33f98396922c5051c3c51f51015fd3a763b88a0f12f7917fa50a04443e",
+      "neutralSha256": "fe7c3cc04d3174490955eb7e94662fc20a3bd89e226a90ae37c0b1c5186e7b93",
+      "charCount": 271
+    },
+    {
+      "sectionId": "UNMAPPED",
+      "sha256": "b99846702dfc3f347997f394f661d50a487731052f32ce52460001cba1173e6d",
+      "neutralSha256": "b99846702dfc3f347997f394f661d50a487731052f32ce52460001cba1173e6d",
+      "charCount": 76
+    }
+  ],
+  "effectiveDateText": "2008년 10월 15일"
+}

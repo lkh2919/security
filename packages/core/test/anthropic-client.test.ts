@@ -106,7 +106,7 @@ describe("AnthropicLlmClient hard gates", () => {
   });
 
   test("residual PII the masker missed (phone, email, long number) is stopped by the intake gate, even with no vault", async () => {
-    const { c, calls } = client([json(200, message('{"answer":"ok","n":1}'))]);
+    const { c, calls } = client([json(200, message('{"answer":"ok","n":1}'))], { piiGate: true });
     for (const leaky of ["전화는 010-2345-6789 입니다", "메일은 someone@example-corp.co.kr 입니다", "계좌 110123456789 입니다"]) {
       await expect(c.callStructured(request("R2", leaky))).rejects.toBeInstanceOf(PiiResidualError);
     }
@@ -117,8 +117,14 @@ describe("AnthropicLlmClient hard gates", () => {
     expect(calls).toHaveLength(1);
   });
 
+  test("the residual gate is off by default (masking is off by default)", async () => {
+    const { c, calls } = client([json(200, message('{"answer":"ok","n":1}'))]);
+    await c.callStructured(request("R2", "전화는 010-2345-6789 입니다"));
+    expect(calls).toHaveLength(1);
+  });
+
   test("the gate error never contains the leaked value", async () => {
-    const { c } = client([json(200, message("{}"))]);
+    const { c } = client([json(200, message("{}"))], { piiGate: true });
     const err = await c.callStructured(request("R2", "전화는 010-2345-6789 입니다")).catch((e: unknown) => e);
     expect(String((err as Error).message)).not.toContain("2345");
   });

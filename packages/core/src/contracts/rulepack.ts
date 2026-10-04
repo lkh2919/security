@@ -34,7 +34,7 @@ export const LegalRefEntrySchema = z.strictObject({
   /** Source key (`pipc-guideline-2026-04`, `kftc-10023-2015-06-26`, `spike-2026-09-29`) or API read record(s). */
   verifiedBy: z.union([NonEmptyString, ApiVerificationSchema, z.array(ApiVerificationSchema).min(1)]),
   /** Location inside the source (`p18 L530`). */
-  at: z.string(),
+  at: z.string().optional(),
   /** True only where the provision text was read on law.go.kr. */
   lawGoKr: z.boolean(),
   lawGoKrSource: z.string().optional(),
@@ -58,6 +58,8 @@ export const RuleSchema = z.strictObject({
   sectionId: ItemIdSchema,
   level: RuleLevelSchema,
   element: NonEmptyString,
+  /** Korean label of the element for user-facing alerts ("파기 절차 및 방법"); the section title is the fallback. */
+  elementKo: z.string().min(1).optional(),
   statement: NonEmptyString,
   /** Keys into the section's `legalRefs` map. */
   legalRefs: z.array(LegalRefKeySchema),
