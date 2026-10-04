@@ -201,8 +201,7 @@ export function runC2(input: C2Input): CheckResults {
   for (const l of locate(ast)) {
     if (l.inline.t !== "text" || !l.inline.slotRef) continue;
     if (l.inline.slotRef === "document.effectiveDate") continue; // the payload's `document.effectiveDate`: the operator's confirmed date (meta)
-    const e = input.ledger.slots[l.inline.slotRef];
-    if (!e || (e.status !== "filled" && e.status !== "not_applicable")) {
+    if (!slotRefResolves(input.ledger, l.inline.slotRef)) {
       refs.push(finding({ ruleId: "C2-SLOTREF", docType, sectionId: l.sectionId, severity: "major", message: `slotRef ${l.inline.slotRef} is not a filled slot in the fact ledger.`, fixHint: "Ask the missing question or mark the statement for manual review.", astPath: l.path, quote: l.inline.text }));
     }
   }
@@ -317,6 +316,30 @@ export function runC2(input: C2Input): CheckResults {
   }
 
   return CheckResultsSchema.parse({ runId: input.runId, docType, passed: outcomes.every((c) => c.passed), checks: outcomes });
+}
+
+/**
+ * A slotRef names a filled (or not-applicable) ledger slot, or a path into a filled slot's value
+ * (`terms.refundPolicy.0.period`: row 0, field `period`). The path must resolve to a non-null value.
+ */
+export function slotRefResolves(ledger: Pick<FactLedger, "slots">, ref: string): boolean {
+  const exact = ledger.slots[ref];
+  if (exact) return exact.status === "filled" || exact.status === "not_applicable";
+  const parts = ref.split(".");
+  for (let i = parts.length - 1; i >= 2; i--) {
+    const e = ledger.slots[parts.slice(0, i).join(".")];
+    if (!e) continue;
+    if (e.status !== "filled") return false;
+    let v: unknown = e.value;
+    for (const k of parts.slice(i)) {
+      if (Array.isArray(v) && /^\d+$/.test(k)) v = v[Number(k)];
+      else if (v !== null && typeof v === "object" && !Array.isArray(v)) v = (v as Record<string, unknown>)[k];
+      else return false;
+      if (v === undefined || v === null) return false;
+    }
+    return true;
+  }
+  return false;
 }
 
 /**

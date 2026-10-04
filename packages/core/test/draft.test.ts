@@ -91,6 +91,7 @@ describe("draftDocument (privacy, G1)", () => {
     expect(s20!.user).toContain("공소청");
     expect(s20!.user).not.toContain("대검찰청");
     expect(s20!.user).toContain('"status":"pending"');
+    expect(s20!.user).toContain('"name":"공소청","phone":"(국번없이) 1301","url":"www.spo.go.kr","status":"verified","verifiedOn":"2026-10-03"');
     expect(r.llm.calls.filter((c) => !c.user.includes('"id":"S20"')).every((c) => !c.user.includes('"remedyAgencies"'))).toBe(true);
   });
 

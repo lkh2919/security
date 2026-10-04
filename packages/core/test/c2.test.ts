@@ -5,7 +5,7 @@ import type { DocAST, SectionAST } from "../src/contracts/ast";
 import { createFactLedgerSchema, type FactLedger, type SlotEntry } from "../src/contracts/fact-ledger";
 import { HouseStyleFileSchema } from "../src/contracts/house-style";
 import { krPaths, loadKrKnowledge, runCoverage } from "../src/stages/coverage";
-import { citationsFromRulePacks, runC2, type C2Input, type LexiconEntry } from "../src/stages/check";
+import { citationsFromRulePacks, runC2, slotRefResolves, type C2Input, type LexiconEntry } from "../src/stages/check";
 import { maskedTranscript } from "./fixtures";
 
 const ROOT = join(import.meta.dir, "..", "..", "..");
@@ -153,6 +153,21 @@ describe("C2", () => {
   test("deterministic output", () => {
     const strip = (r: ReturnType<typeof run>) => JSON.stringify(r.checks.map((c) => [c.checkId, c.passed, c.findings.length]));
     expect(strip(run(privacyAst()))).toBe(strip(run(privacyAst())));
+  });
+});
+
+describe("slotRefResolves", () => {
+  const entry = (value: unknown, status: SlotEntry["status"] = "filled") => ({ status, value, confidence: 1, evidence: [] }) as unknown as SlotEntry;
+  const ledger = { slots: { "terms.refundPolicy": entry([{ case: "청약철회", period: "7일", costBearer: null }]), "terms.minAge": entry(14), "terms.paid": entry(null, "needs_manual_review") } };
+  test("a path into a filled slot resolves; a missing field, index or unfilled slot does not (G1 live run 2026-10-04)", () => {
+    expect(slotRefResolves(ledger, "terms.refundPolicy")).toBe(true);
+    expect(slotRefResolves(ledger, "terms.refundPolicy.0.period")).toBe(true);
+    expect(slotRefResolves(ledger, "terms.refundPolicy.0.refund")).toBe(false);
+    expect(slotRefResolves(ledger, "terms.refundPolicy.0.costBearer")).toBe(false);
+    expect(slotRefResolves(ledger, "terms.refundPolicy.1.period")).toBe(false);
+    expect(slotRefResolves(ledger, "terms.minAge.value")).toBe(false);
+    expect(slotRefResolves(ledger, "terms.paid.0")).toBe(false);
+    expect(slotRefResolves(ledger, "terms.unknown")).toBe(false);
   });
 });
 
