@@ -1,6 +1,6 @@
 {
-  "version": "0.3.0",
-  "updated": "2026-10-02",
+  "version": "0.4.0",
+  "updated": "2026-10-04",
   "note": "Peer privacy policies are public by PIPA Art. 30(2); fetching is reference only, change detection only, no rating or ranking of any company. Peer list user-approved 2026-10-02. robots checked with UA 'LottePolicyMonitor/0.1'; disallowed means excluded, unreachable robots means skipped until verified. Contains no personal data. Seven robots-excluded peers were replaced by comparable companies on 2026-10-02 (see excludedHistory); unresolved to_verify entries were replaced the same way.",
   "groups": [
     {
@@ -8,7 +8,6 @@
       "nameKo": "식품",
       "lotte": [
         "lotte-wellfood-privacy",
-        "lotte-wellfood-privacy-cctv",
         "lotte-chilsung-privacy"
       ],
       "peers": [
@@ -171,11 +170,8 @@
       "nameKo": "유통",
       "lotte": [
         "lotte-department-store-privacy",
-        "lotte-department-store-privacy-cctv",
         "lotte-mart-privacy",
-        "lotte-mart-privacy-cctv",
         "seven-eleven-privacy",
-        "seven-eleven-privacy-cctv",
         "lotte-himart-privacy",
         "lotte-himart-mall-privacy"
       ],
@@ -332,8 +328,7 @@
       "nameKo": "화학·건설·제조",
       "lotte": [
         "lotte-enc-privacy",
-        "lotte-castle-privacy",
-        "lotte-castle-privacy-cctv"
+        "lotte-castle-privacy"
       ],
       "peers": [
         {
@@ -492,12 +487,9 @@
         "lotte-cinema-privacy",
         "lotte-world-privacy",
         "lotte-hotel-privacy",
-        "lotte-hotel-privacy-cctv",
         "lotte-rental-privacy",
         "lotte-global-logis-privacy",
-        "lotte-global-logis-privacy-cctv",
         "lotteinnovate-privacy",
-        "lotteinnovate-privacy-cctv",
         "lotte-recruit-privacy"
       ],
       "peers": [
@@ -1030,12 +1022,43 @@
     {
       "id": "lotte-holdings-privacy",
       "reason": "user decision 2026-10-02: holding company excluded"
+    },
+    {
+      "id": "lotte-wellfood-privacy-cctv",
+      "reason": "user decision 2026-10-04: standalone CCTV operation policies are out of scope (DEC-20261004-01)"
+    },
+    {
+      "id": "lotte-department-store-privacy-cctv",
+      "reason": "user decision 2026-10-04: standalone CCTV operation policies are out of scope (DEC-20261004-01)"
+    },
+    {
+      "id": "lotte-mart-privacy-cctv",
+      "reason": "user decision 2026-10-04: standalone CCTV operation policies are out of scope (DEC-20261004-01)"
+    },
+    {
+      "id": "seven-eleven-privacy-cctv",
+      "reason": "user decision 2026-10-04: standalone CCTV operation policies are out of scope (DEC-20261004-01)"
+    },
+    {
+      "id": "lotte-castle-privacy-cctv",
+      "reason": "user decision 2026-10-04: standalone CCTV operation policies are out of scope (DEC-20261004-01)"
+    },
+    {
+      "id": "lotte-hotel-privacy-cctv",
+      "reason": "user decision 2026-10-04: standalone CCTV operation policies are out of scope (DEC-20261004-01)"
+    },
+    {
+      "id": "lotte-global-logis-privacy-cctv",
+      "reason": "user decision 2026-10-04: standalone CCTV operation policies are out of scope (DEC-20261004-01)"
+    },
+    {
+      "id": "lotteinnovate-privacy-cctv",
+      "reason": "user decision 2026-10-04: standalone CCTV operation policies are out of scope (DEC-20261004-01)"
     }
   ],
   "lotteFetch": {
     "lotte-world-privacy": "browser",
-    "lotte-hotel-privacy": "browser",
-    "lotte-hotel-privacy-cctv": "browser"
+    "lotte-hotel-privacy": "browser"
   },
   "excludedHistory": [
     {

@@ -133,6 +133,6 @@ check would judge the content. Article boundaries inside a CCTV policy are not r
 page is 5.5 MB because it embeds every past version (about 1.2 million characters), over the 2 MB ingest cap, and ingestion
 fails closed to manual review.
 
-Gate: M8.seg.heldout is reported, not gated (`REPORT` in the gate table; 25 gates pass). Decision for the domain expert and
-the user: whether CCTV operation policies are in scope for the Policy Monitor. If they are, add CCTV heading patterns and
-re-measure on the next unseen pages (these 5 become development pages once anything is tuned on them).
+Decision (user, 2026-10-04, `DEC-20261004-01`): standalone CCTV operation policies are out of scope. The 8 CCTV captures
+left the watch list, the slice is no longer scored (the label file stays as the record), and the segmenter keeps no CCTV
+patterns. A held-out score for privacy policies still needs unseen privacy-policy pages (the 7 not fetchable from the cloud).

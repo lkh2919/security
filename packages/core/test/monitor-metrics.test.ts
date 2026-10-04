@@ -176,16 +176,6 @@ describe("integrity, stability and gates", () => {
     expect(rows.filter((r) => r.status === "skip").map((r) => r.id)).toEqual(["M8.seg.real"]);
     expect(formatGateTable(rows)).toContain("pass, 0 fail, 1 skipped");
   });
-  test("the held-out slice is reported, never gated (shown only when the caller measures it)", () => {
-    const at = (h: number | null | undefined) => evaluateMonitorGates({ ...good, ...(h === undefined ? {} : { heldOutPolicySegmentation: h }) });
-    expect(at(undefined).some((r) => r.id === "M8.seg.heldout")).toBe(false);
-    const low = at(0.52).find((r) => r.id === "M8.seg.heldout")!;
-    expect(low.status).toBe("report");
-    expect(low.value).toBe("0.520");
-    expect(gatesFailed(at(0.52))).toEqual([]);
-    expect(at(null).find((r) => r.id === "M8.seg.heldout")!.status).toBe("skip");
-    expect(formatGateTable(at(0.52))).toContain("1 reported");
-  });
   test("each threshold fails on its own", () => {
     const fail = (patch: Partial<MonitorMetrics>): string[] => gatesFailed(evaluateMonitorGates({ ...good, ...patch })).map((r) => r.id);
     expect(fail({ segmentationAccuracy: 0.94 })).toEqual(["M8.seg"]);

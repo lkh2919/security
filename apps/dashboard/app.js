@@ -196,7 +196,7 @@
     el.appendChild(h("div", { class: "grid" }, [stat(G.pass, "통과"), stat(G.fail, "실패"), stat(G.skip, "건너뜀"), stat(G.total, "전체")]));
     el.appendChild(h("p", { class: "mute" }, "실행 " + G.stamp + " · 모드 " + (G.mode === "deterministic" ? "규칙 기반(모델 미사용)" : G.mode) + " · 규칙 팩 " + G.rulePack + (G.labelStatus ? " · " + (G.labelStatus === "amendment and policy labels pending privacy-domain-expert review" ? "개정·처리방침 정답 라벨은 도메인 전문가 검토 대기" : G.labelStatus) : "")));
     el.appendChild(table(["게이트", "항목", "기준", "값", "상태"], G.gates.map(function (x) {
-      return [x.id, h("div", null, [x.label, x.note ? h("div", { class: "mute" }, x.note) : null]), x.threshold, x.value, badge(x.status === "pass" ? "통과" : x.status === "fail" ? "실패" : x.status === "report" ? "참고" : "건너뜀", x.status === "pass" ? "b-ok" : x.status === "fail" ? "b-fail" : x.status === "report" ? "b-info" : "b-skip")];
+      return [x.id, h("div", null, [x.label, x.note ? h("div", { class: "mute" }, x.note) : null]), x.threshold, x.value, badge(x.status === "pass" ? "통과" : x.status === "fail" ? "실패" : "건너뜀", x.status === "pass" ? "b-ok" : x.status === "fail" ? "b-fail" : "b-skip")];
     })));
     return el;
   }

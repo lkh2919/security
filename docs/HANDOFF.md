@@ -154,17 +154,16 @@ HTML entities, ...). Two group-wide patterns: destruction procedure without who 
 ## Lotte fetch status (2026-10-03)
 
 - From the cloud: 10 of 26 fetched (see the real-run report). Not fetchable from here:
-  - 롯데칠성, 롯데마트 (+CCTV), 세븐일레븐 (+CCTV): upstream connection timeout through the proxy, likely a block of foreign IPs.
+  - 롯데칠성, 롯데마트, 세븐일레븐: upstream connection timeout through the proxy, likely a block of foreign IPs.
     Fetch on the original PC (Korean network) with the same command.
-  - 롯데호텔 (+CCTV), 롯데 채용: bot-protection page (403). Never bypassed: manual capture into `watch/lotte/`.
+  - 롯데호텔, 롯데 채용: bot-protection page (403). Never bypassed: manual capture into `watch/lotte/`.
   - 롯데멤버스 (JS-only page) and 롯데월드 (modal, no URL): manual capture.
-- Done 2026-10-04: CCTV pages of fetched hosts (웰푸드, 백화점, 캐슬, 글로벌로지스, 이노베이트) and 롯데시네마, all 6 fetched into
-  `watch/lotte-heldout/`. Re-fetch (first fetch of a UTC day for those hosts):
-  `bun scripts/agent.ts peers --config config/orgs/example/org.json --dry-run --with-lotte --save-lotte watch/lotte-heldout --ids lotte-wellfood-privacy-cctv,lotte-department-store-privacy-cctv,lotte-castle-privacy-cctv,lotte-global-logis-privacy-cctv,lotteinnovate-privacy-cctv,lotte-cinema-privacy`
-- Held-out segmentation (2026-10-04): 5 CCTV policies labelled blind in `golden/monitor/real/lotte-heldout-2026-10-04.json`
-  (46 headings). Gate M8.seg.heldout = 0.522, reported, not gated (CCTV policies are a different document type; the
-  segmenter is not tuned on them). 롯데시네마 (5.5 MB, every past version on one page) is over the 2 MB ingest cap and goes to
-  manual review. Causes and the decision left open: real-run report, section "Held-out slice".
+- Done 2026-10-04: the 5 CCTV pages of fetched hosts and 롯데시네마 were fetched into `watch/lotte-heldout/` (the CCTV ids are no
+  longer targets after the decision below).
+- Held-out segmentation (2026-10-04): 5 CCTV policies labelled blind scored 0.522. User decision `DEC-20261004-01`:
+  standalone CCTV operation policies are out of scope; the 8 CCTV captures left the watch list (registry 0.4.0, 18 Lotte
+  captures remain) and the slice is not scored. A privacy-policy held-out slice still needs the 7 pages not fetchable from
+  the cloud. 롯데시네마 (5.5 MB, every past version on one page) is over the 2 MB ingest cap and goes to manual review.
 - The real-policy labels are pinned to the extracted text hash, so a page whose raw bytes change with session tokens still scores.
 
 ## Real-policy dashboard (2026-10-03)

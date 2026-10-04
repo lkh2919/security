@@ -1,4 +1,5 @@
 {
+  "scopeStatus": "Out of scope (user decision 2026-10-04, DEC-20261004-01): standalone CCTV operation policies are not monitored. Not scored by eval-gates; kept as the record of the 0.522 measurement.",
   "fixture": "monitor real-policy segmentation, held-out slice",
   "labelStatus": "AI self-labelled 2026-10-04 (PM, privacy-domain-expert role) from the extracted text only, without looking at segmenter output — human review pending",
   "scope": "Article-level headings of 5 published Lotte fixed-CCTV operation policies (고정형 영상정보처리기기 운영·관리 방침) fetched 2026-10-04. A standalone CCTV policy is S21 content as a whole, so every heading is S21; alsoAccept lists the general privacy-policy section a heading corresponds to (purpose S02, retention and destruction S05/S06, manager S18, entrustment S09, viewing requests S16, safeguards S11, changes S24, remedy S20, other matters S23). CCTV-only headings (installation count and location) accept S21 only. Older versions shown on the same page (롯데글로벌로지스) and site chrome are not labelled.",

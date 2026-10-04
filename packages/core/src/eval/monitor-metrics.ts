@@ -287,8 +287,7 @@ export const findingKey = (f: FindingLike): string => `${f.sectionId}|${f.ruleId
 
 // --- gates -----------------------------------------------------------------------------------------------------------
 
-/** `report`: measured and shown, not gated (for example an out-of-domain held-out slice). */
-export type GateStatus = "pass" | "fail" | "skip" | "report";
+export type GateStatus = "pass" | "fail" | "skip";
 
 export interface GateRow {
   readonly id: string;
@@ -304,8 +303,6 @@ export interface MonitorMetrics {
   readonly segmentationAccuracy: number | null;
   readonly spanFidelity: number | null;
   readonly realPolicySegmentation: number | null;
-  /** Held-out real pages, labelled without looking at segmenter output (absent in older callers). */
-  readonly heldOutPolicySegmentation?: number | null;
   readonly seeded: SeededScores | null;
   readonly clean: CleanScores | null;
   readonly unchangedHashAlerts: number | null;
@@ -337,12 +334,6 @@ export function evaluateMonitorGates(m: MonitorMetrics): GateRow[] {
   const ig = m.integrity;
   rows.push(row("M8.seg", "Segmentation accuracy, golden drafts", ">= 0.95", m.segmentationAccuracy === null ? null : pct(m.segmentationAccuracy), m.segmentationAccuracy === null ? null : m.segmentationAccuracy >= 0.95));
   rows.push(row("M8.seg.real", "Segmentation accuracy, real policies", ">= 0.90", m.realPolicySegmentation === null ? null : pct(m.realPolicySegmentation), m.realPolicySegmentation === null ? null : m.realPolicySegmentation >= 0.9, m.realPolicySegmentation === null ? "real pages not present or changed (watch/lotte is gitignored; fetch with agent.ts peers --save-lotte)" : undefined));
-  if (m.heldOutPolicySegmentation !== undefined) {
-    // Reported, not gated: the held-out pages are CCTV operation policies, a different document type from the privacy
-    // policies M8.seg.real is set for, and the segmenter is not tuned on them.
-    const h = m.heldOutPolicySegmentation;
-    rows.push(h === null ? row("M8.seg.heldout", "Segmentation accuracy, held-out real pages", ">= 0.90 (reported)", null, null, "held-out pages not present or changed (watch/lotte-heldout is gitignored)") : { id: "M8.seg.heldout", label: "Segmentation accuracy, held-out real pages", threshold: ">= 0.90 (reported)", value: pct(h), status: "report", note: h >= 0.9 ? "meets the target" : "below the target; reported, not gated (CCTV policies, labelled blind)" });
-  }
   rows.push(row("M8.span", "Span fidelity", "= 1.0", m.spanFidelity === null ? null : pct(m.spanFidelity), m.spanFidelity === null ? null : m.spanFidelity === 1));
   rows.push(row("M8.recall", "Seeded-defect recall", ">= 0.90", s ? `${f2(s.recall)} (${s.detected}/${s.total})` : null, s ? s.recall >= 0.9 : null, s && s.skippedLlmOnly > 0 ? `${s.skippedLlmOnly} judge-only seed(s) not counted (run with --llm)` : s && s.missed.length > 0 ? `missed: ${s.missed.join(", ")}` : undefined));
   rows.push(row("M8.recall.major", "Seeded-defect recall, major", "= 1.0", s ? `${f2(s.majorRecall)} (${s.majorDetected}/${s.majorTotal})` : null, s ? s.majorRecall === 1 : null));
@@ -383,8 +374,7 @@ export function formatGateTable(rows: readonly GateRow[]): string {
   for (const r of rows) out.push(line(r));
   const failed = gatesFailed(rows).length;
   const skipped = rows.filter((r) => r.status === "skip").length;
-  const reported = rows.filter((r) => r.status === "report").length;
-  out.push("", `${rows.filter((r) => r.status === "pass").length} pass, ${failed} fail, ${skipped} skipped${reported > 0 ? `, ${reported} reported` : ""}`);
+  out.push("", `${rows.length - failed - skipped} pass, ${failed} fail, ${skipped} skipped`);
   return out.join("\n");
 }
 
