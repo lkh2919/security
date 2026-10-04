@@ -1,0 +1,368 @@
+{
+  "fixture": "monitor real-policy segmentation, held-out slice",
+  "labelStatus": "AI self-labelled 2026-10-04 (PM, privacy-domain-expert role) from the extracted text only, without looking at segmenter output — human review pending",
+  "scope": "Article-level headings of 5 published Lotte fixed-CCTV operation policies (고정형 영상정보처리기기 운영·관리 방침) fetched 2026-10-04. A standalone CCTV policy is S21 content as a whole, so every heading is S21; alsoAccept lists the general privacy-policy section a heading corresponds to (purpose S02, retention and destruction S05/S06, manager S18, entrustment S09, viewing requests S16, safeguards S11, changes S24, remedy S20, other matters S23). CCTV-only headings (installation count and location) accept S21 only. Older versions shown on the same page (롯데글로벌로지스) and site chrome are not labelled.",
+  "pages": "Not in git (watch/ is gitignored). Fetch with: bun scripts/agent.ts peers --config config/orgs/example/org.json --dry-run --with-lotte --save-lotte watch/lotte-heldout --ids <policy ids>. Scored only when the SHA-256 of the extracted policy text equals textSha256.",
+  "notLabelled": [
+    {
+      "policyId": "lotte-cinema-privacy",
+      "reason": "Page is 5.5 MB, over the 2 MB ingest cap; ingestion returns needs_manual_review (fail-closed). The page embeds every past version (about 1.2 million characters of text)."
+    }
+  ],
+  "caveat": "Held-out slice: the segmenter must not be changed from these pages; record misses only. Different document type from the development slice (CCTV operation policy vs privacy policy).",
+  "policies": [
+    {
+      "policyId": "lotte-castle-privacy-cctv",
+      "file": "lotte-castle-privacy-cctv.html",
+      "sourceSha256": "5b8a6c2537b9cb939ba20c399078a474e945236b6ae9ee90ec8a4472f839b6a6",
+      "sections": [
+        {
+          "title": "1. 고정형 영상정보처리기기의 설치 근거 및 설치 목적",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S02"
+          ]
+        },
+        {
+          "title": "2. 설치 대수, 설치 위치 및 촬영범위",
+          "sectionId": "S21"
+        },
+        {
+          "title": "3. 관리책임자 및 접근권한자",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S18"
+          ]
+        },
+        {
+          "title": "4. 개인영상정보의 촬영시간, 보관기간, 보관장소 및 처리방법",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S05",
+            "S06"
+          ]
+        },
+        {
+          "title": "5. 영상정보처리기기 설치 및 관리 등의 위탁에 관한 사항",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S09"
+          ]
+        },
+        {
+          "title": "6. 개인영상정보의 확인 방법 및 장소에 관한 사항",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S16"
+          ]
+        },
+        {
+          "title": "7. 정보주체의 영상정보 열람 등 요구에 대한 조치",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S16"
+          ]
+        },
+        {
+          "title": "8. 개인영상정보의 안전성 확보조치",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S11"
+          ]
+        },
+        {
+          "title": "9. 영상정보처리기기 운영ㆍ관리 방침 변경에 관한 사항",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S24"
+          ]
+        }
+      ],
+      "textSha256": "012d9b7bdb593e307de5a96427f943cff4c8b6df839da1c685267e13734a6e4c"
+    },
+    {
+      "policyId": "lotte-department-store-privacy-cctv",
+      "file": "lotte-department-store-privacy-cctv.html",
+      "sourceSha256": "4961abe03b14749eee3a89da35a548586f67542925cc443f38070c7fe40f40f0",
+      "sections": [
+        {
+          "title": "1. 고정형 영상정보처리기기의 설치 근거 및 설치 목적",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S02"
+          ]
+        },
+        {
+          "title": "2. 설치 대수, 설치 위치 및 촬영범위",
+          "sectionId": "S21"
+        },
+        {
+          "title": "3. 관리책임자 및 업무수탁사",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S18",
+            "S09"
+          ]
+        },
+        {
+          "title": "4. 개인영상정보 촬영시간, 영상정보(CCTV) 보관 기간, 보관장소 및 처리방법",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S05",
+            "S06"
+          ]
+        },
+        {
+          "title": "5. 개인영상정보의 확인 방법 및 장소에 관한 사항",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S16"
+          ]
+        },
+        {
+          "title": "6. 정보주체의 개인영상정보 열람 등 요구에 대한 조치",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S16"
+          ]
+        },
+        {
+          "title": "7. 개인영상정보의 안전성 확보를 위한 조치",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S11"
+          ]
+        },
+        {
+          "title": "8. 그 밖에 고정형 영상정보처리기기의 설치·운영 및 관리에 필요한 사항",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S23"
+          ]
+        }
+      ],
+      "textSha256": "6e1b8bb683dad4962507e714df25485ed8f21e85f8c478a57c488a57730d14cc"
+    },
+    {
+      "policyId": "lotte-global-logis-privacy-cctv",
+      "file": "lotte-global-logis-privacy-cctv.html",
+      "sourceSha256": "a19c92ff37fde13eaa1c4d944f261ef3cb35e29c3efd184b794341fb867080d0",
+      "sections": [
+        {
+          "title": "1. 영상정보처리기기의 설치 근거 및 목적",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S02"
+          ]
+        },
+        {
+          "title": "2. 영상정보처리기기 운영 현황",
+          "sectionId": "S21"
+        },
+        {
+          "title": "3. 영상정보처리기기 담당부서 / 관리책임자",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S18"
+          ]
+        },
+        {
+          "title": "4. 영상정보의 촬영시간, 보관기간, 보관장소, 및 처리방법",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S05",
+            "S06"
+          ]
+        },
+        {
+          "title": "5. 영상정보 확인방법 및 장소",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S16"
+          ]
+        },
+        {
+          "title": "6. 정보주체의 영상정보 열람 등 요구에 대한 조치",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S16"
+          ]
+        },
+        {
+          "title": "7. 영상정보 보호를 위한 기술적·관리적 및 물리적 조치",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S11"
+          ]
+        },
+        {
+          "title": "8. 영상정보처리기기 운영·관리방침 변경에 관한 사항",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S24"
+          ]
+        }
+      ],
+      "textSha256": "e91b6cfb3f042d02ffa84ef25bdc604cd9f65fccd9292e08c8841f29c3d1d935"
+    },
+    {
+      "policyId": "lotte-wellfood-privacy-cctv",
+      "file": "lotte-wellfood-privacy-cctv.html",
+      "sourceSha256": "4a73cea67c194f7871e264feeb2d273b7ec06b22d5bd9853d395278121bcd651",
+      "sections": [
+        {
+          "title": "제1조. 고정형 영상정보처리기기의 설치 근거 및 설치 목적",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S02"
+          ]
+        },
+        {
+          "title": "제2조. 고정형 영상정보처리기기의 설치 대수, 설치 위치, 촬영 범위",
+          "sectionId": "S21"
+        },
+        {
+          "title": "제3조. 관리책임자 및 접근권한자",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S18"
+          ]
+        },
+        {
+          "title": "제4조. 개인영상정보의 촬영시간, 보관기간, 보관장소 및 처리방법",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S05",
+            "S06"
+          ]
+        },
+        {
+          "title": "제5조. 고정형 영상정보처리기기 설치 및 관리 등의 위탁에 관한 사항",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S09"
+          ]
+        },
+        {
+          "title": "제6조. 개인영상정보의 확인 방법 및 장소에 관한 사항",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S16"
+          ]
+        },
+        {
+          "title": "제7조. 정보주체의 개인영상정보 열람 등 요구에 대한 조치",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S16"
+          ]
+        },
+        {
+          "title": "제8조. 개인영상정보의 안전성 확보조치",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S11"
+          ]
+        },
+        {
+          "title": "제9조. 고정형 영상정보처리기기 운영·관리방침 변경에 관한 사항",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S24"
+          ]
+        },
+        {
+          "title": "제10조. 개인영상정보 침해 관련 상담 및 신고",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S20"
+          ]
+        }
+      ],
+      "textSha256": "18d456c0756546c1e65f62fa2aad752c2d00024b6446d742b40ad9f67969e2c3"
+    },
+    {
+      "policyId": "lotteinnovate-privacy-cctv",
+      "file": "lotteinnovate-privacy-cctv.html",
+      "sourceSha256": "87af1c03deb618fbc566905b13d4801eb41986b000073ec2235981b14f23fe0f",
+      "sections": [
+        {
+          "title": "1. 설치근거 및 목적",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S02"
+          ]
+        },
+        {
+          "title": "2. 설치현황 및 촬영범위",
+          "sectionId": "S21"
+        },
+        {
+          "title": "3.관리책임자 및 접근 권한자",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S18"
+          ]
+        },
+        {
+          "title": "4.영상정보의 촬영시간,보관기간,보관장소 및 처리방법",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S05",
+            "S06"
+          ]
+        },
+        {
+          "title": "5. 개인영상정보의 확인 방법",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S16"
+          ]
+        },
+        {
+          "title": "6. 개인영상정보 열람 등 요구에 대한 조치",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S16"
+          ]
+        },
+        {
+          "title": "7. 영상 정보의 보호",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S11"
+          ]
+        },
+        {
+          "title": "8. 개인영상정보의 안전성 확보를 위한 조치",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S11"
+          ]
+        },
+        {
+          "title": "9. 업무의 위탁",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S09"
+          ]
+        },
+        {
+          "title": "10. 비밀유지 의무",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S23"
+          ]
+        },
+        {
+          "title": "11. 영상정보처리기기 운영·관리 지침의 변경에 관한 사항",
+          "sectionId": "S21",
+          "alsoAccept": [
+            "S24"
+          ]
+        }
+      ],
+      "textSha256": "844bed56d162eee606d162c901cb43efd3a907d60e25f23e81ca2262183f677c"
+    }
+  ]
+}

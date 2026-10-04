@@ -361,6 +361,7 @@ function buildPeers(root: string, peersDir: string, registryPath: string): Json 
 export const GATE_LABEL_KO: Record<string, string> = {
   "M8.seg": "항목 분할 정확도 (골든 초안)",
   "M8.seg.real": "항목 분할 정확도 (실제 처리방침)",
+  "M8.seg.heldout": "항목 분할 정확도 (처음 보는 실제 문서, 참고)",
   "M8.span": "원문 인용 일치율",
   "M8.recall": "심은 결함 탐지율",
   "M8.recall.major": "심은 결함 탐지율 (주요 결함)",
@@ -391,7 +392,9 @@ export function gateNoteKo(note: string): string {
   return note
     .replace(/^no real-policy slice yet \(kb\/_sources is gitignored\); drafts are cleaner than re.*$/, "실제 처리방침 표본이 아직 없습니다 (kb/_sources는 git 제외). 골든 초안은 실제 처리방침보다 정돈되어 있습니다.")
     .replace(/^(\d+) judge-only seed\(s\) not counted \(run with --llm\)$/, "모델 판단이 필요한 심은 결함 $1건은 집계 제외 (--llm으로 실행)")
-    .replace(/^deterministic run \(a model run is the real test\)$/, "규칙 기반 실행입니다 (실제 검증은 모델 실행으로)");
+    .replace(/^deterministic run \(a model run is the real test\)$/, "규칙 기반 실행입니다 (실제 검증은 모델 실행으로)")
+    .replace(/^below the target; reported, not gated \(CCTV policies, labelled blind\)$/, "기준 미달. 통과 여부에는 넣지 않고 참고로 표시 (영상정보처리기기 방침, 분할 결과를 보지 않고 정답 작성)")
+    .replace(/^meets the target$/, "기준 충족");
 }
 
 function buildGates(evalDir: string): Json | null {
@@ -400,7 +403,7 @@ function buildGates(evalDir: string): Json | null {
   if (!g || !Array.isArray(g.gates)) return null;
   const gates = (g.gates as Json[]).map((x) => ({ id: x.id, label: GATE_LABEL_KO[x.id as string] ?? x.label, threshold: x.threshold, value: x.value, status: x.status, note: gateNoteKo(String(x.note ?? "")) }));
   const count = (s: string) => gates.filter((x) => x.status === s).length;
-  return { stamp: g.stamp, mode: g.mode, rulePack: g.rulePack, labelStatus: g.labelStatus ?? "", pass: count("pass"), fail: count("fail"), skip: count("skip"), total: gates.length, gates };
+  return { stamp: g.stamp, mode: g.mode, rulePack: g.rulePack, labelStatus: g.labelStatus ?? "", pass: count("pass"), fail: count("fail"), skip: count("skip"), report: count("report"), total: gates.length, gates };
 }
 
 const DATE_RE = /공포 (\d{4}-\d{2}-\d{2}) 제(\d+)호, 시행 (\d{4}-\d{2}-\d{2})/;

@@ -121,9 +121,7 @@ const spans = spanFidelity([...ingested.values()]);
 
 // Real-policy slice: labels are committed (golden/monitor/real), the pages are not (watch/ is gitignored). A page is scored only
 // when its SHA-256 still equals the labelled one; otherwise the site changed and the labels may no longer fit.
-const realSeg = (() => {
-  const labelsFile = join(goldenDir, "real", "lotte-2026-10-02.json");
-  const pagesDir = resolve(process.env["REAL_POLICY_DIR"] ?? join(root, "watch", "lotte"));
+function scoreRealSlice(labelsFile: string, pagesDir: string, detailKey: string): number | null {
   if (!existsSync(labelsFile)) return null;
   const doc = JSON.parse(readFileSync(labelsFile, "utf8")) as { policies: { policyId: string; file: string; sourceSha256: string; textSha256?: string; sections: SectionLabel[] }[] };
   let correct = 0;
@@ -149,10 +147,13 @@ const realSeg = (() => {
     total += r.total;
     wrong.push(...r.wrong.map((w) => `${p.policyId}: ${w}`));
   }
-  detail["realSegmentationWrong"] = wrong;
-  detail["realSegmentationSkipped"] = skipped;
+  detail[`${detailKey}Wrong`] = wrong;
+  detail[`${detailKey}Skipped`] = skipped;
   return total === 0 ? null : correct / total;
-})();
+}
+const realSeg = scoreRealSlice(join(goldenDir, "real", "lotte-2026-10-02.json"), resolve(process.env["REAL_POLICY_DIR"] ?? join(root, "watch", "lotte")), "realSegmentation");
+// Held-out slice (labelled blind 2026-10-04; the segmenter is not changed from these pages).
+const heldOutSeg = scoreRealSlice(join(goldenDir, "real", "lotte-heldout-2026-10-04.json"), resolve(process.env["HELDOUT_POLICY_DIR"] ?? join(root, "watch", "lotte-heldout")), "heldOutSegmentation");
 
 // --- unchanged hash ------------------------------------------------------------------------------------------------
 
@@ -297,6 +298,7 @@ const metrics: MonitorMetrics = {
   segmentationAccuracy: segTotal === 0 ? null : segCorrect / segTotal,
   spanFidelity: spans.total === 0 ? null : spans.fidelity,
   realPolicySegmentation: realSeg,
+  heldOutPolicySegmentation: heldOutSeg,
   seeded,
   clean,
   unchangedHashAlerts,

@@ -106,3 +106,33 @@ No failed model calls. Critical 0, High 24, Medium 5, Low 23, Confirm 88 (Mode B
 are listed once). Worklist rebuilt from this run: `runs/lotte-real/롯데_처리방침_점검_작업목록_2026-10-03.xlsx` (140 rows,
 counts checked against the run JSON). High by rule: R-S02-002 5, R-S03-002 5, R-S16-001 5, R-S05-003 4, R-S05-005 4,
 R-S06-001 1. Not re-labelled; the v7 comparison above is the latest precision evidence.
+
+## Held-out slice: 5 CCTV operation policies (2026-10-04)
+
+Fetched 2026-10-04 (all 6 requested pages; robots.txt respected, one page per host per day). Headings were labelled from
+the extracted text before any segmenter output was looked at: `golden/monitor/real/lotte-heldout-2026-10-04.json`, 46
+article headings, pinned to the text hash. These pages are 고정형 영상정보처리기기 운영·관리 방침, a different document type from
+the 10 privacy policies of the development slice: every heading is S21 content, and the matching general section
+(purpose S02, retention S05/S06, manager S18, entrustment S09, viewing requests S16, safeguards S11, changes S24) is also accepted.
+
+| Slice | Pages | Headings | Accuracy |
+|---|---|---|---|
+| Development (privacy policies, fixes made on them) | 10 | 132 | 0.985 |
+| Held-out (CCTV policies, labelled blind) | 5 | 46 | 0.522 |
+
+Wrong headings by cause (analysis only; the segmenter was not changed, so the slice stays held out):
+
+| Cause | Headings | Pages | Example |
+|---|---|---|---|
+| No heading pattern for CCTV-only topics (UNMAPPED) | 11 | 백화점, 웰푸드, 이노베이트 | 설치 대수·설치 위치, 촬영시간·보관기간, 확인 방법 및 장소, 비밀유지 의무, 침해 관련 상담 |
+| Unmapped heading folded into the previous article | 3 | 캐슬 | "2. 설치 대수…" merged into article 1 |
+| Numbered plain lines under one HTML heading element stay one section | 8 | 글로벌로지스 | whole page is one S21 section (current version plus two old versions) |
+
+Reading: at document level the segmenter puts each CCTV policy under S21 or the right general section, so a Mode A
+check would judge the content. Article boundaries inside a CCTV policy are not reliable yet. 롯데시네마 is not scored: the
+page is 5.5 MB because it embeds every past version (about 1.2 million characters), over the 2 MB ingest cap, and ingestion
+fails closed to manual review.
+
+Gate: M8.seg.heldout is reported, not gated (`REPORT` in the gate table; 25 gates pass). Decision for the domain expert and
+the user: whether CCTV operation policies are in scope for the Policy Monitor. If they are, add CCTV heading patterns and
+re-measure on the next unseen pages (these 5 become development pages once anything is tuned on them).
